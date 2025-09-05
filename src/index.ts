@@ -57,9 +57,6 @@ const KrdsVue: Plugin = {
       }
     })
 
-    // styleStrategy가 'all'인 경우 이미 import './styles/main.scss'로 로드됨
-    // styleStrategy가 'component' 또는 'none'인 경우 사용자가 직접 관리
-
     // 디렉티브 등록
     if (typeof directives === 'object' && directives !== null && 'installDirectives' in directives) {
       ;(directives as { installDirectives: (app: App) => void }).installDirectives(app)
