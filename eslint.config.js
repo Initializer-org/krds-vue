@@ -14,7 +14,7 @@ export default defineConfigWithVueTs(
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.storybook/**', '**/storybook-static/**']
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.storybook/**', '**/storybook-static/**', '**/bundlewatch.config.js']
   },
 
   js.configs.recommended,
