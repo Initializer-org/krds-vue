@@ -1,6 +1,6 @@
 # Contributing to KRDS Vue
 
-KRDS Vue에 기여해주셔서 감사합니다! 🎉
+KRDS Vue에 기여해주셔서 감사합니다!
 
 ## 개발 환경 설정
 
@@ -179,4 +179,4 @@ $success-color: #00C875;
 
 ---
 
-다시 한번 KRDS Vue에 기여해주셔서 감사합니다! 🙏
+다시 한번 KRDS Vue에 기여해주셔서 감사합니다!

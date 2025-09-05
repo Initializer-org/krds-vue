@@ -1,56 +1,56 @@
-## 📝 Description
+## 설명
 
-Brief description of what this PR does.
+이 PR이 무엇을 하는지 간단히 설명해주세요.
 
-Closes #(issue number)
+Closes #(이슈 번호)
 
-## 🧪 Type of Change
+## 변경 유형
 
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📚 Documentation update
-- [ ] 🎨 Style changes (formatting, renaming)
-- [ ] ♻️ Code refactoring
-- [ ] ⚡ Performance improvements
-- [ ] 🧪 Tests
+- [ ] 버그 수정 (기존 기능을 손상시키지 않는 이슈 해결)
+- [ ] 새로운 기능 (기존 기능을 손상시키지 않는 기능 추가)
+- [ ] 브레이킹 체인지 (기존 기능이 예상대로 동작하지 않게 하는 수정이나 기능)
+- [ ] 문서 업데이트
+- [ ] 스타일 변경 (포매팅, 이름 변경)
+- [ ] 코드 리팩토링
+- [ ] 성능 개선
+- [ ] 테스트
 
-## 🧪 Testing
+## 테스트
 
-- [ ] Unit tests pass
-- [ ] Manual testing completed
-- [ ] Storybook stories updated/added
-- [ ] Visual regression testing (if applicable)
+- [ ] 단위 테스트 통과
+- [ ] 수동 테스트 완료
+- [ ] Storybook 스토리 업데이트/추가
+- [ ] 시각적 회귀 테스트 (해당하는 경우)
 
-## 📸 Screenshots (if applicable)
+## 스크린샷 (해당하는 경우)
 
-| Before | After |
+| 변경 전 | 변경 후 |
 |--------|-------|
 | ![before]() | ![after]() |
 
-## ♿ Accessibility
+## 접근성
 
-- [ ] Follows WCAG 2.1 guidelines
-- [ ] Keyboard navigation tested
-- [ ] Screen reader tested
-- [ ] Color contrast verified
+- [ ] WCAG 2.1 가이드라인 준수
+- [ ] 키보드 내비게이션 테스트 완료
+- [ ] 스크린 리더 테스트 완료
+- [ ] 색상 대비 검증 완료
 
-## 📋 Checklist
+## 체크리스트
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published
+- [ ] 내 코드가 이 프로젝트의 스타일 가이드라인을 따릅니다
+- [ ] 내 코드에 대한 자체 검토를 수행했습니다
+- [ ] 특히 이해하기 어려운 부분에 주석을 달았습니다
+- [ ] 문서에 해당하는 변경 사항을 반영했습니다
+- [ ] 내 변경 사항으로 인한 새로운 경고가 발생하지 않습니다
+- [ ] 내 수정이 효과적이거나 기능이 작동함을 증명하는 테스트를 추가했습니다
+- [ ] 새로운 테스트와 기존 단위 테스트가 로컬에서 통과합니다
+- [ ] 종속된 변경 사항이 병합되고 게시되었습니다
 
-## 🔗 Related Issues
+## 관련 이슈
 
 - Fixes #
 - Related to #
 
-## 📋 Additional Notes
+## 추가 참고사항
 
-Add any additional notes or context about the PR here.
+PR에 대한 추가 참고사항이나 컨텍스트를 여기에 추가해주세요.
