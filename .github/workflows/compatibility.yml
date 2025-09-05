@@ -40,7 +40,8 @@ jobs:
       - name: Test browser compatibility
         run: |
           echo "Browser compatibility check for ${{ matrix.browser }}"
-          ls -la storybook-static/
+          echo "Listing storybook-static directory:"
+          dir storybook-static/ || ls -la storybook-static/
           echo "Storybook built successfully for ${{ matrix.browser }}"
 
   node-compat:
@@ -72,5 +73,6 @@ jobs:
 
       - name: Check build output
         run: |
-          ls -la dist/
+          echo "Listing dist directory:"
+          dir dist/ || ls -la dist/
           node -e "console.log('Build successful on Node ${{ matrix.node-version }} - ${{ matrix.os }}')"

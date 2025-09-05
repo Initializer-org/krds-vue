@@ -59,6 +59,7 @@ jobs:
       - name: Build with analysis
         run: |
           pnpm build
+          echo "Listing dist directory:"
           ls -la dist/
           echo "## Bundle Size Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
