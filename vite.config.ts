@@ -33,6 +33,7 @@ export default defineConfig({
       name: 'KrdsVue',
       fileName: format => `krds-vue.${format}.js`
     },
+    copyPublicDir: true, // public 디렉토리를 dist로 복사
     rollupOptions: {
       // 외부화할 dependencies
       external: ['vue'],
