@@ -1,0 +1,63 @@
+version: 2
+updates:
+  # npm 패키지 업데이트
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    groups:
+      development:
+        patterns:
+          - "@types/*"
+          - "eslint*"
+          - "prettier*"
+          - "vitest*"
+          - "@vitest/*"
+          - "typescript"
+          - "vite*"
+        update-types:
+          - "minor"
+          - "patch"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+        update-types:
+          - "minor"
+          - "patch"
+      vue:
+        patterns:
+          - "vue"
+          - "@vue/*"
+          - "@vitejs/plugin-vue"
+          - "vue-tsc"
+        update-types:
+          - "minor"
+          - "patch"
+      github-actions:
+        patterns:
+          - "@actions/*"
+          - "actions/*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "vue"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # GitHub Actions 업데이트
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

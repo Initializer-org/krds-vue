@@ -47,8 +47,7 @@ export const Default: Story = {
     },
     template: `
       <KrdsLink v-bind="args">
-        <span class="underline">기본 링크</span>
-        <i class="svg-icon ico-go"></i>
+        <span class="underline">기본 링크</span> <i class="svg-icon ico-go"></i>
       </KrdsLink>
     `
   })
@@ -66,8 +65,7 @@ export const AllVariations: Story = {
         </KrdsLink>
         
         <KrdsLink href="#!" size="large" basic target="_blank" title="새 창 열림">
-          <span class="underline">본문 텍스트 컬러 링크</span>
-          <i class="svg-icon ico-go"></i>
+          <span class="underline">본문 텍스트 컬러 링크</span> <i class="svg-icon ico-go"></i>
         </KrdsLink>
         
         <KrdsLink href="#!" size="large" basic>
