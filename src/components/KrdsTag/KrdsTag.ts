@@ -78,24 +78,26 @@ export default defineComponent<KrdsTagProps>({
      * 삭제 버튼 렌더링
      */
     const renderDeleteButton = () => {
-      return h('button', {
-        type: 'button',
-        class: 'btn-delete',
-        onClick: handleDelete
-      }, [
-        h('span', { class: 'sr-only' }, '삭제')
-      ])
+      return h(
+        'button',
+        {
+          type: 'button',
+          class: 'btn-delete',
+          onClick: handleDelete
+        },
+        [h('span', { class: 'sr-only' }, '삭제')]
+      )
     }
 
     return () => {
       const content = []
-      
+
       // 슬롯 내용 추가
       const slotContent = slots.default?.()
       if (slotContent) {
         content.push(slotContent)
       }
-      
+
       // 링크가 아닌 경우에만 삭제 버튼 추가
       if (!props.link) {
         content.push(renderDeleteButton())
@@ -103,7 +105,7 @@ export default defineComponent<KrdsTagProps>({
 
       // 링크인 경우 a 태그, 아닌 경우 span 태그
       if (props.link) {
-        const linkAttrs: Record<string, any> = {
+        const linkAttrs: Record<string, unknown> = {
           href: props.href,
           class: tagClasses.value
         }
@@ -115,9 +117,13 @@ export default defineComponent<KrdsTagProps>({
         return h('a', linkAttrs, content)
       }
 
-      return h('span', {
-        class: tagClasses.value
-      }, content)
+      return h(
+        'span',
+        {
+          class: tagClasses.value
+        },
+        content
+      )
     }
   }
 })

@@ -21,7 +21,7 @@ const meta: Meta<typeof KrdsBadge> = {
     number: {
       control: { type: 'boolean' },
       description: '넘버 사용 여부'
-    },
+    }
   }
 }
 

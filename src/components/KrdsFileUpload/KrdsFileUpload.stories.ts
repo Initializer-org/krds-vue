@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import KrdsFileUpload from './KrdsFileUpload'
-import type { KrdsFileUploadProps, FileInfo } from './KrdsFileUpload'
+import type { FileInfo } from './KrdsFileUpload'
 
 const meta: Meta<typeof KrdsFileUpload> = {
   title: 'Components/Input/KrdsFileUpload',

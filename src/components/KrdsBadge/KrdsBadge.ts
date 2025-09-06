@@ -81,7 +81,7 @@ export default defineComponent<KrdsBadgeProps>({
      * 클릭 핸들러
      */
     const handleClick = (event: MouseEvent) => {
-        emit('click', event)
+      emit('click', event)
     }
 
     return () =>

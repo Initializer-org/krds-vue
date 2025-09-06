@@ -74,8 +74,8 @@ export interface KrdsFileUploadEmits {
   'upload-complete': [file: FileInfo]
   'upload-error': [file: FileInfo, error: string]
   'clear-all': []
-  'download': [file: FileInfo]
-  'preview': [file: FileInfo]
+  download: [file: FileInfo]
+  preview: [file: FileInfo]
 }
 
 export default defineComponent({
@@ -170,7 +170,7 @@ export default defineComponent({
   emits: [
     'update:modelValue',
     'file-added',
-    'file-removed', 
+    'file-removed',
     'file-error',
     'upload-start',
     'upload-progress',
@@ -180,19 +180,19 @@ export default defineComponent({
     'download',
     'preview'
   ],
-  setup(props, { emit }) {
-    const isDragOver = ref(false)
+  setup(props, { emit: _emit }) {
+    const _isDragOver = ref(false)
 
     /**
      * 파일 업로드 클래스 계산
      */
-    const fileUploadClasses = computed(() => {
+    const _fileUploadClasses = computed(() => {
       const classes = ['krds-file-upload', 'line']
-      
+
       if (props.class) {
         classes.push(props.class)
       }
-      
+
       return classes
     })
 
@@ -206,7 +206,7 @@ export default defineComponent({
     /**
      * 파일 추가 가능 여부
      */
-    const canAddFiles = computed(() => {
+    const _canAddFiles = computed(() => {
       return !props.disabled && currentFileCount.value < props.maxFiles
     })
 

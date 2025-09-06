@@ -14,7 +14,6 @@ export interface KrdsTagGroupProps extends BaseComponentProps {
   size?: KrdsTagGroupSize
 }
 
-
 export default defineComponent<KrdsTagGroupProps>({
   name: 'KrdsTagGroup',
   props: {
@@ -48,8 +47,12 @@ export default defineComponent<KrdsTagGroupProps>({
     })
 
     return () =>
-      h('div', {
-        class: tagGroupClasses.value
-      }, slots.default?.())
+      h(
+        'div',
+        {
+          class: tagGroupClasses.value
+        },
+        slots.default?.()
+      )
   }
 })

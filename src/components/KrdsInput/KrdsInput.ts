@@ -265,12 +265,12 @@ export default defineComponent<KrdsInputProps>({
 
     return () => {
       const children = [h('input', inputProps.value)]
-      
+
       // 디폴트 슬롯이 있으면 추가 (아이콘 버튼들)
       if (slots.default) {
         children.push(...slots.default())
       }
-      
+
       return h('div', { class: formContsClasses.value }, children)
     }
   }
