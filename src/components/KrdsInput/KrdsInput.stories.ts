@@ -4,6 +4,8 @@ import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
 import KrdsFormLabel from '../KrdsFormLabel/KrdsFormLabel'
 import KrdsButton from '../KrdsButton/KrdsButton'
+import KrdsButtonGroup from '../KrdsButtonGroup/KrdsButtonGroup'
+import KrdsIcon from "../KRdsIcon/KRdsIcon";
 
 const meta: Meta<typeof KrdsInput> = {
   title: 'Components/Input/KrdsInput',
@@ -145,7 +147,7 @@ export const Sizes: Story = {
 export const WithIconButtons: Story = {
   name: '아이콘 버튼',
   render: () => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint, KrdsButton },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint, KrdsButton, KrdsIcon, KrdsButtonGroup },
     template: `
       <div class="fieldset">
         <!-- 패스워드 보기 버튼 (숨김) -->

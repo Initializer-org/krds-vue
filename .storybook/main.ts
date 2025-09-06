@@ -16,7 +16,12 @@ const config: StorybookConfig = {
     "name": "@storybook/vue3-vite",
     "options": {}
   },
-  "staticDirs": ["../public"],
+  "staticDirs": [
+    {
+      from: "../public",
+      to: "/assets"
+    }
+  ],
   viteFinal: async (config) => {
     // GitHub Pages 배포 시 base path 설정
     if (process.env.NODE_ENV === 'production') {
