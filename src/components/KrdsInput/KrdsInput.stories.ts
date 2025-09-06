@@ -1,12 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import KrdsFormInput from './KrdsFormInput'
+import KrdsInput from './KrdsInput'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
 import KrdsFormLabel from '../KrdsFormLabel/KrdsFormLabel'
+import KrdsButton from '../KrdsButton/KrdsButton'
+import KrdsButtonGroup from '../KrdsButtonGroup/KrdsButtonGroup'
+import KrdsIcon from '../KrdsIcon/KrdsIcon'
 
-const meta: Meta<typeof KrdsFormInput> = {
-  title: 'Components/KrdsFormInput',
-  component: KrdsFormInput,
+const meta: Meta<typeof KrdsInput> = {
+  title: 'Components/Input/KrdsInput',
+  component: KrdsInput,
   argTypes: {
     modelValue: {
       control: { type: 'text' },
@@ -57,24 +60,24 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   name: '기본',
   render: () => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsFormInput, KrdsFormHint },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint },
     template: `
       <div class="fieldset">
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name" placeholder="플레이스홀더" />
+          <KrdsInput id="consult_name" placeholder="플레이스홀더" />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name2">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name2" placeholder="플레이스홀더" modelValue="readonly" readonly />
+          <KrdsInput id="consult_name2" placeholder="플레이스홀더" modelValue="readonly" readonly />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name3">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name3" placeholder="플레이스홀더" modelValue="disabled" disabled />
+          <KrdsInput id="consult_name3" placeholder="플레이스홀더" modelValue="disabled" disabled />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
       </div>
@@ -86,24 +89,24 @@ export const Default: Story = {
 export const States: Story = {
   name: '상태',
   render: () => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsFormInput, KrdsFormHint },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint },
     template: `
       <div class="fieldset">
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name21">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name21" placeholder="플레이스홀더" modelValue="에러" state="error" />
+          <KrdsInput id="consult_name21" placeholder="플레이스홀더" modelValue="에러" state="error" />
           <KrdsFormHint type="error">에러 메시지</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name22">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name22" placeholder="플레이스홀더" modelValue="성공" state="success" />
+          <KrdsInput id="consult_name22" placeholder="플레이스홀더" modelValue="성공" state="success" />
           <KrdsFormHint type="success">성공 메시지</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name23">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name23" placeholder="플레이스홀더" modelValue="정보" state="information" />
+          <KrdsInput id="consult_name23" placeholder="플레이스홀더" modelValue="정보" state="information" />
           <KrdsFormHint type="information">정보 메시지</KrdsFormHint>
         </KrdsFormGroup>
       </div>
@@ -115,24 +118,24 @@ export const States: Story = {
 export const Sizes: Story = {
   name: '사이즈',
   render: () => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsFormInput, KrdsFormHint },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint },
     template: `
       <div class="fieldset">
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name31">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name31" placeholder="플레이스홀더" size="small" />
+          <KrdsInput id="consult_name31" placeholder="플레이스홀더" size="small" />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name32">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name32" placeholder="플레이스홀더" size="medium" />
+          <KrdsInput id="consult_name32" placeholder="플레이스홀더" size="medium" />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
 
         <KrdsFormGroup>
           <KrdsFormLabel for="consult_name33">레이블</KrdsFormLabel>
-          <KrdsFormInput id="consult_name33" placeholder="플레이스홀더" size="large" />
+          <KrdsInput id="consult_name33" placeholder="플레이스홀더" size="large" />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
       </div>
@@ -144,61 +147,81 @@ export const Sizes: Story = {
 export const WithIconButtons: Story = {
   name: '아이콘 버튼',
   render: () => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsFormInput, KrdsFormHint },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint, KrdsButton },
     template: `
       <div class="fieldset">
         <!-- 패스워드 보기 버튼 (숨김) -->
         <KrdsFormGroup>
           <KrdsFormLabel for="login_pw">레이블</KrdsFormLabel>
-          <div class="form-conts btn-ico-wrap">
-            <input type="password" id="login_pw" class="krds-input" placeholder="8-12자의 영문자, 숫자, 특수문자 조합" value="1234567890">
-            <button type="button" class="krds-btn medium icon">
+          <KrdsInput 
+            id="login_pw" 
+            type="password" 
+            placeholder="8-12자의 영문자, 숫자, 특수문자 조합" 
+            modelValue="1234567890"
+            icon
+          >
+            <KrdsButton type="button" size="medium" icon>
               <span class="sr-only">입력한 비밀번호 보기</span>
-              <i class="svg-icon ico-pw-visible"></i>
-            </button>
-          </div>
+              <KrdsIcon name="ico-pw-visible" />
+            </KrdsButton>
+          </KrdsInput>
         </KrdsFormGroup>
 
         <!-- 패스워드 보기 버튼 (보임) -->
         <KrdsFormGroup>
           <KrdsFormLabel for="login_pw2">레이블</KrdsFormLabel>
-          <div class="form-conts btn-ico-wrap">
-            <input type="text" id="login_pw2" class="krds-input" placeholder="8-12자의 영문자, 숫자, 특수문자 조합" value="1234567890">
-            <button type="button" class="krds-btn medium icon">
+          <KrdsInput 
+            id="login_pw2" 
+            type="text" 
+            placeholder="8-12자의 영문자, 숫자, 특수문자 조합" 
+            modelValue="1234567890"
+            icon
+          >
+            <KrdsButton type="button" size="medium" icon>
               <span class="sr-only">입력한 비밀번호 가리기</span>
-              <i class="svg-icon ico-pw-visible-on"></i>
-            </button>
-          </div>
+              <KrdsIcon name="ico-pw-visible-on" />
+            </KrdsButton>
+          </KrdsInput>
         </KrdsFormGroup>
 
         <!-- 삭제 버튼 -->
         <KrdsFormGroup>
           <KrdsFormLabel for="form_delete">레이블</KrdsFormLabel>
-          <div class="form-conts btn-ico-wrap" data-delete="true">
-            <input type="text" id="form_delete" class="krds-input" placeholder="내용을 입력하세요">
-            <button type="button" class="krds-btn medium icon pure btn-delete-input">
+          <KrdsInput 
+            id="form_delete" 
+            placeholder="내용을 입력하세요"
+            icon
+            data-delete="true"
+          >
+            <KrdsButton type="button" size="medium" icon pure class="btn-delete-input">
               <span class="sr-only">내용 삭제</span>
-              <i class="svg-icon ico-delete-fill"></i>
-            </button>
-          </div>
+              <KrdsIcon name="ico-delete-fill" />
+            </KrdsButton>
+          </KrdsInput>
         </KrdsFormGroup>
 
         <!-- 다중 버튼 -->
         <KrdsFormGroup>
           <KrdsFormLabel for="form_btn_multiple">레이블</KrdsFormLabel>
-          <div class="form-conts btn-ico-wrap" data-delete="true">
-            <input type="password" id="form_btn_multiple" class="krds-input" placeholder="8-12자의 영문자, 숫자, 특수문자 조합" value="1234567890">
-            <div class="btn-group">
-              <button type="button" class="krds-btn medium icon pure btn-delete-input">
+          <KrdsInput 
+            id="form_btn_multiple" 
+            type="password" 
+            placeholder="8-12자의 영문자, 숫자, 특수문자 조합" 
+            modelValue="1234567890"
+            icon
+            data-delete="true"
+          >
+            <KrdsButtonGroup>
+              <KrdsButton type="button" size="medium" icon pure class="btn-delete-input">
                 <span class="sr-only">내용 삭제</span>
-                <i class="svg-icon ico-delete-fill"></i>
-              </button>
-              <button type="button" class="krds-btn medium icon">
-                <span class="sr-only">입력한 비밀번호 보기</span>
-                <i class="svg-icon ico-pw-visible"></i>
-              </button>
-            </div>
-          </div>
+                <KrdsIcon name="ico-delete-fill" />
+              </KrdsButton>
+              <KrdsButton type="button" size="medium" icon>
+                <span class="sr-only">입력한 비밀버호 보기</span>
+                <KrdsIcon name="ico-pw-visible" />
+              </KrdsButton>
+            </KrdsButtonGroup>
+          </KrdsInput>
         </KrdsFormGroup>
       </div>
     `

@@ -1,2 +1,6 @@
-export { default } from './KrdsDateInput.vue'
-export { default as KrdsDateInput } from './KrdsDateInput.vue'
+import KrdsDateInput from './KrdsDateInput.vue'
+import type { KrdsDateInputProps, KrdsDateInputEmits } from './KrdsDateInput.vue'
+
+export { KrdsDateInput }
+export type { KrdsDateInputProps, KrdsDateInputEmits }
+export default KrdsDateInput

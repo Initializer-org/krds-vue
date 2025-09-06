@@ -1,2 +1,6 @@
-export { default as KrdsFormTextarea } from './KrdsTextarea'
-export type { KrdsFormTextareaProps, KrdsFormTextareaEmits } from './KrdsTextarea'
+import KrdsTextarea from './KrdsTextarea'
+import type { KrdsTextareaProps, KrdsTextareaEmits } from './KrdsTextarea'
+
+export { KrdsTextarea }
+export type { KrdsTextareaProps, KrdsTextareaEmits }
+export default KrdsTextarea

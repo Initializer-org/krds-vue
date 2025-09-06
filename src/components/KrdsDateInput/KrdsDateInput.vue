@@ -178,7 +178,7 @@
   /**
    * KRDS DateInput 컴포넌트 속성
    */
-  export interface Props extends BaseFormProps {
+  export interface KrdsDateInputProps extends BaseFormProps {
     /** 선택된 날짜 값 */
     modelValue?: string
     /** 입력 크기 */
@@ -202,9 +202,9 @@
   }
 
   /**
-   * 이벤트 타입 정의
+   * KRDS DateInput 컴포넌트 이벤트
    */
-  type DateInputEmits = {
+  export interface KrdsDateInputEmits {
     'update:modelValue': [value: string]
     input: [event: Event]
     change: [event: Event]
@@ -216,7 +216,7 @@
   // Props & Emits
   // ========================
 
-  const props = withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<KrdsDateInputProps>(), {
     modelValue: undefined,
     size: 'medium',
     placeholder: 'YYYY.MM.DD',
@@ -224,7 +224,6 @@
     required: false,
     readonly: false,
     disabled: false,
-    error: undefined,
     class: undefined,
     id: undefined,
     autofocus: false,
@@ -237,7 +236,7 @@
   /**
    * KRDS DateInput 컴포넌트 이벤트
    */
-  const emit = defineEmits<DateInputEmits>()
+  const emit = defineEmits<KrdsDateInputEmits>()
 
   // ========================
   // 상태 관리
@@ -305,11 +304,6 @@
    */
   const formContsClasses = computed(() => {
     const classes = ['form-conts', 'calendar-conts']
-
-    if (props.error) {
-      classes.push('is-error')
-    }
-
     return classes
   })
 

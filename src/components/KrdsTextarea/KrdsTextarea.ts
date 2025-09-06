@@ -1,20 +1,10 @@
 import { defineComponent, computed, ref, watch, h } from 'vue'
-import type { Size } from '@/types'
+import type { Size, BaseFormProps } from '@/types'
 
 /**
- * KRDS FormTextarea 컴포넌트 속성
+ * KRDS Textarea 컴포넌트 속성
  */
-export interface KrdsFormTextareaProps {
-  /** CSS 클래스 */
-  class?: string
-  /** HTML ID */
-  id?: string
-  /** 폼 필드 이름 */
-  name?: string
-  /** 필수 입력 여부 */
-  required?: boolean
-  /** 읽기 전용 여부 */
-  readonly?: boolean
+export interface KrdsTextareaProps extends BaseFormProps {
   /** 입력값 */
   modelValue?: string
   /** 입력 크기 */
@@ -33,8 +23,6 @@ export interface KrdsFormTextareaProps {
   autofocus?: boolean
   /** 비활성화 여부 */
   disabled?: boolean
-  /** 입력 상태 */
-  state?: 'default' | 'error' | 'success' | 'information'
   /** 글자 수 표시 여부 */
   showCount?: boolean
   /** 리사이즈 가능 여부 */
@@ -42,9 +30,9 @@ export interface KrdsFormTextareaProps {
 }
 
 /**
- * KRDS FormTextarea 컴포넌트 이벤트
+ * KRDS Textarea 컴포넌트 이벤트
  */
-export interface KrdsFormTextareaEmits {
+export interface KrdsTextareaEmits {
   (e: 'update:modelValue', value: string): void
   (e: 'input', event: Event): void
   (e: 'change', event: Event): void
@@ -54,8 +42,8 @@ export interface KrdsFormTextareaEmits {
   (e: 'keyup', event: KeyboardEvent): void
 }
 
-export default defineComponent<KrdsFormTextareaProps>({
-  name: 'KrdsFormTextarea',
+export default defineComponent({
+  name: 'KrdsTextarea',
   props: {
     modelValue: {
       type: String,
@@ -105,10 +93,6 @@ export default defineComponent<KrdsFormTextareaProps>({
       type: Boolean,
       default: false
     },
-    state: {
-      type: String as () => 'default' | 'error' | 'success' | 'information',
-      default: 'default'
-    },
     showCount: {
       type: Boolean,
       default: true
@@ -117,8 +101,13 @@ export default defineComponent<KrdsFormTextareaProps>({
       type: String as () => 'none' | 'both' | 'horizontal' | 'vertical',
       default: 'vertical'
     },
+    // BaseFormProps에서 상속
     class: {
       type: String,
+      default: undefined
+    },
+    style: {
+      type: [String, Object],
       default: undefined
     },
     id: {
@@ -260,11 +249,6 @@ export default defineComponent<KrdsFormTextareaProps>({
      */
     const formContsClasses = computed(() => {
       const classList = ['form-conts']
-
-      if (props.state !== 'default') {
-        classList.push(`is-${props.state}`)
-      }
-
       return classList
     })
 

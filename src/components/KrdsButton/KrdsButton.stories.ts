@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import KrdsButton from './KrdsButton'
 
 const meta: Meta<typeof KrdsButton> = {
-  title: 'Components/KrdsButton',
+  title: 'Components/Action/KrdsButton',
   component: KrdsButton,
   argTypes: {
     size: {

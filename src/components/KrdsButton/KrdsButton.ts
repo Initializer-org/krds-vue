@@ -15,6 +15,8 @@ export interface KrdsButtonProps extends BaseComponentProps {
   icon?: boolean
   /** 테두리 스타일 (아이콘 버튼용) */
   border?: boolean
+  /** Pure 버튼 여부 (가상클래스 상태 시 컬러 유지) */
+  pure?: boolean
   /** 비활성화 여부 */
   disabled?: boolean
 }
@@ -49,6 +51,10 @@ export default defineComponent<KrdsButtonProps>({
       type: Boolean,
       default: false
     },
+    pure: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -74,6 +80,11 @@ export default defineComponent<KrdsButtonProps>({
       // 테두리 클래스
       if (props.border) {
         classes.push('border')
+      }
+
+      // pure 클래스
+      if (props.pure) {
+        classes.push('pure')
       }
 
       // 변형 클래스

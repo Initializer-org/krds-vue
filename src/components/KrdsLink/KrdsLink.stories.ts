@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import KrdsLink from './KrdsLink'
 
 const meta: Meta<typeof KrdsLink> = {
-  title: 'Components/KrdsLink',
+  title: 'Components/Action/KrdsLink',
   component: KrdsLink,
   argTypes: {
     size: {

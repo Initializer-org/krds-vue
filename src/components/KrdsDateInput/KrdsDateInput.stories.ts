@@ -6,7 +6,7 @@ import KrdsFormLabel from '../KrdsFormLabel/KrdsFormLabel'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
 
 const meta: Meta<typeof KrdsDateInput> = {
-  title: 'Components/KrdsDateInput',
+  title: 'Components/Input/KrdsDateInput',
   component: KrdsDateInput,
   parameters: {
     docs: {

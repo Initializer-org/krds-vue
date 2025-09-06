@@ -61,8 +61,6 @@ export interface BaseFormProps extends BaseComponentProps {
   required?: boolean
   /** 읽기 전용 여부 */
   readonly?: boolean
-  /** 폼 검증 오류 메시지 */
-  error?: string
 }
 
 /**

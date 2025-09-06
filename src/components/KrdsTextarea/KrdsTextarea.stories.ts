@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import KrdsFormTextarea from './KrdsTextarea'
+import KrdsTextarea from './KrdsTextarea'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
 import { KrdsFormLabel } from '../KrdsFormLabel'
 
-const meta: Meta<typeof KrdsFormTextarea> = {
-  title: 'Components/KrdsFormTextarea',
-  component: KrdsFormTextarea,
+const meta: Meta<typeof KrdsTextarea> = {
+  title: 'Components/Input/KrdsTextarea',
+  component: KrdsTextarea,
   argTypes: {
     modelValue: {
       control: { type: 'text' },
@@ -76,7 +76,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   name: '기본',
   render: args => ({
-    components: { KrdsFormGroup, KrdsFormLabel, KrdsFormTextarea, KrdsFormHint },
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsTextarea, KrdsFormHint },
     setup() {
       return { args }
     },
@@ -84,7 +84,7 @@ export const Default: Story = {
       <div class="fieldset">
         <KrdsFormGroup>
           <KrdsFormLabel for="textarea1">레이블</KrdsFormLabel>
-          <KrdsFormTextarea id="textarea1" v-bind="args" />
+          <KrdsTextarea id="textarea1" v-bind="args" />
         </KrdsFormGroup>
       </div>
     `

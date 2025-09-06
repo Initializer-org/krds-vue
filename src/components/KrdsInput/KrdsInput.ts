@@ -2,9 +2,9 @@ import { defineComponent, computed, h } from 'vue'
 import type { BaseFormProps, Size, InputType } from '@/types'
 
 /**
- * KRDS FormInput 컴포넌트 속성
+ * KRDS Input 컴포넌트 속성
  */
-export interface KrdsFormInputProps extends BaseFormProps {
+export interface KrdsInputProps extends BaseFormProps {
   /** 입력값 */
   modelValue?: string | number
   /** 입력 타입 */
@@ -31,12 +31,14 @@ export interface KrdsFormInputProps extends BaseFormProps {
   disabled?: boolean
   /** 입력 상태 */
   state?: 'default' | 'error' | 'success' | 'information'
+  /** 아이콘 (있을 때 btn-ico-wrap 클래스 적용) */
+  icon?: boolean
 }
 
 /**
- * KRDS FormInput 컴포넌트 이벤트
+ * KRDS Input 컴포넌트 이벤트
  */
-export interface KrdsFormInputEmits {
+export interface KrdsInputEmits {
   (e: 'update:modelValue', value: string | number): void
   (e: 'input', event: Event): void
   (e: 'change', event: Event): void
@@ -46,8 +48,8 @@ export interface KrdsFormInputEmits {
   (e: 'keyup', event: KeyboardEvent): void
 }
 
-export default defineComponent<KrdsFormInputProps>({
-  name: 'KrdsFormInput',
+export default defineComponent<KrdsInputProps>({
+  name: 'KrdsInput',
   props: {
     modelValue: {
       type: [String, Number],
@@ -117,6 +119,10 @@ export default defineComponent<KrdsFormInputProps>({
       type: String as () => 'default' | 'error' | 'success' | 'information',
       default: 'default'
     },
+    icon: {
+      type: Boolean,
+      default: false
+    },
     class: {
       type: String,
       default: undefined
@@ -127,7 +133,7 @@ export default defineComponent<KrdsFormInputProps>({
     }
   },
   emits: ['update:modelValue', 'input', 'change', 'focus', 'blur', 'keydown', 'keyup'],
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     /**
      * 입력 필드 클래스 계산
      */
@@ -250,9 +256,22 @@ export default defineComponent<KrdsFormInputProps>({
         classList.push(`is-${props.state}`)
       }
 
+      if (props.icon) {
+        classList.push('btn-ico-wrap')
+      }
+
       return classList
     })
 
-    return () => h('div', { class: formContsClasses.value }, [h('input', inputProps.value)])
+    return () => {
+      const children = [h('input', inputProps.value)]
+      
+      // 디폴트 슬롯이 있으면 추가 (아이콘 버튼들)
+      if (slots.default) {
+        children.push(...slots.default())
+      }
+      
+      return h('div', { class: formContsClasses.value }, children)
+    }
   }
 })

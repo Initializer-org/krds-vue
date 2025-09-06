@@ -6,13 +6,21 @@
 export { default as KrdsButton } from './KrdsButton'
 export type { KrdsButtonProps, KrdsButtonEmits } from './KrdsButton'
 
+// ButtonGroup 컴포넌트
+export { default as KrdsButtonGroup } from './KrdsButtonGroup'
+export type { KrdsButtonGroupProps } from './KrdsButtonGroup'
+
+// Icon 컴포넌트
+export { default as KrdsIcon } from './KrdsIcon'
+export type { KrdsIconProps } from './KrdsIcon'
+
 // Link 컴포넌트
 export { default as KrdsLink } from './KrdsLink'
 export type { KrdsLinkProps, KrdsLinkEmits, KrdsLinkSize } from './KrdsLink'
 
-// FormInput 컴포넌트
-export { default as KrdsFormInput } from './KrdsFormInput'
-export type { KrdsFormInputProps, KrdsFormInputEmits } from './KrdsFormInput'
+// Input 컴포넌트
+export { default as KrdsInput } from './KrdsInput'
+export type { KrdsInputProps, KrdsInputEmits } from './KrdsInput'
 
 // FormLabel 컴포넌트
 export { default as KrdsFormLabel } from './KrdsFormLabel'
@@ -28,14 +36,27 @@ export type { KrdsFormGroupProps } from './KrdsFormGroup'
 
 // DateInput 컴포넌트
 export { default as KrdsDateInput } from './KrdsDateInput'
+export type { KrdsDateInputProps, KrdsDateInputEmits } from './KrdsDateInput'
 
-// FormTextarea 컴포넌트
-export { default as KrdsFormTextarea } from './KrdsTextarea/KrdsTextarea'
-export type { KrdsFormTextareaProps, KrdsFormTextareaEmits } from './KrdsTextarea/KrdsTextarea'
+// Textarea 컴포넌트
+export { default as KrdsTextarea } from './KrdsTextarea'
+export type { KrdsTextareaProps, KrdsTextareaEmits } from './KrdsTextarea'
+
+// FileUpload 컴포넌트
+export { default as KrdsFileUpload } from './KrdsFileUpload'
+export type { KrdsFileUploadProps, KrdsFileUploadEmits, FileInfo } from './KrdsFileUpload'
 
 // Badge 컴포넌트
 export { default as KrdsBadge } from './KrdsBadge'
 export type { KrdsBadgeProps, KrdsBadgeEmits } from './KrdsBadge'
+
+// Tag 컴포넌트
+export { default as KrdsTag } from './KrdsTag'
+export type { KrdsTagProps, KrdsTagEmits } from './KrdsTag'
+
+// TagGroup 컴포넌트
+export { default as KrdsTagGroup } from './KrdsTagGroup'
+export type { KrdsTagGroupProps, KrdsTagGroupSize } from './KrdsTagGroup'
 
 // TODO: 추가 컴포넌트 구현 후 주석 해제
 // export { default as KrdsCard } from './molecules/KrdsCard'
