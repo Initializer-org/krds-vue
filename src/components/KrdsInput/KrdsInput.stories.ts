@@ -5,7 +5,7 @@ import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
 import KrdsFormLabel from '../KrdsFormLabel/KrdsFormLabel'
 import KrdsButton from '../KrdsButton/KrdsButton'
 import KrdsButtonGroup from '../KrdsButtonGroup/KrdsButtonGroup'
-import KrdsIcon from "../KRdsIcon/KRdsIcon";
+import KrdsIcon from "../KrdsIcon/KrdsIcon";
 
 const meta: Meta<typeof KrdsInput> = {
   title: 'Components/Input/KrdsInput',
