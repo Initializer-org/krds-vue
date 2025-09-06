@@ -1,2 +1,10 @@
-export { default as KrdsTag } from './KrdsTag'
-export type { KrdsTagProps, KrdsTagEmits } from './KrdsTag'
+/**
+ * KRDS Tag 컴포넌트
+ */
+
+import KrdsTag from './KrdsTag'
+import type { KrdsTagProps, KrdsTagEmits } from './KrdsTag'
+
+export { KrdsTag }
+export type { KrdsTagProps, KrdsTagEmits }
+export default KrdsTag
