@@ -81,9 +81,7 @@ export default defineComponent<KrdsBadgeProps>({
      * 클릭 핸들러
      */
     const handleClick = (event: MouseEvent) => {
-      if (!props.disabled) {
         emit('click', event)
-      }
     }
 
     return () =>
