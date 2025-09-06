@@ -33,5 +33,9 @@ export { default as KrdsDateInput } from './KrdsDateInput'
 export { default as KrdsFormTextarea } from './KrdsTextarea/KrdsTextarea'
 export type { KrdsFormTextareaProps, KrdsFormTextareaEmits } from './KrdsTextarea/KrdsTextarea'
 
+// Badge 컴포넌트
+export { default as KrdsBadge } from './KrdsBadge'
+export type { KrdsBadgeProps, KrdsBadgeEmits } from './KrdsBadge'
+
 // TODO: 추가 컴포넌트 구현 후 주석 해제
 // export { default as KrdsCard } from './molecules/KrdsCard'
