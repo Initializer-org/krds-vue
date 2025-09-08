@@ -80,20 +80,3 @@ jobs:
           pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  # 릴리스 후 Storybook 재배포
-  update-storybook:
-    name: Update Storybook
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Storybook deployment
-        uses: actions/github-script@v8
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'storybook.yml',
-              ref: 'main'
-            })
