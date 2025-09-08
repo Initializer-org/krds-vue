@@ -275,7 +275,7 @@ export default defineComponent<KrdsInputProps>({
 
       // 로딩 상태일 때 스피너 추가
       if (props.loading) {
-        return h('div', { class: formContsClasses.value }, [h('div', { class: 'form-KrdsSpinner' }, [...children, h(KrdsSpinner)])])
+        return h('div', { class: formContsClasses.value }, [h('div', { class: 'form-spinner' }, [...children, h(KrdsSpinner)])])
       }
 
       // 디폴트 슬롯이 있으면 추가 (아이콘 버튼들)

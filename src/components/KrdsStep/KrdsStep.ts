@@ -59,12 +59,10 @@ export default defineComponent<KrdsStepProps>({
     const stepperContext = inject<StepperContext | null>('stepper')
 
     /**
-     * 현재 단계의 인덱스 (한 번만 가져오기)
+     * 현재 단계의 인덱스 계산
      */
-    let stepIndex = -1
-    if (stepperContext) {
-      stepIndex = stepperContext.getNextStepIndex()
-    }
+    const stepIndex = stepperContext ? stepperContext.getNextStepIndex() : -1
+
 
     /**
      * 단계 상태 계산

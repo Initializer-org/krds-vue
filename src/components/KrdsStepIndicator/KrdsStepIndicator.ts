@@ -1,4 +1,4 @@
-import { defineComponent, provide, computed, h } from 'vue'
+import { defineComponent, provide, computed, ref, h } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -55,14 +55,14 @@ export default defineComponent<KrdsStepIndicatorProps>({
     }
 
     /**
-     * 단계 인덱스 추적
+     * 단계 인덱스 추적 (반응형)
      */
-    let stepIndex = 0
+    const stepIndex = ref(0)
     const resetStepIndex = () => {
-      stepIndex = 0
+      stepIndex.value = 0
     }
     const getNextStepIndex = () => {
-      return stepIndex++
+      return stepIndex.value++
     }
 
     /**
