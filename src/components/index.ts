@@ -73,3 +73,6 @@ export type { KrdsCheckAreaProps } from './KrdsCheckArea'
 // Checkbox 컴포넌트
 export { default as KrdsCheckbox } from './KrdsCheckbox'
 export type { KrdsCheckboxProps, KrdsCheckboxEmits } from './KrdsCheckbox'
+
+// Spinner 컴포넌트
+export { default as KrdsSpinner } from './spinner'
