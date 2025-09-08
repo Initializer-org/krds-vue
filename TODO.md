@@ -4,73 +4,92 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 
 ## 프로젝트 개요
 
-- **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)
-- **목표**: Vue 3 + TypeScript로 69개 컴포넌트 포팅
+- **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)  
+- **목표**: Vue 3 + TypeScript로 컴포넌트 포팅
 - **배포**: NPM 패키지 `@krds.ui/vue`
+- **현재 진행률**: 15개 컴포넌트 완료 / 57개 총 컴포넌트
 
 ## 개발 TODO
 
-### 1. Action - 5개
-- [x] **KrdsButton** (btn-hierarchy.html) - 버튼 계층구조
-  - [x] **KrdsIconButton** (btn-icon.html) - 아이콘 버튼  
-  - [x] **KrdsButtonSize** (btn-size.html) - 버튼 크기
-  - [x] **KrdsTextButton** (btn-text.html) - 텍스트 버튼
 
+### 1. 아이덴티티 컴포넌트 (Identity Components) - 4개
+- [x] **KrdsIdentifier** - 운영기관 식별자
+- [x] **KrdsMasthead** - 마스트헤드
+- [ ] **KrdsHeader** - 헤더
+- [ ] **KrdsFooter** - 푸터
+
+### 2. 탐색 컴포넌트 (Navigation Components) - 7개
+- [ ] **KrdsSkipLink** - 건너뛰기 링크 (Skip link)
+- [ ] **KrdsMainMenu** - 메인 메뉴 (Main menu)
+- [ ] **KrdsBreadcrumb** - 브레드크럼 (Breadcrumb)
+- [ ] **KrdsSideNavigation** - 사이드 메뉴 (Side navigation)
+- [ ] **KrdsInPageNavigation** - 콘텐츠 내 탐색 (In-page navigation)
+- [ ] **KrdsPagination** - 페이지네이션 (Pagination)
+- [ ] **KrdsTabBar** - 탭바 (Tab bars)
+
+### 3. 레이아웃 및 표현 (Layout & Presentation Components) - 13개
+- [ ] **KrdsStructuredList** - 구조화 목록 (Structured list)
+- [ ] **KrdsCriticalAlert** - 긴급 공지 (Critical alerts)
+- [ ] **KrdsCalendar** - 달력 (Calendar)
+- [ ] **KrdsDisclosure** - 디스클로저 (Disclosure)
+- [ ] **KrdsModal** - 모달 (Modal)
+- [x] **KrdsBadge** - 배지 (Badge)
+- [ ] **KrdsAccordion** - 아코디언 (Accordion)
+- [ ] **KrdsImage** - 이미지 (Image)
+- [ ] **KrdsCarousel** - 캐러셀 (Carousel)
+- [x] **KrdsTabs** - 탭 (Tab) - KrdsTab, KrdsTabList, KrdsTabPanels 포함
+- [ ] **KrdsTable** - 표 (Table)
+- [ ] **KrdsSplashScreen** - 스플래시 스크린 (Splash screen)
+- [ ] **KrdsTextList** - 텍스트 목록 (Text list)
+
+### 4. 액션 컴포넌트 (Action Components) - 2개
 - [x] **KrdsLink** (link.html) - 링크
+- [x] **KrdsButton** (btn-hierarchy.html) - 버튼
 
-### 2. 폼 요소 (Form Elements) - 11개
+### 5. 선택 (Selection Components) - 5개
+- [ ] **KrdsRadio** - 라디오 버튼 (Radio button)
+- [x] **KrdsCheckbox** - 체크박스 (Checkbox) - 체크 영역 포함
+- [ ] **KrdsSelect** - 셀렉트 (Select)
+- [x] **KrdsTag** - 태그 (Tag) - KrdsTagGroup 포함
+- [x] **KrdsToggleSwitch** - 토글 스위치 (Toggle switch)
 
-#### 폼 래핑 컴포넌트 (Form Wrapper Components) - 3개
+### 6. 피드백 (Feedback Components) - 2개
+- [x] **KrdsStepIndicator** - 단계 표시기 (Step indicator) - KrdsStep 포함
+- [x] **KrdsSpinner** - 스피너 (Spinner)
+
+### 7. 도움 (Help Components) - 5개
+- [ ] **KrdsHelpPanel** - 도움 패널 (Help panel)
+- [ ] **KrdsTutorialPanel** - 따라하기 패널 (Tutorial panel)
+- [ ] **KrdsContextualHelp** - 맥락적 도움말 (Contextual help)
+- [ ] **KrdsCoachMark** - 코치마크 (Coach mark)
+- [ ] **KrdsTooltip** - 툴팁 (Tooltip)
+
+### 8. 입력 (Input Components) - 4개
+- [x] **KrdsDateInput** - 날짜 입력 필드 (Date input)
+- [x] **KrdsTextarea** - 텍스트 영역 (Textarea)
+- [x] **KrdsInput** - 텍스트 입력 필드 (Text input) - loading 상태 포함
+- [x] **KrdsFileUpload** - 파일 업로드 (File upload)
+
+### 9. 설정 (Settings Components) - 2개
+- [ ] **KrdsLanguageSwitcher** - 언어 변경 (Language switcher)
+- [ ] **KrdsResize** - 화면 크기 조정 (Resize)
+
+### 10. 콘텐츠 (Content Components) - 2개
+- [ ] **KrdsAccessibleMultimedia** - 접근 가능한 미디어 (Accessible multimedia)
+- [ ] **KrdsVisuallyHidden** - 숨긴 콘텐츠 (Visually hidden)
+
+### 11. 기타 컴포넌트 (Additional Components) - 10개
 - [x] **KrdsFormGroup** - 폼 그룹 래퍼
 - [x] **KrdsFormLabel** - 폼 레이블
 - [x] **KrdsFormHint** - 폼 힌트/도움말
-
-#### 입력 필드 (Input Fields) - 4개
-- [x] **KrdsInput** (input-text.html) - 텍스트 입력
-- [x] **KrdsDateInput** (input-date.html) - 날짜 입력
-- [x] **KrdsTextarea** (textarea.html) - 텍스트 영역
-- [ ] **KrdsFileUpload** (component_09_04.html) - 파일 업로드 추후에 구현
-
-#### 선택 요소 (Selection Elements) - 4개
-- [x] **KrdsCheckbox** (checkbox.html) - 체크박스
-- [ ] **KrdsRadio** (radio.html) - 라디오 버튼
-- [ ] **KrdsSelect** (select.html) - 셀렉트 박스
-- [x] **KrdsToggle** (toggle.html) - 토글 스위치
-
-### 3. 네비게이션 (Navigation) - 6개
-- [ ] **KrdsBreadcrumb** (breadcrumb.html) - 브레드크럼
-- [ ] **KrdsMobileMenu** (menu-mobile.html) - 모바일 메뉴
-- [ ] **KrdsMenu** (menu.html) - 데스크톱 메뉴
-- [ ] **KrdsPagination** (pagination.html) - 페이지네이션
-- [ ] **KrdsSidemenu** (sidemenu.html) - 사이드 메뉴
-- [ ] **KrdsTab** (tab.html) - 탭 인터페이스
-
-### 4. 오버레이 (Overlay Components) - 4개
 - [ ] **KrdsAlert** (alert.html) - 알림/경고
-- [ ] **KrdsContextualHelp** (contextual-help.html) - 맥락적 도움말
-- [ ] **KrdsModal** (modal.html) - 모달 다이얼로그
-- [ ] **KrdsTooltip** (tooltip.html) - 툴팁
-
-### 5. 인터랙티브 요소 (Interactive Elements) - 4개
-- [ ] **KrdsAccordion** (accordion.html) - 아코디언
-- [ ] **KrdsCalendar** (calendar.html) - 캘린더
-- [ ] **KrdsCarousel** (carousel.html) - 캐러셀
-- [ ] **KrdsStep** (step.html) - 단계 표시기
-
-### 6. 레이아웃 & 구조 (Layout & Structure) - 3개
 - [ ] **KrdsGrid** (grid.html) - 그리드 시스템
 - [ ] **KrdsLayout** (layout.html) - 레이아웃
 - [ ] **KrdsCard** (card.html) - 카드 컴포넌트
-
-### 7. 테이블 & 데이터 (Tables & Data) - 2개
-- [ ] **KrdsTable** (table.html) - 테이블
-- [ ] **KrdsList** (list.html) - 리스트
-
-### 8. 미디어 & 컨텐츠 (Media & Content) - 4개
-- [x] **KrdsBadge** (badge.html) - 배지
-- [ ] **KrdsImage** (image.html) - 이미지
+- [x] **KrdsIcon** - 아이콘 컴포넌트
 - [ ] **KrdsProgress** (progress.html) - 진행률 표시기
-- [x] **KrdsTag** (tag.html) - 태그
+- [x] **KrdsButtonGroup** - 버튼 그룹
+
 
 ## 관련 링크
 

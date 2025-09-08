@@ -17,7 +17,6 @@ vitest.config.ts
 tsconfig*.json
 .eslintrc*
 .prettierrc*
-bundlewatch.config.js
 
 # Development dependencies
 node_modules/
