@@ -75,4 +75,12 @@ export { default as KrdsCheckbox } from './KrdsCheckbox'
 export type { KrdsCheckboxProps, KrdsCheckboxEmits } from './KrdsCheckbox'
 
 // Spinner 컴포넌트
-export { default as KrdsSpinner } from './spinner'
+export { default as KrdsSpinner } from './KrdsSpinner'
+
+// Stepper 컴포넌트
+export { default as KrdsStepper } from './KrdsStepper'
+export type { KrdsStepperProps, KrdsStepperEmits, StepData } from './KrdsStepper'
+
+// Step 컴포넌트
+export { default as KrdsStep } from './KrdsStep'
+export type { KrdsStepProps, KrdsStepEmits } from './KrdsStep'
