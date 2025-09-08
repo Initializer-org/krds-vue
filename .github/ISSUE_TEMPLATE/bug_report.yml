@@ -1,0 +1,81 @@
+name: 버그 리포트
+description: 버그를 발견하셨나요? 개선에 도움이 되도록 리포트를 작성해주세요
+title: '[bug]: '
+labels: ['bug', 'triage']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        버그 리포트를 작성해주셔서 감사합니다! 
+        더 나은 KRDS Vue를 만들기 위해 자세한 정보를 제공해주세요.
+        
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 무엇이 문제인가요?
+      description: 어떤 일이 발생했나요? 그리고 어떤 결과를 기대했나요?
+      placeholder: 발생한 문제를 자세히 설명해주세요
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 재현 방법
+      description: 이 문제를 어떻게 재현할 수 있나요?
+      placeholder: |
+        1. '...' 페이지로 이동
+        2. '...' 버튼을 클릭
+        3. '...' 섹션으로 스크롤
+        4. 오류 발생 확인
+    validations:
+      required: true
+      
+  - type: textarea
+    id: environment
+    attributes:
+      label: 환경 정보
+      description: 어떤 환경에서 사용하고 계시나요?
+      value: |
+        - OS: [예: macOS, Windows, Linux]
+        - 브라우저: [예: Chrome, Firefox, Safari]
+        - Vue 버전: [예: 3.3.0]
+        - KRDS Vue 버전: [예: 0.1.0]
+        - Node.js 버전: [예: 20.0.0]
+    validations:
+      required: true
+      
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: 코드 샘플
+      description: 문제를 재현할 수 있는 최소한의 코드를 제공해주세요
+      render: vue
+      placeholder: |
+        <template>
+          <KrdsButton>클릭하세요</KrdsButton>
+        </template>
+        
+        <script setup>
+        // 문제가 발생하는 코드
+        </script>
+        
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 추가 정보
+      description: 이 문제에 대한 추가적인 정보나 스크린샷이 있다면 여기에 추가해주세요
+      
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 체크리스트
+      description: 다음 사항을 확인해주세요
+      options:
+        - label: 기존 이슈를 검색하여 중복이 아님을 확인했습니다
+          required: true
+        - label: 필요한 모든 정보를 제공했습니다
+          required: true
+        - label: 정부 디자인 시스템 가이드라인을 참고했습니다
+          required: false

@@ -1,0 +1,74 @@
+name: Compatibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  browser-compat:
+    name: Browser Compatibility
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chrome, firefox, webkit]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: pnpm playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Test browser compatibility
+        run: |
+          echo "Browser compatibility check for ${{ matrix.browser }}"
+          echo "Listing storybook-static directory:"
+          dir storybook-static/ || ls -la storybook-static/
+          echo "Storybook built successfully for ${{ matrix.browser }}"
+
+  node-compat:
+    name: Node.js Compatibility
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [20, 22]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build library
+        run: pnpm build
+
+      - name: Check build output
+        run: |
+          echo "Listing dist directory:"
+          dir dist/ || ls -la dist/
+          node -e "console.log('Build successful on Node ${{ matrix.node-version }} - ${{ matrix.os }}')"

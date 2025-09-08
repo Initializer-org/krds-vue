@@ -1,0 +1,50 @@
+# Source files
+src/
+stories/
+docs/
+public/
+
+# Development files
+.storybook/
+.vscode/
+.github/
+.husky/
+
+# Config files
+*.config.*
+vite.config.ts
+vitest.config.ts
+tsconfig*.json
+.eslintrc*
+.prettierrc*
+bundlewatch.config.js
+
+# Development dependencies
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build artifacts (keep only dist)
+dev-dist/
+storybook-static/
+coverage/
+temp/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env*
+
+# Testing
+__tests__/
+**/*.test.*
+**/*.spec.*
+test/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
