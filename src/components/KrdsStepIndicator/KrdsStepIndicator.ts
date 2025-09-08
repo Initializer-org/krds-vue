@@ -2,22 +2,22 @@ import { defineComponent, provide, computed, h } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
- * KRDS Stepper 컴포넌트 속성
+ * KRDS StepIndicator 컴포넌트 속성
  */
-export interface KrdsStepperProps extends BaseComponentProps {
+export interface KrdsStepIndicatorProps extends BaseComponentProps {
   /** 현재 활성 단계 인덱스 (0부터 시작) - v-model */
   modelValue?: number
 }
 
 /**
- * KRDS Stepper 컴포넌트 이벤트
+ * KRDS StepIndicator 컴포넌트 이벤트
  */
-export interface KrdsStepperEmits {
+export interface KrdsStepIndicatorEmits {
   (e: 'update:modelValue', value: number): void
 }
 
-export default defineComponent<KrdsStepperProps>({
-  name: 'KrdsStepper',
+export default defineComponent<KrdsStepIndicatorProps>({
+  name: 'KrdsStepIndicator',
   props: {
     modelValue: {
       type: Number,

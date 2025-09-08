@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import KrdsStepper from './KrdsStepper'
+import KrdsStepIndicator from './KrdsStepIndicator'
 import KrdsStep from '../KrdsStep/KrdsStep'
 
-const meta: Meta<typeof KrdsStepper> = {
-  title: 'Components/Feedback/KrdsStepper',
-  component: KrdsStepper,
+const meta: Meta<typeof KrdsStepIndicator> = {
+  title: 'Components/Feedback/KrdsStepIndicator',
+  component: KrdsStepIndicator,
   parameters: {
     docs: {
       description: {
@@ -27,15 +27,15 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   name: '기본',
   render: () => ({
-    components: { KrdsStepper, KrdsStep },
+    components: { KrdsStepIndicator, KrdsStep },
     template: `
-      <KrdsStepper :model-value="3">
+      <KrdsStepIndicator :model-value="3">
         <KrdsStep step="1단계" title="단계 레이블" />
         <KrdsStep step="2단계" title="단계 레이블" />
         <KrdsStep step="3단계" title="단계 레이블" />
         <KrdsStep step="4단계" title="단계 레이블" />
         <KrdsStep step="5단계" title="단계 레이블" />
-      </KrdsStepper>
+      </KrdsStepIndicator>
     `
   })
 }
@@ -43,16 +43,16 @@ export const Default: Story = {
 export const WithPageTitle: Story = {
   name: '페이지 타이틀과 함께',
   render: () => ({
-    components: { KrdsStepper, KrdsStep },
+    components: { KrdsStepIndicator, KrdsStep },
     template: `
       <div class="page-title-wrap between">
         <h2 class="h-tit">타이틀</h2>
-        <KrdsStepper :model-value="2">
+        <KrdsStepIndicator :model-value="2">
           <KrdsStep step="1단계" title="유의 사항 확인" />
           <KrdsStep step="2단계" title="신청인 정보" />
           <KrdsStep step="3단계" title="이사 전 살던 곳" />
           <KrdsStep step="4단계" title="이사 온 곳" />
-        </KrdsStepper>
+        </KrdsStepIndicator>
       </div>
     `
   })
