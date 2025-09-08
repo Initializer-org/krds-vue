@@ -79,7 +79,7 @@ export { default as KrdsSpinner } from './KrdsSpinner'
 
 // Stepper 컴포넌트
 export { default as KrdsStepper } from './KrdsStepper'
-export type { KrdsStepperProps, KrdsStepperEmits, StepData } from './KrdsStepper'
+export type { KrdsStepperProps, KrdsStepperEmits } from './KrdsStepper'
 
 // Step 컴포넌트
 export { default as KrdsStep } from './KrdsStep'
