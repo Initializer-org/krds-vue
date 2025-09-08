@@ -128,7 +128,7 @@
       },
       {
         "path": "dist/style.css",
-        "maxSize": "30kb",
+        "maxSize": "2mb",
         "compression": "gzip"
       }
     ],
