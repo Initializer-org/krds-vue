@@ -113,5 +113,29 @@
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@9.15.2"
+  "packageManager": "pnpm@9.15.2",
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "dist/krds-vue.es.js",
+        "maxSize": "50kb",
+        "compression": "gzip"
+      },
+      {
+        "path": "dist/krds-vue.umd.js",
+        "maxSize": "55kb",
+        "compression": "gzip"
+      },
+      {
+        "path": "dist/style.css",
+        "maxSize": "2mb",
+        "compression": "gzip"
+      }
+    ],
+    "ci": {
+      "repoBranchBase": "main",
+      "trackBranches": ["main", "develop"],
+      "commitStatusOverview": true
+    }
+  }
 }
