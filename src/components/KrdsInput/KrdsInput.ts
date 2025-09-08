@@ -1,5 +1,6 @@
 import { defineComponent, computed, h } from 'vue'
 import type { BaseFormProps, Size, InputType } from '@/types'
+import KrdsSpinner from '@/components/spinner/KrdsSpinner'
 
 /**
  * KRDS Input 컴포넌트 속성
@@ -33,6 +34,8 @@ export interface KrdsInputProps extends BaseFormProps {
   state?: 'default' | 'error' | 'success' | 'information'
   /** 아이콘 (있을 때 btn-ico-wrap 클래스 적용) */
   icon?: boolean
+  /** 로딩 상태 */
+  loading?: boolean
 }
 
 /**
@@ -120,6 +123,10 @@ export default defineComponent<KrdsInputProps>({
       default: 'default'
     },
     icon: {
+      type: Boolean,
+      default: false
+    },
+    loading: {
       type: Boolean,
       default: false
     },
@@ -265,6 +272,11 @@ export default defineComponent<KrdsInputProps>({
 
     return () => {
       const children = [h('input', inputProps.value)]
+
+      // 로딩 상태일 때 스피너 추가
+      if (props.loading) {
+        return h('div', { class: formContsClasses.value }, [h('div', { class: 'form-spinner' }, [...children, h(KrdsSpinner)])])
+      }
 
       // 디폴트 슬롯이 있으면 추가 (아이콘 버튼들)
       if (slots.default) {

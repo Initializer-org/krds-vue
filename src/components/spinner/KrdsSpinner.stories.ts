@@ -56,3 +56,39 @@ export const WithLabel: Story = {
     label: 'Loading data..'
   }
 }
+
+export const InputLoading: Story = {
+  name: '입력 필드 로딩',
+  render: () => ({
+    components: { KrdsSpinner },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <!-- 기본 입력 필드 로딩 -->
+        <div class="form-group">
+          <div class="form-tit">
+            <label for="loading_example1">Label</label>
+          </div>
+          <div class="form-conts">
+            <div class="form-spinner">
+              <input type="text" id="loading_example1" class="krds-input" placeholder="placeholder">
+              <KrdsSpinner />
+            </div>
+          </div>
+        </div>
+
+        <!-- 값이 있는 입력 필드 로딩 -->
+        <div class="form-group">
+          <div class="form-tit">
+            <label for="loading_example2">검증 중</label>
+          </div>
+          <div class="form-conts">
+            <div class="form-spinner">
+              <input type="text" id="loading_example2" class="krds-input" value="입력된 값" placeholder="placeholder">
+              <KrdsSpinner />
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  })
+}

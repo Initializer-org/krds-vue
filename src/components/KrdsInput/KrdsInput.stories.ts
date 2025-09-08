@@ -57,6 +57,10 @@ const meta: Meta<typeof KrdsInput> = {
     minlength: {
       control: { type: 'number' },
       description: '최소 글자 수'
+    },
+    loading: {
+      control: { type: 'boolean' },
+      description: '로딩 상태'
     }
   }
 }
@@ -151,7 +155,30 @@ export const Sizes: Story = {
   })
 }
 
-// 4. 아이콘 버튼
+// 4. 로딩
+export const Loading: Story = {
+  name: '로딩',
+  render: () => ({
+    components: { KrdsFormGroup, KrdsFormLabel, KrdsInput, KrdsFormHint },
+    template: `
+      <div class="fieldset">
+        <KrdsFormGroup>
+          <KrdsFormLabel for="loading_input">레이블</KrdsFormLabel>
+          <KrdsInput id="loading_input" placeholder="플레이스홀더" loading />
+          <KrdsFormHint>데이터를 불러오는 중입니다</KrdsFormHint>
+        </KrdsFormGroup>
+
+        <KrdsFormGroup>
+          <KrdsFormLabel for="loading_input2">레이블</KrdsFormLabel>
+          <KrdsInput id="loading_input2" placeholder="플레이스홀더" modelValue="입력된 값" loading />
+          <KrdsFormHint>검증 중입니다</KrdsFormHint>
+        </KrdsFormGroup>
+      </div>
+    `
+  })
+}
+
+// 5. 아이콘 버튼
 export const WithIconButtons: Story = {
   name: '아이콘 버튼',
   render: () => ({
