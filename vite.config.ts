@@ -33,20 +33,17 @@ export default defineConfig({
       name: 'KrdsVue',
       fileName: format => `krds-vue.${format}.js`
     },
-    copyPublicDir: true, // public 디렉토리를 dist로 복사
+    copyPublicDir: true,
     rollupOptions: {
-      // 외부화할 dependencies
       external: ['vue'],
       output: {
         exports: 'named',
-        // 외부화된 dependencies를 위한 global 변수
         globals: {
           vue: 'Vue'
         },
-        // CSS를 별도 파일로 추출
         assetFileNames: assetInfo => {
-          if (assetInfo.names && assetInfo.names[0] === 'style.css') return 'style.css'
-          return (assetInfo.names && assetInfo.names[0]) || 'assets/[name]-[hash][extname]'
+          if (assetInfo.names && assetInfo.names[0]?.endsWith('.css')) return 'style.css'
+          return 'assets/[name]-[hash][extname]'
         }
       }
     },
