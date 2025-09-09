@@ -24,7 +24,7 @@ export interface KrdsStepEmits {
 /**
  * Stepper 컨텍스트 타입
  */
-interface StepperContext {
+interface StepIndicatorContext {
   activeStep: ComputedRef<number>
   getStepStatus: (index: number) => 'done' | 'active' | 'pending'
   getNextStepIndex: () => number
@@ -54,15 +54,14 @@ export default defineComponent<KrdsStepProps>({
   emits: ['click'],
   setup(props, { emit, slots }) {
     /**
-     * Stepper 컨텍스트 주입 (선택적)
+     * StepIndicator 컨텍스트 주입 (선택적)
      */
-    const stepperContext = inject<StepperContext | null>('stepper')
+    const stepIndicatorContext = inject<StepIndicatorContext | null>('stepIndicator')
 
     /**
      * 현재 단계의 인덱스 계산
      */
-    const stepIndex = stepperContext ? stepperContext.getNextStepIndex() : -1
-
+    const stepIndex = stepIndicatorContext ? stepIndicatorContext.getNextStepIndex() : -1
 
     /**
      * 단계 상태 계산
@@ -73,9 +72,9 @@ export default defineComponent<KrdsStepProps>({
         return props.status
       }
 
-      // Stepper 컨텍스트가 있으면 인덱스 기반으로 상태 계산
-      if (stepperContext && stepIndex >= 0) {
-        return stepperContext.getStepStatus(stepIndex)
+      // StepIndicator 컨텍스트가 있으면 인덱스 기반으로 상태 계산
+      if (stepIndicatorContext && stepIndex >= 0) {
+        return stepIndicatorContext.getStepStatus(stepIndex)
       }
 
       // 기본값
