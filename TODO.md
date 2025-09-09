@@ -19,11 +19,11 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [ ] **KrdsFooter** - 푸터
 
 ### 2. 탐색 컴포넌트 (Navigation Components) - 7개
-- [ ] **KrdsSkipLink** - 건너뛰기 링크 (Skip link)
+- [x] **KrdsSkipLink** - 건너뛰기 링크 (Skip link)
 - [ ] **KrdsMainMenu** - 메인 메뉴 (Main menu)
-- [ ] **KrdsBreadcrumb** - 브레드크럼 (Breadcrumb)
+- [x] **KrdsBreadcrumb** - 브레드크럼 (Breadcrumb)
 - [ ] **KrdsSideNavigation** - 사이드 메뉴 (Side navigation)
-- [ ] **KrdsInPageNavigation** - 콘텐츠 내 탐색 (In-page navigation)
+- [x] **KrdsInPageNavigation** - 콘텐츠 내 탐색 (In-page navigation)
 - [ ] **KrdsPagination** - 페이지네이션 (Pagination)
 - [ ] **KrdsTabBar** - 탭바 (Tab bars)
 
