@@ -1,19 +1,23 @@
 /**
- * KRDS Vue 디렉티브 (최소 구현)
+ * KRDS Vue 디렉티브
  */
 
 import type { App } from 'vue'
+import { vSrOnly } from './vSrOnly'
 
 /**
- * 빈 디렉티브 객체 (원본 KRDS에 디렉티브가 없음)
+ * 디렉티브 목록
  */
-export const directives = {} as const
+export const directives = {
+  'sr-only': vSrOnly
+} as const
 
 /**
- * 디렉티브 설치 함수 (빈 구현)
+ * 디렉티브 설치 함수
  */
-export const installDirectives = (_app: App) => {
-  // 원본 KRDS에 커스텀 디렉티브가 없으므로 빈 구현
+export const installDirectives = (app: App) => {
+  app.directive('sr-only', vSrOnly)
 }
 
+export { vSrOnly }
 export default directives

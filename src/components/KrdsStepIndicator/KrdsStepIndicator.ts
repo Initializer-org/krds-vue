@@ -68,7 +68,7 @@ export default defineComponent<KrdsStepIndicatorProps>({
     /**
      * 컨텍스트 제공
      */
-    provide('stepper', {
+    provide('stepIndicator', {
       activeStep: computed(() => props.modelValue || 0),
       getStepStatus,
       getNextStepIndex,

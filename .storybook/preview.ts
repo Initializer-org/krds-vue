@@ -1,14 +1,12 @@
 import type {Preview} from '@storybook/vue3-vite'
 import {setup} from '@storybook/vue3-vite'
 import '../src/styles/main.scss'
+import KrdsVue from '../src/index'
 
 // KRDS Vue 플러그인 설정
 setup(app => {
-    // 전역 속성 설정
-    app.config.globalProperties.$krds = {
-        version: '1.0.0',
-        locale: 'ko'
-    }
+    // KRDS Vue 플러그인 사용 (컴포넌트 + 디렉티브 자동 등록)
+    app.use(KrdsVue)
 })
 
 const preview: Preview = {
