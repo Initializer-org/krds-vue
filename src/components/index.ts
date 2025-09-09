@@ -92,3 +92,7 @@ export type { KrdsSkipLinkProps } from './KrdsSkipLink'
 // Breadcrumb 컴포넌트
 export { default as KrdsBreadcrumb } from './KrdsBreadcrumb'
 export type { KrdsBreadcrumbProps, KrdsBreadcrumbEmits, BreadcrumbItem } from './KrdsBreadcrumb'
+
+// InPageNavigation 컴포넌트
+export { default as KrdsInPageNavigation } from './KrdsInPageNavigation'
+export type { KrdsInPageNavigationProps, KrdsInPageNavigationEmits, NavigationItem } from './KrdsInPageNavigation'
