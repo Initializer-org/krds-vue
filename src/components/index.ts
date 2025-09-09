@@ -84,3 +84,7 @@ export type { KrdsStepIndicatorProps, KrdsStepIndicatorEmits } from './KrdsStepI
 // Step 컴포넌트
 export { default as KrdsStep } from './KrdsStep'
 export type { KrdsStepProps, KrdsStepEmits } from './KrdsStep'
+
+// SkipLink 컴포넌트
+export { default as KrdsSkipLink } from './KrdsSkipLink'
+export type { KrdsSkipLinkProps } from './KrdsSkipLink'
