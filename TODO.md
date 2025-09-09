@@ -75,8 +75,8 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [ ] **KrdsResize** - 화면 크기 조정 (Resize)
 
 ### 10. 콘텐츠 (Content Components) - 2개
-- [ ] **KrdsAccessibleMultimedia** - 접근 가능한 미디어 (Accessible multimedia)
-- [ ] **KrdsVisuallyHidden** - 숨긴 콘텐츠 (Visually hidden)
+- [X] **KrdsAccessibleMultimedia** - 접근 가능한 미디어 (Accessible multimedia) - 컴포넌트가 아닌 개념 설명만 제공
+- [X] **KrdsVisuallyHidden** - 숨긴 콘텐츠 (Visually hidden) - `v-sr-only` 디렉티브로 대체
 
 ### 11. 기타 컴포넌트 (Additional Components) - 10개
 - [x] **KrdsFormGroup** - 폼 그룹 래퍼
