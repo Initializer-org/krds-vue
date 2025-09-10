@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, ref, onMounted, SlotsType } from 'vue'
+import { defineComponent, computed, h, ref, onMounted, onUnmounted, SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -200,6 +200,15 @@ export default defineComponent<KrdsInPageNavigationProps>({
       if (props.autoActive) {
         updateActiveItem()
         window.addEventListener('scroll', updateActiveItem, { passive: true })
+      }
+    })
+
+    /**
+     * 컴포넌트 언마운트 시 정리
+     */
+    onUnmounted(() => {
+      if (props.autoActive) {
+        window.removeEventListener('scroll', updateActiveItem)
       }
     })
 
