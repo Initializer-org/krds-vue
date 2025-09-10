@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import KrdsSideNavigation from './KrdsSideNavigation.vue'
-import type { SideNavItem } from './KrdsSideNavigation.vue'
+import KrdsSideNavigation from './KrdsSideNavigation'
+import type { SideNavItem } from './KrdsSideNavigation'
 import { ref } from 'vue'
 
 const meta: Meta<typeof KrdsSideNavigation> = {
