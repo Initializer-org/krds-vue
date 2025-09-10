@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-
   // ========================
   // 타입 정의
   // ========================
@@ -74,9 +72,7 @@
   /**
    * 현재 페이지 여부 확인
    */
-  const isCurrentPage = computed(() => {
-    return (index: number) => index === props.items.length - 1
-  })
+  const isCurrentPage = (index: number) => index === props.items.length - 1
 
   // ========================
   // Event Handlers
