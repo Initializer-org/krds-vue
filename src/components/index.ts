@@ -96,3 +96,7 @@ export type { KrdsBreadcrumbProps, KrdsBreadcrumbEmits, BreadcrumbItem } from '.
 // InPageNavigation 컴포넌트
 export { default as KrdsInPageNavigation } from './KrdsInPageNavigation'
 export type { KrdsInPageNavigationProps, KrdsInPageNavigationEmits, NavigationItem } from './KrdsInPageNavigation'
+
+// Pagination 컴포넌트
+export { default as KrdsPagination } from './KrdsPagination'
+export type { KrdsPaginationProps, KrdsPaginationEmits } from './KrdsPagination'
