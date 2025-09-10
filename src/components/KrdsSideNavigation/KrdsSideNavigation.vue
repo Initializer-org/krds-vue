@@ -32,6 +32,7 @@
               </a>
               <template v-else>
                 <button
+                  :ref="el => setPopupTriggerRef(el as HTMLButtonElement, index, subIndex)"
                   type="button"
                   class="lnb-btn lnb-toggle-popup"
                   role="menuitem"
@@ -44,12 +45,19 @@
                 </button>
                 <div
                   :id="`lnbmenu-${index}-${subIndex}`"
+                  :ref="el => setPopupRef(el as HTMLDivElement, index, subIndex)"
                   class="lnb-submenu-lv2"
                   :class="{ active: subItem.expanded }"
                   role="menu"
                   @focusout="handlePopupFocusOut($event, index, subIndex)"
                 >
-                  <button type="button" class="lnb-btn-tit" tabindex="0" @click="handlePopupTitleClick(index, subIndex)">
+                  <button
+                    :ref="el => setPopupTitleRef(el as HTMLButtonElement, index, subIndex)"
+                    type="button"
+                    class="lnb-btn-tit"
+                    tabindex="0"
+                    @click="handlePopupTitleClick(index, subIndex)"
+                  >
                     {{ subItem.popupTitle || subItem.text }}
                   </button>
                   <ul>
@@ -146,7 +154,39 @@
 
   const modelValue = computed(() => props.modelValue || [])
 
+  // Template refs를 위한 Map들
+  const popupTriggerRefs = ref(new Map<string, HTMLButtonElement>())
+  const popupRefs = ref(new Map<string, HTMLDivElement>())
+  const popupTitleRefs = ref(new Map<string, HTMLButtonElement>())
   const lastClickedPopupButton = ref<HTMLButtonElement | null>(null)
+
+  // Template ref 설정 함수들
+  const setPopupTriggerRef = (el: HTMLButtonElement | null, parentIndex: number, subIndex: number) => {
+    const key = `${parentIndex}-${subIndex}`
+    if (el) {
+      popupTriggerRefs.value.set(key, el)
+    } else {
+      popupTriggerRefs.value.delete(key)
+    }
+  }
+
+  const setPopupRef = (el: HTMLDivElement | null, parentIndex: number, subIndex: number) => {
+    const key = `${parentIndex}-${subIndex}`
+    if (el) {
+      popupRefs.value.set(key, el)
+    } else {
+      popupRefs.value.delete(key)
+    }
+  }
+
+  const setPopupTitleRef = (el: HTMLButtonElement | null, parentIndex: number, subIndex: number) => {
+    const key = `${parentIndex}-${subIndex}`
+    if (el) {
+      popupTitleRefs.value.set(key, el)
+    } else {
+      popupTitleRefs.value.delete(key)
+    }
+  }
 
   /**
    * 서브메뉴 토글
@@ -193,17 +233,19 @@
         subItem.expanded = !subItem.expanded
 
         if (subItem.expanded) {
-          // 현재 클릭된 버튼 저장
-          lastClickedPopupButton.value = document.querySelector<HTMLButtonElement>(`[aria-controls="lnbmenu-${parentIndex}-${subIndex}"]`)
+          // 현재 클릭된 버튼 저장 - template ref 사용
+          const key = `${parentIndex}-${subIndex}`
+          lastClickedPopupButton.value = popupTriggerRefs.value.get(key) || null
 
-          // 팝업이 열릴 때 포커스 관리 - transitionend 이벤트 사용
-          const popupElement = document.getElementById(`lnbmenu-${parentIndex}-${subIndex}`)
-          if (popupElement) {
+          // 팝업이 열릴 때 포커스 관리 - template ref 사용
+          const popupElement = popupRefs.value.get(key)
+          const titleButton = popupTitleRefs.value.get(key)
+
+          if (popupElement && titleButton) {
             popupElement.addEventListener(
               'transitionend',
               () => {
-                const titleButton = popupElement.querySelector<HTMLButtonElement>('.lnb-btn-tit')
-                titleButton?.focus()
+                titleButton.focus()
               },
               { once: true }
             )
@@ -244,7 +286,8 @@
    * 팝업 외부 클릭 시 닫기
    */
   const handlePopupFocusOut = (event: FocusEvent, parentIndex: number, subIndex: number) => {
-    const popupElement = document.getElementById(`lnbmenu-${parentIndex}-${subIndex}`)
+    const key = `${parentIndex}-${subIndex}`
+    const popupElement = popupRefs.value.get(key)
     if (popupElement && !popupElement.contains(event.relatedTarget as Node)) {
       closePopup(parentIndex, subIndex)
     }
