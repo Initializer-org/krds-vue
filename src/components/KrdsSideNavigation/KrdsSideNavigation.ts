@@ -324,7 +324,6 @@ export default defineComponent({
                             setPopupTitleRef(el as HTMLButtonElement | null, parentIndex, subIndex),
                           type: 'button',
                           class: 'lnb-btn-tit',
-                          class: 'lnb-btn-tit',
                           onClick: () => handlePopupTitleClick(parentIndex, subIndex)
                         },
                         subItem.popupTitle || subItem.text
