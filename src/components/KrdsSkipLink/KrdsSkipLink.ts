@@ -63,7 +63,6 @@ export default defineComponent({
             'a',
             {
               href: props.href,
-              tabindex: '1',
               'aria-label': `${slots.default?.()?.[0]?.children || '바로가기'} 링크`
             },
             slots.default?.()
