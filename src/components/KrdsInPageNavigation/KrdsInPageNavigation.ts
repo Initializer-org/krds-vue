@@ -64,6 +64,7 @@ export default defineComponent<KrdsInPageNavigationProps>({
   }>,
   setup(props, { emit, slots }) {
     const activeItem = ref<string>('')
+    const sectionElements = ref<Map<string, HTMLElement>>(new Map())
 
     /**
      * 컨테이너 클래스 계산
@@ -121,30 +122,48 @@ export default defineComponent<KrdsInPageNavigationProps>({
     }
 
     /**
+     * 섹션 요소들을 캐싱
+     */
+    const cacheSectionElements = () => {
+      sectionElements.value.clear()
+
+      if (!props.items) return
+
+      props.items
+        .filter(item => item.href.startsWith('#'))
+        .forEach(item => {
+          const element = document.querySelector(item.href) as HTMLElement | null
+          if (element) {
+            sectionElements.value.set(item.href, element)
+          }
+        })
+    }
+
+    /**
      * 스크롤에 따른 활성 아이템 업데이트
      */
     const updateActiveItem = () => {
-      if (!props.autoActive || !props.items) return
+      if (!props.autoActive || !props.items || sectionElements.value.size === 0) return
 
       const winHeight = window.innerHeight
       const topHeight = Math.ceil(winHeight / 5) // 윈도우의 20%
       const scrollBottom = window.scrollY + winHeight
       const scrollHeight = document.body.scrollHeight
 
+      // 캐싱된 요소들을 사용
       const sections = props.items
-        .filter(item => item.href.startsWith('#'))
+        .filter(item => item.href.startsWith('#') && sectionElements.value.has(item.href))
         .map(item => ({
           href: item.href,
-          element: document.querySelector(item.href) as HTMLElement | null,
+          element: sectionElements.value.get(item.href)!,
           item
         }))
-        .filter(section => section.element)
 
       if (sections.length === 0) return
 
       const firstSection = sections[0]
       const lastSection = sections[sections.length - 1]
-      const firstSecTop = firstSection.element!.offsetTop
+      const firstSecTop = firstSection.element.offsetTop
 
       let newActiveItem = ''
 
@@ -159,14 +178,12 @@ export default defineComponent<KrdsInPageNavigationProps>({
       // 현재 섹션 확인
       else {
         for (const section of sections) {
-          if (section.element) {
-            const sectionHeight = section.element.offsetHeight
-            const sectionTop = section.element.offsetTop - topHeight
+          const sectionHeight = section.element.offsetHeight
+          const sectionTop = section.element.offsetTop - topHeight
 
-            if (window.scrollY > sectionTop && window.scrollY <= sectionTop + sectionHeight) {
-              newActiveItem = section.href
-              break
-            }
+          if (window.scrollY > sectionTop && window.scrollY <= sectionTop + sectionHeight) {
+            newActiveItem = section.href
+            break
           }
         }
       }
@@ -198,8 +215,26 @@ export default defineComponent<KrdsInPageNavigationProps>({
       initActiveItem()
 
       if (props.autoActive) {
+        // 섹션 요소들을 미리 캐싱
+        cacheSectionElements()
         updateActiveItem()
         window.addEventListener('scroll', updateActiveItem, { passive: true })
+
+        // DOM 변경 감지를 위한 MutationObserver 설정 (선택사항)
+        const observer = new MutationObserver(() => {
+          cacheSectionElements()
+        })
+
+        // body 태그의 자식 요소 변경을 감지
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        })
+
+        // cleanup 함수에서 observer도 정리하도록 설정
+        onUnmounted(() => {
+          observer.disconnect()
+        })
       }
     })
 
@@ -209,6 +244,8 @@ export default defineComponent<KrdsInPageNavigationProps>({
     onUnmounted(() => {
       if (props.autoActive) {
         window.removeEventListener('scroll', updateActiveItem)
+        // 캐싱된 요소들 정리
+        sectionElements.value.clear()
       }
     })
 
