@@ -117,94 +117,111 @@ export default defineComponent({
      * 서브메뉴 토글
      */
     const toggleSubmenu = (index: number) => {
-      const newMenuItems = [...modelValue.value]
-      const item = newMenuItems[index]
-      if (item.subItems) {
-        const wasExpanded = item.expanded
-        item.expanded = !item.expanded
+      const newMenuItems = modelValue.value.map((item, idx) => {
+        if (idx === index && item.subItems) {
+          const wasExpanded = item.expanded
+          const updatedItem = {
+            ...item,
+            expanded: !item.expanded
+          }
 
-        // 2뎁스가 닫힐 때 모든 3뎁스 팝업들을 닫기
-        if (wasExpanded && !item.expanded) {
-          closeAllPopupsInSubmenu(item.subItems)
+          // 2뎁스가 닫힐 때 모든 3뎁스 팝업들을 닫기
+          if (wasExpanded && !updatedItem.expanded) {
+            updatedItem.subItems = item.subItems.map(subItem => ({
+              ...subItem,
+              expanded: false
+            }))
+            // 마지막 클릭된 팝업 버튼 참조 초기화
+            lastClickedPopupButton.value = null
+          }
+
+          return updatedItem
         }
-
-        emit('update:modelValue', newMenuItems)
-      }
-    }
-
-    /**
-     * 서브메뉴 내 모든 팝업 닫기
-     */
-    const closeAllPopupsInSubmenu = (subItems: SideNavSubItem[]) => {
-      subItems.forEach(subItem => {
-        if (subItem.subItems && subItem.expanded) {
-          subItem.expanded = false
-        }
+        return item
       })
 
-      // 마지막 클릭된 팝업 버튼 참조 초기화
-      lastClickedPopupButton.value = null
+      emit('update:modelValue', newMenuItems)
     }
 
     /**
      * 팝업 토글
      */
     const togglePopup = (parentIndex: number, subIndex: number) => {
-      const newMenuItems = [...modelValue.value]
-      const parentItem = newMenuItems[parentIndex]
-      if (parentItem.subItems) {
-        const subItem = parentItem.subItems[subIndex]
-        if (subItem.subItems) {
-          subItem.expanded = !subItem.expanded
+      const newMenuItems = modelValue.value.map((item, idx) => {
+        if (idx === parentIndex && item.subItems) {
+          return {
+            ...item,
+            subItems: item.subItems.map((subItem, subIdx) => {
+              if (subIdx === subIndex && subItem.subItems) {
+                const updatedSubItem = {
+                  ...subItem,
+                  expanded: !subItem.expanded
+                }
 
-          if (subItem.expanded) {
-            // 현재 클릭된 버튼 저장 - template ref 사용
-            const key = `${parentIndex}-${subIndex}`
-            lastClickedPopupButton.value = popupTriggerRefs.value.get(key) || null
+                if (updatedSubItem.expanded) {
+                  // 현재 클릭된 버튼 저장 - template ref 사용
+                  const key = `${parentIndex}-${subIndex}`
+                  lastClickedPopupButton.value = popupTriggerRefs.value.get(key) || null
 
-            // 팝업이 열릴 때 포커스 관리 - template ref 사용
-            const popupElement = popupRefs.value.get(key)
-            const titleButton = popupTitleRefs.value.get(key)
+                  // 팝업이 열릴 때 포커스 관리 - template ref 사용
+                  const popupElement = popupRefs.value.get(key)
+                  const titleButton = popupTitleRefs.value.get(key)
 
-            if (popupElement && titleButton) {
-              popupElement.addEventListener(
-                'transitionend',
-                () => {
-                  titleButton.focus()
-                },
-                { once: true }
-              )
-            }
+                  if (popupElement && titleButton) {
+                    popupElement.addEventListener(
+                      'transitionend',
+                      () => {
+                        titleButton.focus()
+                      },
+                      { once: true }
+                    )
+                  }
+                }
+
+                return updatedSubItem
+              }
+              return subItem
+            })
           }
-
-          emit('update:modelValue', newMenuItems)
         }
-      }
+        return item
+      })
+
+      emit('update:modelValue', newMenuItems)
     }
 
     /**
      * 팝업 닫기
      */
     const closePopup = (parentIndex: number, subIndex: number) => {
-      const newMenuItems = [...modelValue.value]
-      const parentItem = newMenuItems[parentIndex]
-      if (parentItem.subItems) {
-        const subItem = parentItem.subItems[subIndex]
-        if (subItem.subItems && subItem.expanded) {
-          subItem.expanded = false
+      const newMenuItems = modelValue.value.map((item, idx) => {
+        if (idx === parentIndex && item.subItems) {
+          return {
+            ...item,
+            subItems: item.subItems.map((subItem, subIdx) => {
+              if (subIdx === subIndex && subItem.subItems && subItem.expanded) {
+                // 포커스를 원래 버튼으로 돌리기
+                if (lastClickedPopupButton.value) {
+                  const buttonToFocus = lastClickedPopupButton.value
+                  requestAnimationFrame(() => {
+                    buttonToFocus.focus()
+                  })
+                  lastClickedPopupButton.value = null
+                }
 
-          // 포커스를 원래 버튼으로 돌리기
-          if (lastClickedPopupButton.value) {
-            const buttonToFocus = lastClickedPopupButton.value
-            requestAnimationFrame(() => {
-              buttonToFocus.focus()
+                return {
+                  ...subItem,
+                  expanded: false
+                }
+              }
+              return subItem
             })
-            lastClickedPopupButton.value = null
           }
-
-          emit('update:modelValue', newMenuItems)
         }
-      }
+        return item
+      })
+
+      emit('update:modelValue', newMenuItems)
     }
 
     /**
