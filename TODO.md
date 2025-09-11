@@ -29,9 +29,9 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 
 ### 3. 레이아웃 및 표현 (Layout & Presentation Components) - 13개
 - [ ] **KrdsStructuredList** - 구조화 목록 (Structured list)
-- [ ] **KrdsCriticalAlert** - 긴급 공지 (Critical alerts)
-- [ ] **KrdsCalendar** - 달력 (Calendar)
-- [ ] **KrdsDisclosure** - 디스클로저 (Disclosure)
+- [x] **KrdsCriticalAlert** - 긴급 공지 (Critical alerts)
+- [x] **KrdsCalendar** - 달력 (Calendar)
+- [x] **KrdsDisclosure** - 디스클로저 (Disclosure)
 - [ ] **KrdsModal** - 모달 (Modal)
 - [x] **KrdsBadge** - 배지 (Badge)
 - [ ] **KrdsAccordion** - 아코디언 (Accordion)
@@ -40,7 +40,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsTabs** - 탭 (Tab) - KrdsTab, KrdsTabList, KrdsTabPanels 포함
 - [ ] **KrdsTable** - 표 (Table)
 - [ ] **KrdsSplashScreen** - 스플래시 스크린 (Splash screen)
-- [ ] **KrdsTextList** - 텍스트 목록 (Text list)
+- [x] **KrdsTextList** - 텍스트 목록 (Text list)
 
 ### 4. 액션 컴포넌트 (Action Components) - 2개
 - [x] **KrdsLink** (link.html) - 링크
