@@ -247,7 +247,8 @@ export default defineComponent<KrdsTableProps>({
                 colspan: props.columns.length || 1,
                 class: 'text-center'
               },
-              '데이터가 없습니다.'
+              // no-data 슬롯이 있으면 슬롯 사용, 없으면 기본 텍스트
+              slots['no-data'] ? slots['no-data']() : '데이터가 없습니다.'
             )
           ])
         ])
