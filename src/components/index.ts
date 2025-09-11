@@ -84,3 +84,19 @@ export type { KrdsStepIndicatorProps, KrdsStepIndicatorEmits } from './KrdsStepI
 // Step 컴포넌트
 export { default as KrdsStep } from './KrdsStep'
 export type { KrdsStepProps, KrdsStepEmits } from './KrdsStep'
+
+// SkipLink 컴포넌트
+export { default as KrdsSkipLink } from './KrdsSkipLink'
+export type { KrdsSkipLinkProps } from './KrdsSkipLink'
+
+// Breadcrumb 컴포넌트
+export { default as KrdsBreadcrumb } from './KrdsBreadcrumb'
+export type { KrdsBreadcrumbProps, KrdsBreadcrumbEmits, BreadcrumbItem } from './KrdsBreadcrumb'
+
+// InPageNavigation 컴포넌트
+export { default as KrdsInPageNavigation } from './KrdsInPageNavigation'
+export type { KrdsInPageNavigationProps, KrdsInPageNavigationEmits, NavigationItem } from './KrdsInPageNavigation'
+
+// Pagination 컴포넌트
+export { default as KrdsPagination } from './KrdsPagination'
+export type { KrdsPaginationProps, KrdsPaginationEmits } from './KrdsPagination'
