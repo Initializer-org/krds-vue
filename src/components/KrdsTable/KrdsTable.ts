@@ -1,4 +1,4 @@
-import { defineComponent, h, computed } from 'vue'
+import { defineComponent, h, computed, SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -70,6 +70,9 @@ export default defineComponent<KrdsTableProps>({
     }
   },
   emits: ['row-click'],
+  slots: Object as SlotsType<{
+    'no-data'?: () => unknown
+  }>,
   setup(props, { emit, slots }) {
     /**
      * 테이블 클래스 계산
@@ -292,14 +295,6 @@ export default defineComponent<KrdsTableProps>({
     }
 
     return () => {
-      // 슬롯 콘텐츠가 있으면 슬롯 우선 사용
-      if (slots.default) {
-        return h('div', { class: wrapperClasses.value }, [
-          h('table', { class: tableClasses.value }, [props.caption && h('caption', props.caption), slots.default()])
-        ])
-      }
-
-      // props 데이터로 테이블 생성
       return h('div', { class: wrapperClasses.value }, [
         h('table', { class: tableClasses.value }, [
           props.caption && h('caption', props.caption),
