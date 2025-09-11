@@ -25,6 +25,10 @@ export interface KrdsInPageNavigationProps extends BaseComponentProps {
   items?: NavigationItem[]
   /** 스크롤에 따른 자동 활성화 여부 */
   autoActive?: boolean
+  /** 헤더 상단 영역 선택자 (기본값: '#krds-masthead') */
+  headerTopSelector?: string
+  /** 헤더 내부 영역 선택자 (기본값: '#krds-header .header-in') */
+  headerInnerSelector?: string
 }
 
 /**
@@ -53,6 +57,14 @@ export default defineComponent<KrdsInPageNavigationProps>({
       type: Boolean,
       default: true
     },
+    headerTopSelector: {
+      type: String,
+      default: '#krds-masthead'
+    },
+    headerInnerSelector: {
+      type: String,
+      default: '#krds-header .header-in'
+    },
     class: {
       type: String,
       default: undefined
@@ -80,16 +92,18 @@ export default defineComponent<KrdsInPageNavigationProps>({
     })
 
     /**
-     * 헤더 높이 계산 (원본 JavaScript 로직 참고)
+     * 헤더 높이 계산
      */
     const calculateHeaderHeight = () => {
-      const headerTop = document.querySelector('#krds-masthead')?.clientHeight || 0
-      const headerInner = document.querySelector('#krds-header .header-in')?.clientHeight || 0
+      const headerTopSelector = props.headerTopSelector as string
+      const headerInnerSelector = props.headerInnerSelector as string
+      const headerTop = (document.querySelector(headerTopSelector) as HTMLElement)?.clientHeight || 0
+      const headerInner = (document.querySelector(headerInnerSelector) as HTMLElement)?.clientHeight || 0
       return headerTop + headerInner
     }
 
     /**
-     * 네비게이션 아이템 클릭 핸들러 (원본 JavaScript 로직 개선)
+     * 네비게이션 아이템 클릭 핸들러
      */
     const handleItemClick = (item: NavigationItem, event: MouseEvent | KeyboardEvent) => {
       emit('itemClick', item, event)
@@ -268,8 +282,8 @@ export default defineComponent<KrdsInPageNavigationProps>({
       if (!props.items) return null
 
       const listItems = props.items.map(item => {
-        // autoActive가 활성화된 경우 스크롤 위치 기반으로, 아니면 초기 active 상태 사용
-        const isActive = props.autoActive ? activeItem.value === item.href : activeItem.value === item.href || item.active
+        // 활성 상태 결정: autoActive 시 스크롤 기반, 아니면 active 속성 포함
+        const isActive = activeItem.value === item.href || (!props.autoActive && item.active)
 
         return h('li', { key: item.href }, [
           h(
