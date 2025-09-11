@@ -62,8 +62,7 @@ export default defineComponent({
           h(
             'a',
             {
-              href: props.href,
-              'aria-label': `${slots.default?.()?.[0]?.children || '바로가기'} 링크`
+              href: props.href
             },
             slots.default?.()
           )
