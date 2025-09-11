@@ -19,7 +19,7 @@ export interface NavigationItem {
 export interface KrdsInPageNavigationProps extends BaseComponentProps {
   /** 네비게이션 제목 */
   title?: string
-  /** 네비게이션 캐션 */
+  /** 네비게이션 캡션 */
   caption?: string
   /** 네비게이션 아이템 목록 */
   items?: NavigationItem[]

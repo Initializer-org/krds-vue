@@ -24,7 +24,7 @@ const meta: Meta<typeof KrdsInPageNavigation> = {
     },
     caption: {
       control: 'text',
-      description: '네비게이션 캐션'
+      description: '네비게이션 캡션'
     },
     items: {
       control: 'object',
