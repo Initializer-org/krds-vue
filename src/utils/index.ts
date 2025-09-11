@@ -16,6 +16,15 @@ export function generateId(prefix: string = 'krds'): string {
 }
 
 /**
+ * 간단한 UUID를 생성합니다.
+ *
+ * @returns 7자리 랜덤 문자열
+ */
+export function generateUuid(): string {
+  return Math.random().toString(36).substring(2, 9)
+}
+
+/**
  * 클래스명을 조합합니다.
  *
  * @param classes - 클래스명 배열 또는 객체
