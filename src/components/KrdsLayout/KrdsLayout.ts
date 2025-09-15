@@ -28,6 +28,15 @@ export interface LayoutSize {
   height: number
 }
 
+/**
+ * KRDS Layout 컴포넌트 이벤트
+ */
+export interface KrdsLayoutEmits {
+  resize: [size: LayoutSize]
+  scroll: [details: ScrollDetails]
+  'scroll-height': [height: number]
+}
+
 export default defineComponent<KrdsLayoutProps>({
   name: 'KrdsLayout',
   props: {
