@@ -35,13 +35,18 @@ const meta: Meta<typeof KrdsSelect> = {
     disabled: {
       control: 'boolean',
       description: '비활성화 여부'
+    },
+    sort: {
+      control: 'boolean',
+      description: '정렬 스타일 여부'
     }
   },
   args: {
     size: 'medium',
     state: 'default',
     placeholder: '선택',
-    disabled: false
+    disabled: false,
+    sort: false
   }
 }
 
@@ -145,6 +150,78 @@ export const Sizes: Story = {
           />
           <KrdsFormHint>도움말</KrdsFormHint>
         </KrdsFormGroup>
+      </div>
+    `
+  })
+}
+
+/**
+ * 정렬 스타일
+ */
+export const SortStyle: Story = {
+  render: () => ({
+    components: { KrdsSelect },
+    setup() {
+      const selectedDefault = ref('')
+      const selectedLarge = ref('item1')
+      const selectedMedium = ref('item2')
+      const selectedSmall = ref('item3')
+
+      const options = [
+        { value: 'item1', label: '항목1' },
+        { value: 'item2', label: '항목2' },
+        { value: 'item3', label: '항목3' },
+        { value: 'item4', label: '항목4' }
+      ]
+
+      const optionsLarge = [
+        { value: 'item1', label: '항목1' },
+        { value: 'item2', label: '항목2' },
+        { value: 'item3', label: '항목3' }
+      ]
+
+      return { selectedDefault, selectedLarge, selectedMedium, selectedSmall, options, optionsLarge }
+    },
+    template: `
+      <div >
+        <!-- Default Sort -->
+        <KrdsSelect 
+          id="select_sorting"
+          v-model="selectedDefault"
+          sort
+          :options="options"
+          title="선택"
+        />
+        
+        <!-- Large Sort -->
+        <KrdsSelect 
+          id="select_sorting_large"
+          v-model="selectedLarge"
+          sort
+          size="large"
+          :options="optionsLarge"
+          title="선택"
+        />
+        
+        <!-- Medium Sort -->
+        <KrdsSelect 
+          id="select_sorting_medium"
+          v-model="selectedMedium"
+          sort
+          size="medium"
+          :options="optionsLarge"
+          title="선택"
+        />
+        
+        <!-- Small Sort -->
+        <KrdsSelect 
+          id="select_sorting_small"
+          v-model="selectedSmall"
+          sort
+          size="small"
+          :options="optionsLarge"
+          title="선택"
+        />
       </div>
     `
   })

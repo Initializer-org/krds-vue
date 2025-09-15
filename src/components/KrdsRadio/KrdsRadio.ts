@@ -108,7 +108,7 @@ export default defineComponent<KrdsRadioProps>({
      * name 속성 계산
      */
     const inputName = computed(() => {
-      return props.name || generateId('radio-group')
+      return props.name
     })
 
     return () => {

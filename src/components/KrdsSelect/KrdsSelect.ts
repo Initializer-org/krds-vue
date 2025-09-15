@@ -31,8 +31,8 @@ export interface KrdsSelectProps extends BaseFormProps {
   disabled?: boolean
   /** 입력 상태 */
   state?: 'default' | 'error' | 'success' | 'information'
-  /** 다중 선택 */
-  multiple?: boolean
+  /** 정렬 스타일 여부 */
+  sort?: boolean
 }
 
 /**
@@ -91,7 +91,7 @@ export default defineComponent<KrdsSelectProps>({
       type: String as () => 'default' | 'error' | 'success' | 'information',
       default: 'default'
     },
-    multiple: {
+    sort: {
       type: Boolean,
       default: false
     },
@@ -110,7 +110,14 @@ export default defineComponent<KrdsSelectProps>({
      * Select 클래스 계산
      */
     const selectClasses = computed(() => {
-      const classes = ['krds-form-select']
+      const classes = []
+
+      // 정렬 스타일
+      if (props.sort) {
+        classes.push('krds-form-select-sort')
+      } else {
+        classes.push('krds-form-select')
+      }
 
       // 크기 클래스
       if (props.size) {
@@ -160,7 +167,6 @@ export default defineComponent<KrdsSelectProps>({
         id: props.id,
         required: props.required,
         disabled: props.disabled || props.readonly,
-        multiple: props.multiple,
         onChange: handleChange,
         onFocus: handleFocus,
         onBlur: handleBlur
@@ -218,6 +224,10 @@ export default defineComponent<KrdsSelectProps>({
 
     return () => {
       const selectElement = h('select', selectProps.value, renderOptions())
+
+      if (props.sort) {
+        return selectElement
+      }
 
       return h('div', { class: formContsClasses.value }, [selectElement])
     }

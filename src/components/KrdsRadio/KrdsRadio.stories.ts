@@ -57,10 +57,10 @@ export const Radio: Story = {
       <div>
         <div style="margin-bottom: 2rem;">
           <KrdsCheckArea>
-            <KrdsRadio v-model="selectedValue" value="option1" name="basic1">기본</KrdsRadio>
-            <KrdsRadio v-model="selectedValue" value="option2" name="basic2">선택됨</KrdsRadio>
-            <KrdsRadio v-model="selectedValue" value="option3" name="basic3" disabled>비활성화</KrdsRadio>
-            <KrdsRadio v-model="selectedValue2" value="option4" name="basic4" disabled>선택된 비활성화</KrdsRadio>
+            <KrdsRadio v-model="selectedValue" value="option1" name="basic">기본</KrdsRadio>
+            <KrdsRadio v-model="selectedValue" value="option2" name="basic">선택됨</KrdsRadio>
+            <KrdsRadio v-model="selectedValue" value="option3" name="basic" disabled>비활성화</KrdsRadio>
+            <KrdsRadio v-model="selectedValue2" value="option4" name="basic2" disabled>선택된 비활성화</KrdsRadio>
           </KrdsCheckArea>
         </div>
 
