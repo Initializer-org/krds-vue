@@ -47,9 +47,9 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsButton** (btn-hierarchy.html) - 버튼
 
 ### 5. 선택 (Selection Components) - 5개
-- [ ] **KrdsRadio** - 라디오 버튼 (Radio button)
+- [x] **KrdsRadio** - 라디오 버튼 (Radio button)
 - [x] **KrdsCheckbox** - 체크박스 (Checkbox) - 체크 영역 포함
-- [ ] **KrdsSelect** - 셀렉트 (Select)
+- [x] **KrdsSelect** - 셀렉트 (Select)
 - [x] **KrdsTag** - 태그 (Tag) - KrdsTagGroup 포함
 - [x] **KrdsToggleSwitch** - 토글 스위치 (Toggle switch)
 

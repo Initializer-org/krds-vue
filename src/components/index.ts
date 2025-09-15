@@ -42,6 +42,10 @@ export type { KrdsDateInputProps, KrdsDateInputEmits } from './KrdsDateInput'
 export { default as KrdsTextarea } from './KrdsTextarea'
 export type { KrdsTextareaProps, KrdsTextareaEmits } from './KrdsTextarea'
 
+// Select 컴포넌트
+export { default as KrdsSelect } from './KrdsSelect'
+export type { KrdsSelectProps, KrdsSelectEmits, SelectOption } from './KrdsSelect'
+
 // FileUpload 컴포넌트
 export { default as KrdsFileUpload } from './KrdsFileUpload'
 export type { KrdsFileUploadProps, KrdsFileUploadEmits, FileInfo } from './KrdsFileUpload'
