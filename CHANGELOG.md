@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/Initializer-org/krds-vue/compare/v0.0.4...v0.0.5) (2025-09-15)
+
+
+### Features
+
+* 레이아웃 관련 컴포넌트 추가 (KrdsTable, KrdsTextList, KrdsStructuredList 등) ([#16](https://github.com/Initializer-org/krds-vue/issues/16)) ([7e3a043](https://github.com/Initializer-org/krds-vue/commit/7e3a0434c92372f3d2315168a6df9fc9a70e317e))
+
+
+### Chores
+
+* **deps-dev:** bump jsdom from 26.1.0 to 27.0.0 ([#22](https://github.com/Initializer-org/krds-vue/issues/22)) ([8180638](https://github.com/Initializer-org/krds-vue/commit/818063837d80a9e059a7b9a9324e78e94e650ba4))
+
 ### [0.0.4](https://github.com/Initializer-org/krds-vue/compare/v0.0.2...v0.0.4) (2025-09-11)
 
 ### [0.0.2](https://github.com/Initializer-org/krds-vue/compare/v0.0.1...v0.0.2) (2025-09-11)
