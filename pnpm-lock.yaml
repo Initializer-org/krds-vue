@@ -118,7 +118,7 @@ importers:
         version: 10.2.0(eslint@9.34.0)
       vue-tsc:
         specifier: ^3.0.6
-        version: 3.0.6(typescript@5.7.3)
+        version: 3.0.7(typescript@5.7.3)
 
 packages:
 
@@ -1017,8 +1017,8 @@ packages:
       typescript:
         optional: true
 
-  '@vue/language-core@3.0.6':
-    resolution: {integrity: sha512-e2RRzYWm+qGm8apUHW1wA5RQxzNhkqbbKdbKhiDUcmMrNAZGyM8aTiL3UrTqkaFI5s7wJRGGrp4u3jgusuBp2A==}
+  '@vue/language-core@3.0.7':
+    resolution: {integrity: sha512-0sqqyqJ0Gn33JH3TdIsZLCZZ8Gr4kwlg8iYOnOrDDkJKSjFurlQY/bEFQx5zs7SX2C/bjMkmPYq/NiyY1fTOkw==}
     peerDependencies:
       typescript: '*'
     peerDependenciesMeta:
@@ -3123,8 +3123,8 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
-  vue-component-type-helpers@3.0.6:
-    resolution: {integrity: sha512-6CRM8X7EJqWCJOiKPvSLQG+hJPb/Oy2gyJx3pLjUEhY7PuaCthQu3e0zAGI1lqUBobrrk9IT0K8sG2GsCluxoQ==}
+  vue-component-type-helpers@3.0.7:
+    resolution: {integrity: sha512-TvyUcFXmjZcXUvU+r1MOyn4/vv4iF+tPwg5Ig33l/FJ3myZkxeQpzzQMLMFWcQAjr6Xs7BRwVy/TwbmNZUA/4w==}
 
   vue-docgen-api@4.79.2:
     resolution: {integrity: sha512-n9ENAcs+40awPZMsas7STqjkZiVlIjxIKgiJr5rSohDP0/JCrD9VtlzNojafsA1MChm/hz2h3PDtUedx3lbgfA==}
@@ -3142,8 +3142,8 @@ packages:
     peerDependencies:
       vue: '>=2'
 
-  vue-tsc@3.0.6:
-    resolution: {integrity: sha512-Tbs8Whd43R2e2nxez4WXPvvdjGbW24rOSgRhLOHXzWiT4pcP4G7KeWh0YCn18rF4bVwv7tggLLZ6MJnO6jXPBg==}
+  vue-tsc@3.0.7:
+    resolution: {integrity: sha512-BSMmW8GGEgHykrv7mRk6zfTdK+tw4MBZY/x6fFa7IkdXK3s/8hQRacPjG9/8YKFDIWGhBocwi6PlkQQ/93OgIQ==}
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
@@ -3812,7 +3812,7 @@ snapshots:
       storybook: 9.1.4(@testing-library/dom@10.4.1)(prettier@3.6.2)(vite@7.1.4(@types/node@22.18.1)(sass@1.92.0))
       type-fest: 2.19.0
       vue: 3.5.21(typescript@5.7.3)
-      vue-component-type-helpers: 3.0.6
+      vue-component-type-helpers: 3.0.7
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -4156,7 +4156,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.2
 
-  '@vue/language-core@3.0.6(typescript@5.7.3)':
+  '@vue/language-core@3.0.7(typescript@5.7.3)':
     dependencies:
       '@volar/language-core': 2.4.23
       '@vue/compiler-dom': 3.5.21
@@ -6316,7 +6316,7 @@ snapshots:
 
   vue-component-type-helpers@2.2.12: {}
 
-  vue-component-type-helpers@3.0.6: {}
+  vue-component-type-helpers@3.0.7: {}
 
   vue-docgen-api@4.79.2(vue@3.5.21(typescript@5.7.3)):
     dependencies:
@@ -6350,10 +6350,10 @@ snapshots:
     dependencies:
       vue: 3.5.21(typescript@5.7.3)
 
-  vue-tsc@3.0.6(typescript@5.7.3):
+  vue-tsc@3.0.7(typescript@5.7.3):
     dependencies:
       '@volar/typescript': 2.4.23
-      '@vue/language-core': 3.0.6(typescript@5.7.3)
+      '@vue/language-core': 3.0.7(typescript@5.7.3)
       typescript: 5.7.3
 
   vue@3.5.21(typescript@5.7.3):
