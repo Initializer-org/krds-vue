@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/Initializer-org/krds-vue/compare/v0.0.5...v0.0.6) (2025-09-15)
+
+
+### Features
+
+* KrdsSelect 컴포넌트 추가 ([#25](https://github.com/Initializer-org/krds-vue/issues/25)) ([9ad9288](https://github.com/Initializer-org/krds-vue/commit/9ad92889adf38b160a79b9292ddfa8a58adfafd6))
+
 ### [0.0.5](https://github.com/Initializer-org/krds-vue/compare/v0.0.4...v0.0.5) (2025-09-15)
 
 
