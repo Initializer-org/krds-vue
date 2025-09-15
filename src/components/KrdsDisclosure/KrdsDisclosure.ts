@@ -1,6 +1,6 @@
 import { defineComponent, h, computed } from 'vue'
 import type { BaseComponentProps } from '@/types'
-import { generateUuid } from '@/utils'
+import { generateUid } from '@/utils'
 
 /**
  * KRDS Disclosure 컴포넌트 속성
@@ -36,7 +36,7 @@ export default defineComponent<KrdsDisclosureProps>({
     /**
      * 컴포넌트 고유 ID
      */
-    const uuid = generateUuid()
+    const uuid = generateUid()
 
     /**
      * 확장 상태 (computed로 props와 동기화)
