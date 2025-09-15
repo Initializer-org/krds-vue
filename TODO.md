@@ -35,7 +35,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [ ] **KrdsModal** - 모달 (Modal)
 - [x] **KrdsBadge** - 배지 (Badge)
 - [ ] **KrdsAccordion** - 아코디언 (Accordion)
-- [ ] **KrdsImage** - 이미지 (Image) - 컴포넌트가 아닌 개념 설명만 제공
+- [x] **KrdsImage** - 이미지 (Image) - 컴포넌트가 아닌 개념 설명만 제공
 - [ ] **KrdsCarousel** - 캐러셀 (Carousel)
 - [x] **KrdsTabs** - 탭 (Tab) - KrdsTab, KrdsTabList, KrdsTabPanels 포함
 - [x] **KrdsTable** - 표 (Table)
@@ -47,9 +47,9 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsButton** (btn-hierarchy.html) - 버튼
 
 ### 5. 선택 (Selection Components) - 5개
-- [ ] **KrdsRadio** - 라디오 버튼 (Radio button)
+- [x] **KrdsRadio** - 라디오 버튼 (Radio button)
 - [x] **KrdsCheckbox** - 체크박스 (Checkbox) - 체크 영역 포함
-- [ ] **KrdsSelect** - 셀렉트 (Select)
+- [x] **KrdsSelect** - 셀렉트 (Select)
 - [x] **KrdsTag** - 태그 (Tag) - KrdsTagGroup 포함
 - [x] **KrdsToggleSwitch** - 토글 스위치 (Toggle switch)
 

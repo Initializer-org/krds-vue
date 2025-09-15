@@ -3,11 +3,13 @@ import type { BaseFormProps } from '@/types'
 import { generateId, classNames } from '@/utils'
 
 /**
- * KRDS Checkbox 컴포넌트 속성
+ * KRDS Radio 컴포넌트 속성
  */
-export interface KrdsCheckboxProps extends BaseFormProps {
+export interface KrdsRadioProps extends BaseFormProps {
   /** 모델 값 */
-  modelValue?: boolean
+  modelValue?: string | number | boolean
+  /** 라디오 값 */
+  value: string | number | boolean
   /** 비활성화 여부 */
   disabled?: boolean
   /** 크기 */
@@ -17,18 +19,22 @@ export interface KrdsCheckboxProps extends BaseFormProps {
 }
 
 /**
- * KRDS Checkbox 컴포넌트 이벤트
+ * KRDS Radio 컴포넌트 이벤트
  */
-export interface KrdsCheckboxEmits {
-  (e: 'update:modelValue', value: boolean): void
+export interface KrdsRadioEmits {
+  (e: 'update:modelValue', value: string | number | boolean): void
 }
 
-export default defineComponent<KrdsCheckboxProps>({
-  name: 'KrdsCheckbox',
+export default defineComponent<KrdsRadioProps>({
+  name: 'KrdsRadio',
   props: {
     modelValue: {
-      type: Boolean,
-      default: false
+      type: [String, Number, Boolean],
+      default: undefined
+    },
+    value: {
+      type: [String, Number, Boolean],
+      required: true
     },
     disabled: {
       type: Boolean,
@@ -43,6 +49,10 @@ export default defineComponent<KrdsCheckboxProps>({
       type: Boolean,
       default: false
     },
+    name: {
+      type: String,
+      default: undefined
+    },
     class: {
       type: String,
       default: undefined
@@ -55,14 +65,14 @@ export default defineComponent<KrdsCheckboxProps>({
   emits: ['update:modelValue'],
   slots: Object as SlotsType<{
     default?: () => unknown // Default slot with props
-    description?: () => unknown // Description slot without props
+    description?: () => unknown // Named slot without props
   }>,
   setup(props, { emit, attrs, slots }) {
     /**
-     * 체크 상태 계산
+     * 선택 상태 계산
      */
     const isChecked = computed(() => {
-      return props.modelValue
+      return props.modelValue === props.value
     })
 
     /**
@@ -74,7 +84,7 @@ export default defineComponent<KrdsCheckboxProps>({
     })
 
     /**
-     * 체크박스 변경 핸들러
+     * 라디오 변경 핸들러
      */
     const handleChange = (event: Event) => {
       if (props.disabled) {
@@ -82,23 +92,32 @@ export default defineComponent<KrdsCheckboxProps>({
       }
 
       const target = event.target as HTMLInputElement
-      const newValue = target.checked
-
-      emit('update:modelValue', newValue)
+      if (target.checked) {
+        emit('update:modelValue', props.value)
+      }
     }
 
     /**
      * input ID 생성
      */
     const inputId = computed(() => {
-      return props.id || generateId('checkbox')
+      return props.id || generateId('radio')
+    })
+
+    /**
+     * name 속성 계산
+     */
+    const inputName = computed(() => {
+      return props.name
     })
 
     return () => {
       const children = [
         h('input', {
-          type: 'checkbox',
+          type: 'radio',
           id: inputId.value,
+          name: inputName.value,
+          value: String(props.value),
           checked: isChecked.value,
           disabled: props.disabled,
           onChange: handleChange,
