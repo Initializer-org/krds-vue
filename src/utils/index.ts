@@ -16,11 +16,11 @@ export function generateId(prefix: string = 'krds'): string {
 }
 
 /**
- * 간단한 UUID를 생성합니다.
+ * 간단한 고유 ID를 생성합니다.
  *
  * @returns 7자리 랜덤 문자열
  */
-export function generateUuid(): string {
+export function generateUid(): string {
   return Math.random().toString(36).substring(2, 9)
 }
 
