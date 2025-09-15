@@ -65,8 +65,6 @@ export default defineComponent<KrdsCriticalAlertsProps>({
      * 링크 클릭 핸들러
      */
     const handleLinkClick = (event: MouseEvent) => {
-      event.preventDefault()
-
       // 상위로 이벤트 전달
       emit('link-click', event)
     }
