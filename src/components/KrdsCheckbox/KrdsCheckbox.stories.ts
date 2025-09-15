@@ -62,7 +62,7 @@ export const Checkbox: Story = {
         </div>
 
         <div style="margin-bottom: 2rem;">
-          <KrdsCheckArea style="display: flex; flex-direction: column; gap: 1rem;">
+          <KrdsCheckArea column>
             <KrdsCheckbox>
               체크박스
               <template #description>

@@ -7,6 +7,7 @@ import type { BaseComponentProps } from '@/types'
 export interface KrdsCheckAreaProps extends BaseComponentProps {
   /** 추가 클래스 */
   class?: string
+  column?: boolean
 }
 
 export default defineComponent<KrdsCheckAreaProps>({
@@ -15,11 +16,19 @@ export default defineComponent<KrdsCheckAreaProps>({
     class: {
       type: String,
       default: undefined
+    },
+    column: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { slots }) {
     return () => {
       const classes = ['krds-check-area']
+
+      if (props.column) {
+        classes.push('chk-column')
+      }
 
       if (props.class) {
         classes.push(props.class)

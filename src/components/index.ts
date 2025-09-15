@@ -74,6 +74,10 @@ export type { KrdsCheckAreaProps } from './KrdsCheckArea'
 export { default as KrdsCheckbox } from './KrdsCheckbox'
 export type { KrdsCheckboxProps, KrdsCheckboxEmits } from './KrdsCheckbox'
 
+// Radio 컴포넌트
+export { default as KrdsRadio } from './KrdsRadio'
+export type { KrdsRadioProps, KrdsRadioEmits } from './KrdsRadio'
+
 // Spinner 컴포넌트
 export { default as KrdsSpinner } from './KrdsSpinner'
 
