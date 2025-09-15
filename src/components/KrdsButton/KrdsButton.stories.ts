@@ -117,23 +117,23 @@ export const TextButton: Story = {
     components: { KrdsButton },
     template: `
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-        <KrdsButton size="small" class="text">텍스트 버튼</KrdsButton>
-        <KrdsButton size="xsmall" class="text">
+        <KrdsButton size="small" text>텍스트 버튼</KrdsButton>
+        <KrdsButton size="xsmall" text>
           찜하기 <i class="svg-icon ico-like"></i>
         </KrdsButton>
-        <KrdsButton size="small" class="text">
+        <KrdsButton size="small" text>
           주민등록표초본 <i class="svg-icon ico-angle right"></i>
         </KrdsButton>
-        <KrdsButton size="medium" class="text">
+        <KrdsButton size="medium" text>
           검색 <i class="svg-icon ico-sch"></i>
         </KrdsButton>
-        <KrdsButton size="xlarge" class="text">
+        <KrdsButton size="xlarge" text>
           자세히 보기 <i class="svg-icon ico-more"></i>
         </KrdsButton>
-        <KrdsButton class="text">
+        <KrdsButton text>
           파일다운로드 <i class="svg-icon ico-down"></i>
         </KrdsButton>
-        <KrdsButton class="text" disabled>
+        <KrdsButton text disabled>
           필터 <i class="svg-icon ico-filter"></i>
         </KrdsButton>
       </div>

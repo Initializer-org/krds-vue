@@ -17,6 +17,8 @@ export interface KrdsButtonProps extends BaseComponentProps {
   border?: boolean
   /** Pure 버튼 여부 (가상클래스 상태 시 컬러 유지) */
   pure?: boolean
+  /** 텍스트 버튼 스타일 */
+  text?: boolean
   /** 비활성화 여부 */
   disabled?: boolean
 }
@@ -55,6 +57,10 @@ export default defineComponent<KrdsButtonProps>({
       type: Boolean,
       default: false
     },
+    text: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -85,6 +91,11 @@ export default defineComponent<KrdsButtonProps>({
       // pure 클래스
       if (props.pure) {
         classes.push('pure')
+      }
+
+      // text 클래스
+      if (props.text) {
+        classes.push('text')
       }
 
       // 변형 클래스
