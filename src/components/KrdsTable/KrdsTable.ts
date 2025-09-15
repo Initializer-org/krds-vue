@@ -96,24 +96,10 @@ export default defineComponent<KrdsTableProps>({
     })
 
     /**
-     * 헤더 스타일 계산
+     * 헤더 스타일 반환
      */
     const getHeaderStyle = (column: TableColumn) => {
-      if (!column.headerStyle) return undefined
-
-      // CSS 스타일 문자열을 객체로 변환
-      const styles: Record<string, string> = {}
-      const styleString = column.headerStyle
-
-      // 간단한 파싱 (예: "width: 500px; color: red")
-      styleString.split(';').forEach(style => {
-        const [property, value] = style.split(':').map(s => s.trim())
-        if (property && value) {
-          styles[property] = value
-        }
-      })
-
-      return styles
+      return column.headerStyle || undefined
     }
 
     /**
@@ -134,33 +120,16 @@ export default defineComponent<KrdsTableProps>({
     }
 
     /**
-     * 바디 셀 스타일 계산
+     * 바디 셀 스타일 반환
      */
     const getCellStyle = (row: TableRow, column: TableColumn) => {
       if (!column.style) return undefined
 
       if (typeof column.style === 'function') {
-        const styleString = column.style(row)
-        // CSS 스타일 문자열을 객체로 변환
-        const styles: Record<string, string> = {}
-        styleString.split(';').forEach(style => {
-          const [property, value] = style.split(':').map(s => s.trim())
-          if (property && value) {
-            styles[property] = value
-          }
-        })
-        return styles
+        return column.style(row)
       }
 
-      // 문자열인 경우
-      const styles: Record<string, string> = {}
-      column.style.split(';').forEach(style => {
-        const [property, value] = style.split(':').map(s => s.trim())
-        if (property && value) {
-          styles[property] = value
-        }
-      })
-      return styles
+      return column.style
     }
 
     /**
@@ -195,9 +164,12 @@ export default defineComponent<KrdsTableProps>({
       return h(
         'colgroup',
         props.columns.map(column => {
-          const style = getHeaderStyle(column)
+          if (!column.headerStyle) return h('col')
+
+          // width 값 추출 (예: "width: 100px;" 또는 "width:100px")
+          const widthMatch = column.headerStyle.match(/width\s*:\s*([^;]+)/i)
           return h('col', {
-            style: style && style.width ? { width: style.width } : undefined
+            style: widthMatch ? { width: widthMatch[1].trim() } : undefined
           })
         })
       )
