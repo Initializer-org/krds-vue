@@ -60,9 +60,9 @@ export const Default: Story = {
           
           <div class="f-link">
             <div class="link-go">
-              <KrdsButton class="text" size="medium">찾아오시는 길 <i class="svg-icon ico-angle right"></i></KrdsButton>
-              <KrdsButton class="text" size="medium">이용안내 <i class="svg-icon ico-angle right"></i></KrdsButton>
-              <KrdsButton class="text" size="medium">직원검색 <i class="svg-icon ico-angle right"></i></KrdsButton>
+              <KrdsButton text size="medium">찾아오시는 길 <i class="svg-icon ico-angle right"></i></KrdsButton>
+              <KrdsButton text size="medium">이용안내 <i class="svg-icon ico-angle right"></i></KrdsButton>
+              <KrdsButton text size="medium">직원검색 <i class="svg-icon ico-angle right"></i></KrdsButton>
             </div>
             <div class="link-sns">
               <a href="#" class="krds-btn xlarge icon border" target="_blank" title="새 창 열기">
