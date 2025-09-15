@@ -11,13 +11,18 @@ const meta: Meta<typeof KrdsLayout> = {
       control: 'text',
       description: '레이아웃 컨테이너 ID',
       defaultValue: 'wrap'
+    },
+    enableScrollDetection: {
+      control: 'boolean',
+      description: '스크롤 감지 기능 활성화 여부',
+      defaultValue: true
     }
   },
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `웹사이트의 전체 레이아웃 구조를 제공하는 컴포넌트입니다.`
+        component: `웹사이트의 전체 레이아웃 구조를 제공하는 컴포넌트입니다. 스크롤 방향에 따라 자동으로 scroll-up/scroll-down 클래스를 추가합니다.`
       }
     }
   }
@@ -41,7 +46,7 @@ export const Default: Story = {
             <div class="contents">
               <KrdsBreadcrumb :items="[{text: '홈'}, {text: '컴포넌트'}]" />
             </div>
-          </div>
+          </div> 
         </div>
       </KrdsLayout>
     `
