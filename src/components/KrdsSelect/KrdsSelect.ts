@@ -71,21 +71,9 @@ export default defineComponent<KrdsSelectProps>({
       type: String,
       default: undefined
     },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    readonly: {
-      type: Boolean,
-      default: false
-    },
     disabled: {
       type: Boolean,
       default: false
-    },
-    error: {
-      type: String,
-      default: undefined
     },
     state: {
       type: String as () => 'default' | 'error' | 'success' | 'information',
@@ -165,7 +153,6 @@ export default defineComponent<KrdsSelectProps>({
         title: props.title || props.placeholder,
         name: props.name,
         id: props.id,
-        required: props.required,
         disabled: props.disabled || props.readonly,
         onChange: handleChange,
         onFocus: handleFocus,
