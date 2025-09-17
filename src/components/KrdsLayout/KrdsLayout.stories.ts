@@ -59,7 +59,7 @@ export const Default: Story = {
           </template>
 
           <template #logo>
-            <span class="sr-only">KRDS - Korea Design System</span>
+            <span v-sr-only>KRDS - Korea Design System</span>
           </template>
 
           <template #content>
