@@ -1,5 +1,5 @@
-import { computed, defineComponent, h } from 'vue'
-import type { VNode } from 'vue'
+import { computed, defineComponent, h, VNode } from 'vue'
+import type { SlotsType } from 'vue'
 
 // ========================
 // 타입 정의
@@ -33,6 +33,16 @@ export default defineComponent({
       default: undefined
     }
   },
+  slots: Object as SlotsType<{
+    /** 유틸리티 메뉴 슬롯 */
+    utility?(): VNode[]
+    /** 브랜딩 영역 슬롯 (로고, 액션 버튼) */
+    branding?(): VNode[]
+    /** 데스크탑 네비게이션 메뉴 슬롯 */
+    navigation?(): VNode[]
+    /** 모바일 네비게이션 메뉴 슬롯 */
+    mobileNavigation?(): VNode[]
+  }>,
   setup(props, { slots }) {
     // ========================
     // Computed Properties
@@ -41,8 +51,8 @@ export default defineComponent({
     /**
      * 헤더 클래스 계산
      */
-    const headerClasses = computed<string[]>(() => {
-      const classes: string[] = ['krds-header']
+    const headerClasses = computed(() => {
+      const classes = ['krds-header']
 
       if (props.class) {
         classes.push(props.class)
@@ -55,19 +65,19 @@ export default defineComponent({
     // 렌더 함수
     // ========================
 
-    return (): VNode => {
-      const headerInChildren: VNode[] = []
+    return () => {
+      const headerInChildren = []
 
       // 헤더 컨테이너 (utility + branding)
       if (slots.utility || slots.branding) {
-        const innerChildren: VNode[] = []
+        const innerChildren = []
 
         if (slots.utility) {
-          innerChildren.push(h('div', { class: 'header-utility' }, slots.utility?.()))
+          innerChildren.push(h('div', { class: 'header-utility' }, slots.utility()))
         }
 
         if (slots.branding) {
-          innerChildren.push(h('div', { class: 'header-branding' }, slots.branding?.()))
+          innerChildren.push(h('div', { class: 'header-branding' }, slots.branding()))
         }
 
         headerInChildren.push(h('div', { class: 'header-container' }, [h('div', { class: 'inner' }, innerChildren)]))
@@ -75,10 +85,10 @@ export default defineComponent({
 
       // 네비게이션
       if (slots.navigation) {
-        headerInChildren.push(h('nav', { class: 'krds-main-menu' }, [h('div', { class: 'inner' }, slots.navigation?.())]))
+        headerInChildren.push(h('nav', { class: 'krds-main-menu' }, [h('div', { class: 'inner' }, slots.navigation())]))
       }
 
-      const children: VNode[] = [h('div', { class: 'header-in' }, headerInChildren)]
+      const children = [h('div', { class: 'header-in' }, headerInChildren)]
 
       // 모바일 네비게이션
       if (slots.mobileNavigation) {
@@ -89,7 +99,7 @@ export default defineComponent({
               id: props.mobileNavId,
               class: 'krds-main-menu-mobile'
             },
-            slots.mobileNavigation?.()
+            slots.mobileNavigation()
           )
         )
       }
