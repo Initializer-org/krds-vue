@@ -10,14 +10,14 @@
 
   type TooltipType = 'default' | 'icon' | 'button'
 
-  interface TooltipProps extends BaseComponentProps {
+  export interface KrdsTooltipProps extends BaseComponentProps {
     type?: TooltipType
     tooltipContent: string
     vertical?: boolean
     box?: boolean
   }
 
-  const props = withDefaults(defineProps<TooltipProps>(), {
+  const props = withDefaults(defineProps<KrdsTooltipProps>(), {
     type: 'default'
   })
 
