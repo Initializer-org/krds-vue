@@ -1,0 +1,129 @@
+@import "../common/include";
+
+//모드 설정
+$mode-setting: light;
+
+/* **** Layout  **** */
+#wrap {
+  @include flex-layout($fd: column, $ai: normal);
+  min-height: 100%;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--krds-contents-wrap-size);
+
+  padding-left: var(--krds-contents-padding-x);
+  padding-right: var(--krds-contents-padding-x);
+  &.page-step {
+    position: relative;
+  }
+}
+
+/* container */
+#container {
+  flex: 1;
+  > .inner {
+    min-height: 60rem;
+    &:not(.in-between) {
+      padding-bottom: var(--krds-pc-gap-layout-contents-footer);
+
+      @include size-medium {
+        padding-bottom: var(--krds-mobile-gap-layout-contents-footer);
+      }
+    }
+  }
+  .help-panel-flexible{
+    --krds-contents-wrap-size: calc(79.2rem + var(--krds-contents-padding-x));
+    --krds-help-panel--flexible-padding: calc(var(--krds-help-panel--width) - ((100% - var(--krds-contents-wrap-size)) / 2) + 4.5rem);
+  }
+  > .krds-breadcrumb-wrap {
+    padding-bottom: 0;
+    .breadcrumb {
+      max-width: var(--krds-contents-wrap-size);
+      padding-left: var(--krds-contents-padding-x);
+      padding-right: var(--krds-contents-padding-x);
+    }
+  }
+  .in-between {
+    @include flex-layout($ai: normal);
+    gap: var(--krds-gap-12);
+    .krds-side-navigation {
+      width: 29.6rem;
+      padding: var(--krds-padding-10) var(--krds-padding-10) var(--krds-padding-10) 0;
+      border-right: var(--krds-#{$mode-setting}-border-width-static-regular) solid var(--krds-#{$mode-setting}-color-divider-gray-light);
+    }
+    .contents {
+      flex: 1;
+      padding-bottom: var(--krds-gap-12);
+      .breadcrumb-wrap {
+        padding-top: var(--krds-pc-gap-layout-header-breadcrumb);
+        padding-bottom: var(--krds-pc-gap-layout-breadcrumb-h2);
+
+        @include size-medium {
+          padding-top: var(--krds-mobile-gap-layout-header-breadcrumb);
+          padding-bottom: var(--krds-mobile-gap-layout-breadcrumb-h2);
+        }
+        .breadcrumb {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+
+  /* container */
+  #container {
+    .in-between {
+      .krds-side-navigation {
+        border-right: var(--krds-#{$mode-setting}-border-width-static-regular) solid var(--krds-#{$mode-setting}-color-divider-gray-light);
+      }
+    }
+  }
+
+}
+
+//web 전용 속성
+@include size-large-more {
+  .inner {
+    margin: 0 auto;
+    &.narrow { //좁은 레이아웃
+      max-width: calc(79.2rem + (var(--krds-contents-padding-x) * 2));
+      // padding-inline: 13rem;
+    }
+  }
+}
+
+//태블릿 & 모바일 전용 속성
+@include size-large-less {
+  /* container */
+  #container {
+    .in-between {
+      .krds-side-navigation {
+        display: none;
+      }
+      .contents {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+//모바일 전용
+@include size-medium {
+  /* container */
+  #container {
+    > .inner {
+      min-height: 50rem;
+    }
+    .in-between {
+      .contents {
+        padding-right: 0;
+      }
+    }
+  }
+}
