@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { computed } from 'vue'
 
   interface Props {
     modelValue?: boolean
@@ -36,17 +36,9 @@
 
   const emit = defineEmits<Emits>()
 
-  const open = ref(props.modelValue)
-
-  watch(
-    () => props.modelValue,
-    newValue => {
-      open.value = newValue
-    }
-  )
-
-  watch(open, newValue => {
-    emit('update:modelValue', newValue)
+  const open = computed({
+    get: () => props.modelValue,
+    set: value => emit('update:modelValue', value)
   })
 
   const handleOpen = () => {
