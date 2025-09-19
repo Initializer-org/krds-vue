@@ -2,10 +2,10 @@
   <!-- coach mark -->
   <div class="krds-coach-mark" :class="coachMarkClass" :style="style">
     <!-- 따라하기 말풍선 -->
-    <div v-if="modelValue === activeStep" class="coach-balloon">
+    <div v-if="modelValue === activeStep && currentStepData" class="coach-balloon">
       <h5 class="sr-only">따라하기 가이드</h5>
-      <h6 class="coach-tit">{{ activeStep }}단계 : {{ stepsData[activeStep - 1].title }}</h6>
-      <p class="desc">{{ stepsData[activeStep - 1].description }}</p>
+      <h6 class="coach-tit">{{ activeStep }}단계 : {{ currentStepData.title }}</h6>
+      <p class="desc">{{ currentStepData.description }}</p>
       <div class="coach-controls">
         <div class="num">
           <span class="sr-only">현재 단계</span>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
   import { BaseComponentProps } from '@/types'
+  import { computed } from 'vue'
 
   type StepsData = { id: number; title: string; description: string }
 
@@ -44,6 +45,14 @@
   const props = withDefaults(defineProps<KrdsCoachMarkProps>(), {
     coachMarkClass: '',
     modelValue: null
+  })
+
+  const currentStepData = computed(() => {
+    const index = props.activeStep - 1
+    if (props.stepsData && index >= 0 && index < props.stepsData.length) {
+      return props.stepsData[index]
+    }
+    return null
   })
 
   const emit = defineEmits<{
