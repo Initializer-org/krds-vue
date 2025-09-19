@@ -1,11 +1,35 @@
 <template>
-  <button type="button" :class="tooltipClasses" :data-tooltip="tooltipContent">
-    <slot />
-  </button>
+  <div ref="containerRef">
+    <button
+      type="button"
+      :class="tooltipClasses"
+      :disabled="disabled"
+      :aria-labelledby="popoverId"
+      @mouseover="showTooltip"
+      @mouseout="hideTooltip"
+      @focusin="showTooltip"
+      @focusout="hideTooltip"
+    >
+      <slot />
+    </button>
+    <div
+      v-show="isTooltipVisible"
+      :id="popoverId"
+      ref="popoverRef"
+      class="krds-tooltip-popover"
+      :class="popoverClasses"
+      :style="popoverStyle"
+      :aria-hidden="!isTooltipVisible"
+      role="tooltip"
+    >
+      <span class="sr-only">{{ buttonText }}</span>
+      {{ tooltipContent }}
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, onUnmounted, ref } from 'vue'
+  import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
   import { BaseComponentProps } from '@/types'
 
   type TooltipType = 'default' | 'icon' | 'button'
@@ -15,14 +39,23 @@
     tooltipContent: string
     vertical?: boolean
     box?: boolean
+    disabled?: boolean
   }
 
   const props = withDefaults(defineProps<KrdsTooltipProps>(), {
-    type: 'default'
+    type: 'default',
+    disabled: false
   })
 
+  const containerRef = ref<HTMLElement | null>(null)
+  const popoverRef = ref<HTMLElement | null>(null)
+  const isTooltipVisible = ref(false)
+  const popoverStyle = ref<Record<string, string>>({})
+  const popoverId = ref(`tooltip-popover-${Math.random().toString(36).substring(2, 9)}`)
+  const isMobile = ref(false)
+
   const tooltipClasses = computed(() => {
-    const classes: string[] = ['krds-btn krds-tooltip']
+    const classes: string[] = ['krds-btn', 'krds-tooltip']
 
     if (props.type === 'default') {
       classes.push('small', 'text')
@@ -43,157 +76,139 @@
     return classes.join(' ')
   })
 
-  const tooltip = ref<NodeListOf<Element> | null>(null)
-  const isMobile = ref<boolean>(false)
+  const popoverClasses = computed(() => {
+    const classes: string[] = []
+
+    if (props.box) {
+      classes.push('tooltip-box')
+    }
+
+    if (props.vertical) {
+      classes.push('tooltip-vertical')
+    }
+
+    if (isTooltipVisible.value) {
+      classes.push('active')
+    }
+
+    return classes
+  })
+
+  const buttonText = computed(() => {
+    return containerRef.value?.querySelector('button')?.textContent?.trim() || ''
+  })
 
   const checkIsMobile = () => {
     return window.innerWidth <= 768
   }
 
-  const createTooltipPopover = (uniqueIdx: string, tooltipBtnText: string, tooltipText: string) => {
-    const tooltipPopover = document.createElement('div')
-    tooltipPopover.classList.add('krds-tooltip-popover')
-    tooltipPopover.setAttribute('id', uniqueIdx)
-    tooltipPopover.setAttribute('aria-hidden', 'true')
-    tooltipPopover.innerHTML = `
-    <span class="sr-only">${tooltipBtnText}</span>
-    ${tooltipText}
-  `
-    return tooltipPopover
-  }
+  const calculateTooltipPosition = () => {
+    if (!containerRef.value || !popoverRef.value) return
 
-  const closeAllTooltips = () => {
-    const otherPopovers = document.querySelectorAll('.krds-tooltip-popover')
-    otherPopovers.forEach(popover => {
-      if (!popover.classList.contains('active')) return
-      popover.removeAttribute('style')
-      popover.className = 'krds-tooltip-popover'
-    })
-  }
+    const button = containerRef.value.querySelector('button')
+    if (!button) return
 
-  const calculateTooltipPosition = (item: Element, tooltipPopover: HTMLElement) => {
     const tooltipGap = 12
-    const { clientHeight: tooltipHeight, clientWidth: tooltipWidth } = tooltipPopover
-    const { top: itemTop, left: itemLeft, right: itemRight, height: itemHeight, width: itemWidth } = item.getBoundingClientRect()
+    const { clientHeight: tooltipHeight, clientWidth: tooltipWidth } = popoverRef.value
+    const { top: itemTop, left: itemLeft, right: itemRight, height: itemHeight, width: itemWidth } = button.getBoundingClientRect()
     const halfWindowWidth = window.innerWidth / 2
     const halfWindowHeight = window.innerHeight / 2
 
     let tooltipTop: number
     let tooltipLeft: number
+    const classes: string[] = []
 
-    const isVertical = isMobile.value || item.classList.contains('tooltip-box') || item.classList.contains('tooltip-vertical')
+    const isVertical = isMobile.value || props.box || props.vertical
 
     if (isVertical) {
       if (itemTop + itemHeight > halfWindowHeight) {
         tooltipTop = itemTop - tooltipHeight - tooltipGap
-        tooltipPopover.classList.add('top')
+        classes.push('top')
       } else {
         tooltipTop = itemTop + itemHeight + tooltipGap
-        tooltipPopover.classList.add('bottom')
+        classes.push('bottom')
       }
 
       if (itemLeft + itemWidth > halfWindowWidth) {
         tooltipLeft = itemRight - tooltipWidth
-        tooltipPopover.classList.add('right')
+        classes.push('right')
         if (window.innerWidth - (itemLeft + itemWidth) > tooltipWidth / 2) {
           tooltipLeft = itemLeft + (itemWidth - tooltipWidth) / 2
-          tooltipPopover.classList.remove('right')
+          classes.splice(classes.indexOf('right'), 1)
         }
       } else {
         tooltipLeft = itemLeft + (itemWidth - tooltipWidth) / 2
         if (tooltipLeft < 0) {
           tooltipLeft = itemLeft
-          tooltipPopover.classList.add('left')
-        } else {
-          tooltipPopover.classList.remove('left')
+          classes.push('left')
         }
       }
     } else {
       tooltipTop = itemTop + (itemHeight - tooltipHeight) / 2
       if (itemLeft + itemWidth > halfWindowWidth) {
         tooltipLeft = itemLeft - tooltipWidth - tooltipGap
-        tooltipPopover.classList.add('right')
+        classes.push('right')
       } else {
         tooltipLeft = itemRight + tooltipGap
-        tooltipPopover.classList.remove('right')
       }
     }
-    return { top: tooltipTop, left: tooltipLeft }
-  }
 
-  const showTooltip = (item: Element, tooltipPopover: HTMLElement) => {
-    if (item.classList.contains('tooltip-box')) {
-      tooltipPopover.classList.add('tooltip-box')
-    }
-    if (item.classList.contains('tooltip-vertical')) {
-      tooltipPopover.classList.add('tooltip-vertical')
-    }
-
-    tooltipPopover.classList.add('active')
-
-    const { top, left } = calculateTooltipPosition(item, tooltipPopover)
     const mobileSmall = window.innerWidth <= 420
-    tooltipPopover.style.top = `${top}px`
-    tooltipPopover.style.left = mobileSmall ? '50%' : `${left}px`
+    popoverStyle.value = {
+      top: `${tooltipTop}px`,
+      left: mobileSmall ? '50%' : `${tooltipLeft}px`,
+      transform: mobileSmall ? 'translateX(-50%)' : 'none'
+    }
+
+    if (popoverRef.value) {
+      popoverRef.value.className = `krds-tooltip-popover ${classes.join(' ')} ${popoverClasses.value.join(' ')}`
+    }
   }
 
-  const registerEvents = (item: Element, showTooltipFn: () => void) => {
-    item.addEventListener('mouseover', showTooltipFn)
-    item.addEventListener('mouseout', closeAllTooltips)
-    item.addEventListener('focus', showTooltipFn)
-    item.addEventListener('focusout', closeAllTooltips)
+  const showTooltip = async () => {
+    if (props.disabled || !props.tooltipContent) return
+
+    isTooltipVisible.value = true
+
+    await nextTick()
+    calculateTooltipPosition()
   }
 
-  const setupTooltips = () => {
-    if (!tooltip.value?.length) return
-
-    tooltip.value.forEach((item, index) => {
-      const tooltipText = item.getAttribute('data-tooltip')
-      const disabled = item.hasAttribute('disabled')
-
-      if (!tooltipText || disabled) return
-
-      const uniqueIdx = `tooltip-popover-${index}${Math.random().toString(36).substring(2, 9)}`
-      item.setAttribute('aria-labelledby', uniqueIdx)
-
-      const tooltipBtnText = item.textContent || ''
-      const tooltipPopover = createTooltipPopover(uniqueIdx, tooltipBtnText, tooltipText)
-      item.parentNode?.insertBefore(tooltipPopover, item.nextSibling)
-
-      const showTooltipFn = () => showTooltip(item, tooltipPopover)
-      registerEvents(item, showTooltipFn)
-    })
+  const hideTooltip = () => {
+    isTooltipVisible.value = false
+    popoverStyle.value = {}
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' || event.key === 'Esc') {
-      closeAllTooltips()
+    if ((event.key === 'Escape' || event.key === 'Esc') && isTooltipVisible.value) {
+      hideTooltip()
     }
   }
 
   const handleResize = () => {
     isMobile.value = checkIsMobile()
-    closeAllTooltips()
+    if (isTooltipVisible.value) {
+      hideTooltip()
+    }
   }
 
-  const init = () => {
-    tooltip.value = document.querySelectorAll('.krds-tooltip')
-    isMobile.value = checkIsMobile()
-
-    setupTooltips()
-
-    document.addEventListener('keydown', handleKeydown)
-    window.addEventListener('scroll', closeAllTooltips)
-    window.addEventListener('resize', handleResize)
+  const handleScroll = () => {
+    if (isTooltipVisible.value) {
+      hideTooltip()
+    }
   }
 
   onMounted(() => {
-    init()
+    isMobile.value = checkIsMobile()
+
+    document.addEventListener('keydown', handleKeydown)
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
   })
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown)
-    window.removeEventListener('scroll', closeAllTooltips)
+    window.removeEventListener('scroll', handleScroll)
     window.removeEventListener('resize', handleResize)
   })
 </script>
