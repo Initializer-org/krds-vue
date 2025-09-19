@@ -136,11 +136,6 @@
   onMounted(() => {
     if (!containerRef.value) return
 
-    // Setup position classes
-    if (containerRef.value.classList.length === 1) {
-      containerRef.value.classList.add('top', 'left')
-    }
-
     // Setup ARIA attributes
     if (tooltipBtnRef.value) {
       tooltipBtnRef.value.setAttribute('aria-expanded', 'false')
