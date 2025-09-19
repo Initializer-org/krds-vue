@@ -1,6 +1,15 @@
 <template>
   <!-- language switcher -->
-  <div ref="dropdownRef" class="krds-drop-wrap krds-language" :class="{ active: isOpen }" @focusout="handleFocusOut">
+  <div
+    ref="dropdownRef"
+    class="krds-drop-wrap krds-language"
+    :class="{
+      active: isOpen,
+      'drop-left': props.dropPosition === 'left',
+      'drop-right': props.dropPosition === 'right'
+    }"
+    @focusout="handleFocusOut"
+  >
     <button
       ref="buttonRef"
       type="button"
@@ -64,15 +73,19 @@
 
   export type LanguageData = { code: string; name: string; url?: string }
 
+  export type DropdownPosition = 'left' | 'center' | 'right'
+
   interface LanguageSwitcherProps extends BaseComponentProps {
     languageList: LanguageData[]
     modelValue?: string
     type?: 'default' | 'external'
+    dropPosition?: DropdownPosition
   }
 
   const props = withDefaults(defineProps<LanguageSwitcherProps>(), {
     modelValue: '',
-    type: 'default'
+    type: 'default',
+    dropPosition: 'center'
   })
 
   const emit = defineEmits<{
