@@ -1,0 +1,142 @@
+<template>
+  <!-- resize -->
+  <div ref="dropdownRef" class="krds-drop-wrap krds-resize" data-adjust="scale" @focusout="handleFocusOut">
+    <button ref="buttonRef" type="button" class="krds-btn small text drop-btn" @click="toggleDropdown">
+      화면크기
+      <i class="svg-icon ico-toggle"></i>
+    </button>
+    <div class="drop-menu" :style="{ display: isOpen ? 'block' : 'none' }">
+      <div class="drop-in">
+        <ul class="drop-list">
+          <li v-for="scale in scaleList" :key="scale.key">
+            <button
+              type="button"
+              class="item-link"
+              :class="scale.key"
+              :data-adjust-scale="scale.key"
+              @click.prevent="selectSize(scale.zoom)"
+              @focus="handleItemFocus"
+            >
+              {{ scale.label }}
+            </button>
+          </li>
+        </ul>
+        <div class="drop-bottom">
+          <button
+            type="button"
+            class="krds-btn medium text"
+            data-adjust-scale="md"
+            @click.prevent="selectSize('1')"
+            @focus="handleItemFocus"
+          >
+            <i class="svg-icon ico-reset"></i>
+            초기화
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //resize -->
+</template>
+
+<script setup lang="ts">
+  import { onMounted, onUnmounted, ref } from 'vue'
+
+  const emit = defineEmits<{
+    'update:modelValue': [value: string]
+    close: []
+  }>()
+
+  const isOpen = ref(false)
+  const dropdownRef = ref<HTMLElement>()
+  const buttonRef = ref<HTMLElement>()
+
+  const scaleList = [
+    { key: 'sm', label: '작게', zoom: '0.9' },
+    { key: 'md', label: '보통', zoom: '1' },
+    { key: 'lg', label: '조금 크게', zoom: '1.1' },
+    { key: 'xlg', label: '크게', zoom: '1.3' },
+    { key: 'xxlg', label: '가장 크게', zoom: '1.5' }
+  ]
+
+  const toggleDropdown = () => {
+    isOpen.value = !isOpen.value
+
+    if (isOpen.value && dropdownRef.value) {
+      positionDropdown()
+    }
+  }
+
+  const closeDropdown = () => {
+    isOpen.value = false
+  }
+
+  const selectSize = (zoom: string) => {
+    closeDropdown()
+    emit('close')
+    buttonRef.value?.focus()
+    document.body.style.zoom = zoom
+  }
+
+  const positionDropdown = () => {
+    if (!dropdownRef.value) return
+
+    const menu = dropdownRef.value.querySelector('.drop-menu') as HTMLElement
+    if (!menu) return
+
+    const menuRect = menu.getBoundingClientRect()
+    const windowWidth = window.innerWidth
+
+    dropdownRef.value.classList.remove('drop-left', 'drop-right')
+
+    if (menuRect.left < 0) {
+      dropdownRef.value.classList.add('drop-left')
+    } else if (windowWidth < menuRect.left + menuRect.width) {
+      dropdownRef.value.classList.add('drop-right')
+    }
+  }
+
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeDropdown()
+      buttonRef.value?.focus()
+    }
+  }
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (!dropdownRef.value?.contains(event.target as Node)) {
+      closeDropdown()
+    }
+  }
+
+  const handleFocusOut = (event: FocusEvent) => {
+    if (!dropdownRef.value?.contains(event.relatedTarget as Node)) {
+      closeDropdown()
+    }
+  }
+
+  const handleItemFocus = (event: FocusEvent) => {
+    if (!dropdownRef.value) return
+
+    const items = dropdownRef.value.querySelectorAll('.drop-list .item-link') as NodeListOf<HTMLElement>
+    items.forEach(item => {
+      item.style.position = 'relative'
+      item.style.zIndex = '0'
+    })
+
+    const currentItem = event.target as HTMLElement
+    currentItem.style.zIndex = '1'
+  }
+
+  onMounted(() => {
+    document.addEventListener('keydown', handleKeydown)
+    document.addEventListener('click', handleClickOutside)
+  })
+
+  onUnmounted(() => {
+    document.removeEventListener('keydown', handleKeydown)
+    document.removeEventListener('click', handleClickOutside)
+  })
+</script>
+
+<style scoped></style>
