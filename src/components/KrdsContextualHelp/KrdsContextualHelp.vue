@@ -1,12 +1,7 @@
 <template>
   <div ref="containerRef" class="krds-contextual-help" :class="props.position">
     <div class="tooltip-action">
-      <button
-        ref="tooltipBtnRef"
-        type="button"
-        class="krds-btn medium icon tooltip-btn"
-        @click="toggleTooltip"
-      >
+      <button ref="tooltipBtnRef" type="button" class="krds-btn medium icon tooltip-btn" @click="toggleTooltip">
         <span class="sr-only">도움말</span>
         <i v-if="props.helpIcon" class="svg-icon ico-help"></i>
         <i v-else class="svg-icon ico-tooltip"></i>
@@ -16,12 +11,7 @@
         <div class="tooltip-contents">
           <slot />
         </div>
-        <button
-          ref="closeBtnRef"
-          type="button"
-          class="krds-btn xsmall icon tooltip-close"
-          @click="closeTooltip"
-        >
+        <button ref="closeBtnRef" type="button" class="krds-btn xsmall icon tooltip-close" @click="closeTooltip">
           <span class="sr-only">닫기</span>
           <i class="svg-icon ico-modal-close"></i>
         </button>
@@ -55,9 +45,10 @@
 
   // Methods
   const toggleTooltip = () => {
+    const wasVisible = isVisible.value
     closeAllTooltips()
 
-    if (!isVisible.value) {
+    if (!wasVisible) {
       showTooltip()
     }
   }
