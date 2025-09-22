@@ -74,7 +74,7 @@
     "@storybook/addon-vitest": "^9.1.5",
     "@storybook/vue3-vite": "^9.1.5",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^22.10.6",
+    "@types/node": "^24.5.2",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
     "@vitejs/plugin-vue": "^6.0.1",
