@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/Initializer-org/krds-vue/compare/v0.0.6...v0.0.7) (2025-09-23)
+
+
+### Features
+
+* add help panel ([#26](https://github.com/Initializer-org/krds-vue/issues/26)) ([90b01b2](https://github.com/Initializer-org/krds-vue/commit/90b01b2e9d39ce07384bfd363f693d645ba26258))
+
+
+### Chores
+
+* **deps-dev:** bump the storybook group with 5 updates ([#28](https://github.com/Initializer-org/krds-vue/issues/28)) ([633995a](https://github.com/Initializer-org/krds-vue/commit/633995a11c23f76620367657824e9174fccab85c))
+
 ### [0.0.6](https://github.com/Initializer-org/krds-vue/compare/v0.0.5...v0.0.6) (2025-09-15)
 
 
