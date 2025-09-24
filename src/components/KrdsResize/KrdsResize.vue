@@ -22,13 +22,7 @@
           </li>
         </ul>
         <div class="drop-bottom">
-          <button
-            type="button"
-            class="krds-btn medium text"
-            data-adjust-scale="md"
-            @click.prevent="selectSize('1')"
-            @focus="handleItemFocus"
-          >
+          <button type="button" class="krds-btn medium text" data-adjust-scale="md" @click.prevent="resetSize" @focus="handleItemFocus">
             <i class="svg-icon ico-reset"></i>
             초기화
           </button>
@@ -40,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, onUnmounted, ref } from 'vue'
+  import { onUnmounted, ref, watch } from 'vue'
 
   export interface KrdsResizeEmits {
     'update:modelValue': [value: string]
@@ -86,6 +80,13 @@
     buttonRef.value?.focus()
     selectedSize.value = scale.key
     document.body.style.zoom = scale?.zoom
+  }
+
+  const resetSize = () => {
+    const defaultScale = scaleList.find(scale => scale.key === 'md')
+    if (defaultScale) {
+      selectSize(defaultScale)
+    }
   }
 
   const positionDropdown = () => {
@@ -138,12 +139,18 @@
     currentItem.style.zIndex = '1'
   }
 
-  onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
-    document.addEventListener('click', handleClickOutside)
+  watch(isOpen, isDropdownOpen => {
+    if (isDropdownOpen) {
+      document.addEventListener('keydown', handleKeydown)
+      document.addEventListener('click', handleClickOutside)
+    } else {
+      document.removeEventListener('keydown', handleKeydown)
+      document.removeEventListener('click', handleClickOutside)
+    }
   })
 
   onUnmounted(() => {
+    // 컴포넌트가 제거될 때 리스너가 남아있지 않도록 보장합니다.
     document.removeEventListener('keydown', handleKeydown)
     document.removeEventListener('click', handleClickOutside)
   })

@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from 'vue'
+  import { ref, onUnmounted, watch } from 'vue'
   import { BaseComponentProps } from '@/types'
 
   export type LanguageData = { code: string; name: string; url?: string }
@@ -166,12 +166,18 @@
     currentItem.style.zIndex = '1'
   }
 
-  onMounted(() => {
-    document.addEventListener('keydown', handleKeydown)
-    document.addEventListener('click', handleClickOutside)
+  watch(isOpen, isDropdownOpen => {
+    if (isDropdownOpen) {
+      document.addEventListener('keydown', handleKeydown)
+      document.addEventListener('click', handleClickOutside)
+    } else {
+      document.removeEventListener('keydown', handleKeydown)
+      document.removeEventListener('click', handleClickOutside)
+    }
   })
 
   onUnmounted(() => {
+    // 컴포넌트가 제거될 때 리스너가 남아있지 않도록 보장합니다.
     document.removeEventListener('keydown', handleKeydown)
     document.removeEventListener('click', handleClickOutside)
   })
