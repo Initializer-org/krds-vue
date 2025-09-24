@@ -2,7 +2,9 @@
  * KRDS Resize 컴포넌트
  */
 
-import KrdsLanguageSwitcher from './KrdsResize.vue'
+import KrdsResize from './KrdsResize.vue'
+import type { KrdsResizeEmits } from './KrdsResize.vue'
 
-export { KrdsLanguageSwitcher }
-export default KrdsLanguageSwitcher
+export { KrdsResize }
+export type { KrdsResizeEmits }
+export default KrdsResize

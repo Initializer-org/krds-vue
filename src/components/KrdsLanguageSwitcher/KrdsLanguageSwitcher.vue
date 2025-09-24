@@ -75,14 +75,14 @@
 
   export type DropdownPosition = 'left' | 'center' | 'right'
 
-  interface LanguageSwitcherProps extends BaseComponentProps {
+  export interface KrdsLanguageSwitcherProps extends BaseComponentProps {
     languageList: LanguageData[]
     modelValue?: string
     type?: 'default' | 'external'
     dropPosition?: DropdownPosition
   }
 
-  const props = withDefaults(defineProps<LanguageSwitcherProps>(), {
+  const props = withDefaults(defineProps<KrdsLanguageSwitcherProps>(), {
     modelValue: '',
     type: 'default',
     dropPosition: 'center'

@@ -42,21 +42,23 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, ref } from 'vue'
 
-  const emit = defineEmits<{
+  export interface KrdsResizeEmits {
     'update:modelValue': [value: string]
     close: []
-  }>()
-
-  const isOpen = ref(false)
-  const dropdownRef = ref<HTMLElement>()
-  const buttonRef = ref<HTMLElement>()
-  const selectedSize = ref('md')
+  }
 
   interface ScaleProps {
     key: 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg'
     label: string
     zoom: string
   }
+
+  const emit = defineEmits<KrdsResizeEmits>()
+
+  const isOpen = ref(false)
+  const dropdownRef = ref<HTMLElement>()
+  const buttonRef = ref<HTMLElement>()
+  const selectedSize = ref('md')
 
   const scaleList: ScaleProps[] = [
     { key: 'sm', label: '작게', zoom: '0.9' },
