@@ -12,9 +12,9 @@
             <button
               type="button"
               class="item-link"
-              :class="scale.key"
+              :class="[scale.key, scale.key === selectedSize ? 'active' : '']"
               :data-adjust-scale="scale.key"
-              @click.prevent="selectSize(scale.zoom)"
+              @click.prevent="selectSize(scale)"
               @focus="handleItemFocus"
             >
               {{ scale.label }}
@@ -50,8 +50,15 @@
   const isOpen = ref(false)
   const dropdownRef = ref<HTMLElement>()
   const buttonRef = ref<HTMLElement>()
+  const selectedSize = ref('md')
 
-  const scaleList = [
+  interface ScaleProps {
+    key: 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg'
+    label: string
+    zoom: string
+  }
+
+  const scaleList: ScaleProps[] = [
     { key: 'sm', label: '작게', zoom: '0.9' },
     { key: 'md', label: '보통', zoom: '1' },
     { key: 'lg', label: '조금 크게', zoom: '1.1' },
@@ -71,11 +78,12 @@
     isOpen.value = false
   }
 
-  const selectSize = (zoom: string) => {
+  const selectSize = (scale: ScaleProps) => {
     closeDropdown()
     emit('close')
     buttonRef.value?.focus()
-    document.body.style.zoom = zoom
+    selectedSize.value = scale.key
+    document.body.style.zoom = scale?.zoom
   }
 
   const positionDropdown = () => {
