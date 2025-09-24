@@ -58,11 +58,10 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsSpinner** - 스피너 (Spinner)
 
 ### 7. 도움 (Help Components) - 5개
-- [ ] **KrdsHelpPanel** - 도움 패널 (Help panel)
-- [ ] **KrdsTutorialPanel** - 따라하기 패널 (Tutorial panel)
-- [ ] **KrdsContextualHelp** - 맥락적 도움말 (Contextual help)
-- [ ] **KrdsCoachMark** - 코치마크 (Coach mark)
-- [ ] **KrdsTooltip** - 툴팁 (Tooltip)
+- [x] **KrdsPanel** - 패널 (panel)
+- [x] **KrdsContextualHelp** - 맥락적 도움말 (Contextual help)
+- [x] **KrdsCoachMark** - 코치마크 (Coach mark)
+- [x] **KrdsTooltip** - 툴팁 (Tooltip)
 
 ### 8. 입력 (Input Components) - 4개
 - [x] **KrdsDateInput** - 날짜 입력 필드 (Date input)
