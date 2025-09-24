@@ -125,3 +125,12 @@ export type { KrdsCoachMarkProps } from './KrdsCoachMark'
 // Tooltip 컴포넌트
 export { default as KrdsTooltip } from './KrdsTooltip'
 export type { KrdsTooltipProps } from './KrdsTooltip'
+
+// LanguageSwitcher 컴포넌트
+export { default as KrdsLanguageSwitcher } from './KrdsLanguageSwitcher'
+export type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
+
+// Resize 컴포넌트
+export { default as KrdsResize } from './KrdsResize'
+export type { KrdsResizeEmits } from './KrdsResize'
+

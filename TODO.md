@@ -70,8 +70,8 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsFileUpload** - 파일 업로드 (File upload)
 
 ### 9. 설정 (Settings Components) - 2개
-- [ ] **KrdsLanguageSwitcher** - 언어 변경 (Language switcher)
-- [ ] **KrdsResize** - 화면 크기 조정 (Resize)
+- [x] **KrdsLanguageSwitcher** - 언어 변경 (Language switcher)
+- [x] **KrdsResize** - 화면 크기 조정 (Resize)
 
 ### 10. 콘텐츠 (Content Components) - 2개
 - [X] **KrdsAccessibleMultimedia** - 접근 가능한 미디어 (Accessible multimedia) - 컴포넌트가 아닌 개념 설명만 제공
