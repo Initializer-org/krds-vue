@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/Initializer-org/krds-vue/compare/v0.0.7...v0.0.8) (2025-09-24)
+
+
+### Features
+
+* KrdsLanguageSwitcher,  KrdsResize 추가 ([#33](https://github.com/Initializer-org/krds-vue/issues/33)) ([ebe275d](https://github.com/Initializer-org/krds-vue/commit/ebe275d676fdda263c7403de280514c14cc9a7f4))
+
+
+### Code Refactoring
+
+* KrdsHelpPanel을 KrdsPanel로 변경 ([#34](https://github.com/Initializer-org/krds-vue/issues/34)) ([e57c853](https://github.com/Initializer-org/krds-vue/commit/e57c8531509bc2e3245d5dc7654d962eb8904894))
+
 ### [0.0.7](https://github.com/Initializer-org/krds-vue/compare/v0.0.6...v0.0.7) (2025-09-23)
 
 
