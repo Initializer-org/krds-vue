@@ -22,7 +22,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
 
-  interface Props {
+  export interface KrdsPanelProps {
     modelValue?: boolean
   }
 
@@ -30,7 +30,7 @@
     (e: 'update:modelValue', value: boolean): void
   }
 
-  const props = withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<KrdsPanelProps>(), {
     modelValue: false
   })
 

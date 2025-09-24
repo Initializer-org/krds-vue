@@ -108,3 +108,20 @@ export type { KrdsInPageNavigationProps, KrdsInPageNavigationEmits, NavigationIt
 // Pagination 컴포넌트
 export { default as KrdsPagination } from './KrdsPagination'
 export type { KrdsPaginationProps, KrdsPaginationEmits } from './KrdsPagination'
+
+
+// Panel 컴포넌트
+export { default as KrdsPanel } from './KrdsPanel'
+export type { KrdsPanelProps } from './KrdsPanel'
+
+// ContextualHelp 컴포넌트
+export { default as KrdsContextualHelp } from './KrdsContextualHelp'
+export type { KrdsContextualHelpProps } from './KrdsContextualHelp'
+
+// CoachMark 컴포넌트
+export { default as KrdsCoachMark } from './KrdsCoachMark'
+export type { KrdsCoachMarkProps } from './KrdsCoachMark'
+
+// Tooltip 컴포넌트
+export { default as KrdsTooltip } from './KrdsTooltip'
+export type { KrdsTooltipProps } from './KrdsTooltip'

@@ -35,7 +35,7 @@
 
   type StepsData = { id: number; title: string; description: string }
 
-  interface KrdsCoachMarkProps extends BaseComponentProps {
+  export interface KrdsCoachMarkProps extends BaseComponentProps {
     coachMarkClass?: string | string[]
     stepsData: StepsData[]
     activeStep: number
