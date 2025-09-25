@@ -1,0 +1,114 @@
+//모드 설정
+$mode-setting: light;
+
+/* **** guide css **** */
+body {
+  overflow-x: initial;
+}
+
+.g-wrap {
+  #krds-header {
+    border-bottom: var(--krds-#{$mode-setting}-border-width-static-regular) solid var(--krds-#{$mode-setting}-color-border-gray-light);
+    @include size-medium {
+      border-bottom: none;
+    }
+
+    .gnb-wrap {
+      .gnb-wrap-inner {
+        @include flex-layout($fd: column, $ai: normal);
+        height: 100%;
+      }
+    }
+
+    #container {
+      .in-between {
+        gap: var(--krds-pc-gap-layout-left-contents);
+        padding-bottom: var(--krds-pc-gap-layout-contents-footer);
+        @include size-medium {
+          padding-bottom: var(--krds-mobile-gap-layout-contents-footer);
+        }
+
+        .krds-side-navigation {
+          flex-shrink: 0;
+          width: 24.8rem;
+          padding: var(--krds-padding-8) 0 0;
+          border: none;
+        }
+
+        & > .contents {
+          padding-bottom: 0;
+
+          .breadcrumb-wrap {
+            padding: var(--krds-pc-gap-layout-header-breadcrumb) 0 var(--krds-pc-gap-layout-breadcrumb-h1);
+          }
+
+          @include size-medium {
+            .breadcrumb-wrap {
+              padding: var(--krds-mobile-gap-layout-header-breadcrumb) 0 var(--krds-mobile-gap-layout-breadcrumb-h1);
+            }
+          }
+        }
+
+        @include size-large-to-xlarge {
+          .g-example-wrap {
+            .krds-pagination {
+              flex-wrap: wrap;
+              min-width: auto;
+
+              .page-links {
+                width: 100%;
+
+                .page-link {
+                  &:nth-child(6),
+                  &:nth-child(7),
+                  &:nth-child(8) {
+                    display: none;
+                  }
+                }
+              }
+
+              .page-navi {
+                &.next {
+                  transition: none;
+                  order: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    #krds-footer {
+      .f-btm {
+        .f-btm-text {
+          position: relative;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: var(--krds-gap-3);
+        }
+
+        .f-mark {
+          @include position($t: 50%, $r: 0);
+          transform: translateY(-50%);
+        }
+
+        @include size-medium {
+          gap: var(--krds-gap-7);
+          .f-btm-text {
+            gap: var(--krds-gap-6);
+          }
+
+          .f-mark {
+            position: static;
+            transform: translateY(0);
+            order: 1;
+          }
+          .f-copy {
+            order: 2;
+          }
+        }
+      }
+    }
+  }
+}
