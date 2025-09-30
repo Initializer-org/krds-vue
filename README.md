@@ -75,75 +75,7 @@ const handleClick = () => {
 </script>
 ```
 
-### 3. 전역 등록 (선택사항)
-
-모든 컴포넌트를 전역으로 등록하려면:
-
-```typescript
-import { createApp } from 'vue'
-import App from './App.vue'
-import * as KrdsComponents from '@krds.ui/vue'
-import '@krds.ui/vue/dist/style.css'
-
-const app = createApp(App)
-
-// 모든 KRDS 컴포넌트 전역 등록
-Object.entries(KrdsComponents).forEach(([name, component]) => {
-  if (typeof component === 'object' && component.name) {
-    app.component(name, component)
-  }
-})
-
-app.mount('#app')
-```
-
 ## 주요 컴포넌트
-
-### Form 컴포넌트
-- `KrdsButton` - 다양한 스타일의 버튼
-- `KrdsInput` - 텍스트 입력 필드
-- `KrdsTextarea` - 멀티라인 텍스트 입력
-- `KrdsSelect` - 드롭다운 선택
-- `KrdsCheckbox` - 체크박스
-- `KrdsRadio` - 라디오 버튼
-- `KrdsToggleSwitch` - 토글 스위치
-- `KrdsDateInput` - 날짜 입력
-- `KrdsFileUpload` - 파일 업로드
-
-### Navigation 컴포넌트
-- `KrdsBreadcrumb` - 브레드크럼 네비게이션
-- `KrdsPagination` - 페이지네이션
-- `KrdsSideNavigation` - 사이드 네비게이션
-- `KrdsInPageNavigation` - 페이지 내 네비게이션
-- `KrdsSkipLink` - 본문 바로가기 링크
-
-### Layout 컴포넌트
-- `KrdsLayout` - 전체 레이아웃 래퍼
-- `KrdsHeader` - 헤더
-- `KrdsFooter` - 푸터
-- `KrdsMasthead` - 마스트헤드 (정부 사이트 표시줄)
-- `KrdsIdentifier` - 정부기관 식별자
-
-### Data Display 컴포넌트
-- `KrdsTable` - 데이터 테이블
-- `KrdsStructuredList` - 구조화된 리스트
-- `KrdsTextList` - 텍스트 리스트
-- `KrdsBadge` - 배지
-- `KrdsTag` - 태그
-
-### Feedback 컴포넌트
-- `KrdsSpinner` - 로딩 스피너
-- `KrdsTooltip` - 툴팁
-- `KrdsCriticalAlerts` - 중요 알림
-- `KrdsContextualHelp` - 맥락 도움말
-- `KrdsCoachMark` - 코치 마크
-
-### Utility 컴포넌트
-- `KrdsIcon` - 아이콘
-- `KrdsPanel` - 패널
-- `KrdsDisclosure` - 토글 가능한 콘텐츠
-- `KrdsStepIndicator` - 단계 표시기
-- `KrdsLanguageSwitcher` - 언어 전환기
 
 전체 컴포넌트 목록과 상세 API는 [Storybook 문서](https://krds.initializer.org/)를 참조하세요.
 
@@ -168,13 +100,6 @@ const handleInput: KrdsInputEmits['input'] = (value: string) => {
   console.log('입력값:', value)
 }
 ```
-
-## 브라우저 지원
-
-- Chrome (최신 2개 버전)
-- Firefox (최신 2개 버전)
-- Safari (최신 2개 버전)
-- Edge (최신 2개 버전)
 
 ## 개발 환경 요구사항
 
