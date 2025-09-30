@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/Initializer-org/krds-vue/compare/v0.0.8...v0.0.9) (2025-09-30)
+
+
+### Features
+
+* add layout, header, footer ([#35](https://github.com/Initializer-org/krds-vue/issues/35)) ([1e5b6f3](https://github.com/Initializer-org/krds-vue/commit/1e5b6f38e56387a0c0b29807f633911976379ee5))
+
 ### [0.0.8](https://github.com/Initializer-org/krds-vue/compare/v0.0.7...v0.0.8) (2025-09-24)
 
 
