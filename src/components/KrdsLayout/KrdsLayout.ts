@@ -37,6 +37,11 @@ export interface KrdsLayoutEmits {
   'scroll-height': [height: number]
 }
 
+/**
+ * 스크롤 감지 시작 오프셋 (px)
+ */
+const SCROLL_OFFSET_THRESHOLD = 50
+
 export default defineComponent<KrdsLayoutProps>({
   name: 'KrdsLayout',
   props: {
@@ -94,7 +99,7 @@ export default defineComponent<KrdsLayoutProps>({
       const isScrollingDown = currentScrollY > lastScrollY.value
       const isScrollingUp = currentScrollY < lastScrollY.value
 
-      if (currentScrollY > containerOffsetTop + 50) {
+      if (currentScrollY > containerOffsetTop + SCROLL_OFFSET_THRESHOLD) {
         if (isScrollingDown) {
           wrapElement.value.classList.add('scroll-down')
           wrapElement.value.classList.remove('scroll-up')

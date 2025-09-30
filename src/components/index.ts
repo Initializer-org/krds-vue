@@ -109,7 +109,6 @@ export type { KrdsInPageNavigationProps, KrdsInPageNavigationEmits, NavigationIt
 export { default as KrdsPagination } from './KrdsPagination'
 export type { KrdsPaginationProps, KrdsPaginationEmits } from './KrdsPagination'
 
-
 // Panel 컴포넌트
 export { default as KrdsPanel } from './KrdsPanel'
 export type { KrdsPanelProps } from './KrdsPanel'
@@ -133,4 +132,3 @@ export type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
 // Resize 컴포넌트
 export { default as KrdsResize } from './KrdsResize'
 export type { KrdsResizeEmits } from './KrdsResize'
-

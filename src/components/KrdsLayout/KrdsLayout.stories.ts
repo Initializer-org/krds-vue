@@ -4,6 +4,9 @@ import { KrdsMasthead } from '../KrdsMasthead'
 import { KrdsFooter } from '../KrdsFooter'
 import { KrdsIdentifier } from '../KrdsIdentifier'
 import { KrdsHeader } from '../KrdsHeader'
+import KrdsSkipLink from '../KrdsSkipLink/KrdsSkipLink'
+import KrdsBreadcrumb from '../KrdsBreadcrumb/KrdsBreadcrumb.vue'
+import { KrdsButton } from '../KrdsButton'
 
 const meta: Meta<typeof KrdsLayout> = {
   title: 'Components/ETC/KrdsLayout',
@@ -39,7 +42,7 @@ type Story = StoryObj<typeof meta>
  */
 export const Default: Story = {
   render: () => ({
-    components: { KrdsLayout, KrdsMasthead, KrdsHeader, KrdsFooter, KrdsIdentifier },
+    components: { KrdsLayout, KrdsMasthead, KrdsHeader, KrdsFooter, KrdsIdentifier, KrdsSkipLink, KrdsBreadcrumb, KrdsButton },
     template: `
       <KrdsLayout>
         <KrdsSkipLink href="#container">본문 바로가기</KrdsSkipLink>

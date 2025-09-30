@@ -52,7 +52,7 @@ export default defineComponent({
      * 헤더 클래스 계산
      */
     const headerClasses = computed(() => {
-      const classes = ['krds-header']
+      const classes = []
 
       if (props.class) {
         classes.push(props.class)
