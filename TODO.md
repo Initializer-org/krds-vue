@@ -7,7 +7,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)  
 - **목표**: Vue 3 + TypeScript로 컴포넌트 포팅
 - **배포**: NPM 패키지 `@krds.ui/vue`
-- **현재 진행률**: 22개 컴포넌트 완료 / 57개 총 컴포넌트
+- **현재 진행률**: 24개 컴포넌트 완료 / 57개 총 컴포넌트
 
 ## 개발 TODO
 
@@ -15,8 +15,8 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 ### 1. 아이덴티티 컴포넌트 (Identity Components) - 4개
 - [x] **KrdsIdentifier** - 운영기관 식별자
 - [x] **KrdsMasthead** - 마스트헤드
-- [ ] **KrdsHeader** - 헤더
-- [ ] **KrdsFooter** - 푸터
+- [x] **KrdsHeader** - 헤더
+- [x] **KrdsFooter** - 푸터
 
 ### 2. 탐색 컴포넌트 (Navigation Components) - 7개
 - [x] **KrdsSkipLink** - 건너뛰기 링크 (Skip link)
