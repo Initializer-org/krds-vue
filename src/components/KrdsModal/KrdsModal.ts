@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, Teleport, type SlotsType } from 'vue'
+import { computed, defineComponent, h, Teleport, watch, onBeforeUnmount, nextTick, ref, type SlotsType } from 'vue'
 
 export type KrdsModalSize = 'small' | 'medium' | 'large'
 
@@ -70,6 +70,94 @@ export default defineComponent({
     const handleClose = () => {
       open.value = false
     }
+
+    // 배경 스크롤 방지 및 포커스 트래핑
+    let originalOverflow = ''
+    let previousActiveElement: HTMLElement | null = null
+    const modalRef = ref<HTMLElement | null>(null)
+
+    const getFocusableElements = (element: HTMLElement): HTMLElement[] => {
+      const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      return Array.from(element.querySelectorAll(selector)).filter(
+        el => !el.hasAttribute('disabled') && el.getAttribute('tabindex') !== '-1'
+      ) as HTMLElement[]
+    }
+
+    const trapFocus = (event: KeyboardEvent) => {
+      if (!modalRef.value || event.key !== 'Tab') return
+
+      const focusableElements = getFocusableElements(modalRef.value)
+      if (focusableElements.length === 0) return
+
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
+      }
+    }
+
+    watch(
+      () => props.modelValue,
+      async newValue => {
+        if (newValue) {
+          // 배경 스크롤 방지
+          originalOverflow = document.body.style.overflow
+          document.body.style.overflow = 'hidden'
+
+          // 현재 포커스된 요소 저장
+          previousActiveElement = document.activeElement as HTMLElement
+
+          // 모달이 DOM에 추가될 때까지 대기
+          await nextTick()
+
+          // 모달 요소 찾기
+          const modalElement = document.getElementById(props.modalId)
+          if (modalElement) {
+            modalRef.value = modalElement
+
+            // modal-conts 요소에 포커스
+            const modalConts = modalElement.querySelector('.modal-conts') as HTMLElement
+            if (modalConts) {
+              modalConts.setAttribute('tabindex', '-1')
+              modalConts.focus()
+            }
+
+            // 포커스 트래핑 이벤트 리스너 추가
+            document.addEventListener('keydown', trapFocus)
+          }
+        } else {
+          // 배경 스크롤 복원
+          document.body.style.overflow = originalOverflow
+
+          // 포커스 트래핑 이벤트 리스너 제거
+          document.removeEventListener('keydown', trapFocus)
+
+          // 이전 포커스 복원
+          if (previousActiveElement) {
+            previousActiveElement.focus()
+            previousActiveElement = null
+          }
+
+          modalRef.value = null
+        }
+      },
+      { immediate: true }
+    )
+
+    onBeforeUnmount(() => {
+      if (props.modelValue) {
+        document.body.style.overflow = originalOverflow
+        document.removeEventListener('keydown', trapFocus)
+        if (previousActiveElement) {
+          previousActiveElement.focus()
+        }
+      }
+    })
 
     return () => {
       if (!open.value) return null
