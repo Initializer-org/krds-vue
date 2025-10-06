@@ -74,10 +74,11 @@ export default defineComponent({
     return () => {
       if (!open.value) return null
 
-      const modalAttrs: Record<string, string> = {
+      const modalAttrs: Record<string, any> = {
         id: props.modalId,
         class: 'krds-modal fade in shown',
         role: 'dialog',
+        'aria-modal': true,
         'aria-labelledby': titleId.value
       }
 
