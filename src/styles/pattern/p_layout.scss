@@ -1,4 +1,4 @@
-@import "../common/include";
+@import '../common/include';
 
 //모드 설정
 $mode-setting: light;
@@ -33,7 +33,7 @@ $mode-setting: light;
       }
     }
   }
-  .help-panel-flexible{
+  .help-panel-flexible {
     --krds-contents-wrap-size: calc(79.2rem + var(--krds-contents-padding-x));
     --krds-help-panel--flexible-padding: calc(var(--krds-help-panel--width) - ((100% - var(--krds-contents-wrap-size)) / 2) + 4.5rem);
   }
@@ -84,14 +84,14 @@ $mode-setting: light;
       }
     }
   }
-
 }
 
 //web 전용 속성
 @include size-large-more {
   .inner {
     margin: 0 auto;
-    &.narrow { //좁은 레이아웃
+    &.narrow {
+      //좁은 레이아웃
       max-width: calc(79.2rem + (var(--krds-contents-padding-x) * 2));
       // padding-inline: 13rem;
     }
