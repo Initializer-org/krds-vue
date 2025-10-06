@@ -7,7 +7,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)  
 - **목표**: Vue 3 + TypeScript로 컴포넌트 포팅
 - **배포**: NPM 패키지 `@krds.ui/vue`
-- **현재 진행률**: 24개 컴포넌트 완료 / 57개 총 컴포넌트
+- **현재 진행률**: 25개 컴포넌트 완료
 
 ## 개발 TODO
 
@@ -32,7 +32,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsCriticalAlert** - 긴급 공지 (Critical alerts)
 - [x] **KrdsCalendar** - 달력 (Calendar)
 - [x] **KrdsDisclosure** - 디스클로저 (Disclosure)
-- [ ] **KrdsModal** - 모달 (Modal)
+- [x] **KrdsModal** - 모달 (Modal)
 - [x] **KrdsBadge** - 배지 (Badge)
 - [ ] **KrdsAccordion** - 아코디언 (Accordion)
 - [x] **KrdsImage** - 이미지 (Image) - 컴포넌트가 아닌 개념 설명만 제공
@@ -83,7 +83,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsFormHint** - 폼 힌트/도움말
 - [ ] **KrdsAlert** (alert.html) - 알림/경고
 - [ ] **KrdsGrid** (grid.html) - 그리드 시스템
-- [ ] **KrdsLayout** (layout.html) - 레이아웃
+- [x] **KrdsLayout** (layout.html) - 레이아웃
 - [ ] **KrdsCard** (card.html) - 카드 컴포넌트
 - [x] **KrdsIcon** - 아이콘 컴포넌트
 - [ ] **KrdsProgress** (progress.html) - 진행률 표시기
