@@ -132,3 +132,7 @@ export type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
 // Resize 컴포넌트
 export { default as KrdsResize } from './KrdsResize'
 export type { KrdsResizeEmits } from './KrdsResize'
+
+// Modal 컴포넌트
+export { default as KrdsModal } from './KrdsModal'
+export type { KrdsModalProps, KrdsModalSize } from './KrdsModal'
