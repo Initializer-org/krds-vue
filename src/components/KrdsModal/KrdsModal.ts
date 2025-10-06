@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, Teleport, watch, onBeforeUnmount, nextTick, ref, type SlotsType } from 'vue'
+import { computed, defineComponent, h, Teleport, watch, onBeforeUnmount, nextTick, ref, getCurrentInstance, type SlotsType } from 'vue'
 
 export type KrdsModalSize = 'small' | 'medium' | 'large'
 
@@ -21,7 +21,7 @@ export default defineComponent({
     },
     modalId: {
       type: String,
-      default: 'krds-modal'
+      default: undefined
     },
     backdrop: {
       type: Boolean,
@@ -51,12 +51,15 @@ export default defineComponent({
     footer?: () => any
   }>,
   setup(props, { slots, emit }) {
+    const uid = getCurrentInstance()?.uid
+    const computedModalId = computed(() => props.modalId ?? `krds-modal-${uid}`)
+
     const open = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value)
     })
 
-    const titleId = computed(() => `tit_${props.modalId}`)
+    const titleId = computed(() => `tit_${computedModalId.value}`)
 
     const sizeClass = computed(() => {
       const sizeMap = {
@@ -131,7 +134,7 @@ export default defineComponent({
 
           await nextTick()
 
-          const modalElement = document.getElementById(props.modalId)
+          const modalElement = document.getElementById(computedModalId.value)
           if (modalElement) {
             modalRef.value = modalElement
 
@@ -161,7 +164,7 @@ export default defineComponent({
       if (!open.value) return null
 
       const modalAttrs: Record<string, any> = {
-        id: props.modalId,
+        id: computedModalId.value,
         class: 'krds-modal fade in shown',
         role: 'dialog',
         'aria-modal': true,
