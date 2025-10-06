@@ -49,192 +49,123 @@ const meta: Meta<typeof KrdsModal> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// 1. 기본 모달
+interface ModalStoryConfig {
+  buttonText: string
+  modalId: string
+  title: string
+  content: string
+  footer?: string
+  modalProps?: string
+}
+
+const createModalStory = (config: ModalStoryConfig) => ({
+  components: { KrdsModal },
+  setup() {
+    const isOpen = ref(false)
+    return { isOpen }
+  },
+  template: `
+    <div>
+      <button type="button" class="krds-btn large" @click="isOpen = true">
+        ${config.buttonText}
+      </button>
+      <KrdsModal v-model="isOpen" ${config.modalProps || ''} modalId="${config.modalId}">
+        <template #title>${config.title}</template>
+        <p>${config.content}</p>
+        ${
+          config.footer ||
+          `<template #footer>
+          <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
+        </template>`
+        }
+      </KrdsModal>
+    </div>
+  `
+})
+
 export const Default: Story = {
   name: '기본',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          모달 열기
-        </button>
-        <KrdsModal v-model="isOpen" modalId="modal_sample_01">
-          <template #title>모달 제목</template>
-          <p>대화 상자는 사용자에게 작업에 대해 알리고 중요한 정보를 포함하거나 결정이 필요하거나 여러 작업을 포함할 수 있습니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium tertiary" @click="isOpen = false">아니요</button>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">예</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: '모달 열기',
+      modalId: 'modal_sample_01',
+      title: '모달 제목',
+      content: '대화 상자는 사용자에게 작업에 대해 알리고 중요한 정보를 포함하거나 결정이 필요하거나 여러 작업을 포함할 수 있습니다.',
+      footer: `<template #footer>
+        <button type="button" class="krds-btn medium tertiary" @click="isOpen = false">아니요</button>
+        <button type="button" class="krds-btn medium primary" @click="isOpen = false">예</button>
+      </template>`
+    })
 }
 
-// 2. 배경 없음
 export const NoBackdrop: Story = {
   name: '배경 없음',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          배경 없는 모달 열기
-        </button>
-        <KrdsModal v-model="isOpen" :backdrop="false" modalId="modal_no_backdrop">
-          <template #title>배경 없는 모달</template>
-          <p>배경 딤 처리 없이 모달만 표시됩니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: '배경 없는 모달 열기',
+      modalId: 'modal_no_backdrop',
+      modalProps: ':backdrop="false"',
+      title: '배경 없는 모달',
+      content: '배경 딤 처리 없이 모달만 표시됩니다.'
+    })
 }
 
-// 3. Small 사이즈
 export const SmallSize: Story = {
   name: 'Small',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          Small 모달 열기
-        </button>
-        <KrdsModal v-model="isOpen" size="small" modalId="modal_small">
-          <template #title>Small 모달</template>
-          <p>작은 크기의 모달입니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: 'Small 모달 열기',
+      modalId: 'modal_small',
+      modalProps: 'size="small"',
+      title: 'Small 모달',
+      content: '작은 크기의 모달입니다.'
+    })
 }
 
-// 4. Large 사이즈
 export const LargeSize: Story = {
   name: 'Large',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          Large 모달 열기
-        </button>
-        <KrdsModal v-model="isOpen" size="large" modalId="modal_large">
-          <template #title>Large 모달</template>
-          <p>큰 크기의 모달입니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: 'Large 모달 열기',
+      modalId: 'modal_large',
+      modalProps: 'size="large"',
+      title: 'Large 모달',
+      content: '큰 크기의 모달입니다.'
+    })
 }
 
-// 5. 풀팝업
 export const FullPopup: Story = {
   name: '풀팝업',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          풀팝업 열기
-        </button>
-        <KrdsModal v-model="isOpen" full modalId="modal_full">
-          <template #title>풀팝업</template>
-          <p>전체 화면을 차지하는 풀팝업입니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: '풀팝업 열기',
+      modalId: 'modal_full',
+      modalProps: 'full',
+      title: '풀팝업',
+      content: '전체 화면을 차지하는 풀팝업입니다.'
+    })
 }
 
-// 6. 바텀시트
 export const BottomSheet: Story = {
   name: '바텀시트',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          바텀시트 열기
-        </button>
-        <KrdsModal v-model="isOpen" bottom-sheet modalId="modal_bottom_sheet">
-          <template #title>바텀시트</template>
-          <p>하단에서 올라오는 바텀시트입니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: '바텀시트 열기',
+      modalId: 'modal_bottom_sheet',
+      modalProps: 'bottom-sheet',
+      title: '바텀시트',
+      content: '하단에서 올라오는 바텀시트입니다.'
+    })
 }
 
-// 7. Persistent
 export const Persistent: Story = {
   name: 'Persistent',
-  args: {},
-  render: () => ({
-    components: { KrdsModal },
-    setup() {
-      const isOpen = ref(false)
-      return { isOpen }
-    },
-    template: `
-      <div>
-        <button type="button" class="krds-btn large" @click="isOpen = true">
-          Persistent 모달 열기
-        </button>
-        <KrdsModal v-model="isOpen" persistent modalId="modal_persistent">
-          <template #title>Persistent 모달</template>
-          <p>배경을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.</p>
-          <template #footer>
-            <button type="button" class="krds-btn medium primary" @click="isOpen = false">확인</button>
-          </template>
-        </KrdsModal>
-      </div>
-    `
-  })
+  render: () =>
+    createModalStory({
+      buttonText: 'Persistent 모달 열기',
+      modalId: 'modal_persistent',
+      modalProps: 'persistent',
+      title: 'Persistent 모달',
+      content: '배경을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.'
+    })
 }

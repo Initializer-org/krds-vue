@@ -87,7 +87,10 @@ export default defineComponent({
       if (!modalRef.value || event.key !== 'Tab') return
 
       const focusableElements = getFocusableElements(modalRef.value)
-      if (focusableElements.length === 0) return
+      if (focusableElements.length === 0) {
+        event.preventDefault()
+        return
+      }
 
       const firstElement = focusableElements[0]
       const lastElement = focusableElements[focusableElements.length - 1]
@@ -101,49 +104,48 @@ export default defineComponent({
       }
     }
 
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !props.persistent) {
+        handleClose()
+      }
+    }
+
+    const cleanupEffects = () => {
+      document.body.style.overflow = originalOverflow
+      document.removeEventListener('keydown', trapFocus)
+      document.removeEventListener('keydown', handleKeydown)
+      if (previousActiveElement) {
+        previousActiveElement.focus()
+        previousActiveElement = null
+      }
+      modalRef.value = null
+    }
+
     watch(
       () => props.modelValue,
       async newValue => {
         if (newValue) {
-          // 배경 스크롤 방지
           originalOverflow = document.body.style.overflow
           document.body.style.overflow = 'hidden'
-
-          // 현재 포커스된 요소 저장
           previousActiveElement = document.activeElement as HTMLElement
 
-          // 모달이 DOM에 추가될 때까지 대기
           await nextTick()
 
-          // 모달 요소 찾기
           const modalElement = document.getElementById(props.modalId)
           if (modalElement) {
             modalRef.value = modalElement
 
-            // modal-conts 요소에 포커스
             const modalConts = modalElement.querySelector('.modal-conts') as HTMLElement
             if (modalConts) {
               modalConts.setAttribute('tabindex', '-1')
               modalConts.focus()
             }
 
-            // 포커스 트래핑 이벤트 리스너 추가
             document.addEventListener('keydown', trapFocus)
+            document.addEventListener('keydown', handleKeydown)
           }
         } else {
-          // 배경 스크롤 복원
-          document.body.style.overflow = originalOverflow
-
-          // 포커스 트래핑 이벤트 리스너 제거
-          document.removeEventListener('keydown', trapFocus)
-
-          // 이전 포커스 복원
-          if (previousActiveElement) {
-            previousActiveElement.focus()
-            previousActiveElement = null
-          }
-
-          modalRef.value = null
+          cleanupEffects()
         }
       },
       { immediate: true }
@@ -151,11 +153,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       if (props.modelValue) {
-        document.body.style.overflow = originalOverflow
-        document.removeEventListener('keydown', trapFocus)
-        if (previousActiveElement) {
-          previousActiveElement.focus()
-        }
+        cleanupEffects()
       }
     })
 
