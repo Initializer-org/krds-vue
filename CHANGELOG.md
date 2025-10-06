@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/Initializer-org/krds-vue/compare/v0.0.9...v0.0.10) (2025-10-06)
+
+
+### Features
+
+* add KrdsModal component ([#47](https://github.com/Initializer-org/krds-vue/issues/47)) ([05f6305](https://github.com/Initializer-org/krds-vue/commit/05f6305b5c4bf335cdeed9d727c64ace2eb589f5))
+
 ### [0.0.9](https://github.com/Initializer-org/krds-vue/compare/v0.0.8...v0.0.9) (2025-09-30)
 
 
