@@ -34,7 +34,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsDisclosure** - 디스클로저 (Disclosure)
 - [x] **KrdsModal** - 모달 (Modal)
 - [x] **KrdsBadge** - 배지 (Badge)
-- [ ] **KrdsAccordion** - 아코디언 (Accordion)
+- [x] **KrdsAccordion** - 아코디언 (Accordion)
 - [x] **KrdsImage** - 이미지 (Image) - 컴포넌트가 아닌 개념 설명만 제공
 - [ ] **KrdsCarousel** - 캐러셀 (Carousel)
 - [x] **KrdsTabs** - 탭 (Tab) - KrdsTab, KrdsTabList, KrdsTabPanels 포함

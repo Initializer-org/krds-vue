@@ -136,3 +136,11 @@ export type { KrdsResizeEmits } from './KrdsResize'
 // Modal 컴포넌트
 export { default as KrdsModal } from './KrdsModal'
 export type { KrdsModalProps, KrdsModalSize } from './KrdsModal'
+
+// AccordionGroup 컴포넌트
+export { default as KrdsAccordionGroup } from './KrdsAccordionGroup'
+export type { KrdsAccordionGroupProps } from './KrdsAccordionGroup'
+
+// AccordionItem 컴포넌트
+export { default as KrdsAccordionItem } from './KrdsAccordionItem'
+export type { KrdsAccordionItemProps, KrdsAccordionItemEmits } from './KrdsAccordionItem'
