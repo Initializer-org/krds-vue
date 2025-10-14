@@ -7,7 +7,7 @@
         class="btn-accordion"
         :aria-expanded="isOpen"
         :aria-controls="`accordion-collapse-${id}`"
-        @click="openToggle(id)"
+        @click="openToggle()"
       >
         <slot name="title">{{ title }}</slot>
       </button>
@@ -39,8 +39,8 @@
 
   const isOpen = computed(() => props.openItem === props.id)
 
-  const openToggle = (id: string): void => {
-    emit('toggle', id)
+  const openToggle = (): void => {
+    emit('toggle', props.id)
   }
 </script>
 <style scoped></style>

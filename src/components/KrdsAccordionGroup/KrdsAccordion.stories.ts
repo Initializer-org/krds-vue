@@ -55,11 +55,11 @@ export const Line: Story = {
       <KrdsAccordionGroup type-line>
         <KrdsAccordionItem id="1" :open-item="openItem" @toggle="handleToggle">
           <template #title>title1</template>
-          <template #content>content1</template>/>
+          <template #content>content1</template>
         </KrdsAccordionItem>
         <KrdsAccordionItem id="2" :open-item="openItem" @toggle="handleToggle">
           <template #title>title2</template>
-          <template #content>content2</template>/>
+          <template #content>content2</template>
         </KrdsAccordionItem>
       </KrdsAccordionGroup>`
   })

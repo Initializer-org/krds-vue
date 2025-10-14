@@ -142,5 +142,5 @@ export { default as KrdsAccordionGroup } from './KrdsAccordionGroup'
 export type { KrdsAccordionGroupProps } from './KrdsAccordionGroup'
 
 // AccordionItem 컴포넌트
-export { default as AccordionItem } from './KrdsAccordionItem'
+export { default as KrdsAccordionItem } from './KrdsAccordionItem'
 export type { KrdsAccordionItemProps, KrdsAccordionItemEmits } from './KrdsAccordionItem'
