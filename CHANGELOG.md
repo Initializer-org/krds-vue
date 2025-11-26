@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/Initializer-org/krds-vue/compare/v0.0.10...v0.0.11) (2025-11-26)
+
+
+### Features
+
+* KrdsAccordion ([#53](https://github.com/Initializer-org/krds-vue/issues/53)) ([9915070](https://github.com/Initializer-org/krds-vue/commit/99150706ffa991bded97187b664883a1c902eb54))
+* 워크플로우 및 주요 종속성의 최신 버전으로 업그레이드 ([#71](https://github.com/Initializer-org/krds-vue/issues/71)) ([077c341](https://github.com/Initializer-org/krds-vue/commit/077c341d604c058a29246b054f6cbdf351f6d9a3))
+
+
+### Bug Fixes
+
+* **deps:** 보안 취약점 수정 (glob, js-yaml) ([5ed2d19](https://github.com/Initializer-org/krds-vue/commit/5ed2d19f4c1fbf70656d56d7cfc3bec56dbe23e2))
+
+
+### Chores
+
+* **ci:** update actions/checkout to v6 across all workflows ([701f914](https://github.com/Initializer-org/krds-vue/commit/701f9149ed612747d9d1007aadbfa204d1d654a2))
+
 ### [0.0.10](https://github.com/Initializer-org/krds-vue/compare/v0.0.9...v0.0.10) (2025-10-06)
 
 
