@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/Initializer-org/krds-vue/compare/v0.0.11...v0.0.12) (2025-12-19)
+
+
+### Chores
+
+* **deps:** update dependencies, including storybook (10.1.10), vitest (4.0.16), vue (3.5.26), and more ([eb6db4f](https://github.com/Initializer-org/krds-vue/commit/eb6db4f62439eb698d83e7a20961de7ce64c8aa8))
+
 ### [0.0.11](https://github.com/Initializer-org/krds-vue/compare/v0.0.10...v0.0.11) (2025-11-26)
 
 
