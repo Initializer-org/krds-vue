@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsFileUpload from './KrdsFileUpload'
 import type { FileInfo } from './KrdsFileUpload'
@@ -154,6 +155,36 @@ export const WithFiles: Story = {
   args: {
     title: '타이틀영역',
     description: '컨텐츠 영역'
+  },
+  play: async ({ canvas, userEvent }) => {
+    // Verify initial valid file count (4 valid: uploading, 2 completed, pending; 1 error excluded)
+    await expect(canvas.getByText('4개')).toBeInTheDocument()
+
+    // Click download button on file with downloadUrl
+    const downloadBtn = canvas.getByRole('button', { name: '다운로드' })
+    await userEvent.click(downloadBtn)
+
+    // Click preview button
+    const previewBtn = canvas.getByRole('button', { name: '바로보기' })
+    await userEvent.click(previewBtn)
+
+    // Delete first deletable file (pending file)
+    const deleteButtons = canvas.getAllByRole('button', { name: '삭제' })
+    await userEvent.click(deleteButtons[0])
+
+    // Verify count decreased
+    await waitFor(() => {
+      expect(canvas.getByText('3개')).toBeInTheDocument()
+    })
+
+    // Clear all remaining files
+    const clearAllBtn = canvas.getByRole('button', { name: '전체 파일 삭제' })
+    await userEvent.click(clearAllBtn)
+
+    // Verify file list removed
+    await waitFor(() => {
+      expect(canvas.queryByRole('button', { name: '전체 파일 삭제' })).not.toBeInTheDocument()
+    })
   }
 }
 
@@ -180,6 +211,33 @@ export const Interactive: Story = {
     title: '파일 업로드',
     description: '파일을 선택하거나 드래그하여 업로드하세요.',
     maxFileSize: 20 * 1024 * 1024
+  },
+  play: async ({ canvasElement, canvas, userEvent }) => {
+    // Click file select button (covers triggerFileSelect)
+    const selectBtn = canvas.getByRole('button', { name: '파일선택' })
+    await userEvent.click(selectBtn)
+
+    // Upload file via hidden input
+    const fileInput = canvasElement.querySelector('input[type="file"]') as HTMLInputElement
+    const file = new File(['test content'], 'test-file.txt', { type: 'text/plain' })
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    fileInput.files = dataTransfer.files
+    fileInput.dispatchEvent(new Event('change', { bubbles: true }))
+
+    // Verify file appears in the list
+    await waitFor(() => {
+      expect(canvas.getByText(/test-file/)).toBeInTheDocument()
+    })
+
+    // Delete the uploaded file
+    const deleteBtn = canvas.getByRole('button', { name: '삭제' })
+    await userEvent.click(deleteBtn)
+
+    // Verify file removed
+    await waitFor(() => {
+      expect(canvas.queryByText(/test-file/)).not.toBeInTheDocument()
+    })
   }
 }
 

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsCheckbox from './KrdsCheckbox'
 import KrdsCheckArea from '../KrdsCheckArea/KrdsCheckArea'
@@ -80,7 +81,18 @@ export const Checkbox: Story = {
         </div>
       </div>
     `
-  })
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByLabelText('기본')
+
+    await expect(checkbox).not.toBeChecked()
+
+    await userEvent.click(checkbox)
+    await expect(checkbox).toBeChecked()
+
+    await userEvent.click(checkbox)
+    await expect(checkbox).not.toBeChecked()
+  }
 }
 
 export const Sizes: Story = {

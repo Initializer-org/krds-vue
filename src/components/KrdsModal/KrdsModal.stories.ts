@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, within, waitFor } from 'storybook/test'
 import KrdsModal from './KrdsModal'
 import { ref } from 'vue'
 
@@ -95,7 +96,23 @@ export const Default: Story = {
         <button type="button" class="krds-btn medium tertiary" @click="isOpen = false">아니요</button>
         <button type="button" class="krds-btn medium primary" @click="isOpen = false">예</button>
       </template>`
+    }),
+  play: async ({ canvas, userEvent }) => {
+    const openBtn = canvas.getByRole('button', { name: '모달 열기' })
+    await userEvent.click(openBtn)
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    const closeBtn = body.getByRole('button', { name: '닫기' })
+    await userEvent.click(closeBtn)
+
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }
 
 export const NoBackdrop: Story = {
@@ -167,5 +184,28 @@ export const Persistent: Story = {
       modalProps: 'persistent',
       title: 'Persistent 모달',
       content: '배경을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.'
+    }),
+  play: async ({ canvas, userEvent }) => {
+    const openBtn = canvas.getByRole('button', { name: 'Persistent 모달 열기' })
+    await userEvent.click(openBtn)
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    const backdrop = document.querySelector('.modal-back') as HTMLElement
+    if (backdrop) {
+      await userEvent.click(backdrop)
+    }
+
+    await expect(body.getByRole('dialog')).toBeInTheDocument()
+
+    const closeBtn = body.getByRole('button', { name: '닫기' })
+    await userEvent.click(closeBtn)
+
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }

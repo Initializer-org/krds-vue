@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsToggleSwitch from './KrdsToggleSwitch'
 
@@ -53,6 +54,17 @@ export const Default: Story = {
   }),
   args: {
     label: 'switch : default'
+  },
+  play: async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole('checkbox')
+
+    await expect(toggle).not.toBeChecked()
+
+    await userEvent.click(toggle)
+    await expect(toggle).toBeChecked()
+
+    await userEvent.click(toggle)
+    await expect(toggle).not.toBeChecked()
   }
 }
 

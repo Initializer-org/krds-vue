@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import KrdsLanguageSwitcher, { LanguageData } from './KrdsLanguageSwitcher.vue'
 import { ref, computed } from 'vue'
 
@@ -87,7 +88,31 @@ export const Default: Story = {
         </KrdsLanguageSwitcher>
         <p style="margin-top: 20px;">선택된 언어: {{ selectedLanguage }}</p>
       </div>`
-  })
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const dropdownBtn = canvas.getByRole('button')
+    await userEvent.click(dropdownBtn)
+
+    await waitFor(() => {
+      expect(dropdownBtn).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    const langItem = canvas.getByText('English (영어)')
+    await userEvent.click(langItem)
+
+    await waitFor(() => {
+      expect(dropdownBtn).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    await userEvent.click(dropdownBtn)
+    await waitFor(() => {
+      expect(dropdownBtn).toHaveAttribute('aria-expanded', 'true')
+    })
+    await userEvent.keyboard('{Escape}')
+    await waitFor(() => {
+      expect(dropdownBtn).toHaveAttribute('aria-expanded', 'false')
+    })
+  }
 }
 
 // 2. 외부 페이지 이동
