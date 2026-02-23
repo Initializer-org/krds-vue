@@ -144,3 +144,7 @@ export type { KrdsAccordionGroupProps } from './KrdsAccordionGroup'
 // AccordionItem 컴포넌트
 export { default as KrdsAccordionItem } from './KrdsAccordionItem'
 export type { KrdsAccordionItemProps, KrdsAccordionItemEmits } from './KrdsAccordionItem'
+
+// Tts 컴포넌트
+export { default as KrdsTts } from './KrdsTts'
+export type { KrdsTtsProps, KrdsTtsEmits, TtsSize, TtsIcon } from './KrdsTts'

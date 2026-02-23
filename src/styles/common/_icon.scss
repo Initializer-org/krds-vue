@@ -288,6 +288,18 @@
   &.ico-checkbox {
     @include icon-set(ico_checkbox_checked);
   }
+
+  &.ico-play {
+    @include icon-set(ico_play);
+  }
+
+  &.ico-stop {
+    @include icon-set(ico_stop);
+  }
+
+  &.ico-volume {
+    @include icon-set(ico_volume);
+  }
 }
 
 //고대비모드
