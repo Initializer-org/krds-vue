@@ -134,6 +134,13 @@ $mode-setting: light;
           display: none;
         }
       }
+      //251208 대메뉴 선택시 강조효과 추가
+      &.selected {
+        &::before {
+          left: 0;
+          width: 100%;
+        }
+      }
 
       @include size-large-to-xlarge {
         --krds-main-menu--main-trigger-padding-x: var(--krds-padding-3);
@@ -163,6 +170,8 @@ $mode-setting: light;
         background-color: var(--krds-main-menu--main-menu-color-surface);
       }
       & > ul {
+        overflow-y: auto;
+        max-height: calc(70vh - 17rem);
         position: relative;
         padding: var(--krds-padding-6) 0;
         & > li {
