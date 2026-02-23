@@ -4,7 +4,7 @@ import type { BaseComponentProps } from '@/types'
 /**
  * 테이블 행 데이터
  */
-export type TableRow = Record<string, any>
+export type TableRow = Record<string, unknown>
 
 /**
  * 테이블 열 정의
@@ -15,15 +15,15 @@ export interface TableColumn {
   /** 헤더 라벨 */
   label: string
   /** 행 객체 속성명 또는 함수 */
-  field: string | ((row: any) => any)
+  field: string | ((row: TableRow) => unknown)
   /** 필수 컬럼 여부 (visible-columns 사용시 항상 표시) */
   required?: boolean
   /** 정렬 */
   align?: 'left' | 'center' | 'right'
   /** body td 스타일 */
-  style?: string | ((row: any) => string)
+  style?: string | ((row: TableRow) => string)
   /** body td 클래스 */
-  classes?: string | ((row: any) => string)
+  classes?: string | ((row: TableRow) => string)
   /** header th 스타일 */
   headerStyle?: string
   /** header th 클래스 */

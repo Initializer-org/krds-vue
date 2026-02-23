@@ -45,11 +45,13 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-explicit-any -- Vue SlotsType requires `any` for h() children compatibility */
   slots: Object as SlotsType<{
     title?: () => any
     default?: () => any
     footer?: () => any
   }>,
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   setup(props, { slots, emit }) {
     const uid = getCurrentInstance()?.uid
     const computedModalId = computed(() => props.modalId ?? `krds-modal-${uid}`)
@@ -163,7 +165,7 @@ export default defineComponent({
     return () => {
       if (!open.value) return null
 
-      const modalAttrs: Record<string, any> = {
+      const modalAttrs: Record<string, string | boolean | undefined> = {
         id: computedModalId.value,
         class: 'krds-modal fade in shown',
         role: 'dialog',
