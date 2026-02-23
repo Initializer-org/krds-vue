@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/Initializer-org/krds-vue/compare/v0.0.12...v0.0.13) (2026-02-23)
+
+
+### Chores
+
+* **deps:** update dependencies ([#118](https://github.com/Initializer-org/krds-vue/issues/118)) ([073c7ce](https://github.com/Initializer-org/krds-vue/commit/073c7ce1d24c775551a4980cbceb12c766d569a1))
+
 ### [0.0.12](https://github.com/Initializer-org/krds-vue/compare/v0.0.11...v0.0.12) (2025-12-19)
 
 
