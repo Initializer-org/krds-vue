@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsDateInput from './KrdsDateInput.vue'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
@@ -67,5 +68,55 @@ export const Default: Story = {
         </KrdsFormGroup>
       </div>
     `
-  })
+  }),
+  play: async ({ canvasElement, canvas, userEvent }) => {
+    // Open calendar
+    const calBtn = canvas.getByRole('button', { name: '달력 열기' })
+    await userEvent.click(calBtn)
+
+    await waitFor(() => {
+      expect(canvasElement.querySelector('.krds-calendar-area.active')).toBeTruthy()
+    })
+
+    // Navigate months
+    await userEvent.click(canvasElement.querySelector('.btn-cal-move.prev') as HTMLElement)
+    await userEvent.click(canvasElement.querySelector('.btn-cal-move.next') as HTMLElement)
+
+    // Year dropdown: open and select
+    await userEvent.click(canvasElement.querySelector('.btn-cal-switch.year') as HTMLElement)
+    await waitFor(() => {
+      const yw = canvasElement.querySelector('.calendar-year-wrap') as HTMLElement
+      expect(yw?.style.display).not.toBe('none')
+    })
+    const yearOpt = canvasElement.querySelector('.calendar-year-wrap .sel button') as HTMLElement
+    if (yearOpt) await userEvent.click(yearOpt)
+
+    // Month dropdown: toggle open/close
+    await userEvent.click(canvasElement.querySelector('.btn-cal-switch.month') as HTMLElement)
+    await waitFor(() => {
+      const mw = canvasElement.querySelector('.calendar-mon-wrap') as HTMLElement
+      expect(mw?.style.display).not.toBe('none')
+    })
+    await userEvent.click(canvasElement.querySelector('.btn-cal-switch.month') as HTMLElement)
+
+    // Select a date
+    const dateCell = canvasElement.querySelector('td:not(.old):not(.new) .btn-set-date') as HTMLElement
+    if (dateCell) await userEvent.click(dateCell)
+
+    // Click today
+    const todayBtn = canvasElement.querySelector('#get-today') as HTMLElement
+    if (todayBtn) await userEvent.click(todayBtn)
+
+    // Click confirm (closes calendar)
+    const confirmBtn = canvasElement.querySelector('#confirm-btn') as HTMLElement
+    if (confirmBtn) await userEvent.click(confirmBtn)
+
+    // Reopen and cancel
+    await userEvent.click(calBtn)
+    await waitFor(() => {
+      expect(canvasElement.querySelector('.krds-calendar-area.active')).toBeTruthy()
+    })
+    const cancelBtn = canvasElement.querySelector('#cancel-btn') as HTMLElement
+    if (cancelBtn) await userEvent.click(cancelBtn)
+  }
 }

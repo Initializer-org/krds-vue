@@ -106,23 +106,34 @@ export const Default: Story = {
       expect(canvas.getByText('1단계 : 첫번째 단계')).toBeInTheDocument()
     })
 
-    const nextBtn = canvas.getByRole('button', { name: '다음으로' })
-    await userEvent.click(nextBtn)
-
+    // Step 1 → 2
+    await userEvent.click(canvas.getByRole('button', { name: '다음으로' }))
     await waitFor(() => {
       expect(canvas.getByText('2단계 : 두번째 단계')).toBeInTheDocument()
     })
 
-    const prevBtn = canvas.getByRole('button', { name: '이전으로' })
-    await userEvent.click(prevBtn)
+    // Step 2 → 3 (last step: "다음으로" hidden, "이전으로" shown)
+    await userEvent.click(canvas.getByRole('button', { name: '다음으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('3단계 : 세번째 단계')).toBeInTheDocument()
+    })
+    await expect(canvas.queryByRole('button', { name: '다음으로' })).not.toBeInTheDocument()
 
+    // Step 3 → 2
+    await userEvent.click(canvas.getByRole('button', { name: '이전으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('2단계 : 두번째 단계')).toBeInTheDocument()
+    })
+
+    // Step 2 → 1
+    await userEvent.click(canvas.getByRole('button', { name: '이전으로' }))
     await waitFor(() => {
       expect(canvas.getByText('1단계 : 첫번째 단계')).toBeInTheDocument()
     })
+    await expect(canvas.queryByRole('button', { name: '이전으로' })).not.toBeInTheDocument()
 
-    const stopBtn = canvas.getByRole('button', { name: '그만보기' })
-    await userEvent.click(stopBtn)
-
+    // Close
+    await userEvent.click(canvas.getByRole('button', { name: '그만보기' }))
     await waitFor(() => {
       expect(canvas.queryByText('1단계 : 첫번째 단계')).not.toBeInTheDocument()
     })

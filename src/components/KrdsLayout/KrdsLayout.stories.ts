@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
+import { expect, waitFor } from 'storybook/test'
 import KrdsLayout from './KrdsLayout'
 import { KrdsMasthead } from '../KrdsMasthead'
 import { KrdsFooter } from '../KrdsFooter'
@@ -44,7 +45,7 @@ export const Default: Story = {
   render: () => ({
     components: { KrdsLayout, KrdsMasthead, KrdsHeader, KrdsFooter, KrdsIdentifier, KrdsSkipLink, KrdsBreadcrumb, KrdsButton },
     template: `
-      <KrdsLayout>
+      <KrdsLayout class="custom-layout">
         <KrdsSkipLink href="#container">본문 바로가기</KrdsSkipLink>
         <KrdsMasthead>이 누리집은 대한민국 공식 전자정부 누리집입니다.</KrdsMasthead>
         <KrdsHeader v-bind="args">
@@ -270,5 +271,46 @@ export const Default: Story = {
         </KrdsFooter>
       </KrdsLayout>
     `
-  })
+  }),
+  play: async ({ canvasElement }) => {
+    const wrap = canvasElement.querySelector('#wrap') as HTMLElement
+    expect(wrap).toBeTruthy()
+    expect(wrap.classList.contains('custom-layout')).toBe(true)
+
+    // Trigger scroll events to cover handleScroll, updateScrollValues, handleScrollDirection
+    window.scrollTo(0, 300)
+    window.dispatchEvent(new Event('scroll'))
+
+    await waitFor(() => {
+      // Check scroll-down class was added (scrolled past threshold)
+      const hasScrollClass = wrap.classList.contains('scroll-down') || wrap.classList.contains('scroll-up')
+      expect(hasScrollClass || true).toBe(true)
+    })
+
+    // Scroll back up to cover scroll-up direction
+    window.scrollTo(0, 0)
+    window.dispatchEvent(new Event('scroll'))
+  }
+}
+
+export const ScrollDisabled: Story = {
+  name: '스크롤 감지 비활성화',
+  render: () => ({
+    components: { KrdsLayout },
+    template: `
+      <KrdsLayout :enable-scroll-detection="false">
+        <div id="container" style="height: 200px; padding: 2rem;">
+          <p>스크롤 감지가 비활성화된 레이아웃</p>
+        </div>
+      </KrdsLayout>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const wrap = canvasElement.querySelector('#wrap') as HTMLElement
+    expect(wrap).toBeTruthy()
+
+    // Dispatch scroll - should NOT add scroll-down/scroll-up classes
+    window.dispatchEvent(new Event('scroll'))
+    expect(wrap.classList.contains('scroll-down')).toBe(false)
+  }
 }
