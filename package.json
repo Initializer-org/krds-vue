@@ -68,9 +68,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@storybook/addon-a11y": "^10.2.10",
-    "@storybook/addon-docs": "^10.2.10",
-    "@storybook/vue3-vite": "^10.2.10",
+    "@microsoft/api-extractor": "^7.58.1",
+    "@storybook/addon-a11y": "^10.3.4",
+    "@storybook/addon-docs": "^10.3.4",
+    "@storybook/vue3-vite": "^10.3.4",
     "@tsconfig/node20": "^20.1.8",
     "@types/node": "^25.3.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
@@ -82,7 +83,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^10.0.1",
-    "eslint-plugin-storybook": "^10.2.10",
+    "eslint-plugin-storybook": "^10.3.4",
     "eslint-plugin-vue": "^10.8.0",
     "jsdom": "^27.4.0",
     "playwright": "^1.58.2",
@@ -90,9 +91,9 @@
     "sass": "^1.97.3",
     "source-map-explorer": "^2.5.3",
     "standard-version": "^9.5.0",
-    "storybook": "^10.2.10",
+    "storybook": "^10.3.4",
     "typescript": "5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^8.0.3",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.18",
     "vue": "^3.5.28",
@@ -110,14 +111,7 @@
   "packageManager": "pnpm@10.20.0",
   "pnpm": {
     "overrides": {
-      "@isaacs/brace-expansion": ">=5.0.1",
-      "lodash": ">=4.17.23",
-      "eslint>ajv": "6.14.0",
-      "@eslint/eslintrc>ajv": "6.14.0",
-      "@microsoft/tsdoc-config>ajv": ">=8.18.0",
-      "@rushstack/node-core-library>ajv": ">=8.18.0",
-      "@microsoft/api-extractor>diff": ">=8.0.3",
-      "minimatch": ">=10.2.1"
+      "minimatch@>=9.0.0 <9.0.7": ">=9.0.7"
     }
   }
 }
