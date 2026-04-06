@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsInput from './KrdsInput'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
@@ -94,7 +95,20 @@ export const Default: Story = {
         </KrdsFormGroup>
       </div>
     `
-  })
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole('textbox')
+    const input = inputs[0]
+
+    await userEvent.click(input)
+    await expect(input).toHaveFocus()
+
+    await userEvent.type(input, 'Hello')
+    await expect(input).toHaveValue('Hello')
+
+    await userEvent.tab()
+    await expect(input).not.toHaveFocus()
+  }
 }
 
 // 2. 상태

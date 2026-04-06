@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import KrdsCoachMark from './KrdsCoachMark.vue'
 import { ref } from 'vue'
 
@@ -96,5 +97,45 @@ export const Default: Story = {
         </KrdsCoachMark>
       </div>
     `
-  })
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const startBtn = canvas.getByRole('button', { name: '코치마크 보기' })
+    await userEvent.click(startBtn)
+
+    await waitFor(() => {
+      expect(canvas.getByText('1단계 : 첫번째 단계')).toBeInTheDocument()
+    })
+
+    // Step 1 → 2
+    await userEvent.click(canvas.getByRole('button', { name: '다음으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('2단계 : 두번째 단계')).toBeInTheDocument()
+    })
+
+    // Step 2 → 3 (last step: "다음으로" hidden, "이전으로" shown)
+    await userEvent.click(canvas.getByRole('button', { name: '다음으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('3단계 : 세번째 단계')).toBeInTheDocument()
+    })
+    await expect(canvas.queryByRole('button', { name: '다음으로' })).not.toBeInTheDocument()
+
+    // Step 3 → 2
+    await userEvent.click(canvas.getByRole('button', { name: '이전으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('2단계 : 두번째 단계')).toBeInTheDocument()
+    })
+
+    // Step 2 → 1
+    await userEvent.click(canvas.getByRole('button', { name: '이전으로' }))
+    await waitFor(() => {
+      expect(canvas.getByText('1단계 : 첫번째 단계')).toBeInTheDocument()
+    })
+    await expect(canvas.queryByRole('button', { name: '이전으로' })).not.toBeInTheDocument()
+
+    // Close
+    await userEvent.click(canvas.getByRole('button', { name: '그만보기' }))
+    await waitFor(() => {
+      expect(canvas.queryByText('1단계 : 첫번째 단계')).not.toBeInTheDocument()
+    })
+  }
 }

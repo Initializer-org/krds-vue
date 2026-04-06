@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import KrdsPanel from './KrdsPanel.vue'
 import { ref } from 'vue'
 
@@ -40,7 +41,24 @@ export const Default: Story = {
         </KrdsPanel>
       </div>
     `
-  })
+  }),
+  play: async ({ canvasElement, userEvent }) => {
+    // Open panel
+    const openBtn = canvasElement.querySelector('.btn-help-exec') as HTMLElement
+    await userEvent.click(openBtn)
+
+    await waitFor(() => {
+      expect(canvasElement.querySelector('.krds-help-panel.expand')).toBeTruthy()
+    })
+
+    // Close panel
+    const closeBtn = canvasElement.querySelector('.btn-help-panel.fold') as HTMLElement
+    await userEvent.click(closeBtn)
+
+    await waitFor(() => {
+      expect(canvasElement.querySelector('.krds-help-panel.expand')).toBeFalsy()
+    })
+  }
 }
 
 // 2. 도움 패널

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsDisclosure from './KrdsDisclosure'
 
 const meta: Meta<typeof KrdsDisclosure> = {
@@ -47,5 +48,16 @@ export const Default: Story = {
         </ul>
       </KrdsDisclosure>
     `
-  })
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const toggleBtn = canvas.getByRole('button', { name: '신청 서비스안내' })
+
+    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(toggleBtn)
+    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'true')
+
+    await userEvent.click(toggleBtn)
+    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false')
+  }
 }

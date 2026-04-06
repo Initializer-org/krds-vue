@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor } from 'storybook/test'
 import KrdsSideNavigation from './KrdsSideNavigation'
 import type { SideNavItem } from './KrdsSideNavigation'
 import { ref } from 'vue'
@@ -102,5 +103,38 @@ export const Default: Story = {
       }
     },
     template: '<KrdsSideNavigation :title="title" v-model="menuData" />'
-  })
+  }),
+  play: async ({ canvasElement, canvas, userEvent }) => {
+    // Get 2Depth toggle buttons
+    const toggleButtons = canvas.getAllByRole('menuitem', { name: '2Depth-menu' })
+
+    // First menu is already expanded
+    await expect(toggleButtons[0]).toHaveAttribute('aria-expanded', 'true')
+
+    // Open 3Depth popup in the first menu
+    const popupBtn = canvasElement.querySelector('.lnb-toggle-popup') as HTMLElement
+    await userEvent.click(popupBtn)
+    await waitFor(() => {
+      expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    // Close popup via title button
+    const popupTitle = canvasElement.querySelector('.lnb-btn-tit') as HTMLElement
+    await userEvent.click(popupTitle)
+    await waitFor(() => {
+      expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    // Collapse first menu
+    await userEvent.click(toggleButtons[0])
+    await waitFor(() => {
+      expect(toggleButtons[0]).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    // Expand second menu
+    await userEvent.click(toggleButtons[1])
+    await waitFor(() => {
+      expect(toggleButtons[1]).toHaveAttribute('aria-expanded', 'true')
+    })
+  }
 }

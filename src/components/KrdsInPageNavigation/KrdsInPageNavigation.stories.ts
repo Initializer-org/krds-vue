@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
+import { expect } from 'storybook/test'
 import KrdsInPageNavigation from './KrdsInPageNavigation'
 import type { NavigationItem } from './KrdsInPageNavigation'
 
@@ -202,5 +203,23 @@ export const Default: Story = {
         </div>
       </div>
     `
-  })
+  }),
+  play: async ({ canvasElement, userEvent }) => {
+    // Prevent <a href="#section_XX"> navigation which breaks browser connection in coverage mode
+    canvasElement.addEventListener('click', (e: Event) => {
+      if ((e.target as HTMLElement).closest('a')) e.preventDefault()
+    })
+
+    // Click navigation items to cover handleItemClick
+    const navItems = canvasElement.querySelectorAll('.in-page-navigation-list a')
+    expect(navItems.length).toBeGreaterThan(0)
+
+    // Click first item
+    await userEvent.click(navItems[0] as HTMLElement)
+
+    // Click second item
+    if (navItems.length > 1) {
+      await userEvent.click(navItems[1] as HTMLElement)
+    }
+  }
 }

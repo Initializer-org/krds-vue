@@ -25,14 +25,14 @@ export const Default: Story = {
   render: () => ({
     components: { KrdsAccordionGroup, KrdsAccordionItem },
     setup() {
-      const openItem = ref(undefined)
+      const openItem = ref<string | undefined>(undefined)
       const handleToggle = (id: string) => {
         openItem.value = openItem.value === id ? undefined : id
       }
       return { openItem, handleToggle }
     },
     template: `
-      <KrdsAccordionGroup>
+      <KrdsAccordionGroup class="custom-accordion">
         <KrdsAccordionItem id="1" :open-item="openItem" title="title1" content="content1" @toggle="handleToggle" />
         <KrdsAccordionItem id="2" :open-item="openItem" title="title2" content="content2" @toggle="handleToggle" />
       </KrdsAccordionGroup>`
@@ -45,7 +45,7 @@ export const Line: Story = {
   render: () => ({
     components: { KrdsAccordionGroup, KrdsAccordionItem },
     setup() {
-      const openItem = ref(undefined)
+      const openItem = ref<string | undefined>(undefined)
       const handleToggle = (id: string) => {
         openItem.value = openItem.value === id ? undefined : id
       }

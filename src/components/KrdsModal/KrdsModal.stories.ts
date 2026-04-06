@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, within, waitFor } from 'storybook/test'
 import KrdsModal from './KrdsModal'
 import { ref } from 'vue'
 
@@ -95,7 +96,40 @@ export const Default: Story = {
         <button type="button" class="krds-btn medium tertiary" @click="isOpen = false">아니요</button>
         <button type="button" class="krds-btn medium primary" @click="isOpen = false">예</button>
       </template>`
+    }),
+  play: async ({ canvas, userEvent }) => {
+    const openBtn = canvas.getByRole('button', { name: '모달 열기' })
+    await userEvent.click(openBtn)
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    // Tab key to cover trapFocus
+    await userEvent.keyboard('{Tab}')
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+
+    // Escape key to close (covers handleKeydown)
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+
+    // Reopen and close via backdrop click
+    await userEvent.click(openBtn)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
+    })
+
+    const backdrop = document.querySelector('.modal-back') as HTMLElement
+    if (backdrop) await userEvent.click(backdrop)
+
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }
 
 export const NoBackdrop: Story = {
@@ -143,7 +177,22 @@ export const FullPopup: Story = {
       modalProps: 'full',
       title: '풀팝업',
       content: '전체 화면을 차지하는 풀팝업입니다.'
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: '풀팝업 열기' }))
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    expect(body.getByRole('dialog').getAttribute('data-type')).toBe('full')
+
+    await userEvent.click(body.getByRole('button', { name: '닫기' }))
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }
 
 export const BottomSheet: Story = {
@@ -155,7 +204,22 @@ export const BottomSheet: Story = {
       modalProps: 'bottom-sheet',
       title: '바텀시트',
       content: '하단에서 올라오는 바텀시트입니다.'
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: '바텀시트 열기' }))
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    expect(body.getByRole('dialog').getAttribute('data-type')).toBe('bottom-sheet')
+
+    await userEvent.click(body.getByRole('button', { name: '닫기' }))
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }
 
 export const Persistent: Story = {
@@ -167,5 +231,32 @@ export const Persistent: Story = {
       modalProps: 'persistent',
       title: 'Persistent 모달',
       content: '배경을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.'
+    }),
+  play: async ({ canvas, userEvent }) => {
+    const openBtn = canvas.getByRole('button', { name: 'Persistent 모달 열기' })
+    await userEvent.click(openBtn)
+
+    const body = within(document.body)
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument()
     })
+
+    // Backdrop click should NOT close persistent modal
+    const backdrop = document.querySelector('.modal-back') as HTMLElement
+    if (backdrop) {
+      await userEvent.click(backdrop)
+    }
+    expect(body.getByRole('dialog')).toBeInTheDocument()
+
+    // Escape key should NOT close persistent modal
+    await userEvent.keyboard('{Escape}')
+    expect(body.getByRole('dialog')).toBeInTheDocument()
+
+    const closeBtn = body.getByRole('button', { name: '닫기' })
+    await userEvent.click(closeBtn)
+
+    await waitFor(() => {
+      expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+  }
 }

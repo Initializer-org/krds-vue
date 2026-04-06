@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsMasthead from './KrdsMasthead'
 
 const meta: Meta<typeof KrdsMasthead> = {
@@ -28,5 +29,10 @@ export const Default: Story = {
       return { args }
     },
     template: '<KrdsMasthead v-bind="args">이 누리집은 대한민국 공식 전자정부 누리집입니다.</KrdsMasthead>'
-  })
+  }),
+  play: async ({ canvasElement, userEvent }) => {
+    const masthead = canvasElement.querySelector('#krds-masthead') as HTMLElement
+    expect(masthead).toBeTruthy()
+    await userEvent.click(masthead)
+  }
 }

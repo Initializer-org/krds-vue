@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsBreadcrumb from './KrdsBreadcrumb.vue'
 import type { BreadcrumbItem } from './KrdsBreadcrumb.vue'
 
@@ -28,7 +29,11 @@ const meta: Meta<typeof KrdsBreadcrumb> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const defaultItems: BreadcrumbItem[] = [{ text: '홈', href: '#' }, { text: '서비스 신청', href: '#' }, { text: '서비스 신청2' }]
+const defaultItems: BreadcrumbItem[] = [
+  { text: '홈', href: '#', onClick: e => e.preventDefault() },
+  { text: '서비스 신청', href: '#', onClick: e => e.preventDefault() },
+  { text: '서비스 신청2' }
+]
 
 // 1. 기본
 export const Default: Story = {
@@ -44,5 +49,15 @@ export const Default: Story = {
       return { args }
     },
     template: '<KrdsBreadcrumb v-bind="args" />'
-  })
+  }),
+  play: async ({ canvasElement, userEvent }) => {
+    // Click breadcrumb items to cover handleClick and emit
+    const links = canvasElement.querySelectorAll('.breadcrumb a.txt')
+    expect(links.length).toBeGreaterThan(0)
+
+    // Click second item (서비스 신청)
+    if (links.length > 1) {
+      await userEvent.click(links[1] as HTMLElement)
+    }
+  }
 }

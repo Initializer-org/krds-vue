@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsIdentifier from './KrdsIdentifier'
 
 const meta: Meta<typeof KrdsIdentifier> = {
@@ -28,5 +29,10 @@ export const Default: Story = {
       return { args }
     },
     template: '<KrdsIdentifier v-bind="args">이 누리집은 보건복지부 누리집입니다.</KrdsIdentifier>'
-  })
+  }),
+  play: async ({ canvasElement, userEvent }) => {
+    const identifier = canvasElement.querySelector('.krds-identifier') as HTMLElement
+    expect(identifier).toBeTruthy()
+    await userEvent.click(identifier)
+  }
 }
