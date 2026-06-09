@@ -24,6 +24,15 @@ const escapeHtml = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').r
 const escapeXml = value =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 
+const setHtmlLang = htmlString =>
+  htmlString.replace(/<html([^>]*)>/i, (_, attrs = '') => {
+    if (/\slang=/i.test(attrs)) {
+      return `<html${attrs.replace(/\slang=(?:"[^"]*"|'[^']*'|[^\s>]*)/i, ' lang="ko"')}>`
+    }
+
+    return `<html${attrs} lang="ko">`
+  })
+
 const indexPath = join(outputDir, 'index.html')
 const indexJsonPath = join(outputDir, 'index.json')
 
@@ -69,8 +78,7 @@ const seoBlock = `    <!-- KRDS Vue SEO -->
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
     <!-- /KRDS Vue SEO -->`
 
-let html = readFileSync(indexPath, 'utf-8')
-html = html.replace(/<html lang="[^"]*">/, '<html lang="ko">')
+let html = setHtmlLang(readFileSync(indexPath, 'utf-8'))
 html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
 
 if (html.includes('<!-- KRDS Vue SEO -->')) {
@@ -86,7 +94,7 @@ if (existsSync(join(outputDir, 'iframe.html'))) {
   if (!iframeHtml.includes('name="robots"')) {
     iframeHtml = iframeHtml.replace(/(\s*)<\/head>/, '\n    <meta name="robots" content="noindex, nofollow" />$1</head>')
   }
-  iframeHtml = iframeHtml.replace(/<html lang="[^"]*">/, '<html lang="ko">')
+  iframeHtml = setHtmlLang(iframeHtml)
   writeFileSync(join(outputDir, 'iframe.html'), iframeHtml)
 }
 
@@ -94,7 +102,7 @@ const docsUrls = []
 if (existsSync(indexJsonPath)) {
   const storybookIndex = JSON.parse(readFileSync(indexJsonPath, 'utf-8'))
   const entries = Object.values(storybookIndex.entries ?? {})
-    .filter(entry => entry.type === 'docs')
+    .filter(entry => entry && entry.type === 'docs' && typeof entry.id === 'string')
     .sort((a, b) => a.id.localeCompare(b.id))
 
   for (const entry of entries) {
@@ -178,6 +186,4 @@ writeFileSync(
 `
 )
 
-if (existsSync(indexPath)) {
-  copyFileSync(indexPath, join(outputDir, '404.html'))
-}
+copyFileSync(indexPath, join(outputDir, '404.html'))
