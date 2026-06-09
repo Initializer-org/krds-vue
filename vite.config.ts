@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 
+const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8')) as { version: string }
+
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     vue(),
     dts({
@@ -14,6 +17,10 @@ export default defineConfig({
       rollupTypes: true
     })
   ],
+  define: {
+    __KRDS_VERSION__: JSON.stringify(packageJson.version),
+    'process.env.NODE_ENV': JSON.stringify(mode === 'production' ? 'production' : 'development')
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -30,7 +37,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'KrdsVue',
+      formats: ['es'],
       fileName: format => `krds-vue.${format}.js`
     },
     copyPublicDir: true,
@@ -38,9 +45,6 @@ export default defineConfig({
       external: ['vue'],
       output: {
         exports: 'named',
-        globals: {
-          vue: 'Vue'
-        },
         assetFileNames: assetInfo => {
           if (assetInfo.names && assetInfo.names[0]?.endsWith('.css')) return 'style.css'
           return 'assets/[name]-[hash][extname]'
@@ -51,4 +55,4 @@ export default defineConfig({
     sourcemap: true,
     minify: 'esbuild'
   }
-})
+}))

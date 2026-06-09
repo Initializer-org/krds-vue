@@ -24,23 +24,20 @@
   "license": "MIT",
   "author": "Initializer Team",
   "type": "module",
-  "main": "./dist/krds-vue.umd.js",
+  "main": "./dist/krds-vue.es.js",
   "module": "./dist/krds-vue.es.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/krds-vue.es.js",
-      "require": "./dist/krds-vue.umd.js"
+      "import": "./dist/krds-vue.es.js"
     },
     "./dist/style.css": "./dist/style.css",
-    "./style": "./dist/style.css",
-    "./styles/*": "./dist/styles/*",
-    "./styles": {
-      "types": "./dist/types/styles/index.d.ts",
-      "import": "./dist/styles/index.js"
-    }
+    "./style": "./dist/style.css"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist"
   ],

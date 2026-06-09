@@ -1,8 +1,10 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
+const packageJson = JSON.parse(readFileSync(path.resolve(dirname, '../package.json'), 'utf-8')) as { version: string }
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -22,6 +24,22 @@ const config: StorybookConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(dirname, '../src')
+    }
+    config.define = {
+      ...config.define,
+      __KRDS_VERSION__: JSON.stringify(packageJson.version),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'development')
+    }
+    config.css = {
+      ...config.css,
+      preprocessorOptions: {
+        ...config.css?.preprocessorOptions,
+        scss: {
+          ...config.css?.preprocessorOptions?.scss,
+          quietDeps: true,
+          silenceDeprecations: ['import']
+        }
+      }
     }
     return config
   }

@@ -1,6 +1,6 @@
-import { defineComponent, computed, h } from 'vue'
+import { defineComponent, computed, h, useId } from 'vue'
 import type { BaseFormProps } from '@/types'
-import { generateId, classNames } from '@/utils'
+import { classNames } from '@/utils'
 
 /**
  * KRDS ToggleSwitch 컴포넌트 속성
@@ -67,6 +67,8 @@ export default defineComponent<KrdsToggleSwitchProps>({
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit, attrs }) {
+    const generatedInputId = `toggle-switch-${useId()}`
+
     /**
      * 스위치 상태 계산
      */
@@ -98,7 +100,7 @@ export default defineComponent<KrdsToggleSwitchProps>({
      * input ID 생성
      */
     const inputId = computed(() => {
-      return props.id || generateId('toggle-switch')
+      return props.id || generatedInputId
     })
 
     return () => {

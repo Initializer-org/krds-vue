@@ -1,6 +1,6 @@
-import { defineComponent, computed, h, SlotsType } from 'vue'
+import { defineComponent, computed, h, SlotsType, useId } from 'vue'
 import type { BaseFormProps } from '@/types'
-import { generateId, classNames } from '@/utils'
+import { classNames } from '@/utils'
 
 /**
  * KRDS Checkbox 컴포넌트 속성
@@ -58,6 +58,8 @@ export default defineComponent<KrdsCheckboxProps>({
     description?: () => unknown // Description slot without props
   }>,
   setup(props, { emit, attrs, slots }) {
+    const generatedInputId = `checkbox-${useId()}`
+
     /**
      * 체크 상태 계산
      */
@@ -91,7 +93,7 @@ export default defineComponent<KrdsCheckboxProps>({
      * input ID 생성
      */
     const inputId = computed(() => {
-      return props.id || generateId('checkbox')
+      return props.id || generatedInputId
     })
 
     return () => {

@@ -29,8 +29,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
-  import { BaseComponentProps } from '@/types'
+  import { computed, nextTick, onMounted, onUnmounted, ref, useId } from 'vue'
+  import type { BaseComponentProps } from '../../types'
 
   type TooltipType = 'default' | 'icon' | 'button'
 
@@ -51,7 +51,7 @@
   const popoverRef = ref<HTMLElement | null>(null)
   const isTooltipVisible = ref(false)
   const popoverStyle = ref<Record<string, string>>({})
-  const popoverId = ref(`tooltip-popover-${Math.random().toString(36).substring(2, 9)}`)
+  const popoverId = `tooltip-popover-${useId()}`
   const isMobile = ref(false)
 
   const tooltipClasses = computed(() => {
