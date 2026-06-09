@@ -52,7 +52,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build && node scripts/storybook-seo.mjs",
     "bundle-size": "vite build && echo 'Bundle size check removed due to bundlewatch security vulnerability'",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
