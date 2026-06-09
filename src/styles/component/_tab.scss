@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 탭 */
 //사이즈 정의
 @mixin tab-size-variable() {

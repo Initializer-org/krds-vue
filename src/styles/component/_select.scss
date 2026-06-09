@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 셀렉트 */
 //사이즈 정의
 @mixin form-select-size-variable() {

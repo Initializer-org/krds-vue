@@ -1,6 +1,6 @@
-import { defineComponent, computed, h, SlotsType } from 'vue'
+import { defineComponent, computed, h, SlotsType, useId } from 'vue'
 import type { BaseFormProps } from '@/types'
-import { generateId, classNames } from '@/utils'
+import { classNames } from '@/utils'
 
 /**
  * KRDS Radio 컴포넌트 속성
@@ -68,6 +68,8 @@ export default defineComponent<KrdsRadioProps>({
     description?: () => unknown // Named slot without props
   }>,
   setup(props, { emit, attrs, slots }) {
+    const generatedInputId = `radio-${useId()}`
+
     /**
      * 선택 상태 계산
      */
@@ -101,7 +103,7 @@ export default defineComponent<KrdsRadioProps>({
      * input ID 생성
      */
     const inputId = computed(() => {
-      return props.id || generateId('radio')
+      return props.id || generatedInputId
     })
 
     /**

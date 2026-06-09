@@ -48,7 +48,7 @@ export const Default: Story = {
       <KrdsLayout class="custom-layout">
         <KrdsSkipLink href="#container">본문 바로가기</KrdsSkipLink>
         <KrdsMasthead>이 누리집은 대한민국 공식 전자정부 누리집입니다.</KrdsMasthead>
-        <KrdsHeader v-bind="args">
+        <KrdsHeader>
           <template #utility>
             <ul class="utility-list">
               <li>
@@ -205,7 +205,7 @@ export const Default: Story = {
             </div>
           </div> 
         </div>
-        <KrdsFooter v-bind="args">
+        <KrdsFooter>
           <template #top>
             <button type="button" class="link" title="관련 사이트 레이어">related_site</button>
             <button type="button" class="link" title="관련 사이트 레이어">related_site</button>

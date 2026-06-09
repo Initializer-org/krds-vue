@@ -1,6 +1,5 @@
-import { defineComponent, h, computed } from 'vue'
+import { defineComponent, h, computed, useId } from 'vue'
 import type { BaseComponentProps } from '@/types'
-import { generateUid } from '@/utils'
 
 /**
  * KRDS Disclosure 컴포넌트 속성
@@ -36,7 +35,7 @@ export default defineComponent<KrdsDisclosureProps>({
     /**
      * 컴포넌트 고유 ID
      */
-    const uuid = generateUid()
+    const contentId = `disclosure-${useId()}`
 
     /**
      * 확장 상태 (computed로 props와 동기화)
@@ -65,7 +64,7 @@ export default defineComponent<KrdsDisclosureProps>({
               class: 'btn-conts-expand',
               onClick: handleToggle,
               'aria-expanded': isExpanded.value,
-              'aria-controls': `disclosure-${uuid}`
+              'aria-controls': contentId
             },
             props.title
           ),
@@ -73,7 +72,7 @@ export default defineComponent<KrdsDisclosureProps>({
           h(
             'div',
             {
-              id: `disclosure-${uuid}`,
+              id: contentId,
               class: 'expand-wrap',
               inert: !isExpanded.value
             },

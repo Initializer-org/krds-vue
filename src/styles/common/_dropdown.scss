@@ -1,4 +1,6 @@
 //사이즈 정의
+@use 'include' as *;
+
 @mixin dropdown-size-variable() {
   --krds-dropdown--menu-radius: var(--krds-radius-medium4);
   --krds-dropdown--menu-padding: var(--krds-padding-3);

@@ -1,35 +1,39 @@
 # KRDS Vue
 
-> 한국 정부 디자인 시스템(Korea Government Design System)을 기반으로 한 Vue 3 컴포넌트 라이브러리
+> KRDS(Korea Digital Service Design System) 가이드를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리
 
 [![npm version](https://img.shields.io/npm/v/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-KRDS Vue는 대한민국 정부 표준 디자인 시스템을 Vue 3 + TypeScript로 구현한 공식 컴포넌트 라이브러리입니다. 접근성(WCAG 2.1 AA)과 정부 표준 준수를 핵심 목표로 하며, 정부 및 공공기관 웹사이트 개발에 최적화되어 있습니다.
+KRDS Vue는 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이아웃, 피드백 UI를 일관된 Vue 컴포넌트로 제공하는 라이브러리입니다. KRDS 디자인 토큰과 컴포넌트 스타일을 기반으로 하며, Vue 3 애플리케이션에서 전역 플러그인 또는 개별 컴포넌트 import 방식으로 사용할 수 있습니다.
+
+이 패키지는 **ESM 전용**입니다. CommonJS `require()`는 지원하지 않습니다.
 
 ## 링크
 
-- [Storybook 문서](https://krds.initializer.org/) - 컴포넌트 데모 및 API 문서
-- [KRDS 공식 홈페이지](https://www.krds.go.kr/html/site/index.html) - 디자인 가이드라인 및 표준
+- [Storybook 문서](https://krds.initializer.org/) - 컴포넌트 예제, Controls, API 문서
+- [npm 패키지](https://www.npmjs.com/package/@krds.ui/vue)
+- [GitHub 저장소](https://github.com/Initializer-org/krds-vue)
+- [KRDS 공식 홈페이지](https://www.krds.go.kr/html/site/index.html)
 
-## 주요 특징
+## 특징
 
-- **Vue 3 완전 호환**: Composition API 기반 최신 Vue 3 지원
-- **TypeScript 완전 지원**: 완벽한 타입 정의와 IntelliSense 지원
-- **정부 표준 준수**: 대한민국 정부 디자인 시스템 공식 가이드라인 준수
-- **접근성 우선**: WCAG 2.1 AA 준수, 스크린 리더 및 키보드 내비게이션 완벽 지원
-- **40+ 컴포넌트**: 정부 웹사이트 개발에 필요한 다양한 UI 컴포넌트 제공
-- **Tree-shaking 지원**: ES 모듈 번들로 최적화된 빌드 사이즈
-- **Storybook 문서**: 인터랙티브한 컴포넌트 문서 및 데모
+- **Vue 3 + TypeScript**: Vue 3.5 이상과 타입 정의를 지원합니다.
+- **ESM-only 배포**: modern bundler 환경에 맞춘 ESM 산출물만 제공합니다.
+- **컴포넌트 40+개**: Button, Form, Navigation, Layout, Feedback, Data Display 계열 컴포넌트를 포함합니다.
+- **플러그인/개별 import 지원**: 전체 전역 등록 또는 필요한 컴포넌트만 import할 수 있습니다.
+- **KRDS 스타일/토큰 포함**: 패키지 스타일 엔트리에서 토큰, 폰트, 컴포넌트 CSS를 함께 제공합니다.
+- **접근성 고려**: 키보드 조작, ARIA 속성, 포커스 스타일, 고대비 모드를 고려해 구현합니다.
+- **SSR 친화적 ID 생성**: 내부 ID가 필요한 컴포넌트는 Vue의 ID 생성 흐름을 따릅니다.
 
 ## 설치
 
 ```bash
+# pnpm
+pnpm add @krds.ui/vue
+
 # npm
 npm install @krds.ui/vue
-
-# pnpm (권장)
-pnpm add @krds.ui/vue
 
 # yarn
 yarn add @krds.ui/vue
@@ -37,124 +41,148 @@ yarn add @krds.ui/vue
 
 ## 빠른 시작
 
-### 1. 스타일 가져오기
+### 1. 스타일 import
 
-메인 엔트리 파일(예: `main.ts` 또는 `main.js`)에서 KRDS 스타일을 가져옵니다:
+애플리케이션 엔트리에서 스타일을 한 번 import합니다. CSS 안의 아이콘 URL은 패키지의 `dist/img` 자산을 기준으로 상대 경로를 사용합니다.
 
-```typescript
-import '@krds.ui/vue/dist/style.css'
+```ts
+import '@krds.ui/vue/style'
 ```
 
-### 2. 컴포넌트 사용
+### 2. 전역 플러그인 등록
+
+```ts
+import { createApp } from 'vue'
+import KrdsVue from '@krds.ui/vue'
+import '@krds.ui/vue/style'
+import App from './App.vue'
+
+createApp(App).use(KrdsVue).mount('#app')
+```
+
+특정 컴포넌트만 전역 등록할 수도 있습니다.
+
+```ts
+app.use(KrdsVue, {
+  components: ['KrdsButton', 'KrdsInput', 'KrdsModal']
+})
+```
+
+### 3. 개별 컴포넌트 import
+
+전역 등록이 필요 없다면 필요한 컴포넌트만 가져옵니다.
 
 ```vue
-<template>
-  <div>
-    <KrdsButton variant="primary" size="medium" @click="handleClick">
-      확인
-    </KrdsButton>
-
-    <KrdsInput
-      v-model="text"
-      label="이름"
-      placeholder="이름을 입력하세요"
-      required
-    />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { KrdsButton, KrdsInput } from '@krds.ui/vue'
 
-const text = ref('')
-
-const handleClick = () => {
-  console.log('버튼 클릭됨')
-}
+const name = ref('')
 </script>
+
+<template>
+  <KrdsInput
+    v-model="name"
+    label="이름"
+    placeholder="이름을 입력하세요"
+    required
+  />
+
+  <KrdsButton variant="primary" size="medium">
+    확인
+  </KrdsButton>
+</template>
 ```
 
-## 주요 컴포넌트
+## TypeScript
 
-전체 컴포넌트 목록과 상세 API는 [Storybook 문서](https://krds.initializer.org/)를 참조하세요.
+컴포넌트 props와 공통 타입을 패키지 루트에서 가져올 수 있습니다.
 
-## TypeScript 지원
+```ts
+import type { KrdsButtonProps, KrdsInputProps, Size } from '@krds.ui/vue'
 
-KRDS Vue는 완전한 TypeScript 지원을 제공합니다:
+const size: Size = 'medium'
 
-```typescript
-import type { KrdsButtonProps, KrdsInputProps } from '@krds.ui/vue'
-
-// Props 타입 활용
 const buttonProps: KrdsButtonProps = {
   variant: 'primary',
-  size: 'medium',
+  size,
   disabled: false
 }
 
-// 이벤트 타입 활용
-import type { KrdsInputEmits } from '@krds.ui/vue'
-
-const handleInput: KrdsInputEmits['input'] = (value: string) => {
-  console.log('입력값:', value)
+const inputProps: KrdsInputProps = {
+  label: '이름',
+  modelValue: '',
+  size
 }
 ```
 
-## 개발 환경 요구사항
+## 스타일과 테마
 
-- **Node.js**: >= 20.0.0
-- **pnpm**: >= 9.0.0 (권장 패키지 매니저)
-- **Vue**: >= 3.5.0 (peer dependency)
+KRDS Vue 스타일은 CSS custom properties를 기반으로 합니다. 프로젝트에서 토큰 값을 조정해야 한다면 원본 CSS를 수정하지 말고 애플리케이션 CSS에서 필요한 변수만 재선언합니다.
 
-## 접근성
+```css
+:root {
+  --krds-color-light-primary-50: #256ef4;
+}
+```
 
-KRDS Vue는 WCAG 2.1 AA 수준의 접근성을 준수합니다:
+컬러 모드는 루트 요소의 `data-krds-mode` 속성으로 전환합니다.
 
-- 키보드 내비게이션 완전 지원
-- 스크린 리더 호환성
-- 적절한 ARIA 속성 및 역할
-- 색상 대비 및 포커스 표시
-- Storybook의 `@storybook/addon-a11y`를 통한 자동 검증
+```ts
+document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
+```
 
-## 기여
+지원 모드:
 
-KRDS Vue는 오픈소스 프로젝트입니다. 기여를 환영합니다!
+- `light`: 기본 라이트 모드
+- `high-contrast`: 고대비 모드
+- `theme`: 사용자 시스템 설정에 따라 라이트/고대비 스타일 적용
 
-1. 버그 리포트나 기능 요청: [GitHub Issues](https://github.com/Initializer-org/krds-vue/issues)
-2. Pull Request: [GitHub Repository](https://github.com/Initializer-org/krds-vue)
+## 컴포넌트 범위
 
-### 개발 환경 설정
+대표 컴포넌트는 다음과 같습니다. 전체 목록과 props/events는 [Storybook 문서](https://krds.initializer.org/)에서 확인하세요.
+
+- **Actions**: `KrdsButton`, `KrdsButtonGroup`, `KrdsLink`, `KrdsTag`, `KrdsBadge`
+- **Forms**: `KrdsInput`, `KrdsTextarea`, `KrdsSelect`, `KrdsDateInput`, `KrdsCheckbox`, `KrdsRadio`, `KrdsToggleSwitch`, `KrdsFileUpload`
+- **Navigation**: `KrdsBreadcrumb`, `KrdsPagination`, `KrdsSideNavigation`, `KrdsInPageNavigation`, `KrdsStepIndicator`
+- **Layout**: `KrdsLayout`, `KrdsHeader`, `KrdsFooter`, `KrdsMasthead`, `KrdsIdentifier`
+- **Feedback/Overlay**: `KrdsModal`, `KrdsTooltip`, `KrdsCoachMark`, `KrdsContextualHelp`, `KrdsCriticalAlerts`, `KrdsSpinner`
+- **Data/Content**: `KrdsTable`, `KrdsStructuredList`, `KrdsTextList`, `KrdsPanel`, `KrdsDisclosure`
+
+## 요구사항
+
+- **Runtime**: Vue `^3.5.0`
+- **Module system**: ESM
+- **Development**: Node.js `>=20.0.0`, pnpm `>=9.0.0`
+
+## 개발
 
 ```bash
-# 저장소 클론
 git clone https://github.com/Initializer-org/krds-vue.git
 cd krds-vue
 
-# 의존성 설치
 pnpm install
-
-# 개발 서버 실행
-pnpm dev
-
-# Storybook 실행
 pnpm storybook
-
-# 테스트 실행
 pnpm test
-
-# 빌드
 pnpm build
 ```
 
-## 라이센스
+주요 스크립트:
+
+- `pnpm storybook`: Storybook 개발 서버 실행
+- `pnpm test`: Vitest 실행
+- `pnpm build`: 타입 검사와 라이브러리 빌드
+- `pnpm build-storybook`: 정적 Storybook 빌드
+
+## 배포 산출물
+
+`npm pack --dry-run` 기준으로 패키지에는 다음 산출물이 포함됩니다.
+
+- `dist/krds-vue.es.js`
+- `dist/style.css`
+- `dist/types/index.d.ts`
+- `dist/img/component/icon/*.svg`
+
+## 라이선스
 
 MIT © [Initializer Team](https://github.com/Initializer-org)
-
-## 관련 링크
-
-- [GitHub Repository](https://github.com/Initializer-org/krds-vue)
-- [npm Package](https://www.npmjs.com/package/@krds.ui/vue)
-- [Storybook 문서](https://krds.initializer.org/)
-- [KRDS 공식 홈페이지](https://www.krds.go.kr/html/site/index.html)
-- [Issue Tracker](https://github.com/Initializer-org/krds-vue/issues)

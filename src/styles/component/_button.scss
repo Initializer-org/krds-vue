@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 버튼 / 링크 */
 //사이즈 정의
 @mixin button-size-variable() {

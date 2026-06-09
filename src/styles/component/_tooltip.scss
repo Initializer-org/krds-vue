@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 툴팁 */
 //사이즈 정의
 @mixin tooltip-size-variable() {

@@ -140,7 +140,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import type { BaseFormProps, Size } from '@/types'
+  import type { BaseFormProps, Size } from '../../types'
   import KrdsButton from '@/components/KrdsButton/KrdsButton.ts'
   import { useDatePicker } from '@/composables/useDatePicker'
   import { useClickOutside } from '@/composables/useClickOutside'

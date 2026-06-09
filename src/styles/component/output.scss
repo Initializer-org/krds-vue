@@ -1,7 +1,7 @@
 //component with common setting file
 
 //common
-@import '../common/common';
+@use '../common/common';
 
 //component
-@import 'component';
+@use 'component';

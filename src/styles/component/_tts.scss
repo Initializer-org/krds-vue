@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* TTS */
 //사이즈 정의
 @mixin tts-size-variable() {

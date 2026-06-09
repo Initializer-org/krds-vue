@@ -1,4 +1,4 @@
-@import '../common/include';
+@use '../common/include' as *;
 
 //모드 설정
 $mode-setting: light;

@@ -1,3 +1,6 @@
+@use '../common/include' as *;
+@use '../common/path' as *;
+
 /* 화면 크기 조정 */
 //사이즈 정의
 @mixin resize-size-variable() {

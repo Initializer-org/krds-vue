@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 입력 필드 / 텍스트 영역 */
 //사이즈 정의
 @mixin input-size-variable() {

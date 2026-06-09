@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BaseComponentProps } from '@/types'
+  import type { BaseComponentProps } from '../../types'
   import { computed } from 'vue'
 
   type StepsData = { id: number; title: string; description: string }

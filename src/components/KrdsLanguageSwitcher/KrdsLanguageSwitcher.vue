@@ -69,7 +69,7 @@
 
 <script setup lang="ts">
   import { ref, onUnmounted, watch } from 'vue'
-  import { BaseComponentProps } from '@/types'
+  import type { BaseComponentProps } from '../../types'
 
   export type LanguageData = { code: string; name: string; url?: string }
 

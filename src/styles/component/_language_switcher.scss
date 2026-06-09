@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 언어 변경 */
 //사이즈 정의
 @mixin resize-size-variable() {

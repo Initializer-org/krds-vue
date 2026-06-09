@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 스피너 */
 //사이즈 정의
 @mixin spinner-size-variable() {

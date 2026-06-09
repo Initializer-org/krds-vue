@@ -7,6 +7,10 @@
 
 import type { App, Plugin } from 'vue'
 
+declare const __KRDS_VERSION__: string
+
+const krdsVersion = __KRDS_VERSION__
+
 // 컴포넌트 imports
 import * as components from './components'
 
@@ -64,13 +68,13 @@ const KrdsVue: Plugin = {
 
     // 전역 속성 추가
     app.config.globalProperties.$krds = {
-      version: '__VERSION__'
+      version: krdsVersion
     }
 
     // 개발 모드에서 설치 로그
     if (process.env.NODE_ENV !== 'production') {
       // eslint-disable-next-line no-console
-      console.log(`[KRDS Vue] v__VERSION__ 설치 완료 - 컴포넌트: ${componentsToInstall.length}개`)
+      console.log(`[KRDS Vue] v${krdsVersion} 설치 완료 - 컴포넌트: ${componentsToInstall.length}개`)
     }
   }
 }
@@ -78,4 +82,4 @@ const KrdsVue: Plugin = {
 export default KrdsVue
 
 // 버전 정보
-export const version = '__VERSION__'
+export const version = krdsVersion

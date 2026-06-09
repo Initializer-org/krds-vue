@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 모달 */
 //사이즈 정의
 @mixin modal-size-variable() {

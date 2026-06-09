@@ -1,4 +1,4 @@
-@import '../group_variables';
+@use '../group_variables' as *;
 
 @mixin size-medium {
   // 767까지

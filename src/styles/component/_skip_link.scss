@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 건너뛰기 링크 */
 //사이즈 정의
 @mixin skip-link-size-variable() {
