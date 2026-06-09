@@ -148,3 +148,43 @@ export type { KrdsAccordionItemProps, KrdsAccordionItemEmits } from './KrdsAccor
 // Tts 컴포넌트
 export { default as KrdsTts } from './KrdsTts'
 export type { KrdsTtsProps, KrdsTtsEmits, TtsSize, TtsIcon } from './KrdsTts'
+
+// Table 컴포넌트
+export { default as KrdsTable } from './KrdsTable'
+export type { KrdsTableProps, KrdsTableEmits, TableColumn, TableRow } from './KrdsTable'
+
+// Header 컴포넌트
+export { default as KrdsHeader } from './KrdsHeader'
+export type { KrdsHeaderProps } from './KrdsHeader'
+
+// Footer 컴포넌트
+export { default as KrdsFooter } from './KrdsFooter'
+export type { KrdsFooterProps } from './KrdsFooter'
+
+// Disclosure 컴포넌트
+export { default as KrdsDisclosure } from './KrdsDisclosure'
+export type { KrdsDisclosureProps, KrdsDisclosureEmits } from './KrdsDisclosure'
+
+// Identifier 컴포넌트
+export { default as KrdsIdentifier } from './KrdsIdentifier'
+export type { KrdsIdentifierProps, KrdsIdentifierEmits } from './KrdsIdentifier'
+
+// Layout 컴포넌트
+export { default as KrdsLayout } from './KrdsLayout'
+export type { KrdsLayoutProps, KrdsLayoutEmits, ScrollDetails, LayoutSize } from './KrdsLayout'
+
+// SideNavigation 컴포넌트
+export { default as KrdsSideNavigation } from './KrdsSideNavigation'
+export type { KrdsSideNavigationProps, KrdsSideNavigationEmits, SideNavItem, SideNavSubItem, SideNavPopupItem } from './KrdsSideNavigation'
+
+// StructuredList 컴포넌트
+export { default as KrdsStructuredList } from './KrdsStructuredList'
+export type { KrdsStructuredListProps } from './KrdsStructuredList'
+
+// TextList 컴포넌트
+export { default as KrdsTextList } from './KrdsTextList'
+export type { KrdsTextListProps } from './KrdsTextList'
+
+// CriticalAlerts 컴포넌트
+export { default as KrdsCriticalAlerts } from './KrdsCriticalAlerts'
+export type { KrdsCriticalAlertsProps, KrdsCriticalAlertsEmits, AlertType } from './KrdsCriticalAlerts'
