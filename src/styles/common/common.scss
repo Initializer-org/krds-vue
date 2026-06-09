@@ -1,15 +1,15 @@
 //공통
 
-@import 'path';
-@import '../../tokens/krds_tokens.css'; //디자인 토큰
-@import 'include';
-@import '../../assets/fonts/fonts';
-@import 'root';
-@import 'icon';
+@use 'path' as *;
+@use 'tokens';
+@use 'include' as *;
+@use '../../assets/fonts/fonts';
+@use 'root';
+@use 'icon';
 
-@import 'dropdown';
+@use 'dropdown';
 
-@import 'reset';
+@use 'reset';
 
 // FIXME 컴포넌트 상으로는 없음
-@import 'site';
+@use 'site';

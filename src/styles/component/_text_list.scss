@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 텍스트 목록 */
 //사이즈 정의
 @mixin text-list-size-variable() {

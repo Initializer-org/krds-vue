@@ -1,3 +1,6 @@
+@use '../common/include' as *;
+@use '../common/group_variables' as *;
+
 /* 구조화 목록 */
 //사이즈 정의
 @mixin structured-list-size-variable() {

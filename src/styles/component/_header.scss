@@ -1,3 +1,6 @@
+@use '../common/include' as *;
+@use '../common/path' as *;
+
 /* 헤더 */
 //사이즈 정의
 @mixin header-size-variable() {

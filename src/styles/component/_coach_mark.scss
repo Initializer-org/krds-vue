@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 코치마크 */
 //사이즈 정의
 @mixin coach-mark-size-variable() {

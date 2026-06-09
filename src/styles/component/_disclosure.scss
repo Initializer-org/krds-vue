@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 디스클로저 */
 //사이즈 정의
 @mixin disclosure-size-variable() {

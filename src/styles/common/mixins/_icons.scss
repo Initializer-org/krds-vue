@@ -1,3 +1,6 @@
+@use '../path' as *;
+@use 'utils' as *;
+
 //svg img
 @mixin svg-icon($size: var(--krds-icon--size-large), $mode: light, $effect: null) {
   display: inline-flex;

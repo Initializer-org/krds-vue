@@ -1,3 +1,6 @@
+@use 'include' as *;
+@use 'path' as *;
+
 .svg-icon {
   &.ico-angle {
     //꺽쇠모양

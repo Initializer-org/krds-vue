@@ -4,5 +4,5 @@
  */
 
 // 공통 스타일 (디자인 토큰, 변수, mixin, reset 등 모두 포함)
-@import 'component/output';
-@import 'pattern/p_layout';
+@use 'component/output';
+@use 'pattern/p_layout';

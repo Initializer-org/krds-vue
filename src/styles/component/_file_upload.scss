@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 파일 업로드 */
 //사이즈 정의
 @mixin file-upload-size-variable() {

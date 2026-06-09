@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 사이드 메뉴 */
 //사이즈 정의
 @mixin side-menu-size-variable() {

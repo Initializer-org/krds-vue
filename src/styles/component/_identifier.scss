@@ -1,3 +1,6 @@
+@use '../common/include' as *;
+@use '../common/path' as *;
+
 /* 운영기관 식별자 */
 //모드 설정
 $mode-setting: light;

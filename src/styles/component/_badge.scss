@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 배지 */
 //사이즈 정의
 @mixin badge-size-variable() {

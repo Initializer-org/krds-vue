@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 아코디언 */
 //사이즈 정의
 @mixin accordion-size-variable() {

@@ -1,0 +1,3 @@
+@use 'sass:meta';
+
+@include meta.load-css('../../tokens/krds_tokens.css'); //디자인 토큰

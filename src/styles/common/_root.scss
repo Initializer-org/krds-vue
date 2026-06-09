@@ -1,5 +1,5 @@
-@import 'group_variables';
-@import 'group_mixins';
+@use 'group_variables' as *;
+@use 'include' as *;
 
 //모드 설정
 $mode-setting: light;

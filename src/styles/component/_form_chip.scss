@@ -1,3 +1,5 @@
+@use '../common/include' as *;
+
 /* 라디오 버튼 / 체크박스 chip */
 //사이즈 정의
 @mixin form-chip-size-variable() {
