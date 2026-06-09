@@ -19,20 +19,10 @@ const keywords = [
   'Storybook'
 ]
 
-const escapeHtml = value =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+const escapeHtml = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 const escapeXml = value =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 
 const indexPath = join(outputDir, 'index.html')
 const indexJsonPath = join(outputDir, 'index.json')
@@ -84,7 +74,7 @@ html = html.replace(/<html lang="[^"]*">/, '<html lang="ko">')
 html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
 
 if (html.includes('<!-- KRDS Vue SEO -->')) {
-  html = html.replace(/    <!-- KRDS Vue SEO -->[\s\S]*?    <!-- \/KRDS Vue SEO -->/, seoBlock)
+  html = html.replace(/ {4}<!-- KRDS Vue SEO -->[\s\S]*? {4}<!-- \/KRDS Vue SEO -->/, seoBlock)
 } else {
   html = html.replace(/(\s*)<\/head>/, `\n${seoBlock}$1</head>`)
 }
@@ -191,5 +181,3 @@ writeFileSync(
 if (existsSync(indexPath)) {
   copyFileSync(indexPath, join(outputDir, '404.html'))
 }
-
-console.log(`[storybook-seo] SEO files generated for ${siteUrl}`)
