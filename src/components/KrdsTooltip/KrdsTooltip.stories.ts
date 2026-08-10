@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsTooltip from './KrdsTooltip.vue'
+import KrdsTooltip from './KrdsTooltip'
 
 const meta: Meta<typeof KrdsTooltip> = {
   title: 'Components/Help/KrdsTooltip',
