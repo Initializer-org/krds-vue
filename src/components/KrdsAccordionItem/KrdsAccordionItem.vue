@@ -5,6 +5,7 @@
         :id="`accordion-header-${id}`"
         type="button"
         class="btn-accordion"
+        :class="{ active: isOpen }"
         :aria-expanded="isOpen"
         :aria-controls="`accordion-collapse-${id}`"
         @click="openToggle()"
@@ -12,7 +13,7 @@
         <slot name="title">{{ title }}</slot>
       </button>
     </h5>
-    <div :id="`accordion-collapse-${id}`" class="accordion-collapse collapse" :aria-labelledby="`accordion-header-${id}`">
+    <div :id="`accordion-collapse-${id}`" class="accordion-collapse collapse" role="region" :aria-labelledby="`accordion-header-${id}`">
       <div class="accordion-body">
         <slot name="content">{{ content }}</slot>
       </div>
