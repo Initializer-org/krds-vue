@@ -2,8 +2,8 @@
  * KRDS Panel 컴포넌트
  */
 
-import KrdsPanel from './KrdsPanel.vue'
-import type { KrdsPanelProps } from './KrdsPanel.vue'
+import KrdsPanel from './KrdsPanel'
+import type { KrdsPanelProps } from './KrdsPanel'
 
 export { KrdsPanel }
 export type { KrdsPanelProps }
