@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsPanel from './KrdsPanel.vue'
+import KrdsPanel from './KrdsPanel'
 import { ref } from 'vue'
 
 const meta: Meta<typeof KrdsPanel> = {

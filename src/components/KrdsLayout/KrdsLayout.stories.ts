@@ -6,7 +6,7 @@ import { KrdsFooter } from '../KrdsFooter'
 import { KrdsIdentifier } from '../KrdsIdentifier'
 import { KrdsHeader } from '../KrdsHeader'
 import KrdsSkipLink from '../KrdsSkipLink/KrdsSkipLink'
-import KrdsBreadcrumb from '../KrdsBreadcrumb/KrdsBreadcrumb.vue'
+import KrdsBreadcrumb from '../KrdsBreadcrumb/KrdsBreadcrumb'
 import { KrdsButton } from '../KrdsButton'
 
 const meta: Meta<typeof KrdsLayout> = {

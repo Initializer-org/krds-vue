@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect } from 'storybook/test'
-import KrdsBreadcrumb from './KrdsBreadcrumb.vue'
-import type { BreadcrumbItem } from './KrdsBreadcrumb.vue'
+import KrdsBreadcrumb from './KrdsBreadcrumb'
+import type { BreadcrumbItem } from './KrdsBreadcrumb'
 
 const meta: Meta<typeof KrdsBreadcrumb> = {
   title: 'Components/Navigation/KrdsBreadcrumb',

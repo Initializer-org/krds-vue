@@ -1,0 +1,80 @@
+import { computed, defineComponent, h } from 'vue'
+
+/**
+ * KRDS AccordionItem 컴포넌트 속성
+ */
+export interface KrdsAccordionItemProps {
+  /** 아이템 고유 식별자 */
+  id: string
+  /** 현재 열려 있는 아이템의 id */
+  openItem?: string
+  /** 헤더 텍스트 (title 슬롯으로 대체 가능) */
+  title?: string
+  /** 본문 텍스트 (content 슬롯으로 대체 가능) */
+  content?: string
+}
+
+/**
+ * KRDS AccordionItem 컴포넌트 이벤트
+ */
+export interface KrdsAccordionItemEmits {
+  (e: 'toggle', id: string): void
+}
+
+export default defineComponent<KrdsAccordionItemProps>({
+  name: 'KrdsAccordionItem',
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    openItem: {
+      type: String,
+      default: undefined
+    },
+    title: {
+      type: String,
+      default: undefined
+    },
+    content: {
+      type: String,
+      default: undefined
+    }
+  },
+  emits: ['toggle'],
+  setup(props, { emit, slots }) {
+    const isOpen = computed(() => props.openItem === props.id)
+
+    const openToggle = (): void => {
+      emit('toggle', props.id)
+    }
+
+    return () =>
+      h('div', { id: props.id, class: ['accordion-item', { active: isOpen.value }] }, [
+        h('h5', { class: 'accordion-header' }, [
+          h(
+            'button',
+            {
+              id: `accordion-header-${props.id}`,
+              type: 'button',
+              class: ['btn-accordion', { active: isOpen.value }],
+              'aria-expanded': isOpen.value,
+              'aria-controls': `accordion-collapse-${props.id}`,
+              onClick: openToggle
+            },
+            slots.title?.() ?? props.title
+          )
+        ]),
+        h(
+          'div',
+          {
+            id: `accordion-collapse-${props.id}`,
+            class: 'accordion-collapse collapse',
+            role: 'region',
+            'aria-labelledby': `accordion-header-${props.id}`
+          },
+          [h('div', { class: 'accordion-body' }, slots.content?.() ?? props.content)]
+        )
+      ])
+  }
+})

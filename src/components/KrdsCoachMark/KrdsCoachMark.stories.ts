@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsCoachMark from './KrdsCoachMark.vue'
+import KrdsCoachMark from './KrdsCoachMark'
 import { ref } from 'vue'
 
 const meta: Meta<typeof KrdsCoachMark> = {
