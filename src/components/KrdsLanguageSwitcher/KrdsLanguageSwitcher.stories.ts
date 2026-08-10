@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsLanguageSwitcher, { LanguageData } from './KrdsLanguageSwitcher.vue'
+import KrdsLanguageSwitcher, { LanguageData } from './KrdsLanguageSwitcher'
 import { ref, computed } from 'vue'
 
 const meta: Meta<typeof KrdsLanguageSwitcher> = {

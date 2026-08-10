@@ -2,8 +2,8 @@
  * KRDS ContextualHelp 컴포넌트
  */
 
-import KrdsContextualHelp from './KrdsContextualHelp.vue'
-import type { KrdsContextualHelpProps } from './KrdsContextualHelp.vue'
+import KrdsContextualHelp from './KrdsContextualHelp'
+import type { KrdsContextualHelpProps } from './KrdsContextualHelp'
 
 export { KrdsContextualHelp }
 export type { KrdsContextualHelpProps }
