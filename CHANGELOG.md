@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.15](https://github.com/Initializer-org/krds-vue/compare/v0.0.14...v0.0.15) (2026-08-10)
+
+
+### Bug Fixes
+
+* **accordion:** 펼침 상태 스타일 미적용 수정 및 region 역할 추가 ([#193](https://github.com/Initializer-org/krds-vue/issues/193)) ([3d94a79](https://github.com/Initializer-org/krds-vue/commit/3d94a79601bb01e8e1c0f8f9f6e15a49c78eccfc))
+
+
+### Chores
+
+* **deps:** resolve security audit failures and update dependencies ([#192](https://github.com/Initializer-org/krds-vue/issues/192)) ([53080b8](https://github.com/Initializer-org/krds-vue/commit/53080b809a6befd1b1322b224690787e4ecd946f))
+
+
+### Code Refactoring
+
+* **components:** SFC → h() 렌더 함수 전환 (1/3 배치) ([#194](https://github.com/Initializer-org/krds-vue/issues/194)) ([2641999](https://github.com/Initializer-org/krds-vue/commit/26419993a358e6f1cba48b5686849d2f77215da4))
+* **components:** SFC → h() 렌더 함수 전환 (2/3 배치) ([#195](https://github.com/Initializer-org/krds-vue/issues/195)) ([4915405](https://github.com/Initializer-org/krds-vue/commit/4915405a01f9ae85fa989e290395da6557fc8bee))
+* **components:** SFC → h() 렌더 함수 전환 (3/3 배치, 완료) ([#196](https://github.com/Initializer-org/krds-vue/issues/196)) ([9142fd5](https://github.com/Initializer-org/krds-vue/commit/9142fd56d4d6dbdf9ba08099f520b2c5b3d81bf9))
+
 ### [0.0.14](https://github.com/Initializer-org/krds-vue/compare/v0.0.13...v0.0.14) (2026-06-09)
 
 
