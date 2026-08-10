@@ -2,8 +2,8 @@
  * KRDS Tooltip 컴포넌트
  */
 
-import KrdsTooltip from './KrdsTooltip.vue'
-import type { KrdsTooltipProps } from './KrdsTooltip.vue'
+import KrdsTooltip from './KrdsTooltip'
+import type { KrdsTooltipProps } from './KrdsTooltip'
 
 export { KrdsTooltip }
 export type { KrdsTooltipProps }

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
-import KrdsPagination from './KrdsPagination.vue'
+import KrdsPagination from './KrdsPagination'
 
 const meta = {
   title: 'Components/Navigation/KrdsPagination',

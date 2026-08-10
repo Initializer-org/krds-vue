@@ -1,5 +1,5 @@
-import KrdsDateInput from './KrdsDateInput.vue'
-import type { KrdsDateInputProps, KrdsDateInputEmits } from './KrdsDateInput.vue'
+import KrdsDateInput from './KrdsDateInput'
+import type { KrdsDateInputProps, KrdsDateInputEmits } from './KrdsDateInput'
 
 export { KrdsDateInput }
 export type { KrdsDateInputProps, KrdsDateInputEmits }

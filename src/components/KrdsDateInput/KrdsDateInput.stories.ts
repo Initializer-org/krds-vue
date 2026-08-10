@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
-import KrdsDateInput from './KrdsDateInput.vue'
+import KrdsDateInput from './KrdsDateInput'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormLabel from '../KrdsFormLabel/KrdsFormLabel'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
