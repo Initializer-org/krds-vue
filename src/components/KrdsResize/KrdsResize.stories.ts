@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsResize from './KrdsResize.vue'
+import KrdsResize from './KrdsResize'
 
 const meta: Meta<typeof KrdsResize> = {
   title: 'Components/Setting/KrdsResize',

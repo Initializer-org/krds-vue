@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, waitFor } from 'storybook/test'
-import KrdsContextualHelp from './KrdsContextualHelp.vue'
+import KrdsContextualHelp from './KrdsContextualHelp'
 
 const meta: Meta<typeof KrdsContextualHelp> = {
   title: 'Components/Help/KrdsContextualHelp',

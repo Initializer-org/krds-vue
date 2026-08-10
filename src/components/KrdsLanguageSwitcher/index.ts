@@ -2,8 +2,8 @@
  * KRDS LanguageSwitcher 컴포넌트
  */
 
-import KrdsLanguageSwitcher from './KrdsLanguageSwitcher.vue'
-import type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher.vue'
+import KrdsLanguageSwitcher from './KrdsLanguageSwitcher'
+import type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
 
 export { KrdsLanguageSwitcher }
 export type { KrdsLanguageSwitcherProps }

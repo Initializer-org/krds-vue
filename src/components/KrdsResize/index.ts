@@ -2,8 +2,8 @@
  * KRDS Resize 컴포넌트
  */
 
-import KrdsResize from './KrdsResize.vue'
-import type { KrdsResizeEmits } from './KrdsResize.vue'
+import KrdsResize from './KrdsResize'
+import type { KrdsResizeEmits } from './KrdsResize'
 
 export { KrdsResize }
 export type { KrdsResizeEmits }
