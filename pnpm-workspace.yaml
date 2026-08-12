@@ -1,3 +1,7 @@
-overrides:
-  glob@>=10.2.0 <10.5.0: '>=10.5.0'
-  js-yaml@>=4.0.0 <4.1.1: '>=4.1.1'
+# pnpm 설정 (pnpm 11부터 .npmrc 대신 여기서 관리)
+shamefullyHoist: true
+strictPeerDependencies: false
+autoInstallPeers: true
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true

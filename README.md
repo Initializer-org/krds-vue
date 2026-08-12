@@ -153,7 +153,7 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 - **Runtime**: Vue `^3.5.0`
 - **Module system**: ESM
-- **Development**: Node.js `>=20.0.0`, pnpm `>=9.0.0`
+- **Development**: Node.js `>=24.0.0`, pnpm `>=11.0.0`
 
 ## 개발
 

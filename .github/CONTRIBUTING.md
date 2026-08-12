@@ -6,8 +6,8 @@ KRDS Vue에 기여해주셔서 감사합니다!
 
 ### 필수 요구사항
 
-- Node.js >= 20
-- pnpm >= 9
+- Node.js >= 24
+- pnpm >= 11
 - Git
 
 ### 설정 단계
