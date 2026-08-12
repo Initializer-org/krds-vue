@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://github.com/Initializer-org/krds-vue/compare/v0.0.15...v0.0.16) (2026-08-12)
+
+
+### Features
+
+* 번들 최적화, 타입 선언 수정, pnpm 11 전환 및 KrdsMainMenu·KrdsCarousel 구현 ([#197](https://github.com/Initializer-org/krds-vue/issues/197)) ([b0df297](https://github.com/Initializer-org/krds-vue/commit/b0df2974f5e753d47e3202ad2e875244c10a66a2))
+
 ### [0.0.15](https://github.com/Initializer-org/krds-vue/compare/v0.0.14...v0.0.15) (2026-08-10)
 
 
