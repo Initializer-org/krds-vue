@@ -23,5 +23,3 @@ export const vSrOnly: Directive<HTMLElement, boolean | undefined> = {
     el.classList.remove('sr-only')
   }
 }
-
-export default vSrOnly

@@ -1,7 +1,9 @@
 /**
  * KRDS 폰트 정의
  * Pretendard GOV 폰트 패밀리 설정
+ * 폰트 파일은 public/fonts에서 dist/fonts로 복사되며, img와 동일하게 CSS 기준 상대 경로로 참조
  */
+@use '../../styles/common/path' as *;
 
 // Pretendard GOV Regular
 @font-face {
@@ -9,9 +11,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src:
-    url('./PretendardGOV-Regular.subset.woff2') format('woff2'),
-    url('./PretendardGOV-Regular.subset.woff') format('woff');
+  src: url(#{$url}/fonts/PretendardGOV-Regular.subset.woff2) format('woff2');
 }
 
 // Pretendard GOV Medium
@@ -20,9 +20,7 @@
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src:
-    url('./PretendardGOV-Medium.subset.woff2') format('woff2'),
-    url('./PretendardGOV-Medium.subset.woff') format('woff');
+  src: url(#{$url}/fonts/PretendardGOV-Medium.subset.woff2) format('woff2');
 }
 
 // Pretendard GOV Bold
@@ -31,9 +29,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src:
-    url('./PretendardGOV-Bold.subset.woff2') format('woff2'),
-    url('./PretendardGOV-Bold.subset.woff') format('woff');
+  src: url(#{$url}/fonts/PretendardGOV-Bold.subset.woff2) format('woff2');
 }
 
 // 폰트 변수

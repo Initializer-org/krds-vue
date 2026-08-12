@@ -7,9 +7,10 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)  
 - **목표**: Vue 3 + TypeScript로 컴포넌트 포팅
 - **배포**: NPM 패키지 `@krds.ui/vue`
-- **현재 버전**: v0.0.12
+- **현재 버전**: v0.0.15
 - **KRDS 원본 동기화**: v1.1.0 반영 완료
-- **현재 진행률**: 50/56 항목 완료 (미구현: MainMenu, Carousel, Alert, Grid, Card, Progress)
+- **현재 진행률**: 52/52 항목 완료
+- **제외 항목**: Alert, Grid, Card, Progress — 원본 저장소에 HTML/SCSS가 존재하지 않아 포팅 대상 아님 (2026-08-12 원본 main 브랜치 전수 확인)
 
 ## 개발 TODO
 
@@ -22,7 +23,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 
 ### 2. 탐색 컴포넌트 (Navigation Components) - 7개
 - [x] **KrdsSkipLink** - 건너뛰기 링크 (Skip link)
-- [ ] **KrdsMainMenu** - 메인 메뉴 (Main menu)
+- [x] **KrdsMainMenu** - 메인 메뉴 (Main menu) - PC 메가 메뉴 + 모바일 드로어 variant (원본: main_menu_pc.html, main_menu_mobile.html)
 - [x] **KrdsBreadcrumb** - 브레드크럼 (Breadcrumb)
 - [x] **KrdsSideNavigation** - 사이드 메뉴 (Side navigation)
 - [x] **KrdsInPageNavigation** - 콘텐츠 내 탐색 (In-page navigation)
@@ -38,7 +39,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [x] **KrdsBadge** - 배지 (Badge)
 - [x] **KrdsAccordion** - 아코디언 (Accordion)
 - [x] **KrdsImage** - 이미지 (Image) - 컴포넌트가 아닌 개념 설명만 제공
-- [ ] **KrdsCarousel** - 캐러셀 (Carousel)
+- [x] **KrdsCarousel** - 캐러셀 (Carousel) - Swiper 의존성 없이 자체 구현, visual/banner variant (원본: carousel.html, carousel_banner.html)
 - [x] **KrdsTabs** - 탭 (Tab) - KrdsTab, KrdsTabList, KrdsTabPanels 포함
 - [x] **KrdsTable** - 표 (Table)
 - [x] **KrdsSplashScreen** - 스플래시 스크린 (Splash screen) - 컴포넌트가 아닌 개념 설명만 제공
@@ -80,16 +81,12 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - [X] **KrdsAccessibleMultimedia** - 접근 가능한 미디어 (Accessible multimedia) - 컴포넌트가 아닌 개념 설명만 제공
 - [X] **KrdsVisuallyHidden** - 숨긴 콘텐츠 (Visually hidden) - `v-sr-only` 디렉티브로 대체
 
-### 11. 기타 컴포넌트 (Additional Components) - 10개
+### 11. 기타 컴포넌트 (Additional Components) - 6개
 - [x] **KrdsFormGroup** - 폼 그룹 래퍼
 - [x] **KrdsFormLabel** - 폼 레이블
 - [x] **KrdsFormHint** - 폼 힌트/도움말
-- [ ] **KrdsAlert** (alert.html) - 알림/경고
-- [ ] **KrdsGrid** (grid.html) - 그리드 시스템
 - [x] **KrdsLayout** (layout.html) - 레이아웃
-- [ ] **KrdsCard** (card.html) - 카드 컴포넌트
 - [x] **KrdsIcon** - 아이콘 컴포넌트
-- [ ] **KrdsProgress** (progress.html) - 진행률 표시기
 - [x] **KrdsButtonGroup** - 버튼 그룹
 
 

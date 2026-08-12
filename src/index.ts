@@ -15,7 +15,7 @@ const krdsVersion = __KRDS_VERSION__
 import * as components from './components'
 
 // 디렉티브 imports
-import * as directives from './directives'
+import { installDirectives } from './directives'
 
 // 메인 스타일 (플러그인 사용 시 자동 로드)
 import './styles/main.scss'
@@ -62,9 +62,7 @@ const KrdsVue: Plugin = {
     })
 
     // 디렉티브 등록
-    if (typeof directives === 'object' && directives !== null && 'installDirectives' in directives) {
-      ;(directives as { installDirectives: (app: App) => void }).installDirectives(app)
-    }
+    installDirectives(app)
 
     // 전역 속성 추가
     app.config.globalProperties.$krds = {

@@ -11,10 +11,9 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     vue(),
     dts({
-      insertTypesEntry: true,
-      outDir: 'dist/types',
-      cleanVueFileName: true,
-      rollupTypes: true
+      outDirs: 'dist/types',
+      bundleTypes: true,
+      cleanVueFileName: true
     })
   ],
   define: {

@@ -64,7 +64,7 @@ export type { KrdsTagGroupProps, KrdsTagGroupSize } from './KrdsTagGroup'
 
 // Masthead 컴포넌트
 export { default as KrdsMasthead } from './KrdsMasthead'
-export type { KrdsMastheadProps } from './KrdsMasthead'
+export type { KrdsMastheadProps, KrdsMastheadEmits } from './KrdsMasthead'
 
 // ToggleSwitch 컴포넌트
 export { default as KrdsToggleSwitch } from './KrdsToggleSwitch'
@@ -111,7 +111,7 @@ export type { KrdsPaginationProps, KrdsPaginationEmits } from './KrdsPagination'
 
 // Panel 컴포넌트
 export { default as KrdsPanel } from './KrdsPanel'
-export type { KrdsPanelProps } from './KrdsPanel'
+export type { KrdsPanelProps, KrdsPanelEmits } from './KrdsPanel'
 
 // ContextualHelp 컴포넌트
 export { default as KrdsContextualHelp } from './KrdsContextualHelp'
@@ -119,7 +119,7 @@ export type { KrdsContextualHelpProps } from './KrdsContextualHelp'
 
 // CoachMark 컴포넌트
 export { default as KrdsCoachMark } from './KrdsCoachMark'
-export type { KrdsCoachMarkProps } from './KrdsCoachMark'
+export type { KrdsCoachMarkProps, KrdsCoachMarkEmits } from './KrdsCoachMark'
 
 // Tooltip 컴포넌트
 export { default as KrdsTooltip } from './KrdsTooltip'
@@ -127,7 +127,7 @@ export type { KrdsTooltipProps } from './KrdsTooltip'
 
 // LanguageSwitcher 컴포넌트
 export { default as KrdsLanguageSwitcher } from './KrdsLanguageSwitcher'
-export type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
+export type { KrdsLanguageSwitcherProps, KrdsLanguageSwitcherEmits, DropdownPosition } from './KrdsLanguageSwitcher'
 
 // Resize 컴포넌트
 export { default as KrdsResize } from './KrdsResize'
@@ -188,3 +188,21 @@ export type { KrdsTextListProps } from './KrdsTextList'
 // CriticalAlerts 컴포넌트
 export { default as KrdsCriticalAlerts } from './KrdsCriticalAlerts'
 export type { KrdsCriticalAlertsProps, KrdsCriticalAlertsEmits, AlertType } from './KrdsCriticalAlerts'
+
+// MainMenu 컴포넌트
+export { default as KrdsMainMenu } from './KrdsMainMenu'
+export type {
+  KrdsMainMenuProps,
+  KrdsMainMenuEmits,
+  MainMenuItem,
+  MainMenuSubItem,
+  MainMenuLinkItem,
+  MainMenuDepth4Item,
+  MainMenuAnyItem,
+  MainMenuVariant,
+  MainMenuLayout
+} from './KrdsMainMenu'
+
+// Carousel 컴포넌트
+export { default as KrdsCarousel } from './KrdsCarousel'
+export type { KrdsCarouselProps, KrdsCarouselEmits, KrdsCarouselVariant, KrdsCarouselPaginationType } from './KrdsCarousel'

@@ -33,7 +33,8 @@
       "import": "./dist/krds-vue.es.js"
     },
     "./dist/style.css": "./dist/style.css",
-    "./style": "./dist/style.css"
+    "./style": "./dist/style.css",
+    "./package.json": "./package.json"
   },
   "sideEffects": [
     "**/*.css"
@@ -44,7 +45,7 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm run type-check && pnpm run build:lib",
-    "build:lib": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "build:lib": "vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
@@ -53,7 +54,7 @@
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build && node scripts/storybook-seo.mjs",
-    "bundle-size": "vite build && echo 'Bundle size check removed due to bundlewatch security vulnerability'",
+    "bundle-size": "size-limit",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
@@ -66,13 +67,13 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@microsoft/api-extractor": "^7.58.12",
+    "@size-limit/file": "^13.0.3",
     "@storybook/addon-a11y": "^10.5.7",
     "@storybook/addon-docs": "^10.5.7",
     "@storybook/addon-vitest": "^10.5.7",
     "@storybook/vue3-vite": "^10.5.7",
-    "@tsconfig/node20": "^20.1.9",
+    "@tsconfig/node24": "^24.0.4",
     "@types/node": "^25.9.5",
-    "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/browser": "^4.1.10",
@@ -80,15 +81,13 @@
     "@vitest/coverage-v8": "^4.1.10",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.9.0",
-    "@vue/test-utils": "^2.4.11",
-    "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.8.1",
-    "eslint-plugin-storybook": "^10.5.7",
     "eslint-plugin-vue": "^10.10.0",
     "jsdom": "^29.1.1",
     "playwright": "^1.62.1",
     "prettier": "^3.9.6",
     "sass": "^1.102.0",
+    "size-limit": "^13.0.3",
     "source-map-explorer": "^2.5.3",
     "standard-version": "^9.5.0",
     "storybook": "^10.5.7",
@@ -106,22 +105,17 @@
   },
   "engines": {
     "node": ">=20.0.0",
-    "pnpm": ">=9.0.0"
+    "pnpm": ">=11.0.0"
   },
-  "packageManager": "pnpm@10.20.0",
-  "pnpm": {
-    "overrides": {
-      "minimatch@>=9.0.0 <9.0.7": ">=9.0.7",
-      "fast-uri@>=3.0.0 <3.1.5": "^3.1.5",
-      "js-cookie@<=3.0.5": ">=3.0.7",
-      "brace-expansion@<1.1.18": "~1.1.18",
-      "brace-expansion@>=2.0.0 <2.1.4": "~2.1.4",
-      "brace-expansion@>=5.0.0 <5.0.9": "^5.0.9",
-      "ws@>=8.0.0 <8.20.1": ">=8.20.1",
-      "undici@>=7.0.0 <7.29.0": "^7.29.0",
-      "immutable@>=5.0.0 <5.1.8": "^5.1.8",
-      "postcss@<8.5.23": "^8.5.23",
-      "nanoid@<3.3.17": "~3.3.17"
+  "packageManager": "pnpm@11.21.0",
+  "size-limit": [
+    {
+      "path": "dist/krds-vue.es.js",
+      "limit": "25 kB"
+    },
+    {
+      "path": "dist/style.css",
+      "limit": "60 kB"
     }
-  }
+  ]
 }
