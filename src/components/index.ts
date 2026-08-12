@@ -188,3 +188,21 @@ export type { KrdsTextListProps } from './KrdsTextList'
 // CriticalAlerts 컴포넌트
 export { default as KrdsCriticalAlerts } from './KrdsCriticalAlerts'
 export type { KrdsCriticalAlertsProps, KrdsCriticalAlertsEmits, AlertType } from './KrdsCriticalAlerts'
+
+// MainMenu 컴포넌트
+export { default as KrdsMainMenu } from './KrdsMainMenu'
+export type {
+  KrdsMainMenuProps,
+  KrdsMainMenuEmits,
+  MainMenuItem,
+  MainMenuSubItem,
+  MainMenuLinkItem,
+  MainMenuDepth4Item,
+  MainMenuAnyItem,
+  MainMenuVariant,
+  MainMenuLayout
+} from './KrdsMainMenu'
+
+// Carousel 컴포넌트
+export { default as KrdsCarousel } from './KrdsCarousel'
+export type { KrdsCarouselProps, KrdsCarouselEmits, KrdsCarouselVariant, KrdsCarouselPaginationType } from './KrdsCarousel'
