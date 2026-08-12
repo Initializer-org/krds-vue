@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import KrdsFooter from './KrdsFooter'
 import { KrdsIdentifier } from '../KrdsIdentifier'
 import { KrdsButton } from '../KrdsButton'

@@ -1,5 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-
 import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
 import * as parserVue from 'vue-eslint-parser'
@@ -14,7 +12,7 @@ export default defineConfigWithVueTs(
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.storybook/**', '**/storybook-static/**', '**/bundlewatch.config.js']
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.storybook/**', '**/storybook-static/**']
   },
 
   js.configs.recommended,

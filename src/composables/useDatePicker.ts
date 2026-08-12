@@ -1,12 +1,5 @@
 import { computed, ref } from 'vue'
 
-export interface DatePickerState {
-  currentYear: number
-  currentMonth: number
-  selectedStartDate: string | null
-  selectedEndDate: string | null
-}
-
 export function useDatePicker(initialYear?: number, initialMonth?: number) {
   const today = new Date()
   const currentYear = ref(initialYear || today.getFullYear())

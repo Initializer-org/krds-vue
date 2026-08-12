@@ -3,8 +3,8 @@
  */
 
 import KrdsLanguageSwitcher from './KrdsLanguageSwitcher'
-import type { KrdsLanguageSwitcherProps } from './KrdsLanguageSwitcher'
+import type { KrdsLanguageSwitcherProps, KrdsLanguageSwitcherEmits, DropdownPosition } from './KrdsLanguageSwitcher'
 
 export { KrdsLanguageSwitcher }
-export type { KrdsLanguageSwitcherProps }
+export type { KrdsLanguageSwitcherProps, KrdsLanguageSwitcherEmits, DropdownPosition }
 export default KrdsLanguageSwitcher
