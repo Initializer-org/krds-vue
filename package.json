@@ -44,7 +44,7 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm run type-check && pnpm run build:lib",
-    "build:lib": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "build:lib": "vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
