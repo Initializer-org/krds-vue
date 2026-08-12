@@ -7,7 +7,7 @@ KRDS (Korea Digital Service) HTML을 Vue 3 + TypeScript 컴포넌트로 포팅�
 - **원본**: [KRDS-uiux/krds-uiux](https://github.com/KRDS-uiux/krds-uiux)  
 - **목표**: Vue 3 + TypeScript로 컴포넌트 포팅
 - **배포**: NPM 패키지 `@krds.ui/vue`
-- **현재 버전**: v0.0.12
+- **현재 버전**: v0.0.15
 - **KRDS 원본 동기화**: v1.1.0 반영 완료
 - **현재 진행률**: 50/56 항목 완료 (미구현: MainMenu, Carousel, Alert, Grid, Card, Progress)
 
