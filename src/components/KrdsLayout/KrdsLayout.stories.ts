@@ -5,6 +5,7 @@ import { KrdsMasthead } from '../KrdsMasthead'
 import { KrdsFooter } from '../KrdsFooter'
 import { KrdsIdentifier } from '../KrdsIdentifier'
 import { KrdsHeader } from '../KrdsHeader'
+import { KrdsMainMenu } from '../KrdsMainMenu'
 import KrdsSkipLink from '../KrdsSkipLink/KrdsSkipLink'
 import KrdsBreadcrumb from '../KrdsBreadcrumb/KrdsBreadcrumb'
 import { KrdsButton } from '../KrdsButton'
@@ -43,7 +44,17 @@ type Story = StoryObj<typeof meta>
  */
 export const Default: Story = {
   render: () => ({
-    components: { KrdsLayout, KrdsMasthead, KrdsHeader, KrdsFooter, KrdsIdentifier, KrdsSkipLink, KrdsBreadcrumb, KrdsButton },
+    components: {
+      KrdsLayout,
+      KrdsMasthead,
+      KrdsHeader,
+      KrdsMainMenu,
+      KrdsFooter,
+      KrdsIdentifier,
+      KrdsSkipLink,
+      KrdsBreadcrumb,
+      KrdsButton
+    },
     template: `
       <KrdsLayout class="custom-layout">
         <KrdsSkipLink href="#container">본문 바로가기</KrdsSkipLink>
@@ -89,17 +100,13 @@ export const Default: Story = {
           </template>
 
           <template #navigation>
-            <ul class="gnb-menu">
-              <li>
-                <button type="button" class="gnb-main-trigger" data-trigger="gnb">1Depth</button>
-              </li>
-              <li>
-                <button type="button" class="gnb-main-trigger" data-trigger="gnb">1Depth</button>
-              </li>
-              <li>
-                <a href="#" class="gnb-main-trigger is-link" data-trigger="gnb">링크(anchor)</a>
-              </li>
-            </ul>
+            <KrdsMainMenu
+              :items="[
+                { text: '1Depth', subItems: [{ text: '2Depth-menu', items: [{ text: '3Depth-menu', href: '#' }] }] },
+                { text: '1Depth', subItems: [{ text: '2Depth-menu', items: [{ text: '3Depth-menu', href: '#' }] }] },
+                { text: '링크(anchor)', href: '#' }
+              ]"
+            />
           </template>
         </KrdsHeader>
         <div id="container">

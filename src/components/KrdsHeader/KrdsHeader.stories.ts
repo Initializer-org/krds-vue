@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { ref } from 'vue'
 import KrdsHeader from './KrdsHeader'
+import KrdsMainMenu from '../KrdsMainMenu'
+import type { MainMenuItem } from '../KrdsMainMenu'
 
 const meta: Meta<typeof KrdsHeader> = {
   title: 'Components/Identity/KrdsHeader',
@@ -8,8 +11,9 @@ const meta: Meta<typeof KrdsHeader> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `KRDS 헤더 컴포넌트는 웹사이트의 상단 헤더 영역을 구성하는 컴포넌트입니다. 
-        유틸리티 메뉴, 브랜딩 영역, 네비게이션 메뉴를 슬롯을 통해 유연하게 구성할 수 있습니다.`
+        component: `KRDS 헤더 컴포넌트는 웹사이트의 상단 헤더 영역을 구성하는 컴포넌트입니다.
+        유틸리티 메뉴, 브랜딩 영역, 네비게이션 메뉴를 슬롯을 통해 유연하게 구성할 수 있습니다.
+        네비게이션 슬롯에는 KrdsMainMenu 등 완성된 메뉴 컴포넌트를 그대로 전달합니다.`
       }
     }
   },
@@ -18,11 +22,6 @@ const meta: Meta<typeof KrdsHeader> = {
       control: 'text',
       description: '헤더 ID',
       defaultValue: 'krds-header'
-    },
-    mobileNavId: {
-      control: 'text',
-      description: '모바일 메뉴 ID',
-      defaultValue: 'mobile-nav'
     },
     class: {
       control: 'text',
@@ -34,14 +33,50 @@ const meta: Meta<typeof KrdsHeader> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const menuItems: MainMenuItem[] = [
+  {
+    text: '1Depth',
+    subItems: [
+      {
+        text: '2Depth-menu',
+        items: [
+          { text: '3Depth-menu', href: '#' },
+          { text: '3Depth-menu', href: '#' }
+        ]
+      },
+      {
+        text: '2Depth-menu',
+        items: [
+          { text: '3Depth-menu', href: '#' },
+          { text: '3Depth-menu', href: '#' }
+        ]
+      }
+    ]
+  },
+  {
+    text: '1Depth',
+    subItems: [
+      {
+        text: '2Depth-menu',
+        items: [
+          { text: '3Depth-menu', href: '#' },
+          { text: '3Depth-menu', href: '#' }
+        ]
+      }
+    ]
+  },
+  { text: '링크(anchor)', href: '#' }
+]
+
 /**
- * 기본 헤더
+ * 기본 헤더 — 네비게이션 슬롯에 KrdsMainMenu 사용
  */
 export const Default: Story = {
   render: args => ({
-    components: { KrdsHeader },
+    components: { KrdsHeader, KrdsMainMenu },
     setup() {
-      return { args }
+      const mobileOpen = ref(false)
+      return { args, menuItems, mobileOpen }
     },
     template: `
       <KrdsHeader v-bind="args">
@@ -80,22 +115,16 @@ export const Default: Story = {
             <button type="button" class="btn-navi sch" title="통합검색 레이어">통합검색</button>
             <a href="#" class="btn-navi login">로그인</a>
             <button type="button" class="btn-navi join">회원가입</button>
-            <button type="button" class="btn-navi all" aria-controls="mobile-nav">전체메뉴</button>
+            <button type="button" class="btn-navi all" aria-controls="mobile-nav" @click="mobileOpen = true">전체메뉴</button>
           </div>
         </template>
 
         <template #navigation>
-          <ul class="gnb-menu">
-            <li>
-              <button type="button" class="gnb-main-trigger" data-trigger="gnb">1Depth</button>
-            </li>
-            <li>
-              <button type="button" class="gnb-main-trigger" data-trigger="gnb">1Depth</button>
-            </li>
-            <li>
-              <a href="#" class="gnb-main-trigger is-link" data-trigger="gnb">링크(anchor)</a>
-            </li>
-          </ul>
+          <KrdsMainMenu :items="menuItems" />
+        </template>
+
+        <template #mobileNavigation>
+          <KrdsMainMenu variant="mobile" :items="menuItems" v-model:open="mobileOpen" />
         </template>
       </KrdsHeader>
     `

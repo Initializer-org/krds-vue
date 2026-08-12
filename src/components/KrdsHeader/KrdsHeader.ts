@@ -11,8 +11,6 @@ import type { SlotsType } from 'vue'
 export interface KrdsHeaderProps {
   /** 헤더 ID */
   id?: string
-  /** 모바일 메뉴 ID */
-  mobileNavId?: string
   /** 추가 CSS 클래스 */
   class?: string
 }
@@ -24,10 +22,6 @@ export default defineComponent({
       type: String,
       default: 'krds-header'
     },
-    mobileNavId: {
-      type: String,
-      default: 'mobile-nav'
-    },
     class: {
       type: String,
       default: undefined
@@ -38,9 +32,9 @@ export default defineComponent({
     utility?(): VNode[]
     /** 브랜딩 영역 슬롯 (로고, 액션 버튼) */
     branding?(): VNode[]
-    /** 데스크탑 네비게이션 메뉴 슬롯 */
+    /** 데스크탑 네비게이션 슬롯 — KrdsMainMenu 등 완성된 메뉴 요소를 그대로 전달 */
     navigation?(): VNode[]
-    /** 모바일 네비게이션 메뉴 슬롯 */
+    /** 모바일 네비게이션 슬롯 — KrdsMainMenu(variant="mobile") 등 완성된 드로어 요소를 그대로 전달 */
     mobileNavigation?(): VNode[]
   }>,
   setup(props, { slots }) {
@@ -83,25 +77,16 @@ export default defineComponent({
         headerInChildren.push(h('div', { class: 'header-container' }, [h('div', { class: 'inner' }, innerChildren)]))
       }
 
-      // 네비게이션
+      // 네비게이션 (슬롯이 .krds-main-menu 루트를 포함한 완성된 메뉴를 렌더링)
       if (slots.navigation) {
-        headerInChildren.push(h('nav', { class: 'krds-main-menu' }, [h('div', { class: 'inner' }, slots.navigation())]))
+        headerInChildren.push(...slots.navigation())
       }
 
       const children = [h('div', { class: 'header-in' }, headerInChildren)]
 
-      // 모바일 네비게이션
+      // 모바일 네비게이션 (슬롯이 .krds-main-menu-mobile 루트를 포함한 완성된 드로어를 렌더링)
       if (slots.mobileNavigation) {
-        children.push(
-          h(
-            'div',
-            {
-              id: props.mobileNavId,
-              class: 'krds-main-menu-mobile'
-            },
-            slots.mobileNavigation()
-          )
-        )
+        children.push(...slots.mobileNavigation())
       }
 
       return h(
