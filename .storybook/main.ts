@@ -17,6 +17,10 @@ const config: StorybookConfig = {
     {
       from: '../public',
       to: '/assets'
+    },
+    {
+      from: '../public/fonts',
+      to: '/fonts'
     }
   ],
   viteFinal: async config => {
