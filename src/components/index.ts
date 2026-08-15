@@ -206,3 +206,7 @@ export type {
 // Carousel 컴포넌트
 export { default as KrdsCarousel } from './KrdsCarousel'
 export type { KrdsCarouselProps, KrdsCarouselEmits, KrdsCarouselVariant, KrdsCarouselPaginationType } from './KrdsCarousel'
+
+// Tabs 컴포넌트
+export { default as KrdsTabs } from './KrdsTabs'
+export type { KrdsTabsProps, KrdsTabsEmits, KrdsTabItem, KrdsTabsVariant } from './KrdsTabs'
