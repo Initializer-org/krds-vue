@@ -31,6 +31,11 @@ const config: StorybookConfig = {
     }
   ],
   viteFinal: async config => {
+    // vite.config.ts의 dts 플러그인은 npm 배포용 타입 선언 전용이다.
+    // Storybook 빌드에 딸려오면 dist/types/index.d.ts가 없을 때 빌드가 실패한다.
+    config.plugins = (config.plugins ?? []).filter(
+      plugin => !(plugin && typeof plugin === 'object' && 'name' in plugin && String(plugin.name).includes('dts'))
+    )
     config.resolve = config.resolve || {}
     config.resolve.alias = {
       ...config.resolve.alias,
