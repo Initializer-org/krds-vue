@@ -77,6 +77,11 @@ export default defineComponent({
       type: String,
       default: undefined
     },
+    /** 읽기 전용 여부 */
+    readonly: {
+      type: Boolean,
+      default: false
+    },
     /** 비활성화 여부 */
     disabled: {
       type: Boolean,
@@ -170,7 +175,7 @@ export default defineComponent({
         title: props.title || props.placeholder,
         name: props.name,
         id: props.id,
-        disabled: props.disabled,
+        disabled: props.disabled || props.readonly,
         onChange: handleChange,
         onFocus: handleFocus,
         onBlur: handleBlur
