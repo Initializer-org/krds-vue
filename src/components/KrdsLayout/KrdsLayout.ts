@@ -42,17 +42,20 @@ export interface KrdsLayoutEmits {
  */
 const SCROLL_OFFSET_THRESHOLD = 50
 
-export default defineComponent<KrdsLayoutProps>({
+export default defineComponent({
   name: 'KrdsLayout',
   props: {
+    /** 레이아웃 ID */
     id: {
       type: String,
       default: 'wrap'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 스크롤 감지 활성화 여부 */
     enableScrollDetection: {
       type: Boolean,
       default: true

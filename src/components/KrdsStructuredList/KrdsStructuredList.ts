@@ -1,4 +1,4 @@
-import { defineComponent, h, SlotsType } from 'vue'
+import { defineComponent, h, SlotsType, type VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -9,19 +9,20 @@ export interface KrdsStructuredListProps extends BaseComponentProps {
   full?: boolean
 }
 
-export default defineComponent<KrdsStructuredListProps>({
+export default defineComponent({
   name: 'KrdsStructuredList',
   props: {
+    /** 전체 타입 여부 */
     full: {
       type: Boolean,
       default: true
     }
   },
   slots: Object as SlotsType<{
-    cardTop?: () => unknown
-    cardBody?: () => unknown
-    cardBtm?: () => unknown
-    cardBtn?: () => unknown
+    cardTop?: () => VNode[]
+    cardBody?: () => VNode[]
+    cardBtm?: () => VNode[]
+    cardBtn?: () => VNode[]
   }>,
   setup(props, { slots }) {
     return () => {

@@ -14,15 +14,20 @@ export interface KrdsMastheadEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsMastheadProps>({
+export default defineComponent({
   name: 'KrdsMasthead',
   props: {
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    click: (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 배지 클래스 계산

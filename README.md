@@ -3,6 +3,7 @@
 > KRDS(Korea Digital Service Design System) 가이드를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리
 
 [![npm version](https://img.shields.io/npm/v/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
+[![CI](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml/badge.svg)](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 KRDS Vue는 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이아웃, 피드백 UI를 일관된 Vue 컴포넌트로 제공하는 라이브러리입니다. KRDS 디자인 토큰과 컴포넌트 스타일을 기반으로 하며, Vue 3 애플리케이션에서 전역 플러그인 또는 개별 컴포넌트 import 방식으로 사용할 수 있습니다.
@@ -75,13 +76,16 @@ app.use(KrdsVue, {
 ```vue
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { KrdsButton, KrdsInput } from '@krds.ui/vue'
+  import { KrdsButton, KrdsFormGroup, KrdsFormLabel, KrdsInput } from '@krds.ui/vue'
 
   const name = ref('')
 </script>
 
 <template>
-  <KrdsInput v-model="name" label="이름" placeholder="이름을 입력하세요" required />
+  <KrdsFormGroup>
+    <KrdsFormLabel for="name">이름</KrdsFormLabel>
+    <KrdsInput id="name" v-model="name" placeholder="이름을 입력하세요" required />
+  </KrdsFormGroup>
 
   <KrdsButton variant="primary" size="medium">확인</KrdsButton>
 </template>
@@ -103,7 +107,7 @@ const buttonProps: KrdsButtonProps = {
 }
 
 const inputProps: KrdsInputProps = {
-  label: '이름',
+  placeholder: '이름을 입력하세요',
   modelValue: '',
   size
 }
@@ -135,57 +139,88 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 [KRDS 공식 컴포넌트 목록](https://www.krds.go.kr/html/site/component/component_summary.html) 55종 기준 대응 현황입니다. 각 컴포넌트의 props/events는 [Storybook 문서](https://krds.initializer.org/)에서 확인하세요.
 
-| 분류             | 공식 컴포넌트 → 제공 컴포넌트                                                                                                                                                                                                                                                                  |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 아이덴티티       | 공식 배너 `KrdsMasthead` · 운영기관 식별자 `KrdsIdentifier` · 헤더 `KrdsHeader` · 푸터 `KrdsFooter`                                                                                                                                                                                            |
-| 탐색             | 건너뛰기 링크 `KrdsSkipLink` · 메인 메뉴 `KrdsMainMenu` · 브레드크럼 `KrdsBreadcrumb` · 사이드 메뉴 `KrdsSideNavigation` · 콘텐츠 내 탐색 `KrdsInPageNavigation` · 페이지네이션 `KrdsPagination`                                                                                               |
+| 분류             | 공식 컴포넌트 → 제공 컴포넌트                                                                                                                                                                                                                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 아이덴티티       | 공식 배너 `KrdsMasthead` · 운영기관 식별자 `KrdsIdentifier` · 헤더 `KrdsHeader` · 푸터 `KrdsFooter`                                                                                                                                                                                                            |
+| 탐색             | 건너뛰기 링크 `KrdsSkipLink` · 메인 메뉴 `KrdsMainMenu` · 브레드크럼 `KrdsBreadcrumb` · 사이드 메뉴 `KrdsSideNavigation` · 콘텐츠 내 탐색 `KrdsInPageNavigation` · 페이지네이션 `KrdsPagination`                                                                                                               |
 | 레이아웃 및 표현 | 구조화 목록 `KrdsStructuredList` · 긴급 공지 `KrdsCriticalAlerts` · 디스클로저 `KrdsDisclosure` · 모달 `KrdsModal` · 배지 `KrdsBadge` · 아코디언 `KrdsAccordionGroup`/`KrdsAccordionItem` · 캐러셀 `KrdsCarousel` · 탭 `KrdsTabs` · 표 `KrdsTable` · 텍스트 목록 `KrdsTextList` · 달력(`KrdsDateInput`에 내장) |
-| 액션             | 링크 `KrdsLink` · 버튼 `KrdsButton`                                                                                                                                                                                                                                                            |
-| 선택             | 라디오 버튼 `KrdsRadio` · 체크박스 `KrdsCheckbox` · 셀렉트 `KrdsSelect` · 태그 `KrdsTag` · 토글 스위치 `KrdsToggleSwitch`                                                                                                                                                                      |
-| 피드백           | 단계 표시기 `KrdsStepIndicator` · 스피너 `KrdsSpinner`                                                                                                                                                                                                                                         |
-| 도움             | 도움 패널·따라하기 패널 `KrdsPanel` · 맥락적 도움말 `KrdsContextualHelp` · 코치마크 `KrdsCoachMark` · 툴팁 `KrdsTooltip` · 음성지원 `KrdsTts`                                                                                                                                                  |
-| 입력             | 텍스트 입력 필드 `KrdsInput` · 텍스트 영역 `KrdsTextarea` · 날짜 입력 필드 `KrdsDateInput` · 파일 업로드 `KrdsFileUpload`                                                                                                                                                                      |
-| 설정             | 언어 변경 `KrdsLanguageSwitcher` · 화면 크기 조정 `KrdsResize`                                                                                                                                                                                                                                 |
-| 콘텐츠           | 숨긴 콘텐츠 `v-sr-only` 디렉티브                                                                                                                                                                                                                                                               |
+| 액션             | 링크 `KrdsLink` · 버튼 `KrdsButton`                                                                                                                                                                                                                                                                            |
+| 선택             | 라디오 버튼 `KrdsRadio` · 체크박스 `KrdsCheckbox` · 셀렉트 `KrdsSelect` · 태그 `KrdsTag` · 토글 스위치 `KrdsToggleSwitch`                                                                                                                                                                                      |
+| 피드백           | 단계 표시기 `KrdsStepIndicator` · 스피너 `KrdsSpinner`                                                                                                                                                                                                                                                         |
+| 도움             | 도움 패널·따라하기 패널 `KrdsPanel` · 맥락적 도움말 `KrdsContextualHelp` · 코치마크 `KrdsCoachMark` · 툴팁 `KrdsTooltip` · 음성지원 `KrdsTts`                                                                                                                                                                  |
+| 입력             | 텍스트 입력 필드 `KrdsInput` · 텍스트 영역 `KrdsTextarea` · 날짜 입력 필드 `KrdsDateInput` · 파일 업로드 `KrdsFileUpload`                                                                                                                                                                                      |
+| 설정             | 언어 변경 `KrdsLanguageSwitcher` · 화면 크기 조정 `KrdsResize`                                                                                                                                                                                                                                                 |
+| 콘텐츠           | 숨긴 콘텐츠 `v-sr-only` 디렉티브                                                                                                                                                                                                                                                                               |
 
 공식 목록 외 부가 컴포넌트: `KrdsLayout`, `KrdsIcon`, `KrdsButtonGroup`, `KrdsTagGroup`, `KrdsCheckArea`, `KrdsStep`, `KrdsFormGroup`, `KrdsFormLabel`, `KrdsFormHint`
 
 ### 미제공 항목
 
-- **플로팅 버튼(FAB)**: 미구현입니다.
-- **이미지**: Storybook에 안내 문서만 제공합니다.
-- **모바일 계열**(범위슬라이드, 뒤로가기 버튼, 바텀시트, 수량 토글, 토스트, 스낵바): 미구현이며, 탭바·스플래시 스크린은 Storybook에 안내 문서만 제공합니다.
-- **파비콘, 접근 가능한 미디어**: 컴포넌트가 아닌 가이드 항목이라 포팅 대상이 아닙니다.
+아래 항목은 KRDS 원본 저장소가 구현(HTML/SCSS)을 제공하지 않아 포팅 대상이 아닙니다.
+
+- **플로팅 버튼(FAB), 이미지**: 이미지는 Storybook에 안내 문서만 제공합니다.
+- **모바일 계열**(범위슬라이드, 뒤로가기 버튼, 바텀시트, 수량 토글, 토스트, 스낵바, 탭바, 스플래시 스크린): 모바일 앱 전용 항목입니다. 탭바·스플래시 스크린은 Storybook에 안내 문서만 제공합니다.
+- **파비콘, 접근 가능한 미디어**: 컴포넌트가 아닌 가이드 항목입니다.
 
 ### 원본 동기화 기준
 
 - [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0 (2025-06-03 커밋 `d6bb184`) 기준으로 포팅되었습니다.
-- Alert, Grid, Card, Progress는 원본 저장소에 HTML/SCSS가 존재하지 않아 포팅 대상이 아닙니다 (2026-08-12 원본 main 브랜치 전수 확인).
+- 원본 저장소의 릴리스를 추적해 동기화하며, 대응 버전은 이 섹션에 기록합니다.
+- 원본 반영으로 마크업·클래스 구조가 바뀌어 호환성이 깨지는 경우 메이저 버전으로만 배포하고, CHANGELOG에 마이그레이션 노트를 제공합니다.
+
+## 접근성
+
+- 컴포넌트는 원본 KRDS 마크업 구조와 ARIA 속성, 키보드 인터랙션을 따라 구현합니다.
+- 모든 스토리에 대해 axe-core 기반 자동 접근성 검사(`@storybook/addon-a11y`)를 실행합니다. 현재는 위반이 경고로 보고되는 단계이며, 위반 0건 달성 후 CI 차단 수준(`test: 'error'`)으로 상향할 예정입니다.
+- 고대비 모드(`data-krds-mode="high-contrast"`)를 지원합니다.
+
+라이브러리 차원의 자동 검사는 KWCAG/WCAG 적합성 평가를 대체하지 않습니다. 서비스 전체의 접근성 준수는 사용처에서 별도 검증이 필요합니다.
+
+## 브라우저 지원
+
+Vite 라이브러리 모드 기본 타겟(Baseline Widely Available)으로 빌드합니다.
+
+| 브라우저          | 지원 버전 |
+| ----------------- | --------- |
+| Chrome, Edge      | 111 이상  |
+| Firefox           | 114 이상  |
+| Safari (iOS 포함) | 16.4 이상 |
+
+- 산출물에 폴리필은 포함하지 않습니다. 더 낮은 버전을 지원해야 한다면 애플리케이션 빌드에서 트랜스파일과 폴리필을 구성해야 합니다.
+- Internet Explorer는 지원하지 않습니다 (ESM·CSS custom properties 기반).
 
 ## 요구사항
 
-- **Runtime**: Vue `^3.5.0`
-- **Module system**: ESM
-- **Development**: Node.js `>=24.0.0`, pnpm `>=11.0.0`
+사용 환경:
 
-## 개발
+- Vue `^3.5.0`
+- ESM을 지원하는 번들러 또는 런타임 (Node.js `>=20`)
+
+개발 환경(저장소 기여):
+
+- Node.js `>=24.0.0`, pnpm `>=11.0.0`
+
+## 버전 정책과 릴리스
+
+시맨틱 버저닝을 따릅니다. [Conventional Commits](https://www.conventionalcommits.org/ko/)를 기반으로 [release-please](https://github.com/googleapis/release-please)가 릴리스 PR을 자동 생성하며, 릴리스 PR이 머지되면 GitHub Release 생성과 npm 배포가 자동으로 진행됩니다. 변경 이력은 [CHANGELOG](./CHANGELOG.md)에서 확인하세요.
+
+## 기여하기
+
+버그 리포트와 PR을 환영합니다. 큰 변경은 [이슈](https://github.com/Initializer-org/krds-vue/issues)로 먼저 논의해 주세요.
 
 ```bash
 git clone https://github.com/Initializer-org/krds-vue.git
 cd krds-vue
 
 pnpm install
-pnpm storybook
-pnpm test
-pnpm build
+pnpm storybook       # Storybook 개발 서버 실행
+pnpm test            # Vitest 실행 (Playwright 브라우저 모드)
+pnpm lint            # ESLint 검사 및 자동 수정
+pnpm build           # 타입 검사와 라이브러리 빌드
+pnpm build-storybook # 정적 Storybook 빌드
 ```
 
-주요 스크립트:
-
-- `pnpm storybook`: Storybook 개발 서버 실행
-- `pnpm test`: Vitest 실행
-- `pnpm build`: 타입 검사와 라이브러리 빌드
-- `pnpm build-storybook`: 정적 Storybook 빌드
+커밋 메시지는 Conventional Commits(`feat:`, `fix:`, `docs:` 등)를 따릅니다. 커밋 타입과 내용이 체인지로그와 버전 산정에 그대로 반영됩니다.
 
 ## 배포 산출물
 

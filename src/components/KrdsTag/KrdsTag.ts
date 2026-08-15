@@ -22,31 +22,40 @@ export interface KrdsTagEmits {
   (e: 'remove', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsTagProps>({
+export default defineComponent({
   name: 'KrdsTag',
   props: {
+    /** 링크 태그 여부 */
     link: {
       type: Boolean,
       default: false
     },
+    /** 링크 URL (link가 true일 때 사용) */
     href: {
       type: String,
       default: '#'
     },
+    /** 링크 타겟 (link가 true일 때 사용) */
     target: {
       type: String,
       default: undefined
     },
+    /** 링크 관계 (link가 true일 때 사용) */
     rel: {
       type: String,
       default: undefined
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['remove'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    remove: (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 태그 클래스 계산

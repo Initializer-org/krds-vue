@@ -20,37 +20,45 @@ export interface KrdsTooltipProps extends BaseComponentProps {
   disabled?: boolean
 }
 
-export default defineComponent<KrdsTooltipProps>({
+export default defineComponent({
   name: 'KrdsTooltip',
   props: {
+    /** 트리거 버튼 타입 */
     type: {
       type: String as PropType<TooltipType>,
       default: 'default'
     },
+    /** 툴팁 본문 */
     tooltipContent: {
       type: String,
       required: true
     },
+    /** 세로 방향 배치 여부 */
     vertical: {
       type: Boolean,
       default: false
     },
+    /** 박스형 여부 */
     box: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object] as PropType<string | Record<string, string | number>>,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined

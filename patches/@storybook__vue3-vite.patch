@@ -1,0 +1,28 @@
+diff --git a/dist/preset.js b/dist/preset.js
+index cf4a6434a9ab4ab44bb15a610af2ba1ca7137202..84a5e737d8cb5927621c925865075032742af2f2 100644
+--- a/dist/preset.js
++++ b/dist/preset.js
+@@ -35,7 +35,13 @@ async function vueComponentMeta(tsconfigPath = "tsconfig.json") {
+       async handler(src, id) {
+         if (filter(id))
+           try {
+-            let exportNames = checker.getExportNames(id), componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
++            let exportNames = checker.getExportNames(id), componentsMeta = exportNames.map((name) => {
++              try {
++                return checker.getComponentMeta(id, name);
++              } catch {
++                return { type: TypeMeta.Unknown, props: [], events: [], slots: [], exposed: [] };
++              }
++            });
+             componentsMeta = await applyTempFixForEventDescriptions(id, componentsMeta);
+             let metaSources = [];
+             if (componentsMeta.forEach((meta, index) => {
+@@ -67,7 +73,7 @@ async function vueComponentMeta(tsconfigPath = "tsconfig.json") {
+             let s = new MagicString(src), localBindings = await parseLocalBindings(id, src);
+             return metaSources.forEach((meta) => {
+               let isDefaultExport = meta.exportName === "default", name = isDefaultExport ? "_sfc_main" : meta.exportName;
+-              localBindings.has(name) && (!id.endsWith(".vue") && isDefaultExport && (s.replace("export default ", "const _sfc_main = "), s.append(`
++              (localBindings.has(name) || !id.endsWith(".vue") && isDefaultExport) && (!id.endsWith(".vue") && isDefaultExport && (s.replace("export default ", "const _sfc_main = "), s.append(`
+ export default _sfc_main;`)), s.append(`
+ ;${name}.__docgenInfo = Object.assign({
+             displayName: ${name}.name ?? ${name}.__name

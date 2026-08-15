@@ -5,6 +5,7 @@ import KrdsTagGroup from '../KrdsTagGroup/KrdsTagGroup'
 const meta: Meta<typeof KrdsTag> = {
   title: 'Components/Selection/KrdsTag',
   component: KrdsTag,
+  subcomponents: { KrdsTagGroup },
   parameters: {
     docs: {
       description: {

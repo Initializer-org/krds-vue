@@ -30,7 +30,7 @@ const meta: Meta<typeof KrdsLayout> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `웹사이트의 전체 레이아웃 구조를 제공하는 컴포넌트입니다. 스크롤 방향에 따라 자동으로 scroll-up/scroll-down 클래스를 추가합니다.`
+        component: `웹사이트의 전체 레이아웃 구조를 제공하는 컴포넌트이다. 스크롤 방향에 따라 자동으로 scroll-up/scroll-down 클래스를 추가한다.`
       }
     }
   }

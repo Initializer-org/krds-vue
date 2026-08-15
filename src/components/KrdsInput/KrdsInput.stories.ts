@@ -11,6 +11,7 @@ import KrdsIcon from '../KrdsIcon/KrdsIcon'
 const meta: Meta<typeof KrdsInput> = {
   title: 'Components/Input/KrdsInput',
   component: KrdsInput,
+  subcomponents: { KrdsFormGroup, KrdsFormLabel, KrdsFormHint },
   parameters: {
     docs: {
       description: {
@@ -137,7 +138,13 @@ export const States: Story = {
         </KrdsFormGroup>
       </div>
     `
-  })
+  }),
+  play: async ({ canvasElement }) => {
+    // KrdsFormHint type별 클래스 매핑
+    await expect(canvasElement.querySelector('.form-hint-invalid')).toHaveTextContent('에러 메시지')
+    await expect(canvasElement.querySelector('.form-hint-success')).toHaveTextContent('성공 메시지')
+    await expect(canvasElement.querySelector('.form-hint-information')).toHaveTextContent('정보 메시지')
+  }
 }
 
 // 3. 사이즈

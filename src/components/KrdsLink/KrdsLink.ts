@@ -33,43 +33,55 @@ export interface KrdsLinkEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsLinkProps>({
+export default defineComponent({
   name: 'KrdsLink',
   props: {
+    /** 링크 URL */
     href: {
       type: String,
       default: '#!'
     },
+    /** 링크 대상 (_blank, _self 등) */
     target: {
       type: String as () => '_blank' | '_self' | '_parent' | '_top' | string,
       default: undefined
     },
+    /** 링크 제목 (접근성) */
     title: {
       type: String,
       default: undefined
     },
+    /** 링크 크기 */
     size: {
       type: String as () => KrdsLinkSize,
       default: undefined
     },
+    /** Link 클래스 적용 여부 */
     link: {
       type: Boolean,
       default: true
     },
+    /** Basic 링크 여부 (본문 텍스트 컬러) */
     basic: {
       type: Boolean,
       default: false
     },
+    /** Pure 링크 여부 (가상클래스 상태 시 컬러 유지) */
     pure: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    click: (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 링크 클래스 계산

@@ -24,48 +24,62 @@ export interface KrdsToggleSwitchEmits {
   (e: 'change', value: boolean): void
 }
 
-export default defineComponent<KrdsToggleSwitchProps>({
+export default defineComponent({
   name: 'KrdsToggleSwitch',
   props: {
+    /** 모델 값 */
     modelValue: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 스위치 라벨 */
     label: {
       type: String,
       default: undefined
     },
+    /** 크기 */
     size: {
       type: String as () => 'medium' | 'large',
       default: 'medium',
       validator: (value: string) => ['medium', 'large'].includes(value)
     },
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 필수 입력 여부 */
     required: {
       type: Boolean,
       default: false
     },
+    /** 읽기 전용 여부 */
     readonly: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'change'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: boolean) => true,
+    change: (value: boolean) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, attrs }) {
     const generatedInputId = `toggle-switch-${useId()}`
 

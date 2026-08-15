@@ -27,27 +27,35 @@ export interface KrdsCriticalAlertsEmits {
   (e: 'link-click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsCriticalAlertsProps>({
+export default defineComponent({
   name: 'KrdsCriticalAlerts',
   props: {
+    /** 알림 타입 */
     type: {
       type: String as () => AlertType,
       default: 'info'
     },
+    /** 알림 메시지 */
     message: {
       type: String,
       required: true
     },
+    /** 링크 URL */
     linkHref: {
       type: String,
       default: undefined
     },
+    /** 링크 텍스트 */
     linkText: {
       type: String,
       default: '자세히 보기'
     }
   },
-  emits: ['link-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'link-click': (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     /**
      * 알림 타입에 따른 배지 텍스트 반환

@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, ref, onMounted, onUnmounted, SlotsType } from 'vue'
+import { defineComponent, computed, h, ref, onMounted, onUnmounted, SlotsType, type VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -38,41 +38,52 @@ export interface KrdsInPageNavigationEmits {
   (e: 'itemClick', item: NavigationItem, event: MouseEvent | KeyboardEvent): void
 }
 
-export default defineComponent<KrdsInPageNavigationProps>({
+export default defineComponent({
   name: 'KrdsInPageNavigation',
   props: {
+    /** 네비게이션 제목 */
     title: {
       type: String,
       default: undefined
     },
+    /** 네비게이션 캡션 */
     caption: {
       type: String,
       default: '이 페이지의 구성'
     },
+    /** 네비게이션 아이템 목록 */
     items: {
       type: Array as () => NavigationItem[],
       default: () => []
     },
+    /** 스크롤에 따른 자동 활성화 여부 */
     autoActive: {
       type: Boolean,
       default: true
     },
+    /** 헤더 상단 영역 선택자 (기본값: '#krds-masthead') */
     headerTopSelector: {
       type: String,
       default: '#krds-masthead'
     },
+    /** 헤더 내부 영역 선택자 (기본값: '#krds-header .header-in') */
     headerInnerSelector: {
       type: String,
       default: '#krds-header .header-in'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['itemClick'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    itemClick: (item: NavigationItem, event: MouseEvent | KeyboardEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
-    action?: () => unknown // Named slot without props
+    action?: () => VNode[] // Named slot without props
   }>,
   setup(props, { emit, slots }) {
     const activeItem = ref<string>('')

@@ -66,16 +66,22 @@ export interface KrdsSideNavigationEmits {
 export default defineComponent({
   name: 'KrdsSideNavigation',
   props: {
+    /** 네비게이션 제목 */
     title: {
       type: String,
       required: true
     },
+    /** 메뉴 아이템 배열 */
     modelValue: {
       type: Array as () => SideNavItem[],
       default: () => []
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: SideNavItem[]) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props: KrdsSideNavigationProps, { emit }: { emit: KrdsSideNavigationEmits }) {
     const modelValue = computed(() => props.modelValue || [])
 

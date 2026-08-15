@@ -16,19 +16,25 @@ export interface KrdsStepIndicatorEmits {
   (e: 'update:modelValue', value: number): void
 }
 
-export default defineComponent<KrdsStepIndicatorProps>({
+export default defineComponent({
   name: 'KrdsStepIndicator',
   props: {
+    /** 현재 활성 단계 인덱스 (0부터 시작) - v-model */
     modelValue: {
       type: Number,
       default: 0
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: number) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { slots }) {
     /**
      * Stepper 클래스 계산

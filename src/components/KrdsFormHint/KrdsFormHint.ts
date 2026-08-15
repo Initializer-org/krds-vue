@@ -16,27 +16,35 @@ export interface KrdsFormHintEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsFormHintProps>({
+export default defineComponent({
   name: 'KrdsFormHint',
   props: {
+    /** 힌트 타입 */
     type: {
       type: String as () => 'hint' | 'error' | 'success' | 'information',
       default: 'hint'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    click: (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 클릭 핸들러

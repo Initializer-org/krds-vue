@@ -45,77 +45,104 @@ export interface KrdsTextareaEmits {
 export default defineComponent({
   name: 'KrdsTextarea',
   props: {
+    /** 입력값 */
     modelValue: {
       type: String,
       default: ''
     },
+    /** 입력 크기 */
     size: {
       type: String as () => Size,
       default: undefined
     },
+    /** 플레이스홀더 */
     placeholder: {
       type: String,
       default: undefined
     },
+    /** 최대 글자 수 */
     maxlength: {
       type: Number,
       default: undefined
     },
+    /** 최소 글자 수 */
     minlength: {
       type: Number,
       default: undefined
     },
+    /** 행 수 */
     rows: {
       type: Number,
       default: 4
     },
+    /** 열 수 */
     cols: {
       type: Number,
       default: undefined
     },
+    /** 자동 포커스 */
     autofocus: {
       type: Boolean,
       default: false
     },
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 필수 입력 여부 */
     required: {
       type: Boolean,
       default: false
     },
+    /** 읽기 전용 여부 */
     readonly: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 글자 수 표시 여부 */
     showCount: {
       type: Boolean,
       default: true
     },
+    /** 리사이즈 가능 여부 */
     resize: {
       type: String as () => 'none' | 'both' | 'horizontal' | 'vertical',
       default: 'vertical'
     },
     // BaseFormProps에서 상속
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'input', 'change', 'focus', 'blur', 'keydown', 'keyup'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string) => true,
+    input: (event: Event) => true,
+    change: (event: Event) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true,
+    keydown: (event: KeyboardEvent) => true,
+    keyup: (event: KeyboardEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     const currentLength = ref(0)
 

@@ -9,13 +9,15 @@ export interface KrdsFooterProps extends BaseComponentProps {
   id?: string
 }
 
-export default defineComponent<KrdsFooterProps>({
+export default defineComponent({
   name: 'KrdsFooter',
   props: {
+    /** Footer ID */
     id: {
       type: String,
       default: 'krds-footer'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

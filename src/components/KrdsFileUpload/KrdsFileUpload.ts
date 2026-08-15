@@ -83,105 +83,128 @@ let uid = 0
 export default defineComponent({
   name: 'KrdsFileUpload',
   props: {
+    /** 파일 목록 */
     modelValue: {
       type: Array as () => FileInfo[],
       default: () => []
     },
+    /** 입력 크기 */
     size: {
       type: String as () => Size,
       default: 'medium'
     },
+    /** 허용되는 파일 타입 (예: '.jpg,.png,.pdf') */
     accept: {
       type: String,
       default: undefined
     },
+    /** 최대 파일 개수 */
     maxFiles: {
       type: Number,
       default: 10
     },
+    /** 최대 파일 크기 (bytes) */
     maxFileSize: {
       type: Number,
       default: 20 * 1024 * 1024 // 20MB
     },
+    /** 다중 파일 선택 여부 */
     multiple: {
       type: Boolean,
       default: true
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 드래그 앤 드롭 활성화 여부 */
     dragAndDrop: {
       type: Boolean,
       default: true
     },
+    /** 제목 */
     title: {
       type: String,
       default: '타이틀영역'
     },
+    /** 설명 텍스트 */
     description: {
       type: String,
       default: '컨텐츠 영역'
     },
+    /** 플레이스홀더 텍스트 */
     placeholder: {
       type: String,
       default: '첨부할 파일을 여기에 끌어다 놓거나, 파일 선택 버튼을 눌러 파일을 직접 선택해주세요.'
     },
+    /** 미리보기 표시 여부 */
     showPreview: {
       type: Boolean,
       default: true
     },
+    /** 다운로드 버튼 표시 여부 */
     showDownload: {
       type: Boolean,
       default: true
     },
+    /** 바로보기 버튼 표시 여부 */
     showPreviewButton: {
       type: Boolean,
       default: true
     },
+    /** 전체 삭제 버튼 표시 여부 */
     showClearAll: {
       type: Boolean,
       default: true
     },
     // BaseFormProps에서 상속
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 필수 입력 여부 */
     required: {
       type: Boolean,
       default: false
     },
+    /** 읽기 전용 여부 */
     readonly: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: [
-    'update:modelValue',
-    'file-added',
-    'file-removed',
-    'file-error',
-    'upload-start',
-    'upload-progress',
-    'upload-complete',
-    'upload-error',
-    'clear-all',
-    'download',
-    'preview'
-  ],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (files: FileInfo[]) => true,
+    'file-added': (file: FileInfo) => true,
+    'file-removed': (fileId: string) => true,
+    'file-error': (file: FileInfo, error: string) => true,
+    'upload-start': (file: FileInfo) => true,
+    'upload-progress': (file: FileInfo, progress: number) => true,
+    'upload-complete': (file: FileInfo) => true,
+    'upload-error': (file: FileInfo, error: string) => true,
+    'clear-all': () => true,
+    download: (file: FileInfo) => true,
+    preview: (file: FileInfo) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     const isDragOver = ref(false)
     const inputRef = ref<HTMLInputElement | null>(null)

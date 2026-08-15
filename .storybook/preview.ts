@@ -38,19 +38,19 @@ const preview: Preview = {
                     {value: 'light', title: 'Light', right: '☀️'},
                     {value: 'high-contrast', title: 'Dark', right: '🌙'},
                 ],
-                showName: true
+                dynamicTitle: true
             }
         }
     },
     decorators: [
         (story, context) => {
             const theme = context.globals.theme || 'light';
-            
+
             // iframe의 html 요소에 data-krds-mode 속성 설정
             if (typeof window !== 'undefined' && window.document) {
                 window.document.documentElement.setAttribute('data-krds-mode', theme);
             }
-            
+
             return story();
         }
     ]

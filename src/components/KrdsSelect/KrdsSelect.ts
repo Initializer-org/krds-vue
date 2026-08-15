@@ -44,55 +44,77 @@ export interface KrdsSelectEmits {
   (e: 'blur', event: FocusEvent): void
 }
 
-export default defineComponent<KrdsSelectProps>({
+export default defineComponent({
   name: 'KrdsSelect',
   props: {
+    /** 선택된 값 */
     modelValue: {
       type: [String, Number, null] as unknown as () => string | number | null,
       default: null
     },
+    /** 선택 크기 */
     size: {
       type: String as () => Size,
       default: 'medium'
     },
+    /** 타이틀 */
     title: {
       type: String,
       default: undefined
     },
+    /** 옵션 목록 */
     options: {
       type: Array as () => SelectOption[],
       default: () => []
     },
+    /** 플레이스홀더 */
     placeholder: {
       type: String,
       default: '선택'
     },
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 읽기 전용 여부 */
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 입력 상태 */
     state: {
       type: String as () => 'default' | 'error' | 'success' | 'information',
       default: 'default'
     },
+    /** 정렬 스타일 여부 */
     sort: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'focus', 'blur'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string | number | null) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * Select 클래스 계산

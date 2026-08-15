@@ -43,35 +43,46 @@ export interface KrdsTabsEmits {
   (e: 'change', id: string): void
 }
 
-export default defineComponent<KrdsTabsProps>({
+export default defineComponent({
   name: 'KrdsTabs',
   props: {
+    /** 탭 아이템 목록 */
     tabs: {
       type: Array as PropType<KrdsTabItem[]>,
       required: true
     },
+    /** 활성 탭 id (v-model) */
     modelValue: {
       type: String,
       default: undefined
     },
+    /** 탭 스타일 변형 */
     variant: {
       type: String as PropType<KrdsTabsVariant>,
       default: 'line'
     },
+    /** 풀사이즈 레이아웃 여부 */
     full: {
       type: Boolean,
       default: false
     },
+    /** 선택된 탭의 스크린 리더 대체 텍스트 */
     selectedText: {
       type: String,
       default: '선택됨'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'change'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (id: string) => true,
+    change: (id: string) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 컴포넌트 고유 ID (탭-패널 ARIA 연결용)

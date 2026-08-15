@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import KrdsButton from './KrdsButton'
+import KrdsButtonGroup from '../KrdsButtonGroup/KrdsButtonGroup'
 
 const meta: Meta<typeof KrdsButton> = {
   title: 'Components/Action/KrdsButton',
   component: KrdsButton,
+  subcomponents: { KrdsButtonGroup },
   parameters: {
     docs: {
       description: {
@@ -169,6 +171,20 @@ export const IconOnly: Story = {
           <i class="svg-icon ico-angle down"></i>
         </KrdsButton>
       </div>
+    `
+  })
+}
+
+// 7. 버튼 그룹
+export const Group: Story = {
+  name: '버튼 그룹',
+  render: () => ({
+    components: { KrdsButton, KrdsButtonGroup },
+    template: `
+      <KrdsButtonGroup>
+        <KrdsButton variant="secondary">취소</KrdsButton>
+        <KrdsButton variant="primary">확인</KrdsButton>
+      </KrdsButtonGroup>
     `
   })
 }

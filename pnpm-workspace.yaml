@@ -5,3 +5,5 @@ autoInstallPeers: true
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
+patchedDependencies:
+  '@storybook/vue3-vite': patches/@storybook__vue3-vite.patch

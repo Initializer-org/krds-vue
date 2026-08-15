@@ -75,71 +75,94 @@ export interface KrdsDateInputEmits {
 /** 요일 헤더 */
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
 
-export default defineComponent<KrdsDateInputProps>({
+export default defineComponent({
   name: 'KrdsDateInput',
   props: {
+    /** 선택된 날짜 값 */
     modelValue: {
       type: String,
       default: undefined
     },
+    /** 입력 크기 */
     size: {
       type: String as PropType<Size>,
       default: 'medium'
     },
+    /** 플레이스홀더 */
     placeholder: {
       type: String,
       default: 'YYYY.MM.DD'
     },
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 필수 입력 여부 */
     required: {
       type: Boolean,
       default: false
     },
+    /** 읽기 전용 여부 */
     readonly: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 자동 포커스 */
     autofocus: {
       type: Boolean,
       default: false
     },
+    /** 일정이 있는 날짜 배열 (YYYY.MM.DD 형식) */
     eventDates: {
       type: Array as PropType<string[]>,
       default: () => []
     },
+    /** 휴일 날짜 배열 (YYYY.MM.DD 형식) */
     holidays: {
       type: Array as PropType<string[]>,
       default: () => []
     },
+    /** 초기 표시 년도 (기본: 현재 년도) */
     initialYear: {
       type: Number,
       default: undefined
     },
+    /** 초기 표시 월 (기본: 현재 월) */
     initialMonth: {
       type: Number,
       default: undefined
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object] as PropType<string | Record<string, string | number>>,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'input', 'change', 'focus', 'blur'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string) => true,
+    input: (event: Event) => true,
+    change: (event: Event) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     // ========================
     // 상태 관리

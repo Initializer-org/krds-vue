@@ -18,19 +18,25 @@ export interface KrdsDisclosureEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent<KrdsDisclosureProps>({
+export default defineComponent({
   name: 'KrdsDisclosure',
   props: {
+    /** 디스클로저 제목 */
     title: {
       type: String,
       required: true
     },
+    /** 확장 상태 (v-model) */
     modelValue: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: boolean) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 컴포넌트 고유 ID

@@ -28,39 +28,51 @@ export interface KrdsLanguageSwitcherEmits {
   (e: 'close'): void
 }
 
-export default defineComponent<KrdsLanguageSwitcherProps>({
+export default defineComponent({
   name: 'KrdsLanguageSwitcher',
   props: {
+    /** 언어 목록 */
     languageList: {
       type: Array as PropType<LanguageData[]>,
       required: true
     },
+    /** 선택된 언어 코드 (v-model) */
     modelValue: {
       type: String,
       default: ''
     },
+    /** 동작 타입 (default: 언어 선택, external: 외부 페이지 이동) */
     type: {
       type: String as PropType<'default' | 'external'>,
       default: 'default'
     },
+    /** 드롭다운 정렬 위치 */
     dropPosition: {
       type: String as PropType<DropdownPosition>,
       default: 'center'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object] as PropType<string | Record<string, string | number>>,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'close'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string) => true,
+    close: () => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const isOpen = ref(false)
     const dropdownRef = ref<HTMLElement>()

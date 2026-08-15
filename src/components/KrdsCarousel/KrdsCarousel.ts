@@ -117,80 +117,106 @@ const flattenSlides = (nodes?: VNode[]): VNode[] => {
 export default defineComponent({
   name: 'KrdsCarousel',
   props: {
+    /** 캐러셀 형태 (기본값: visual) */
     variant: {
       type: String as () => KrdsCarouselVariant,
       default: 'visual'
     },
+    /** 현재 슬라이드 인덱스 (v-model:activeIndex) */
     activeIndex: {
       type: Number,
       default: undefined
     },
+    /** 처음/마지막 슬라이드에서 순환 이동 여부 (기본값: true) */
     loop: {
       type: Boolean,
       default: true
     },
+    /** 자동 재생 여부. true면 재생/정지 버튼을 노출하고 즉시 재생을 시작한다 (기본값: false) */
     autoplay: {
       type: Boolean,
       default: false
     },
+    /** 자동 재생 간격 (ms, 기본값: 2500) */
     autoplayDelay: {
       type: Number,
       default: DEFAULT_AUTOPLAY_DELAY
     },
+    /** 마우스 오버 시 자동 재생 일시 정지 여부 (기본값: true). 포커스 진입 시에는 값과 무관하게 항상 정지한다 */
     pauseOnHover: {
       type: Boolean,
       default: true
     },
+    /** 슬라이드 전환 속도 (ms, 기본값: 400) */
     speed: {
       type: Number,
       default: DEFAULT_SPEED
     },
+    /** 슬라이드 사이 간격 (px, 기본값: visual 0 / banner 16) */
     spaceBetween: {
       type: Number,
       default: undefined
     },
+    /** 페이지네이션 표시 방식 (기본값: visual bullets / banner fraction) */
     pagination: {
       type: String as () => KrdsCarouselPaginationType,
       default: undefined
     },
+    /** 이전/다음 버튼 표시 여부 (기본값: true) */
     navigation: {
       type: Boolean,
       default: true
     },
+    /** 더 보기 링크 URL. 지정하면 더 보기 버튼을 표시한다 */
     moreHref: {
       type: String,
       default: undefined
     },
+    /** 캐러셀 영역 접근성 라벨 */
     ariaLabel: {
       type: String,
       default: '캐러셀'
     },
+    /** 이전 버튼 라벨 */
     prevLabel: {
       type: String,
       default: '이전'
     },
+    /** 다음 버튼 라벨 */
     nextLabel: {
       type: String,
       default: '다음'
     },
+    /** 재생 버튼 라벨 */
     playLabel: {
       type: String,
       default: '슬라이드 재생'
     },
+    /** 정지 버튼 라벨 */
     stopLabel: {
       type: String,
       default: '슬라이드 멈춤'
     },
+    /** 더 보기 버튼 라벨 */
     moreLabel: {
       type: String,
       default: '더 보기'
     },
+    /** 엘리먼트 ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:activeIndex', 'change', 'play', 'stop', 'more-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:activeIndex': (value: number) => true,
+    change: (value: number) => true,
+    play: () => true,
+    stop: () => true,
+    'more-click': (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const uid = getCurrentInstance()?.uid
     const wrapperId = computed(() => `${props.id ?? `krds-carousel-${uid}`}-wrapper`)

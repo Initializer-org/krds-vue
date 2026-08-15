@@ -5,13 +5,15 @@ export interface KrdsAccordionGroupProps extends BaseComponentProps {
   typeLine?: boolean
 }
 
-export default defineComponent<KrdsAccordionGroupProps>({
+export default defineComponent({
   name: 'KrdsAccordionGroup',
   props: {
+    /** 라인 타입 아코디언 여부 */
     typeLine: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

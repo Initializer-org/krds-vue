@@ -26,39 +26,51 @@ export interface KrdsCoachMarkEmits {
   (e: 'close'): void
 }
 
-export default defineComponent<KrdsCoachMarkProps>({
+export default defineComponent({
   name: 'KrdsCoachMark',
   props: {
+    /** 코치마크 래퍼에 추가할 클래스 */
     coachMarkClass: {
       type: [String, Array] as PropType<string | string[]>,
       default: ''
     },
+    /** 전체 단계 데이터 */
     stepsData: {
       type: Array as () => StepsData[],
       required: true
     },
+    /** 이 코치마크가 담당하는 단계 번호 */
     activeStep: {
       type: Number,
       required: true
     },
+    /** 현재 노출 중인 단계 (v-model) */
     modelValue: {
       type: Number,
       default: null
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object] as PropType<string | Record<string, string | number>>,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'close'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: number | null) => true,
+    close: () => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const currentStepData = computed(() => {
       const index = props.activeStep - 1

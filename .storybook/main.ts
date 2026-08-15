@@ -11,7 +11,11 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/vue3-vite',
-    options: {}
+    options: {
+      // .ts defineComponent 컴포넌트에서 props/events 문서를 추출하려면
+      // vue-docgen-api(.vue 전용) 대신 vue-component-meta가 필요하다
+      docgen: 'vue-component-meta'
+    }
   },
   features: {
     sidebarOnboardingChecklist: false
@@ -27,6 +31,11 @@ const config: StorybookConfig = {
     }
   ],
   viteFinal: async config => {
+    // vite.config.ts의 dts 플러그인은 npm 배포용 타입 선언 전용이다.
+    // Storybook 빌드에 딸려오면 dist/types/index.d.ts가 없을 때 빌드가 실패한다.
+    config.plugins = (config.plugins ?? []).filter(
+      plugin => !(plugin && typeof plugin === 'object' && 'name' in plugin && String(plugin.name).includes('dts'))
+    )
     config.resolve = config.resolve || {}
     config.resolve.alias = {
       ...config.resolve.alias,

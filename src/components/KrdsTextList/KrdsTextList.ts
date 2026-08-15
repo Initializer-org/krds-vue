@@ -11,13 +11,15 @@ export interface KrdsTextListProps extends BaseComponentProps {
   variant?: 'decimal' | 'dash' | 'hollow' | 'ordered'
 }
 
-export default defineComponent<KrdsTextListProps>({
+export default defineComponent({
   name: 'KrdsTextList',
   props: {
+    /** 리스트 타입 */
     type: {
       type: String as () => 'ul' | 'ol',
       default: 'ul'
     },
+    /** 스타일 변형 */
     variant: {
       type: String as () => 'decimal' | 'dash' | 'hollow' | 'ordered',
       default: 'dash'

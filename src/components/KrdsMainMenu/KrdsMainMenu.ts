@@ -186,36 +186,49 @@ const FOCUSABLE_SELECTOR =
 export default defineComponent({
   name: 'KrdsMainMenu',
   props: {
+    /** 메뉴 아이템 배열 */
     items: {
       type: Array as PropType<MainMenuItem[]>,
       default: () => []
     },
+    /** 렌더링 방식 */
     variant: {
       type: String as PropType<MainMenuVariant>,
       default: 'pc'
     },
+    /** 메뉴 영역 레이블 */
     ariaLabel: {
       type: String,
       default: '메인 메뉴'
     },
+    /** 모바일 드로어 열림 상태 (v-model:open) */
     open: {
       type: Boolean,
       default: false
     },
+    /** 모바일 드로어 요소 id (외부 트리거의 `aria-controls` 대상) */
     mobileId: {
       type: String,
       default: 'mobile-nav'
     },
+    /** PC 메가 패널 배경 딤(backdrop) 사용 여부 */
     backdrop: {
       type: Boolean,
       default: true
     },
+    /** 모바일 드로어 닫기 버튼 레이블 */
     closeLabel: {
       type: String,
       default: '전체메뉴 닫기'
     }
   },
-  emits: ['update:open', 'menu-toggle', 'item-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:open': (value: boolean) => true,
+    'menu-toggle': (index: number, expanded: boolean) => true,
+    'item-click': (item: MainMenuAnyItem, mouseEvent: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
     /** PC 서브 패널 배너 영역 */
     banner?(props: { item: MainMenuItem; subItem?: MainMenuSubItem; index: number; subIndex: number }): VNode[]

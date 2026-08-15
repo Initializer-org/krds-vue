@@ -1,4 +1,4 @@
-import { defineComponent, h, computed, SlotsType } from 'vue'
+import { defineComponent, h, computed, SlotsType, type VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -49,29 +49,37 @@ export interface KrdsTableEmits {
   (e: 'row-click', row: TableRow, index: number): void
 }
 
-export default defineComponent<KrdsTableProps>({
+export default defineComponent({
   name: 'KrdsTable',
   props: {
+    /** 테이블 캡션 */
     caption: {
       type: String,
       default: undefined
     },
+    /** 테이블 열 정의 */
     columns: {
       type: Array as () => TableColumn[],
       required: true
     },
+    /** 테이블 행 데이터 */
     rows: {
       type: Array as () => TableRow[],
       required: true
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     }
   },
-  emits: ['row-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'row-click': (row: TableRow, index: number) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
-    'no-data'?: () => unknown
+    'no-data'?: () => VNode[]
   }>,
   setup(props, { emit, slots }) {
     /**
