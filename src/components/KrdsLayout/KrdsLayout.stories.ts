@@ -11,7 +11,7 @@ import KrdsBreadcrumb from '../KrdsBreadcrumb/KrdsBreadcrumb'
 import { KrdsButton } from '../KrdsButton'
 
 const meta: Meta<typeof KrdsLayout> = {
-  title: 'Components/ETC/KrdsLayout',
+  title: 'Components/Layout/KrdsLayout',
   component: KrdsLayout,
   tags: ['autodocs'],
   argTypes: {

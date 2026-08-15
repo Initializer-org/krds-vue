@@ -4,7 +4,7 @@ import KrdsInPageNavigation from './KrdsInPageNavigation'
 import type { NavigationItem } from './KrdsInPageNavigation'
 
 const meta: Meta<typeof KrdsInPageNavigation> = {
-  title: 'Components/Navigation/InPageNavigation',
+  title: 'Components/Navigation/KrdsInPageNavigation',
   component: KrdsInPageNavigation,
   parameters: {
     docs: {
