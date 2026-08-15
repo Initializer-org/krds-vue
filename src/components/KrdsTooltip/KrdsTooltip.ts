@@ -47,21 +47,6 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
-    },
-    /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
-    /** 인라인 스타일 */
-    style: {
-      type: [String, Object] as PropType<string | Record<string, string | number>>,
-      default: undefined
-    },
-    /** HTML ID */
-    id: {
-      type: String,
-      default: undefined
     }
   },
   setup(props, { slots }) {

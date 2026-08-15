@@ -121,11 +121,6 @@ export default defineComponent({
       type: String,
       default: undefined
     },
-    /** 인라인 스타일 */
-    style: {
-      type: [String, Object],
-      default: undefined
-    },
     /** HTML ID */
     id: {
       type: String,
