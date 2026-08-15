@@ -27,21 +27,25 @@ export interface KrdsCriticalAlertsEmits {
   (e: 'link-click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsCriticalAlertsProps>({
+export default defineComponent({
   name: 'KrdsCriticalAlerts',
   props: {
+    /** 알림 타입 */
     type: {
       type: String as () => AlertType,
       default: 'info'
     },
+    /** 알림 메시지 */
     message: {
       type: String,
       required: true
     },
+    /** 링크 URL */
     linkHref: {
       type: String,
       default: undefined
     },
+    /** 링크 텍스트 */
     linkText: {
       type: String,
       default: '자세히 보기'

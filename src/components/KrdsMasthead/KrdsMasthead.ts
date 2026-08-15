@@ -14,9 +14,10 @@ export interface KrdsMastheadEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsMastheadProps>({
+export default defineComponent({
   name: 'KrdsMasthead',
   props: {
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

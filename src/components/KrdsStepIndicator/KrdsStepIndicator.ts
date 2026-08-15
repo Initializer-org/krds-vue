@@ -16,13 +16,15 @@ export interface KrdsStepIndicatorEmits {
   (e: 'update:modelValue', value: number): void
 }
 
-export default defineComponent<KrdsStepIndicatorProps>({
+export default defineComponent({
   name: 'KrdsStepIndicator',
   props: {
+    /** 현재 활성 단계 인덱스 (0부터 시작) - v-model */
     modelValue: {
       type: Number,
       default: 0
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

@@ -15,30 +15,37 @@ export interface KrdsModalProps {
 export default defineComponent({
   name: 'KrdsModal',
   props: {
+    /** 모달 표시 여부 (v-model) */
     modelValue: {
       type: Boolean,
       default: false
     },
+    /** 모달 엘리먼트 ID */
     modalId: {
       type: String,
       default: undefined
     },
+    /** 배경 딤(backdrop) 표시 여부 */
     backdrop: {
       type: Boolean,
       default: true
     },
+    /** 모달 크기 */
     size: {
       type: String as () => KrdsModalSize,
       default: 'medium'
     },
+    /** 전체 화면 모달 여부 */
     full: {
       type: Boolean,
       default: false
     },
+    /** 하단 시트형 모달 여부 */
     bottomSheet: {
       type: Boolean,
       default: false
     },
+    /** 배경 클릭·Esc 키로 닫히지 않는 지속형 모달 여부 */
     persistent: {
       type: Boolean,
       default: false

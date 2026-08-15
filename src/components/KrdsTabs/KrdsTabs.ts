@@ -43,29 +43,35 @@ export interface KrdsTabsEmits {
   (e: 'change', id: string): void
 }
 
-export default defineComponent<KrdsTabsProps>({
+export default defineComponent({
   name: 'KrdsTabs',
   props: {
+    /** 탭 아이템 목록 */
     tabs: {
       type: Array as PropType<KrdsTabItem[]>,
       required: true
     },
+    /** 활성 탭 id (v-model) */
     modelValue: {
       type: String,
       default: undefined
     },
+    /** 탭 스타일 변형 */
     variant: {
       type: String as PropType<KrdsTabsVariant>,
       default: 'line'
     },
+    /** 풀사이즈 레이아웃 여부 */
     full: {
       type: Boolean,
       default: false
     },
+    /** 선택된 탭의 스크린 리더 대체 텍스트 */
     selectedText: {
       type: String,
       default: '선택됨'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

@@ -15,17 +15,20 @@ export interface KrdsContextualHelpProps {
   position?: ContextualHelpPosition
 }
 
-export default defineComponent<KrdsContextualHelpProps>({
+export default defineComponent({
   name: 'KrdsContextualHelp',
   props: {
+    /** 툴팁 제목 */
     tooltipTitle: {
       type: String,
       default: '도움말 제목'
     },
+    /** 도움말 아이콘 사용 여부 (false 면 툴팁 아이콘) */
     helpIcon: {
       type: Boolean,
       default: false
     },
+    /** 툴팁 노출 위치 */
     position: {
       type: String as PropType<ContextualHelpPosition>,
       default: 'top left'

@@ -31,21 +31,25 @@ interface StepIndicatorContext {
   resetStepIndex: () => void
 }
 
-export default defineComponent<KrdsStepProps>({
+export default defineComponent({
   name: 'KrdsStep',
   props: {
+    /** 단계 번호 */
     step: {
       type: [String, Number],
       required: true
     },
+    /** 단계 제목 */
     title: {
       type: String,
       required: true
     },
+    /** 단계 상태 강제 설정 (선택적) */
     status: {
       type: String as () => 'done' | 'active' | 'pending',
       default: undefined
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

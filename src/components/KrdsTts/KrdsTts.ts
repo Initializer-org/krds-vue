@@ -37,29 +37,35 @@ export interface KrdsTtsEmits {
   (e: 'error', error: Error): void
 }
 
-export default defineComponent<KrdsTtsProps>({
+export default defineComponent({
   name: 'KrdsTts',
   props: {
+    /** 읽어줄 텍스트 */
     text: {
       type: String,
       required: true
     },
+    /** 레이블 텍스트 (미지정 시 아이콘만 표시) */
     label: {
       type: String,
       default: undefined
     },
+    /** 버튼 크기 */
     size: {
       type: String as () => TtsSize,
       default: 'medium'
     },
+    /** 아이콘 타입 */
     icon: {
       type: String as () => TtsIcon,
       default: 'volume'
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

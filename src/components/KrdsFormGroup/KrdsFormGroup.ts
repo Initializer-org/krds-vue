@@ -6,17 +6,20 @@ import type { BaseComponentProps } from '@/types'
  */
 export type KrdsFormGroupProps = BaseComponentProps
 
-export default defineComponent<KrdsFormGroupProps>({
+export default defineComponent({
   name: 'KrdsFormGroup',
   props: {
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined

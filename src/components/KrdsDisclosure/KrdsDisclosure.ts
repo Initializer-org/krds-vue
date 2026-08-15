@@ -18,13 +18,15 @@ export interface KrdsDisclosureEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent<KrdsDisclosureProps>({
+export default defineComponent({
   name: 'KrdsDisclosure',
   props: {
+    /** 디스클로저 제목 */
     title: {
       type: String,
       required: true
     },
+    /** 확장 상태 (v-model) */
     modelValue: {
       type: Boolean,
       default: false

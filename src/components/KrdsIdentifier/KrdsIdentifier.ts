@@ -16,13 +16,15 @@ export interface KrdsIdentifierEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsIdentifierProps>({
+export default defineComponent({
   name: 'KrdsIdentifier',
   props: {
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 로고 스크린리더 텍스트 */
     logoLabel: {
       type: String,
       default: 'KRDS - Korea Design System'

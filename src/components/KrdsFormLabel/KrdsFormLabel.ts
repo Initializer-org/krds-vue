@@ -16,21 +16,25 @@ export interface KrdsFormLabelEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsFormLabelProps>({
+export default defineComponent({
   name: 'KrdsFormLabel',
   props: {
+    /** label의 for 속성 */
     for: {
       type: String,
       default: undefined
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined

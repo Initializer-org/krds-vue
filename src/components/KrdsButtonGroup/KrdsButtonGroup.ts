@@ -6,7 +6,7 @@ import type { BaseComponentProps } from '@/types'
  */
 export type KrdsButtonGroupProps = BaseComponentProps
 
-export default defineComponent<KrdsButtonGroupProps>({
+export default defineComponent({
   name: 'KrdsButtonGroup',
   props: {},
   setup(_, { slots }) {

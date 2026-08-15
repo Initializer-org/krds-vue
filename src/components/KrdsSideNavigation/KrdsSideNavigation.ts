@@ -66,10 +66,12 @@ export interface KrdsSideNavigationEmits {
 export default defineComponent({
   name: 'KrdsSideNavigation',
   props: {
+    /** 네비게이션 제목 */
     title: {
       type: String,
       required: true
     },
+    /** 메뉴 아이템 배열 */
     modelValue: {
       type: Array as () => SideNavItem[],
       default: () => []

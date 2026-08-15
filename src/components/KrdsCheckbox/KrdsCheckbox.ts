@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, SlotsType, useId } from 'vue'
+import { defineComponent, computed, h, SlotsType, useId, type VNode } from 'vue'
 import type { BaseFormProps } from '@/types'
 import { classNames } from '@/utils'
 
@@ -23,30 +23,36 @@ export interface KrdsCheckboxEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent<KrdsCheckboxProps>({
+export default defineComponent({
   name: 'KrdsCheckbox',
   props: {
+    /** 모델 값 */
     modelValue: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 크기 */
     size: {
       type: String as () => 'medium' | 'large',
       default: 'medium',
       validator: (value: string) => ['medium', 'large'].includes(value)
     },
+    /** Chip 스타일 여부 */
     chip: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined
@@ -58,8 +64,8 @@ export default defineComponent<KrdsCheckboxProps>({
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
-    default?: () => unknown // Default slot with props
-    description?: () => unknown // Description slot without props
+    default?: () => VNode[] // Default slot with props
+    description?: () => VNode[] // Description slot without props
   }>,
   setup(props, { emit, attrs, slots }) {
     const generatedInputId = `checkbox-${useId()}`

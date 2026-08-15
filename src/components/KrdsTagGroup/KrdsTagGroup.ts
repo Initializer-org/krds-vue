@@ -14,13 +14,15 @@ export interface KrdsTagGroupProps extends BaseComponentProps {
   size?: KrdsTagGroupSize
 }
 
-export default defineComponent<KrdsTagGroupProps>({
+export default defineComponent({
   name: 'KrdsTagGroup',
   props: {
+    /** 태그 그룹 크기 */
     size: {
       type: String as () => KrdsTagGroupSize,
       default: 'medium'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

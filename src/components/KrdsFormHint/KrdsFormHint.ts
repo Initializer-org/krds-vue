@@ -16,21 +16,25 @@ export interface KrdsFormHintEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsFormHintProps>({
+export default defineComponent({
   name: 'KrdsFormHint',
   props: {
+    /** 힌트 타입 */
     type: {
       type: String as () => 'hint' | 'error' | 'success' | 'information',
       default: 'hint'
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** 인라인 스타일 */
     style: {
       type: [String, Object],
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined

@@ -34,21 +34,25 @@ export interface KrdsBreadcrumbEmits {
   (e: 'item-click', item: BreadcrumbItem, event: MouseEvent): void
 }
 
-export default defineComponent<KrdsBreadcrumbProps>({
+export default defineComponent({
   name: 'KrdsBreadcrumb',
   props: {
+    /** 브레드크럼 아이템 배열 */
     items: {
       type: Array as PropType<BreadcrumbItem[]>,
       required: true
     },
+    /** 엘리먼트 ID */
     id: {
       type: String,
       default: undefined
     },
+    /** 접근성 라벨 */
     ariaLabel: {
       type: String,
       default: '현재 경로'
     },
+    /** 홈 아이콘 표시 여부 */
     showHomeIcon: {
       type: Boolean,
       default: true

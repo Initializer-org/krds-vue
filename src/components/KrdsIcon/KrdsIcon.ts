@@ -9,13 +9,15 @@ export interface KrdsIconProps extends BaseComponentProps {
   name: string
 }
 
-export default defineComponent<KrdsIconProps>({
+export default defineComponent({
   name: 'KrdsIcon',
   props: {
+    /** 아이콘 이름 */
     name: {
       type: String,
       required: true
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

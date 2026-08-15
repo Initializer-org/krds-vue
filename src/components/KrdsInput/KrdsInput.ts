@@ -51,89 +51,110 @@ export interface KrdsInputEmits {
   (e: 'keyup', event: KeyboardEvent): void
 }
 
-export default defineComponent<KrdsInputProps>({
+export default defineComponent({
   name: 'KrdsInput',
   props: {
+    /** 입력값 */
     modelValue: {
       type: [String, Number],
       default: undefined
     },
+    /** 입력 타입 */
     type: {
       type: String as () => InputType,
       default: 'text'
     },
+    /** 입력 크기 */
     size: {
       type: String as () => Size,
       default: undefined
     },
+    /** 플레이스홀더 */
     placeholder: {
       type: String,
       default: undefined
     },
+    /** 최대 글자 수 */
     maxlength: {
       type: Number,
       default: undefined
     },
+    /** 최소 글자 수 */
     minlength: {
       type: Number,
       default: undefined
     },
+    /** 최대값 (number 타입용) */
     max: {
       type: Number,
       default: undefined
     },
+    /** 최소값 (number 타입용) */
     min: {
       type: Number,
       default: undefined
     },
+    /** 단계값 (number 타입용) */
     step: {
       type: Number,
       default: undefined
     },
+    /** 자동완성 */
     autocomplete: {
       type: String,
       default: undefined
     },
+    /** 자동 포커스 */
     autofocus: {
       type: Boolean,
       default: false
     },
+    /** 폼 필드 이름 */
     name: {
       type: String,
       default: undefined
     },
+    /** 필수 입력 여부 */
     required: {
       type: Boolean,
       default: false
     },
+    /** 읽기 전용 여부 */
     readonly: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** 에러 메시지 */
     error: {
       type: String,
       default: undefined
     },
+    /** 입력 상태 */
     state: {
       type: String as () => 'default' | 'error' | 'success' | 'information',
       default: 'default'
     },
+    /** 아이콘 (있을 때 btn-ico-wrap 클래스 적용) */
     icon: {
       type: Boolean,
       default: false
     },
+    /** 로딩 상태 */
     loading: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined
     },
+    /** HTML ID */
     id: {
       type: String,
       default: undefined

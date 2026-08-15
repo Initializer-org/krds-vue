@@ -24,25 +24,30 @@ export interface KrdsBadgeEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsBadgeProps>({
+export default defineComponent({
   name: 'KrdsBadge',
   props: {
+    /** 배지 타입 */
     type: {
       type: String as () => 'outline' | 'bg' | 'bg-light',
       default: 'outline'
     },
+    /** 배지 컬러 */
     color: {
       type: String as () => ColorVariant,
       default: 'primary'
     },
+    /** 배지 크기 */
     size: {
       type: String as () => Size,
       default: 'large'
     },
+    /** 넘버 여부 */
     number: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

@@ -30,41 +30,50 @@ export interface KrdsButtonEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent<KrdsButtonProps>({
+export default defineComponent({
   name: 'KrdsButton',
   props: {
+    /** 버튼 타입 */
     type: {
       type: String as () => 'button' | 'submit' | 'reset',
       default: 'button'
     },
+    /** 버튼 크기 */
     size: {
       type: String as () => Size,
       default: undefined
     },
+    /** 버튼 변형 */
     variant: {
       type: String as () => Variant,
       default: 'primary'
     },
+    /** 아이콘 전용 버튼 */
     icon: {
       type: Boolean,
       default: false
     },
+    /** 테두리 스타일 (아이콘 버튼용) */
     border: {
       type: Boolean,
       default: false
     },
+    /** Pure 버튼 여부 (가상클래스 상태 시 컬러 유지) */
     pure: {
       type: Boolean,
       default: false
     },
+    /** 텍스트 버튼 스타일 */
     text: {
       type: Boolean,
       default: false
     },
+    /** 비활성화 여부 */
     disabled: {
       type: Boolean,
       default: false
     },
+    /** CSS 클래스 */
     class: {
       type: String,
       default: undefined

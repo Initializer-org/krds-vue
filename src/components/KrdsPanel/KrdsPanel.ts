@@ -15,9 +15,10 @@ export interface KrdsPanelEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent<KrdsPanelProps>({
+export default defineComponent({
   name: 'KrdsPanel',
   props: {
+    /** 도움말 패널 펼침 상태 (v-model) */
     modelValue: {
       type: Boolean,
       default: false

@@ -46,29 +46,35 @@ export interface KrdsPaginationEmits {
   (e: 'update:modelValue', value: number): void
 }
 
-export default defineComponent<KrdsPaginationProps>({
+export default defineComponent({
   name: 'KrdsPagination',
   props: {
+    /** 현재 페이지 번호 (v-model) */
     modelValue: {
       type: Number,
       default: 1
     },
+    /** 최소 페이지 번호 (기본값: 1, 최소값: 1) */
     min: {
       type: Number,
       default: DEFAULT_MIN
     },
+    /** 최대 페이지 번호 (전체 페이지 수) */
     max: {
       type: Number,
       required: true
     },
+    /** 엘리먼트 ID */
     id: {
       type: String,
       default: undefined
     },
+    /** 접근성 라벨 */
     ariaLabel: {
       type: String,
       default: '페이지 내비게이션'
     },
+    /** 표시할 페이지 범위 */
     pageRange: {
       type: Number,
       default: DEFAULT_PAGE_RANGE

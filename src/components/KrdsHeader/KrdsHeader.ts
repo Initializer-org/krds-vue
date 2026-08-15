@@ -18,10 +18,12 @@ export interface KrdsHeaderProps {
 export default defineComponent({
   name: 'KrdsHeader',
   props: {
+    /** 헤더 ID */
     id: {
       type: String,
       default: 'krds-header'
     },
+    /** 추가 CSS 클래스 */
     class: {
       type: String,
       default: undefined
