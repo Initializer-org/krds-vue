@@ -149,6 +149,11 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 - **Feedback/Overlay**: `KrdsModal`, `KrdsTooltip`, `KrdsCoachMark`, `KrdsContextualHelp`, `KrdsCriticalAlerts`, `KrdsSpinner`
 - **Data/Content**: `KrdsTable`, `KrdsStructuredList`, `KrdsTextList`, `KrdsPanel`, `KrdsDisclosure`
 
+### 원본 동기화 기준
+
+- [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0 (2025-06-03 커밋 `d6bb184`) 기준으로 포팅되었습니다.
+- Alert, Grid, Card, Progress는 원본 저장소에 HTML/SCSS가 존재하지 않아 포팅 대상이 아닙니다 (2026-08-12 원본 main 브랜치 전수 확인).
+
 ## 요구사항
 
 - **Runtime**: Vue `^3.5.0`

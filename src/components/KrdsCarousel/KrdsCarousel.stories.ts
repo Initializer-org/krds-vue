@@ -107,20 +107,26 @@ const bannerSlides = [1, 2, 3]
   )
   .join('')
 
-const createRender = (slides: string) => (args: unknown) => ({
+/** 원본 예제 페이지(carousel.html)의 .main-vban-wrap.bg 배경 밴드 — 라이브러리 스타일이 아닌 페이지 전용 스타일이라 스토리에서만 재현한다 */
+const VISUAL_WRAPPER_STYLE = 'background-color: #d8e4f2'
+
+const createRender = (slides: string, wrapperStyle?: string) => (args: unknown) => ({
   components: { KrdsCarousel },
   setup: () => ({ args }),
-  template: `<KrdsCarousel v-bind="args">${slides}</KrdsCarousel>`
+  template: wrapperStyle
+    ? `<div style="${wrapperStyle}"><KrdsCarousel v-bind="args">${slides}</KrdsCarousel></div>`
+    : `<KrdsCarousel v-bind="args">${slides}</KrdsCarousel>`
 })
 
-const renderVisual = createRender(visualSlides)
+const renderVisual = createRender(visualSlides, VISUAL_WRAPPER_STYLE)
 const renderBanner = createRender(bannerSlides)
 
 export const Default: Story = {
   name: '기본 (비주얼 배너형)',
   args: {
     variant: 'visual',
-    ariaLabel: '주요 서비스 안내'
+    ariaLabel: '주요 서비스 안내',
+    moreHref: '#'
   },
   render: renderVisual,
   play: async ({ canvas, canvasElement, userEvent }) => {
