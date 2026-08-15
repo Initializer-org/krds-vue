@@ -31,6 +31,7 @@ type Story = StoryObj<typeof meta>
 
 // 기본 Footer (전체 콘텐츠)
 export const Default: Story = {
+  name: '기본',
   render: args => ({
     components: { KrdsFooter, KrdsIdentifier, KrdsButton },
     setup() {

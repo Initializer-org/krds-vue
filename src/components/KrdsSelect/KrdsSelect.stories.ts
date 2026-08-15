@@ -58,6 +58,7 @@ type Story = StoryObj<typeof meta>
  * 기본 선택 박스 (FormGroup과 함께)
  */
 export const Default: Story = {
+  name: '기본',
   render: args => ({
     components: { KrdsSelect, KrdsFormGroup, KrdsFormLabel, KrdsFormHint },
     setup() {
@@ -105,6 +106,7 @@ export const Default: Story = {
  * 크기별 선택 박스
  */
 export const Sizes: Story = {
+  name: '사이즈',
   render: () => ({
     components: { KrdsSelect, KrdsFormGroup, KrdsFormLabel, KrdsFormHint },
     setup() {
@@ -169,6 +171,7 @@ export const Sizes: Story = {
  * 정렬 스타일
  */
 export const SortStyle: Story = {
+  name: '정렬 스타일',
   render: () => ({
     components: { KrdsSelect },
     setup() {
@@ -241,6 +244,7 @@ export const SortStyle: Story = {
  * 에러 상태
  */
 export const ErrorState: Story = {
+  name: '에러 상태',
   render: () => ({
     components: { KrdsSelect, KrdsFormGroup, KrdsFormLabel, KrdsFormHint },
     setup() {

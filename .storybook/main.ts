@@ -13,6 +13,9 @@ const config: StorybookConfig = {
     name: '@storybook/vue3-vite',
     options: {}
   },
+  features: {
+    sidebarOnboardingChecklist: false
+  },
   staticDirs: [
     {
       from: '../public',
