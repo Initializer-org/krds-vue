@@ -53,6 +53,7 @@ const defaultItems: NavigationItem[] = [
 ]
 
 export const Default: Story = {
+  name: '기본',
   args: {
     title: '장애아동수당',
     caption: '이 페이지의 구성',

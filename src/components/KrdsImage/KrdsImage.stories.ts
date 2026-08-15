@@ -17,6 +17,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
+  name: '기본',
   render: () => ({
     template: `
       <div style="text-align: center; padding: 40px;">

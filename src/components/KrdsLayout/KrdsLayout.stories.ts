@@ -43,6 +43,7 @@ type Story = StoryObj<typeof meta>
  * 기본 레이아웃
  */
 export const Default: Story = {
+  name: '기본',
   render: () => ({
     components: {
       KrdsLayout,

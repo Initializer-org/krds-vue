@@ -72,6 +72,7 @@ const menuItems: MainMenuItem[] = [
  * 기본 헤더 — 네비게이션 슬롯에 KrdsMainMenu 사용
  */
 export const Default: Story = {
+  name: '기본',
   render: args => ({
     components: { KrdsHeader, KrdsMainMenu },
     setup() {

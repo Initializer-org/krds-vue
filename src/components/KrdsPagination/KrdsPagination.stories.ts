@@ -34,6 +34,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
+  name: '기본',
   args: {
     modelValue: 4,
     max: 99,
