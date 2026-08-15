@@ -76,13 +76,16 @@ app.use(KrdsVue, {
 ```vue
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { KrdsButton, KrdsInput } from '@krds.ui/vue'
+  import { KrdsButton, KrdsFormGroup, KrdsFormLabel, KrdsInput } from '@krds.ui/vue'
 
   const name = ref('')
 </script>
 
 <template>
-  <KrdsInput v-model="name" label="이름" placeholder="이름을 입력하세요" required />
+  <KrdsFormGroup>
+    <KrdsFormLabel for="name">이름</KrdsFormLabel>
+    <KrdsInput id="name" v-model="name" placeholder="이름을 입력하세요" required />
+  </KrdsFormGroup>
 
   <KrdsButton variant="primary" size="medium">확인</KrdsButton>
 </template>
@@ -104,7 +107,7 @@ const buttonProps: KrdsButtonProps = {
 }
 
 const inputProps: KrdsInputProps = {
-  label: '이름',
+  placeholder: '이름을 입력하세요',
   modelValue: '',
   size
 }
@@ -162,6 +165,29 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 - [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0 (2025-06-03 커밋 `d6bb184`) 기준으로 포팅되었습니다.
 - Alert, Grid, Card, Progress는 원본 저장소에 HTML/SCSS가 존재하지 않아 포팅 대상이 아닙니다 (2026-08-12 원본 main 브랜치 전수 확인).
+- 원본 저장소의 릴리스를 추적해 동기화하며, 대응 버전은 이 섹션에 기록합니다.
+- 원본 반영으로 마크업·클래스 구조가 바뀌어 호환성이 깨지는 경우 메이저 버전으로만 배포하고, CHANGELOG에 마이그레이션 노트를 제공합니다.
+
+## 접근성
+
+- 컴포넌트는 원본 KRDS 마크업 구조와 ARIA 속성, 키보드 인터랙션을 따라 구현합니다.
+- 모든 스토리에 대해 axe-core 기반 자동 접근성 검사(`@storybook/addon-a11y`)를 실행합니다. 현재는 위반이 경고로 보고되는 단계이며, 위반 0건 달성 후 CI 차단 수준(`test: 'error'`)으로 상향할 예정입니다.
+- 고대비 모드(`data-krds-mode="high-contrast"`)를 지원합니다.
+
+라이브러리 차원의 자동 검사는 KWCAG/WCAG 적합성 평가를 대체하지 않습니다. 서비스 전체의 접근성 준수는 사용처에서 별도 검증이 필요합니다.
+
+## 브라우저 지원
+
+Vite 라이브러리 모드 기본 타겟(Baseline Widely Available)으로 빌드합니다.
+
+| 브라우저          | 지원 버전 |
+| ----------------- | --------- |
+| Chrome, Edge      | 111 이상  |
+| Firefox           | 114 이상  |
+| Safari (iOS 포함) | 16.4 이상 |
+
+- 산출물에 폴리필은 포함하지 않습니다. 더 낮은 버전을 지원해야 한다면 애플리케이션 빌드에서 트랜스파일과 폴리필을 구성해야 합니다.
+- Internet Explorer는 지원하지 않습니다 (ESM·CSS custom properties 기반).
 
 ## 요구사항
 
