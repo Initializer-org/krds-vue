@@ -6,7 +6,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-v-sr-only 디렉티브는 스크린 리더 전용 텍스트를 위한 최소 구현 디렉티브입니다.
+v-sr-only 디렉티브는 스크린 리더 전용 텍스트를 위한 최소 구현 디렉티브이다.
 
 **사용법:**
 - \`v-sr-only\`: 요소에 .sr-only 클래스 추가
