@@ -48,6 +48,12 @@ $mode-setting: light;
   position: relative;
   height: var(--krds-size-height-6);
   .swiper-pagination-bullet {
+    // swiper-bundle.min.css가 제공하던 불릿 기본값 폴리필 — 라이브러리는 Swiper CSS를 포함하지 않는다
+    margin: 0 0.4rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
     @include square(var(--krds-size-height-1));
     background-color: var(--krds-#{$mode-setting}-color-element-gray);
     opacity: 1;
@@ -143,6 +149,159 @@ $mode-setting: light;
   }
 }
 
+/* ** 배너 레이아웃 ** */
+// 원본 저장소에는 배너 레이아웃 SCSS가 없다(carousel.html이 참조하는 스타일은 krds.go.kr 사이트 전용 CSS에만 존재).
+// krds.go.kr resources/css/site/output.css의 .main-vban-wrap .vb-swiper / .main-sect .main-d-ban-swiper
+// 규칙을 컴포넌트 루트(.krds-carousel) 스코프로 옮겨왔다.
+
+// 비주얼 배너형 (carousel.html)
+.krds-carousel.vb-swiper {
+  padding: 0 10.2rem;
+  .swiper-slide {
+    height: 48.8rem;
+    .in {
+      @include flex-layout($jc: center);
+      padding-top: 13rem;
+      gap: var(--krds-gap-11);
+      height: 100%;
+      background-position: center right;
+      background-repeat: no-repeat;
+    }
+    .text {
+      @include flex-layout($fd: column);
+      flex: 1;
+      padding-top: 1.75rem;
+      gap: var(--krds-pc-gap-layout-title-body-large);
+      font-weight: var(--krds-font-weight-bold);
+      .tit {
+        font-size: var(--krds-pc-font-size-display-small);
+        letter-spacing: var(--krds-typo-letter-spacing-1);
+      }
+      .txt {
+        font-size: var(--krds-pc-font-size-body-large);
+        font-weight: var(--krds-font-weight-regular);
+      }
+      .krds-btn {
+        margin-top: var(--krds-gap-5);
+      }
+    }
+    .im {
+      flex-basis: 35%;
+      flex-shrink: 0;
+      margin-right: auto;
+      text-align: right;
+      img {
+        width: 100%;
+        max-width: 34rem;
+      }
+      svg {
+        width: 100%;
+        height: fit-content;
+      }
+    }
+    .krds-btn:focus {
+      box-shadow: var(--krds-box-shadow-outline-inset);
+      outline-offset: -0.4rem;
+    }
+  }
+  .swiper-indicator {
+    padding-bottom: var(--krds-padding-9);
+  }
+  @include size-medium-more {
+    .swiper-button-prev,
+    .swiper-button-next {
+      @include square(var(--krds-size-height-9));
+      &::after {
+        width: 3.8rem;
+        height: 3.8rem;
+      }
+    }
+  }
+  @include size-large-less {
+    padding: var(--krds-padding-10) 0;
+    .swiper-slide {
+      height: auto;
+      padding: 0 var(--krds-padding-8);
+      .in {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: normal;
+        padding-top: 0;
+        gap: var(--krds-gap-9);
+      }
+      .text {
+        padding-top: 0;
+        gap: var(--krds-mobile-gap-layout-title-body-large);
+        .tit {
+          font-size: var(--krds-mobile-font-size-heading-large);
+        }
+        .txt {
+          font-size: var(--krds-mobile-font-size-body-large);
+        }
+        .krds-btn {
+          margin-top: var(--krds-gap-2);
+        }
+      }
+      .im {
+        width: 100%;
+        text-align: right;
+        img {
+          height: 20.2rem;
+        }
+      }
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+      display: none;
+    }
+    .swiper-indicator {
+      margin-top: var(--krds-gap-4);
+      padding: 0;
+    }
+  }
+}
+
+// 배너형 (carousel_banner.html)
+.krds-carousel.main-d-ban-swiper {
+  @include flex-layout($ai: normal, $fd: column);
+  z-index: 1;
+  height: 100%;
+  text-align: center;
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-indicator {
+    justify-content: center;
+    margin-top: var(--krds-gap-6);
+  }
+  .text {
+    @include flex-layout($ai: center, $fd: column);
+    gap: var(--krds-gap-3);
+    margin-bottom: var(--krds-gap-6);
+    font-weight: var(--krds-font-weight-bold);
+    .cate {
+      font-size: var(--krds-pc-font-size-heading-xxsmall);
+    }
+    .tit {
+      font-size: var(--krds-pc-font-size-heading-medium);
+    }
+  }
+  .im {
+    text-align: center;
+  }
+  &.align-start .text {
+    align-items: flex-start;
+  }
+  @include size-large-less {
+    .text {
+      .tit {
+        font-size: var(--krds-mobile-font-size-heading-medium);
+      }
+    }
+  }
+}
+
 //고대비모드
 @include color-mode(high-contrast) {
   //모드 설정
@@ -204,6 +363,10 @@ $mode-setting: light;
         background-color: var(--krds-#{$mode-setting}-color-icon-disabled-on);
       }
     }
+  }
+
+  .krds-carousel.vb-swiper .swiper-slide .text {
+    color: var(--krds-#{$mode-setting}-color-text-static);
   }
 }
 
