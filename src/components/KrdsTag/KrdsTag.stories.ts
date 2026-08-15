@@ -46,9 +46,7 @@ export const Sizes: Story = {
   render: () => ({
     components: { KrdsTag, KrdsTagGroup },
     setup() {
-      const handleRemove = (_event: MouseEvent) => {
-        // console.log('태그 삭제:', event)
-      }
+      const handleRemove = (_event: MouseEvent) => {}
       return { handleRemove }
     },
     template: `
@@ -116,9 +114,7 @@ export const WithSlot: Story = {
   render: () => ({
     components: { KrdsTag, KrdsTagGroup },
     setup() {
-      const handleRemove = (_event: MouseEvent) => {
-        // console.log('태그 삭제:', event)
-      }
+      const handleRemove = (_event: MouseEvent) => {}
       return { handleRemove }
     },
     template: `

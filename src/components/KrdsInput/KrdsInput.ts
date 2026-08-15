@@ -129,11 +129,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    /** 에러 메시지 */
-    error: {
-      type: String,
-      default: undefined
-    },
     /** 입력 상태 */
     state: {
       type: String as () => 'default' | 'error' | 'success' | 'information',

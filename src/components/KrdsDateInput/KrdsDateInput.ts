@@ -143,11 +143,6 @@ export default defineComponent({
       type: String,
       default: undefined
     },
-    /** 인라인 스타일 */
-    style: {
-      type: [String, Object] as PropType<string | Record<string, string | number>>,
-      default: undefined
-    },
     /** HTML ID */
     id: {
       type: String,

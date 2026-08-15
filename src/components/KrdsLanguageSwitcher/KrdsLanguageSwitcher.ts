@@ -50,21 +50,6 @@ export default defineComponent({
     dropPosition: {
       type: String as PropType<DropdownPosition>,
       default: 'center'
-    },
-    /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
-    /** 인라인 스타일 */
-    style: {
-      type: [String, Object] as PropType<string | Record<string, string | number>>,
-      default: undefined
-    },
-    /** HTML ID */
-    id: {
-      type: String,
-      default: undefined
     }
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
