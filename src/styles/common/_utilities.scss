@@ -1,0 +1,18 @@
+@use 'include' as *;
+
+/* ** area control ** */
+// 원본 저장소 SCSS에는 없는 krds.go.kr 사이트 전용 유틸리티(resources/css/site/output.css).
+// 원본 예제 HTML(critical_alerts.html, carousel.html 등)과 컴포넌트가 참조하므로 라이브러리에 포함한다.
+// w-hide: 데스크톱 숨김·모바일 표시, m-hide: 모바일 숨김
+.w-hide {
+  display: none !important;
+}
+
+@include size-medium {
+  .w-hide {
+    display: block !important;
+  }
+  .m-hide {
+    display: none !important;
+  }
+}
