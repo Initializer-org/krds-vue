@@ -70,7 +70,11 @@ export default defineComponent<KrdsInPageNavigationProps>({
       default: undefined
     }
   },
-  emits: ['itemClick'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    itemClick: (item: NavigationItem, event: MouseEvent | KeyboardEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
     action?: () => unknown // Named slot without props
   }>,

@@ -139,7 +139,15 @@ export default defineComponent<KrdsDateInputProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'input', 'change', 'focus', 'blur'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string) => true,
+    input: (event: Event) => true,
+    change: (event: Event) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     // ========================
     // 상태 관리

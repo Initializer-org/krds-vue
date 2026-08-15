@@ -58,7 +58,12 @@ export default defineComponent<KrdsCoachMarkProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'close'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: number | null) => true,
+    close: () => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const currentStepData = computed(() => {
       const index = props.activeStep - 1

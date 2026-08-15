@@ -75,7 +75,11 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: SideNavItem[]) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props: KrdsSideNavigationProps, { emit }: { emit: KrdsSideNavigationEmits }) {
     const modelValue = computed(() => props.modelValue || [])
 

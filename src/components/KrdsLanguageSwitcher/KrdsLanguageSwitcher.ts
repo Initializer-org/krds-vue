@@ -60,7 +60,12 @@ export default defineComponent<KrdsLanguageSwitcherProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'close'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string) => true,
+    close: () => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const isOpen = ref(false)
     const dropdownRef = ref<HTMLElement>()

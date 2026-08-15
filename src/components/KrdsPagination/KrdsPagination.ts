@@ -74,7 +74,11 @@ export default defineComponent<KrdsPaginationProps>({
       default: DEFAULT_PAGE_RANGE
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: number) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     // ========================
     // Computed Properties

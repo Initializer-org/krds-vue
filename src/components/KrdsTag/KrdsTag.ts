@@ -46,7 +46,11 @@ export default defineComponent<KrdsTagProps>({
       default: undefined
     }
   },
-  emits: ['remove'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    remove: (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 태그 클래스 계산

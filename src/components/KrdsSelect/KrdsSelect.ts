@@ -92,7 +92,13 @@ export default defineComponent<KrdsSelectProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'focus', 'blur'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string | number | null) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * Select 클래스 계산

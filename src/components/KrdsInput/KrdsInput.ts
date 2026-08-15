@@ -139,7 +139,17 @@ export default defineComponent<KrdsInputProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'input', 'change', 'focus', 'blur', 'keydown', 'keyup'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string | number) => true,
+    input: (event: Event) => true,
+    change: (event: Event) => true,
+    focus: (event: FocusEvent) => true,
+    blur: (event: FocusEvent) => true,
+    keydown: (event: KeyboardEvent) => true,
+    keyup: (event: KeyboardEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 입력 필드 클래스 계산

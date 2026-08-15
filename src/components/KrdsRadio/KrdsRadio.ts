@@ -62,7 +62,11 @@ export default defineComponent<KrdsRadioProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (value: string | number | boolean) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
     default?: () => unknown // Default slot with props
     description?: () => unknown // Named slot without props

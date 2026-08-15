@@ -71,7 +71,12 @@ export default defineComponent<KrdsTabsProps>({
       default: undefined
     }
   },
-  emits: ['update:modelValue', 'change'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (id: string) => true,
+    change: (id: string) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     /**
      * 컴포넌트 고유 ID (탭-패널 ARIA 연결용)

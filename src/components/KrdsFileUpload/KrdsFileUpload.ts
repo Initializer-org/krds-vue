@@ -169,19 +169,21 @@ export default defineComponent({
       default: undefined
     }
   },
-  emits: [
-    'update:modelValue',
-    'file-added',
-    'file-removed',
-    'file-error',
-    'upload-start',
-    'upload-progress',
-    'upload-complete',
-    'upload-error',
-    'clear-all',
-    'download',
-    'preview'
-  ],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:modelValue': (files: FileInfo[]) => true,
+    'file-added': (file: FileInfo) => true,
+    'file-removed': (fileId: string) => true,
+    'file-error': (file: FileInfo, error: string) => true,
+    'upload-start': (file: FileInfo) => true,
+    'upload-progress': (file: FileInfo, progress: number) => true,
+    'upload-complete': (file: FileInfo) => true,
+    'upload-error': (file: FileInfo, error: string) => true,
+    'clear-all': () => true,
+    download: (file: FileInfo) => true,
+    preview: (file: FileInfo) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     const isDragOver = ref(false)
     const inputRef = ref<HTMLInputElement | null>(null)

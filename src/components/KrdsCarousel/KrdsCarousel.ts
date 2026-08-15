@@ -190,7 +190,15 @@ export default defineComponent({
       default: undefined
     }
   },
-  emits: ['update:activeIndex', 'change', 'play', 'stop', 'more-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:activeIndex': (value: number) => true,
+    change: (value: number) => true,
+    play: () => true,
+    stop: () => true,
+    'more-click': (event: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const uid = getCurrentInstance()?.uid
     const wrapperId = computed(() => `${props.id ?? `krds-carousel-${uid}`}-wrapper`)

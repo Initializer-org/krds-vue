@@ -69,7 +69,11 @@ export default defineComponent<KrdsTableProps>({
       default: undefined
     }
   },
-  emits: ['row-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'row-click': (row: TableRow, index: number) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
     'no-data'?: () => unknown
   }>,

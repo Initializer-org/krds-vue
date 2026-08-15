@@ -215,7 +215,13 @@ export default defineComponent({
       default: '전체메뉴 닫기'
     }
   },
-  emits: ['update:open', 'menu-toggle', 'item-click'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    'update:open': (value: boolean) => true,
+    'menu-toggle': (index: number, expanded: boolean) => true,
+    'item-click': (item: MainMenuAnyItem, mouseEvent: MouseEvent) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
     /** PC 서브 패널 배너 영역 */
     banner?(props: { item: MainMenuItem; subItem?: MainMenuSubItem; index: number; subIndex: number }): VNode[]

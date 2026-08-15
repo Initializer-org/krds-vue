@@ -41,7 +41,11 @@ export default defineComponent<KrdsAccordionItemProps>({
       default: undefined
     }
   },
-  emits: ['toggle'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    toggle: (id: string) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
     const isOpen = computed(() => props.openItem === props.id)
 

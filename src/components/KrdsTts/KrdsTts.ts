@@ -65,7 +65,14 @@ export default defineComponent<KrdsTtsProps>({
       default: undefined
     }
   },
-  emits: ['play', 'pause', 'end', 'error'],
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    play: (text: string) => true,
+    pause: () => true,
+    end: () => true,
+    error: (error: Error) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     const isPlaying = ref(false)
     let utterance: SpeechSynthesisUtterance | null = null
