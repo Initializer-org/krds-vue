@@ -11,7 +11,11 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/vue3-vite',
-    options: {}
+    options: {
+      // .ts defineComponent 컴포넌트에서 props/events 문서를 추출하려면
+      // vue-docgen-api(.vue 전용) 대신 vue-component-meta가 필요하다
+      docgen: 'vue-component-meta'
+    }
   },
   features: {
     sidebarOnboardingChecklist: false
