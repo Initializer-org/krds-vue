@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 
-const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8')) as { version: string }
+const packageJson = JSON.parse(readFileSync(resolve(import.meta.dirname, 'package.json'), 'utf-8')) as { version: string }
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -30,12 +30,12 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
+      '@': resolve(import.meta.dirname, 'src')
     }
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(import.meta.dirname, 'src/index.ts'),
       formats: ['es'],
       fileName: format => `krds-vue.${format}.js`
     },

@@ -5,7 +5,7 @@ import { playwright } from '@vitest/browser-playwright'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'path'
 
-const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8')) as { version: string }
+const packageJson = JSON.parse(readFileSync(resolve(import.meta.dirname, 'package.json'), 'utf-8')) as { version: string }
 
 export default defineConfig({
   plugins: [vue()],
@@ -23,7 +23,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
+      '@': resolve(import.meta.dirname, 'src')
     }
   },
   test: {
