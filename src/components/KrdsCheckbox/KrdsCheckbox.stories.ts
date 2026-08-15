@@ -7,6 +7,7 @@ import KrdsCheckArea from '../KrdsCheckArea/KrdsCheckArea'
 const meta: Meta<typeof KrdsCheckbox> = {
   title: 'Components/Selection/KrdsCheckbox',
   component: KrdsCheckbox,
+  subcomponents: { KrdsCheckArea },
   parameters: {
     docs: {
       description: {
@@ -82,7 +83,7 @@ export const Checkbox: Story = {
       </div>
     `
   }),
-  play: async ({ canvas, userEvent }) => {
+  play: async ({ canvas, canvasElement, userEvent }) => {
     const checkbox = canvas.getByLabelText('기본')
 
     await expect(checkbox).not.toBeChecked()
@@ -92,6 +93,11 @@ export const Checkbox: Story = {
 
     await userEvent.click(checkbox)
     await expect(checkbox).not.toBeChecked()
+
+    // KrdsCheckArea 배치: 기본은 가로, column 속성은 세로(chk-column)
+    const areas = canvasElement.querySelectorAll('.krds-check-area')
+    await expect(areas[0]).not.toHaveClass('chk-column')
+    await expect(areas[1]).toHaveClass('chk-column')
   }
 }
 

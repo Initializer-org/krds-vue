@@ -6,6 +6,8 @@ import { ref } from 'vue'
 
 const meta: Meta = {
   title: 'Components/Layout/KrdsAccordion',
+  component: KrdsAccordionGroup,
+  subcomponents: { KrdsAccordionItem },
   parameters: {
     docs: {
       description: {

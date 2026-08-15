@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsStepIndicator from './KrdsStepIndicator'
 import KrdsStep from '../KrdsStep/KrdsStep'
 
 const meta: Meta<typeof KrdsStepIndicator> = {
   title: 'Components/Feedback/KrdsStepIndicator',
   component: KrdsStepIndicator,
+  subcomponents: { KrdsStep },
   parameters: {
     docs: {
       description: {
@@ -38,6 +40,32 @@ export const Default: Story = {
       </KrdsStepIndicator>
     `
   })
+}
+
+// KrdsStep의 status 속성으로 상태를 직접 지정
+export const ForcedStatus: Story = {
+  name: '상태 지정',
+  render: () => ({
+    components: { KrdsStepIndicator, KrdsStep },
+    template: `
+      <KrdsStepIndicator>
+        <KrdsStep step="1단계" title="약관 동의" status="done" />
+        <KrdsStep step="2단계" title="정보 입력" status="active" />
+        <KrdsStep step="3단계" title="신청 완료" status="pending" />
+      </KrdsStepIndicator>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const [done, active, pending] = Array.from(canvasElement.querySelectorAll('.krds-step-wrap > li'))
+
+    await expect(done).toHaveClass('done')
+    await expect(active).toHaveClass('active')
+    await expect(pending).toHaveClass('pending')
+
+    // 활성 단계에는 스크린 리더용 현재단계 텍스트가 붙는다
+    await expect(active.querySelector('.sr-only')).toHaveTextContent('현재단계')
+    await expect(done.querySelector('.sr-only')).toBeNull()
+  }
 }
 
 export const WithPageTitle: Story = {
