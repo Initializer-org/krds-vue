@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.18](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.17...@krds.ui/vue-v0.0.18) (2026-09-05)
+
+
+### Chores
+
+* **deps-dev:** bump @microsoft/api-extractor from 7.58.12 to 7.59.0 ([#214](https://github.com/Initializer-org/krds-vue/issues/214)) ([647499e](https://github.com/Initializer-org/krds-vue/commit/647499e4536ace7009784d42158a44f1d906a984))
+* **deps-dev:** bump @tsconfig/node24 from 24.0.4 to 24.0.5 ([#209](https://github.com/Initializer-org/krds-vue/issues/209)) ([7db2665](https://github.com/Initializer-org/krds-vue/commit/7db2665b544c37c2bfa6631eb716f2da4a52b3e0))
+* **deps-dev:** bump @typescript-eslint/parser from 8.67.0 to 8.69.0 ([#212](https://github.com/Initializer-org/krds-vue/issues/212)) ([ac54374](https://github.com/Initializer-org/krds-vue/commit/ac54374636b40e101e5e63f284a732afbba1add6))
+* **deps-dev:** bump sass from 1.102.0 to 1.103.1 ([#210](https://github.com/Initializer-org/krds-vue/issues/210)) ([15f8b9c](https://github.com/Initializer-org/krds-vue/commit/15f8b9c3aa914fffa04fd07b782bf56c6c77511a))
+* **deps-dev:** bump the development group across 1 directory with 7 updates ([#215](https://github.com/Initializer-org/krds-vue/issues/215)) ([030d2d4](https://github.com/Initializer-org/krds-vue/commit/030d2d4058228a9b873395ee332a06a938940be3))
+* **deps-dev:** bump the storybook group across 1 directory with 5 updates ([#207](https://github.com/Initializer-org/krds-vue/issues/207)) ([1feb3e4](https://github.com/Initializer-org/krds-vue/commit/1feb3e4fc9091e2f019eeebab58c92db324f4fec))
+* **deps-dev:** bump the vue group across 1 directory with 2 updates ([#213](https://github.com/Initializer-org/krds-vue/issues/213)) ([eff6a78](https://github.com/Initializer-org/krds-vue/commit/eff6a786983d00403dfef8371bf2b2930bf28bb2))
+
+
+### Continuous Integration
+
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([#205](https://github.com/Initializer-org/krds-vue/issues/205)) ([1c07718](https://github.com/Initializer-org/krds-vue/commit/1c077184f0fdb063cd836d29ea293205c5c35c2e))
+
 ## [0.0.17](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.16...@krds.ui/vue-v0.0.17) (2026-08-15)
 
 
