@@ -63,7 +63,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@microsoft/api-extractor": "^7.58.12",
-    "@size-limit/file": "^13.0.3",
+    "@size-limit/file": "^14.0.0",
     "@storybook/addon-a11y": "^10.5.8",
     "@storybook/addon-docs": "^10.5.8",
     "@storybook/addon-vitest": "^10.5.8",
@@ -82,7 +82,7 @@
     "playwright": "^1.62.1",
     "prettier": "^3.9.6",
     "sass": "^1.102.0",
-    "size-limit": "^13.0.3",
+    "size-limit": "^14.0.0",
     "source-map-explorer": "^2.5.3",
     "storybook": "^10.5.8",
     "typescript": "6.0.3",
