@@ -101,6 +101,33 @@ app.use(KrdsVue, {
 </template>
 ```
 
+### 4. Nuxt
+
+서버 렌더링을 지원합니다. 스타일은 `nuxt.config.ts`에 추가하고, 플러그인에서 등록합니다.
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  css: ['@krds.ui/vue/style']
+})
+```
+
+```ts
+// plugins/krds.ts (Nuxt 4 기본 구조에서는 app/plugins/krds.ts)
+import KrdsVue from '@krds.ui/vue'
+
+export default defineNuxtPlugin(nuxtApp => {
+  nuxtApp.vueApp.use(KrdsVue)
+})
+```
+
+Nuxt는 tsconfig를 자동 생성하므로, 전역 타입은 프로젝트의 `.d.ts` 파일에 참조를 추가합니다.
+
+```ts
+// types/krds.d.ts
+/// <reference types="@krds.ui/vue/global" />
+```
+
 ## TypeScript
 
 컴포넌트 props와 공통 타입을 패키지 루트에서 가져올 수 있습니다.
