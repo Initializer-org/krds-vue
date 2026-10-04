@@ -33,7 +33,6 @@ updates:
           - 'vue'
           - '@vue/*'
           - '@vitejs/plugin-vue'
-          - 'vue-tsc'
         update-types:
           - 'minor'
           - 'patch'
@@ -46,6 +45,9 @@ updates:
           - 'patch'
     ignore:
       - dependency-name: 'vue'
+        update-types: ['version-update:semver-major']
+      # TS 7은 컴파일러 API가 없어 vue-component-meta, vite-plugin-dts용으로 6.x 유지 (타입 검사는 typescript7 별칭)
+      - dependency-name: 'typescript'
         update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore'
