@@ -8,6 +8,10 @@ const meta = {
   component: KrdsPagination,
   parameters: {
     layout: 'centered',
+    a11y: {
+      // 비활성 이전/다음은 원본 KRDS 마크업(span.disabled)으로, 비활성 컴포넌트는 WCAG 1.4.3 대비 요건 예외다
+      config: { rules: [{ id: 'color-contrast', selector: '*:not(.page-navi.disabled)' }] }
+    },
     docs: {
       description: {
         component: '페이지네이션은 많은 양의 콘텐츠를 탐색하기 쉽도록 여러 화면에 나누고, 분할된 화면을 탐색하는 데 사용되는 요소이다.'

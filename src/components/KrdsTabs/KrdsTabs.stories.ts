@@ -7,6 +7,10 @@ const meta: Meta = {
   title: 'Components/Layout/KrdsTabs',
   component: KrdsTabs,
   parameters: {
+    a11y: {
+      // 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
+      config: { rules: [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }] }
+    },
     docs: {
       description: {
         component:

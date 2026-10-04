@@ -13,7 +13,6 @@ interface PageItem {
   key: string
   page?: number
   href?: string
-  ariaLabel?: string
 }
 
 /** 프롭 기본값 — props 선언과 setup 양쪽에서 공유한다 */
@@ -168,8 +167,7 @@ export default defineComponent({
         if (adjustedRangeStart > leftBoundary + 1) {
           pages.push({
             type: 'ellipsis',
-            key: 'ellipsis-left',
-            ariaLabel: '페이지 생략'
+            key: 'ellipsis-left'
           })
         }
 
@@ -190,8 +188,7 @@ export default defineComponent({
         if (rangeEnd < rightBoundary - 1) {
           pages.push({
             type: 'ellipsis',
-            key: 'ellipsis-right',
-            ariaLabel: '페이지 생략'
+            key: 'ellipsis-right'
           })
         }
 
@@ -273,8 +270,7 @@ export default defineComponent({
 
       return h('span', {
         key: item.key,
-        class: 'page-link link-dot',
-        'aria-label': item.ariaLabel
+        class: 'page-link link-dot'
       })
     }
 
