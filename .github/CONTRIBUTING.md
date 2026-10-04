@@ -13,17 +13,20 @@ KRDS Vue에 기여해주셔서 감사합니다!
 ### 설정 단계
 
 1. **저장소 클론**
+
 ```bash
 git clone https://github.com/Initializer-org/krds-vue.git
 cd krds-vue
 ```
 
 2. **의존성 설치**
+
 ```bash
 pnpm install
 ```
 
 3. **개발 서버 실행**
+
 ```bash
 pnpm dev          # Vite 개발 서버
 pnpm storybook    # Storybook 개발 서버
@@ -43,8 +46,8 @@ pnpm storybook    # Storybook 개발 서버
 
 프로젝트는 다음 도구들을 사용합니다:
 
-- **ESLint**: 코드 품질 검사
-- **Prettier**: 코드 포매팅
+- **oxlint**: 코드 품질 검사
+- **oxfmt**: 코드 포매팅
 - **TypeScript**: 타입 검사
 
 ```bash
@@ -56,6 +59,7 @@ pnpm type-check  # 타입 체크
 ### 컴포넌트 개발
 
 1. **컴포넌트 구조**
+
 ```
 src/components/KrdsNewComponent/
 ├── KrdsNewComponent.ts         # 컴포넌트 로직
@@ -66,11 +70,13 @@ src/components/KrdsNewComponent/
 ```
 
 2. **네이밍 규칙**
+
 - 컴포넌트: `KrdsComponentName` (PascalCase)
 - Props 인터페이스: `KrdsComponentNameProps`
 - Emits 인터페이스: `KrdsComponentNameEmits`
 
 3. **필수 포함사항**
+
 - TypeScript 타입 정의
 - Storybook 스토리
 - JSDoc 주석
@@ -89,8 +95,9 @@ src/components/KrdsNewComponent/
 ```
 
 **타입:**
+
 - `feat`: 새로운 기능
-- `fix`: 버그 수정  
+- `fix`: 버그 수정
 - `docs`: 문서 업데이트
 - `style`: 코드 스타일 변경
 - `refactor`: 코드 리팩토링
@@ -98,6 +105,7 @@ src/components/KrdsNewComponent/
 - `chore`: 빌드/설정 변경
 
 **예시:**
+
 ```
 feat(button): add loading state support
 
@@ -162,9 +170,9 @@ KRDS Vue는 접근성을 최우선으로 합니다:
 
 ```scss
 // 정부 표준 색상 사용
-$primary-color: #2E5BFF;
-$secondary-color: #7B8794;
-$success-color: #00C875;
+$primary-color: #2e5bff;
+$secondary-color: #7b8794;
+$success-color: #00c875;
 ```
 
 ## 질문 및 도움

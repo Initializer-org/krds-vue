@@ -9,7 +9,7 @@ body:
       value: |
         버그 리포트를 작성해주셔서 감사합니다! 
         더 나은 KRDS Vue를 만들기 위해 자세한 정보를 제공해주세요.
-        
+
   - type: textarea
     id: what-happened
     attributes:
@@ -18,7 +18,7 @@ body:
       placeholder: 발생한 문제를 자세히 설명해주세요
     validations:
       required: true
-      
+
   - type: textarea
     id: reproduction
     attributes:
@@ -31,7 +31,7 @@ body:
         4. 오류 발생 확인
     validations:
       required: true
-      
+
   - type: textarea
     id: environment
     attributes:
@@ -45,7 +45,7 @@ body:
         - Node.js 버전: [예: 20.0.0]
     validations:
       required: true
-      
+
   - type: textarea
     id: code-sample
     attributes:
@@ -56,17 +56,17 @@ body:
         <template>
           <KrdsButton>클릭하세요</KrdsButton>
         </template>
-        
+
         <script setup>
         // 문제가 발생하는 코드
         </script>
-        
+
   - type: textarea
     id: additional-context
     attributes:
       label: 추가 정보
       description: 이 문제에 대한 추가적인 정보나 스크린샷이 있다면 여기에 추가해주세요
-      
+
   - type: checkboxes
     id: terms
     attributes:
