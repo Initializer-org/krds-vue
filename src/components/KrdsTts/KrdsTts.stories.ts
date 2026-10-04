@@ -20,7 +20,7 @@ const meta: Meta<typeof KrdsTts> = {
     },
     label: {
       control: 'text',
-      description: '버튼 레이블 텍스트 (미지정 시 아이콘만 표시)'
+      description: '버튼 레이블 텍스트 (미지정 시 아이콘만 표시, 이때 aria-label 필요)'
     },
     size: {
       control: 'select',
@@ -83,10 +83,12 @@ export const IconOnly: Story = {
         <KrdsTts
           text="볼륨 아이콘 타입입니다."
           icon="volume"
+          aria-label="듣기"
         />
         <KrdsTts
           text="재생 아이콘 타입입니다."
           icon="play"
+          aria-label="듣기"
         />
       </div>
     `
@@ -106,9 +108,9 @@ export const Sizes: Story = {
           <KrdsTts text="medium 크기입니다." label="듣기" size="medium" />
         </div>
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <KrdsTts text="xsmall 크기입니다." size="xsmall" />
-          <KrdsTts text="small 크기입니다." size="small" />
-          <KrdsTts text="medium 크기입니다." size="medium" />
+          <KrdsTts text="xsmall 크기입니다." size="xsmall" aria-label="듣기" />
+          <KrdsTts text="small 크기입니다." size="small" aria-label="듣기" />
+          <KrdsTts text="medium 크기입니다." size="medium" aria-label="듣기" />
         </div>
       </div>
     `
@@ -139,7 +141,7 @@ export const Disabled: Story = {
     template: `
       <div style="display: flex; gap: 1rem; align-items: center;">
         <KrdsTts text="비활성화 상태입니다." label="듣기" disabled />
-        <KrdsTts text="비활성화 상태입니다." disabled />
+        <KrdsTts text="비활성화 상태입니다." aria-label="듣기" disabled />
         <KrdsTts text="비활성화 상태입니다." label="듣기" icon="play" disabled />
       </div>
     `

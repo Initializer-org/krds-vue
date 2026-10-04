@@ -99,7 +99,7 @@ export default defineComponent({
                   'aria-current': isCurrentPage(index) ? 'page' : undefined,
                   onClick: (event: MouseEvent) => handleClick(item, event)
                 },
-                isHome ? [] : [h('span', null, item.text)]
+                [h('span', null, item.text)]
               )
             ])
           })

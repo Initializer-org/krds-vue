@@ -52,9 +52,9 @@ export const Default: Story = {
             <div style="display: flex; flex-direction: column; gap: 20px;">
               <h3>1. 이전 살던 곳 작성</h3>
               <div style="display: flex; flex-direction: column; gap: 8px;">
-                <krds-form-label>이전 살던 곳</krds-form-label>
+                <krds-form-label for="coach-prev-address">이전 살던 곳</krds-form-label>
                 <div style="display: flex; gap: 8px">
-                  <KrdsInput style="width: 100%" />
+                  <KrdsInput id="coach-prev-address" style="width: 100%" />
                   <KrdsButton variant="secondary">주소 조회</KrdsButton>
                 </div>
               </div>
@@ -74,9 +74,9 @@ export const Default: Story = {
             <div style="display: flex; flex-direction: column; gap: 20px;">
               <h3>2. 현재 사는 곳 작성</h3>
               <div style="display: flex; flex-direction: column; gap: 8px;">
-                <krds-form-label>이전 살던 곳</krds-form-label>
+                <krds-form-label for="coach-current-address">현재 사는 곳</krds-form-label>
                 <div style="display: flex; gap: 8px">
-                  <KrdsInput style="width: 100%" />
+                  <KrdsInput id="coach-current-address" style="width: 100%" />
                   <KrdsButton variant="secondary">주소 조회</KrdsButton>
                 </div>
               </div>

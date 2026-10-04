@@ -179,6 +179,12 @@ export const Sizes: Story = {
  */
 export const SortStyle: Story = {
   name: '정렬 스타일',
+  parameters: {
+    a11y: {
+      // 원본 KRDS 정렬 셀렉트는 보이는 레이블 없이 title로만 이름을 제공한다
+      config: { rules: [{ id: 'label-title-only', selector: '*:not(.krds-form-select-sort)' }] }
+    }
+  },
   render: () => ({
     components: { KrdsSelect },
     setup() {
