@@ -6,12 +6,8 @@
 import type { Directive } from 'vue'
 import type * as Krds from '@krds.ui/vue'
 
-type KrdsGlobalComponents = {
-  [K in keyof typeof Krds as K extends `Krds${string}` ? K : never]: (typeof Krds)[K]
-}
-
 declare module 'vue' {
-  export interface GlobalComponents extends KrdsGlobalComponents {}
+  export interface GlobalComponents extends Pick<typeof Krds, Krds.KrdsComponentName> {}
 
   export interface GlobalDirectives {
     /** 스크린 리더 전용 텍스트 (.sr-only 클래스 추가) */
