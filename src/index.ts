@@ -35,18 +35,21 @@ export * from './tokens'
 // 개별 컴포넌트 export (Tree-shaking 지원)
 export * from './components'
 
+/** 전역 등록 가능한 컴포넌트 이름 */
+export type KrdsComponentName = keyof typeof components
+
 /**
  * KRDS Vue 플러그인 설정 옵션
  */
 export interface KrdsVueOptions {
-  /** 설치할 컴포넌트 목록 (비어있으면 전체 설치) */
-  components?: string[]
+  /** 설치할 컴포넌트 목록 (비어있으면 전체 설치). 이름은 자동완성되며 임의 문자열도 허용 */
+  components?: (KrdsComponentName | (string & {}))[]
 }
 
 /**
  * KRDS Vue 플러그인
  */
-const KrdsVue: Plugin = {
+const KrdsVue: Plugin<[KrdsVueOptions?]> = {
   install(app: App, options: KrdsVueOptions = {}) {
     // 전역 설정 제공
     app.provide('krds:config', options)
