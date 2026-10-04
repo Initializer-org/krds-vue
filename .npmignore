@@ -15,8 +15,8 @@ public/
 vite.config.ts
 vitest.config.ts
 tsconfig*.json
-.eslintrc*
-.prettierrc*
+.oxlintrc*
+.oxfmtrc*
 
 # Development dependencies
 node_modules/

@@ -31,7 +31,7 @@ jobs:
         run: pnpm lint
 
       - name: Check formatting
-        run: pnpm format --check || pnpm format
+        run: pnpm format --check
 
   type-check:
     name: Type Check

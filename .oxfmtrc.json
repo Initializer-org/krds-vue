@@ -1,14 +1,11 @@
 {
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none",
-  "tabWidth": 2,
-  "useTabs": false,
   "printWidth": 140,
-  "bracketSpacing": true,
-  "bracketSameLine": false,
   "arrowParens": "avoid",
-  "endOfLine": "lf",
   "vueIndentScriptAndStyle": true,
-  "htmlWhitespaceSensitivity": "ignore"
+  "sortPackageJson": false,
+  "ignorePatterns": ["pnpm-lock.yaml", "CHANGELOG.md"]
 }

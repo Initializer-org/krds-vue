@@ -1,63 +1,63 @@
 version: 2
 updates:
   # npm 패키지 업데이트
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '03:00'
     open-pull-requests-limit: 10
     groups:
       development:
         patterns:
-          - "@types/*"
-          - "eslint*"
-          - "prettier*"
-          - "vitest*"
-          - "@vitest/*"
-          - "typescript"
-          - "vite*"
+          - '@types/*'
+          - 'oxlint'
+          - 'oxfmt'
+          - 'vitest*'
+          - '@vitest/*'
+          - 'typescript'
+          - 'vite*'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       storybook:
         patterns:
-          - "@storybook/*"
-          - "storybook"
+          - '@storybook/*'
+          - 'storybook'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       vue:
         patterns:
-          - "vue"
-          - "@vue/*"
-          - "@vitejs/plugin-vue"
-          - "vue-tsc"
+          - 'vue'
+          - '@vue/*'
+          - '@vitejs/plugin-vue'
+          - 'vue-tsc'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       github-actions:
         patterns:
-          - "@actions/*"
-          - "actions/*"
+          - '@actions/*'
+          - 'actions/*'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
     ignore:
-      - dependency-name: "vue"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: 'vue'
+        update-types: ['version-update:semver-major']
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
 
   # GitHub Actions 업데이트
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '03:00'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'

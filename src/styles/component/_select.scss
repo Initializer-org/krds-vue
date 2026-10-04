@@ -152,27 +152,24 @@ $form-select-sorting-size: (
   small: (
     icon-size: var(--krds-icon--size-small),
     padding-left: var(--krds-padding-1),
-    padding-right: calc(
-        var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-small)
-      ),
+    padding-right:
+      calc(var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-small)),
     pc-font-size: var(--krds-pc-font-size-label-small),
     mobile-font-size: var(--krds-mobile-font-size-label-small)
   ),
   medium: (
     icon-size: var(--krds-icon--size-medium),
     padding-left: var(--krds-padding-2),
-    padding-right: calc(
-        var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-medium)
-      ),
+    padding-right:
+      calc(var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-medium)),
     pc-font-size: var(--krds-pc-font-size-label-medium),
     mobile-font-size: var(--krds-mobile-font-size-label-medium)
   ),
   large: (
     icon-size: var(--krds-icon--size-large),
     padding-left: var(--krds-padding-2),
-    padding-right: calc(
-        var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-large)
-      ),
+    padding-right:
+      calc(var(--krds-form-select-sorting--padding-left) + var(--krds-gap-1) + var(--krds-form-select-sorting--icon-size-large)),
     pc-font-size: var(--krds-pc-font-size-heading-small),
     mobile-font-size: var(--krds-mobile-font-size-heading-small)
   )

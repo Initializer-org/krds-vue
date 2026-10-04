@@ -216,7 +216,8 @@ cd krds-vue
 pnpm install
 pnpm storybook       # Storybook 개발 서버 실행
 pnpm test            # Vitest 실행 (Playwright 브라우저 모드)
-pnpm lint            # ESLint 검사 및 자동 수정
+pnpm lint            # oxlint 검사 (--fix로 자동 수정)
+pnpm format          # oxfmt 포매팅
 pnpm build           # 타입 검사와 라이브러리 빌드
 pnpm build-storybook # 정적 Storybook 빌드
 ```

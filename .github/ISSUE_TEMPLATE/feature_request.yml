@@ -9,7 +9,7 @@ body:
       value: |
         새로운 기능을 제안해주셔서 감사합니다! 
         KRDS Vue를 더욱 발전시키는데 큰 도움이 됩니다.
-        
+
   - type: textarea
     id: problem
     attributes:
@@ -18,7 +18,7 @@ body:
       placeholder: 현재 ...할 때 항상 불편함을 느낍니다. 왜냐하면...
     validations:
       required: true
-      
+
   - type: textarea
     id: solution
     attributes:
@@ -27,14 +27,14 @@ body:
       placeholder: ...와 같은 기능이 있으면 좋겠습니다...
     validations:
       required: true
-      
+
   - type: textarea
     id: alternatives
     attributes:
       label: 고려해본 대안이 있나요?
       description: 다른 해결 방법이나 대안에 대해 생각해보신 것이 있다면 알려주세요
       placeholder: 대안으로는...도 생각해보았습니다
-      
+
   - type: dropdown
     id: component-type
     attributes:
@@ -51,7 +51,7 @@ body:
         - 기타
     validations:
       required: true
-      
+
   - type: dropdown
     id: priority
     attributes:
@@ -63,7 +63,7 @@ body:
         - 긴급 (매우 시급함)
     validations:
       required: true
-      
+
   - type: textarea
     id: use-case
     attributes:
@@ -72,13 +72,13 @@ body:
       placeholder: |
         정부 웹사이트에서 ...할 때 사용됩니다.
         예를 들어, 민원 신청 시 ...
-      
+
   - type: textarea
     id: additional-context
     attributes:
       label: 추가 정보
       description: 기능에 대한 추가적인 정보, 목업, 예시가 있다면 여기에 추가해주세요
-      
+
   - type: checkboxes
     id: terms
     attributes:
