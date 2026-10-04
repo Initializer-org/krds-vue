@@ -69,6 +69,16 @@ app.use(KrdsVue, {
 })
 ```
 
+전역 등록한 컴포넌트의 템플릿 타입 검사·자동완성(Volar/vue-tsc)을 쓰려면 `tsconfig.json`에 전역 타입을 추가합니다. 전체 컴포넌트와 `v-sr-only`, `$krds`가 전역으로 선언되므로 일부만 등록했다면 등록하지 않은 컴포넌트 사용에 주의하세요.
+
+```json
+{
+  "compilerOptions": {
+    "types": ["@krds.ui/vue/global"]
+  }
+}
+```
+
 ### 3. 개별 컴포넌트 import
 
 전역 등록이 필요 없다면 필요한 컴포넌트만 가져옵니다.
