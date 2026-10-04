@@ -32,6 +32,9 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/krds-vue.es.js"
     },
+    "./global": {
+      "types": "./global.d.ts"
+    },
     "./dist/style.css": "./dist/style.css",
     "./style": "./dist/style.css",
     "./package.json": "./package.json"
@@ -40,7 +43,8 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "global.d.ts"
   ],
   "scripts": {
     "dev": "vite",
