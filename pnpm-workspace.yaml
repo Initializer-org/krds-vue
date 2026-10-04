@@ -7,3 +7,10 @@ allowBuilds:
   esbuild: true
 patchedDependencies:
   '@storybook/vue3-vite': patches/@storybook__vue3-vite.patch
+overrides:
+  # jsdom(vitest optional peer) 경유 취약 버전 차단
+  undici: ^8.10.2
+auditConfig:
+  ignoreGhsas:
+    # braces: 패치 버전(>=3.0.4) 미배포. eslint 설정 glob 경로에서만 사용되어 외부 입력 없음
+    - GHSA-vfj7-8cjw-p6xm
