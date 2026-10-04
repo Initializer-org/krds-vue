@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.18](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.17...@krds.ui/vue-v0.0.18) (2026-10-04)
+
+
+### Bug Fixes
+
+* **a11y:** 원본 KRDS 기준 접근성 위반 해소 및 검사 CI 차단 상향 ([#232](https://github.com/Initializer-org/krds-vue/issues/232)) ([a5dc4c0](https://github.com/Initializer-org/krds-vue/commit/a5dc4c0944116c6a8d3243ee318fcacd09574096))
+
+
+### Chores
+
+* **deps-dev:** bump @microsoft/api-extractor from 7.58.12 to 7.59.0 ([#214](https://github.com/Initializer-org/krds-vue/issues/214)) ([647499e](https://github.com/Initializer-org/krds-vue/commit/647499e4536ace7009784d42158a44f1d906a984))
+* **deps-dev:** bump @microsoft/api-extractor from 7.59.0 to 7.59.3 ([#228](https://github.com/Initializer-org/krds-vue/issues/228)) ([e748adf](https://github.com/Initializer-org/krds-vue/commit/e748adf59949cb70ba848c63a32654c45c983281))
+* **deps-dev:** bump @tsconfig/node24 from 24.0.4 to 24.0.5 ([#209](https://github.com/Initializer-org/krds-vue/issues/209)) ([7db2665](https://github.com/Initializer-org/krds-vue/commit/7db2665b544c37c2bfa6631eb716f2da4a52b3e0))
+* **deps-dev:** bump @typescript-eslint/parser from 8.67.0 to 8.69.0 ([#212](https://github.com/Initializer-org/krds-vue/issues/212)) ([ac54374](https://github.com/Initializer-org/krds-vue/commit/ac54374636b40e101e5e63f284a732afbba1add6))
+* **deps-dev:** bump @typescript-eslint/parser from 8.69.0 to 8.70.1 ([#230](https://github.com/Initializer-org/krds-vue/issues/230)) ([42e15c0](https://github.com/Initializer-org/krds-vue/commit/42e15c0e0d700e6b85fed44ded800a9e5b706129))
+* **deps-dev:** bump playwright from 1.62.1 to 1.63.0 ([#220](https://github.com/Initializer-org/krds-vue/issues/220)) ([254f31f](https://github.com/Initializer-org/krds-vue/commit/254f31fc0d5947a568b98714c11d328016f8ba50))
+* **deps-dev:** bump sass from 1.102.0 to 1.103.1 ([#210](https://github.com/Initializer-org/krds-vue/issues/210)) ([15f8b9c](https://github.com/Initializer-org/krds-vue/commit/15f8b9c3aa914fffa04fd07b782bf56c6c77511a))
+* **deps-dev:** bump sass from 1.103.1 to 1.105.0 ([#229](https://github.com/Initializer-org/krds-vue/issues/229)) ([74cd5eb](https://github.com/Initializer-org/krds-vue/commit/74cd5eb147f42b2592bc9b291a9ee300921653ab))
+* **deps-dev:** bump size-limit and @size-limit/file ([#226](https://github.com/Initializer-org/krds-vue/issues/226)) ([8b4e541](https://github.com/Initializer-org/krds-vue/commit/8b4e54181ca5a31e713e69f0e77ccbc6c1ef6ced))
+* **deps-dev:** bump the development group across 1 directory with 6 updates ([#227](https://github.com/Initializer-org/krds-vue/issues/227)) ([bcc3e7b](https://github.com/Initializer-org/krds-vue/commit/bcc3e7bbae7a8b6d29c9c6eb43e914d049a66e95))
+* **deps-dev:** bump the development group across 1 directory with 7 updates ([#215](https://github.com/Initializer-org/krds-vue/issues/215)) ([030d2d4](https://github.com/Initializer-org/krds-vue/commit/030d2d4058228a9b873395ee332a06a938940be3))
+* **deps-dev:** bump the storybook group across 1 directory with 5 updates ([#207](https://github.com/Initializer-org/krds-vue/issues/207)) ([1feb3e4](https://github.com/Initializer-org/krds-vue/commit/1feb3e4fc9091e2f019eeebab58c92db324f4fec))
+* **deps-dev:** bump the storybook group across 1 directory with 5 updates ([#218](https://github.com/Initializer-org/krds-vue/issues/218)) ([c97ad5e](https://github.com/Initializer-org/krds-vue/commit/c97ad5e887b655cb8e5850397d45cc1217009e8c))
+* **deps-dev:** bump the vue group across 1 directory with 2 updates ([#213](https://github.com/Initializer-org/krds-vue/issues/213)) ([eff6a78](https://github.com/Initializer-org/krds-vue/commit/eff6a786983d00403dfef8371bf2b2930bf28bb2))
+* **deps-dev:** bump the vue group across 1 directory with 2 updates ([#224](https://github.com/Initializer-org/krds-vue/issues/224)) ([1905818](https://github.com/Initializer-org/krds-vue/commit/190581804e272958a29c32a4cf5af07cf4535605))
+* **deps:** security audit 취약점 해소 ([#231](https://github.com/Initializer-org/krds-vue/issues/231)) ([7d18833](https://github.com/Initializer-org/krds-vue/commit/7d18833488d1195f26ab7a90e0f62e607534bf21))
+
+
+### Continuous Integration
+
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([#205](https://github.com/Initializer-org/krds-vue/issues/205)) ([1c07718](https://github.com/Initializer-org/krds-vue/commit/1c077184f0fdb063cd836d29ea293205c5c35c2e))
+* npm 배포를 Trusted Publishing(OIDC)으로 전환 ([#233](https://github.com/Initializer-org/krds-vue/issues/233)) ([64bca3d](https://github.com/Initializer-org/krds-vue/commit/64bca3d549a94f736f62fe21d8b53f03d4a73c71))
+
 ## [0.0.17](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.16...@krds.ui/vue-v0.0.17) (2026-08-15)
 
 
