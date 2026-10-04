@@ -1,4 +1,16 @@
-import { computed, defineComponent, h, Teleport, watch, onBeforeUnmount, nextTick, ref, getCurrentInstance, type SlotsType } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  Teleport,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  ref,
+  getCurrentInstance,
+  type SlotsType
+} from 'vue'
 
 export type KrdsModalSize = 'small' | 'medium' | 'large'
 
@@ -137,35 +149,38 @@ export default defineComponent({
       modalRef.value = null
     }
 
+    const applyEffects = async () => {
+      originalOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      previousActiveElement = document.activeElement as HTMLElement
+
+      await nextTick()
+
+      const modalElement = document.getElementById(computedModalId.value)
+      if (modalElement) {
+        modalRef.value = modalElement
+
+        const modalConts = modalElement.querySelector('.modal-conts') as HTMLElement
+        if (modalConts) {
+          modalConts.setAttribute('tabindex', '-1')
+          modalConts.focus()
+        }
+
+        document.addEventListener('keydown', trapFocus)
+        document.addEventListener('keydown', handleKeydown)
+      }
+    }
+
+    // DOM 효과는 마운트 이후에만 적용한다 (SSR 안전).
+    // 닫힘 정리는 열린 상태에서 닫힐 때만 실행해, 닫힌 모달이 body overflow를 덮어쓰지 않게 한다.
     watch(
       () => props.modelValue,
-      async newValue => {
-        if (newValue) {
-          originalOverflow = document.body.style.overflow
-          document.body.style.overflow = 'hidden'
-          previousActiveElement = document.activeElement as HTMLElement
-
-          await nextTick()
-
-          const modalElement = document.getElementById(computedModalId.value)
-          if (modalElement) {
-            modalRef.value = modalElement
-
-            const modalConts = modalElement.querySelector('.modal-conts') as HTMLElement
-            if (modalConts) {
-              modalConts.setAttribute('tabindex', '-1')
-              modalConts.focus()
-            }
-
-            document.addEventListener('keydown', trapFocus)
-            document.addEventListener('keydown', handleKeydown)
-          }
-        } else {
-          cleanupEffects()
-        }
-      },
-      { immediate: true }
+      newValue => (newValue ? applyEffects() : cleanupEffects())
     )
+
+    onMounted(() => {
+      if (props.modelValue) applyEffects()
+    })
 
     onBeforeUnmount(() => {
       if (props.modelValue) {

@@ -260,3 +260,20 @@ export const Persistent: Story = {
     })
   }
 }
+
+// 회귀 테스트 전용 (Storybook 화면·문서에는 노출하지 않음): 닫힌 모달 마운트가 body overflow를 덮어쓰지 않아야 한다
+export const ClosedModalKeepsBodyOverflow: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => ({
+    components: { KrdsModal },
+    setup: () => ({ show: ref(false) }),
+    template: `<div><button @click="show = true">mount</button><KrdsModal v-if="show" :model-value="false" title="t">x</KrdsModal></div>`
+  }),
+  play: async ({ canvas, userEvent }) => {
+    document.body.style.overflow = 'hidden'
+    await userEvent.click(canvas.getByRole('button', { name: 'mount' }))
+    const overflow = document.body.style.overflow
+    document.body.style.overflow = ''
+    await expect(overflow).toBe('hidden')
+  }
+}
