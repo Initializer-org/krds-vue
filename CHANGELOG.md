@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.19](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.18...@krds.ui/vue-v0.0.19) (2026-10-04)
+
+
+### Features
+
+* **types:** 전역 등록 컴포넌트 타입(global 진입점) 제공 ([#239](https://github.com/Initializer-org/krds-vue/issues/239)) ([7d80cf8](https://github.com/Initializer-org/krds-vue/commit/7d80cf861dcd6e3229b1c5874531ea3448e24ec7))
+* **types:** 플러그인 옵션 타입 지정 및 컴포넌트 이름 자동완성 ([#240](https://github.com/Initializer-org/krds-vue/issues/240)) ([159e204](https://github.com/Initializer-org/krds-vue/commit/159e204ea2feec639c80712937980633f539f10d))
+
+
+### Bug Fixes
+
+* **modal:** SSR 렌더링 실패 및 닫힌 모달의 body overflow 덮어쓰기 수정 ([#238](https://github.com/Initializer-org/krds-vue/issues/238)) ([a43fa5d](https://github.com/Initializer-org/krds-vue/commit/a43fa5debe3e84869a456a62ab9d1a66ed03cd9f))
+
+
+### Chores
+
+* **deps-dev:** bump sass from 1.105.0 to 1.105.1 ([#236](https://github.com/Initializer-org/krds-vue/issues/236)) ([3be6d6d](https://github.com/Initializer-org/krds-vue/commit/3be6d6d21a7a0bc7cc7a92f480f552912cbf21e4))
+* **deps-dev:** bump size-limit and @size-limit/file ([#237](https://github.com/Initializer-org/krds-vue/issues/237)) ([1de66e8](https://github.com/Initializer-org/krds-vue/commit/1de66e89f26ec993b4dfccf7f8f758d9664e85a1))
+
+
+### Documentation
+
+* Nuxt 사용 가이드 추가 ([#241](https://github.com/Initializer-org/krds-vue/issues/241)) ([da5a97a](https://github.com/Initializer-org/krds-vue/commit/da5a97adb4b01c70c9cba616d8aa09b339c58f57))
+
+
+### Build System
+
+* oxlint·oxfmt, TS 7 타입 검사 전환 및 Lighthouse job 제거 ([#234](https://github.com/Initializer-org/krds-vue/issues/234)) ([b3ccce7](https://github.com/Initializer-org/krds-vue/commit/b3ccce7e011d8dd0e3e59520f1017757f8167728))
+
 ## [0.0.18](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.17...@krds.ui/vue-v0.0.18) (2026-10-04)
 
 
