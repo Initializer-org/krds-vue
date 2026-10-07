@@ -1,4 +1,4 @@
-import { defineComponent, ref, computed, h, type VNode, type ComponentPublicInstance } from 'vue'
+import { defineComponent, ref, computed, h, useId, type VNode, type ComponentPublicInstance } from 'vue'
 
 /**
  * 사이드 네비게이션 아이템 인터페이스
@@ -84,6 +84,8 @@ export default /* @__PURE__ */ defineComponent({
   /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props: KrdsSideNavigationProps, { emit }: { emit: KrdsSideNavigationEmits }) {
     const modelValue = computed(() => props.modelValue || [])
+    // 한 페이지에 여러 개를 두어도 aria-controls 대상 id가 겹치지 않도록
+    const uid = useId()
 
     // Template refs를 위한 Map들
     const popupTriggerRefs = ref(new Map<string, HTMLButtonElement>())
@@ -181,6 +183,10 @@ export default /* @__PURE__ */ defineComponent({
                       },
                       { once: true }
                     )
+                    // 전환이 없으면(transition: none 등) transitionend가 오지 않으므로 렌더 후 바로 포커스
+                    requestAnimationFrame(() => {
+                      if (!popupElement.getAnimations({ subtree: true }).length) titleButton.focus()
+                    })
                   }
                 }
 
@@ -206,7 +212,7 @@ export default /* @__PURE__ */ defineComponent({
             ...item,
             subItems: item.subItems.map((subItem, subIdx) => {
               if (subIdx === subIndex && subItem.subItems && subItem.expanded) {
-                // 포커스를 원래 버튼으로 돌리기
+                // 포커스를 원래 버튼으로 돌리기 (원본 KRDS와 동일하게 focusout으로 닫힐 때도 복귀)
                 if (lastClickedPopupButton.value) {
                   const buttonToFocus = lastClickedPopupButton.value
                   requestAnimationFrame(() => {
@@ -319,7 +325,7 @@ export default /* @__PURE__ */ defineComponent({
                       type: 'button',
                       class: 'lnb-btn lnb-toggle-popup',
                       role: 'menuitem',
-                      'aria-controls': `lnbmenu-${parentIndex}-${subIndex}`,
+                      'aria-controls': `${uid}-lnbmenu-${parentIndex}-${subIndex}`,
                       'aria-expanded': subItem.expanded ? 'true' : 'false',
                       'aria-haspopup': 'true',
                       onClick: () => togglePopup(parentIndex, subIndex)
@@ -333,7 +339,7 @@ export default /* @__PURE__ */ defineComponent({
                     {
                       ref: (el: Element | ComponentPublicInstance | null) =>
                         setPopupRef(el as HTMLDivElement | null, parentIndex, subIndex),
-                      id: `lnbmenu-${parentIndex}-${subIndex}`,
+                      id: `${uid}-lnbmenu-${parentIndex}-${subIndex}`,
                       class: ['lnb-submenu-lv2', { active: subItem.expanded }],
                       role: 'menu',
                       onFocusout: (event: FocusEvent) => handlePopupFocusOut(event, parentIndex, subIndex)
@@ -375,19 +381,30 @@ export default /* @__PURE__ */ defineComponent({
             role: 'none'
           },
           [
-            // 2depth 토글 버튼
-            h(
-              'button',
-              {
-                type: 'button',
-                class: ['lnb-btn', 'lnb-toggle', { active: item.expanded }],
-                role: 'menuitem',
-                'aria-controls': `lnbmenu-${index}`,
-                'aria-expanded': item.expanded ? 'true' : 'false',
-                onClick: () => toggleSubmenu(index)
-              },
-              item.text
-            ),
+            // 2depth 토글 버튼 (하위 메뉴가 없으면 링크)
+            item.subItems
+              ? h(
+                  'button',
+                  {
+                    type: 'button',
+                    class: ['lnb-btn', 'lnb-toggle', { active: item.expanded }],
+                    role: 'menuitem',
+                    'aria-controls': `${uid}-lnbmenu-${index}`,
+                    'aria-expanded': item.expanded ? 'true' : 'false',
+                    onClick: () => toggleSubmenu(index)
+                  },
+                  item.text
+                )
+              : h(
+                  'a',
+                  {
+                    href: item.href || '#',
+                    class: ['lnb-btn', 'lnb-link'],
+                    role: 'menuitem',
+                    onClick: (event: MouseEvent) => handleItemClick(item, event)
+                  },
+                  item.text
+                ),
 
             // 2depth 서브메뉴
             item.subItems
@@ -400,7 +417,7 @@ export default /* @__PURE__ */ defineComponent({
                     h(
                       'ul',
                       {
-                        id: `lnbmenu-${index}`,
+                        id: `${uid}-lnbmenu-${index}`,
                         role: 'menu'
                       },
                       renderSubItems(item.subItems, index)
