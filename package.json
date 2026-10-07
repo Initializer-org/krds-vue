@@ -59,7 +59,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build && node scripts/storybook-seo.mjs",
     "bundle-size": "size-limit",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "vue": "^3.5.0"
@@ -92,8 +95,10 @@
     "typescript7": "npm:typescript@^7.0.2",
     "vite": "^8.3.3",
     "vite-plugin-dts": "^5.1.2",
+    "vitepress": "2.0.0-alpha.20",
     "vitest": "^4.1.11",
-    "vue": "^3.5.43"
+    "vue": "^3.5.43",
+    "vue-component-meta": "^3.3.12"
   },
   "publishConfig": {
     "access": "public",

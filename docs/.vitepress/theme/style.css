@@ -1,0 +1,66 @@
+/* 브랜드 색을 KRDS primary로 */
+:root {
+  --vp-c-brand-1: var(--krds-light-color-text-primary);
+  --vp-c-brand-2: var(--krds-light-color-element-primary);
+  --vp-c-brand-3: var(--krds-light-color-element-primary);
+  --vp-c-brand-soft: var(--krds-color-light-primary-5);
+}
+
+.dark {
+  --vp-c-brand-1: var(--krds-high-contrast-color-text-primary);
+  --vp-c-brand-soft: rgb(177 206 251 / 16%);
+}
+
+/* 예제 미리보기 영역 (vp-raw로 문서 본문 스타일과 분리) */
+.demo {
+  margin: 16px 0;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  /* 예제 안 KRDS 요소의 z-index(헤더 70 등)가 VitePress 상단 내비게이션 위로 올라오지 않도록 */
+  isolation: isolate;
+}
+
+/* KRDS reset의 *:focus 링은 마우스 클릭·프로그램 포커스에도 그려진다.
+   문서 사이트 UI는 VitePress처럼 키보드 포커스(:focus-visible)에만 표시하고, 예제 영역은 KRDS 원본 동작을 유지한다 */
+.Layout :focus:not(:focus-visible, .vp-raw *) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* iframe 예제 (DemoFrame) */
+.demo-frame {
+  margin: 16px 0;
+  text-align: right;
+  font-size: 14px;
+}
+
+.demo-frame-box {
+  margin-bottom: 8px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+
+.demo-frame iframe {
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
+}
+
+/* KRDS 모바일 표 래퍼는 폭을 100vw 기준으로 잡아 예제 상자 여백만큼 화면 밖으로 넘친다. 상자 안에서 가로 스크롤되도록 제한 */
+.demo .krds-table-wrap {
+  max-width: 100%;
+}
+
+/* 검색창은 바깥 상자(.search-bar:focus-within)로 포커스를 표시하므로 KRDS 포커스 링이 상자 테두리를 덮지 않게 한다 */
+.VPLocalSearchBox .search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* KRDS reset의 body height: 100%는 body 높이를 화면 높이로 고정해, VitePress 목차가 늘 "페이지 끝"으로 판단하고 마지막 항목만 활성화한다.
+   문서 페이지(.Layout)에서만 원래 높이로 되돌린다 (iframe 예제 페이지는 KRDS 그대로) */
+body:has(.Layout) {
+  height: auto;
+}
