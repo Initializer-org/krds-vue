@@ -209,7 +209,7 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 - 컴포넌트는 원본 KRDS 마크업 구조와 ARIA 속성, 키보드 인터랙션을 따라 구현합니다.
 - 모든 스토리에 대해 axe-core 기반 자동 접근성 검사(`@storybook/addon-a11y`)를 실행하며, 위반이 있으면 CI가 실패합니다(`test: 'error'`).
-- 원본 KRDS 마크업에서 비롯된 위반(탭의 `li[role=tab] > button` 중첩, 정렬 셀렉트의 `title` 전용 레이블, 페이지네이션 비활성 버튼 대비)은 원본을 따르기 위해 해당 스토리에서 요소 단위로만 검사를 제외합니다.
+- 원본 KRDS 마크업에서 비롯된 위반(탭의 `li[role=tab] > button` 중첩, 정렬 셀렉트의 `title` 전용 레이블, 페이지네이션 비활성 버튼 대비, 사이드 메뉴 팝업의 `role=menu` 하위 구조)은 원본을 따르기 위해 해당 스토리에서 요소 단위로만 검사를 제외합니다.
 - 고대비 모드(`data-krds-mode="high-contrast"`)를 지원합니다.
 
 라이브러리 차원의 자동 검사는 KWCAG/WCAG 적합성 평가를 대체하지 않습니다. 서비스 전체의 접근성 준수는 사용처에서 별도 검증이 필요합니다.

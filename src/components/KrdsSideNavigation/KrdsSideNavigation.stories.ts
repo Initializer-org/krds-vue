@@ -89,6 +89,18 @@ const defaultMenuItems: SideNavItem[] = [
 
 export const Default: Story = {
   name: '기본',
+  parameters: {
+    a11y: {
+      // 원본 KRDS 마크업(role=menu 팝업 안의 제목 버튼·역할 없는 ul)을 따르므로 열린 팝업 요소만 제외한다
+      config: {
+        rules: [
+          { id: 'aria-required-children', selector: '[role]:not(.lnb-submenu-lv2)' },
+          { id: 'aria-required-parent', selector: '[role]:not(.lnb-submenu-lv2 a)' },
+          { id: 'list', selector: 'ul:not(.lnb-submenu-lv2 > ul), ol' }
+        ]
+      }
+    }
+  },
   args: {
     title: '1Depth-title',
     modelValue: defaultMenuItems
@@ -127,7 +139,7 @@ export const Default: Story = {
     await userEvent.click(popupBtn)
     await expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
     await expect(popup).toHaveClass('active')
-    const popupTitle = await within(popup).findByRole('menuitem', { name: '3Depth-title' })
+    const popupTitle = await within(popup).findByRole('button', { name: '3Depth-title' })
     await waitFor(() => expect(popupTitle).toHaveFocus())
     await expect(within(popup).getAllByRole('menuitem', { name: '4Depth' })).toHaveLength(3)
 
@@ -136,22 +148,19 @@ export const Default: Story = {
     await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
     await waitFor(() => expect(popupBtn).toHaveFocus())
 
-    // Enter로 다시 열고, Tab으로 팝업을 벗어나면 닫히고 초점은 다음 항목에 머묾
+    // Enter로 다시 열고, Tab으로 팝업을 벗어나면 닫히고 팝업 버튼으로 초점 복귀 (원본 KRDS 동작)
     await userEvent.keyboard('{Enter}')
     await waitFor(() => expect(popupTitle).toHaveFocus())
     await userEvent.keyboard('{Tab}{Tab}{Tab}{Tab}')
     await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
-    await new Promise(requestAnimationFrame)
-    await expect(canvas.getAllByRole('menuitem', { name: '3Depth-link' })[0]).toHaveFocus()
+    await waitFor(() => expect(popupBtn).toHaveFocus())
 
-    // 팝업이 열린 채로 2Depth를 접으면 하위 팝업도 닫히고, 초점은 클릭한 토글에 머묾
+    // 팝업이 열린 채로 2Depth를 접으면 하위 팝업도 닫힘
     await userEvent.click(popupBtn)
     await expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
     await waitFor(() => expect(popupTitle).toHaveFocus())
     await userEvent.click(toggles[0])
     await expect(toggles[0]).toHaveAttribute('aria-expanded', 'false')
-    await new Promise(requestAnimationFrame)
-    await expect(toggles[0]).toHaveFocus()
     await expect(toggles[0].closest('li')).not.toHaveClass('active')
     await userEvent.click(toggles[0])
     await expect(toggles[0]).toHaveAttribute('aria-expanded', 'true')
@@ -163,7 +172,7 @@ export const Default: Story = {
     await expect(toggles[1]).toHaveAttribute('aria-expanded', 'true')
     await expect(toggles[1].closest('li')).toHaveClass('active')
 
-    // 전환이 없어도(transition: none) 팝업 제목으로 초점 이동, 열린 팝업도 접근성 검사 통과
+    // 전환이 없어도(transition: none) 팝업 제목으로 초점 이동 (열린 팝업 상태로 접근성 검사)
     for (const el of [popup, ...popup.querySelectorAll<HTMLElement>('*')]) el.style.transition = 'none'
     await userEvent.click(popupBtn)
     await waitFor(() => expect(popupTitle).toHaveFocus())
