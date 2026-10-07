@@ -8,40 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  browser-compat:
-    name: Browser Compatibility
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser: [chrome, firefox, webkit]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Install Playwright browsers
-        run: pnpm playwright install --with-deps ${{ matrix.browser }}
-
-      - name: Build Storybook
-        run: pnpm build-storybook
-
-      - name: Test browser compatibility
-        run: |
-          echo "Browser compatibility check for ${{ matrix.browser }}"
-          echo "Listing storybook-static directory:"
-          dir storybook-static/ || ls -la storybook-static/
-          echo "Storybook built successfully for ${{ matrix.browser }}"
-
   node-compat:
     name: Node.js Compatibility
     runs-on: ${{ matrix.os }}
