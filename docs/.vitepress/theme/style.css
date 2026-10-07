@@ -25,3 +25,18 @@
   outline: none;
   box-shadow: none;
 }
+
+/* iframe 예제 (DemoFrame) */
+.demo-frame {
+  margin: 16px 0;
+  text-align: right;
+  font-size: 14px;
+}
+
+.demo-frame iframe {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
