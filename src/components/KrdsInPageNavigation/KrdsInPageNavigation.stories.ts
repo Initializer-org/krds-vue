@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 import KrdsInPageNavigation from './KrdsInPageNavigation'
 import type { NavigationItem } from './KrdsInPageNavigation'
 
@@ -9,13 +9,11 @@ const meta: Meta<typeof KrdsInPageNavigation> = {
   parameters: {
     docs: {
       description: {
-        component: `
-        콘텐츠 내 탐색은 사용자가 본문의 구조를 훑어보고 원하는 콘텐츠로 빠르게 이동할 수 있도록 하는 탐색 수단이다.
-        화면을 스크롤 할 때 특정 위치에 고정되어 콘텐츠의 목차 역할을 하는 동시에 사용자가 페이지 내 탐색에서 특정 항목을 클릭하면 연결된 섹션으로 스크롤 된다.
-
-        스토리북 환경에서는 window 스크롤 이벤트 감지에 제한이 있어 autoActive 기능이 정상 작동하지 않을 수 있다.
-        `
-      }
+        component:
+          '콘텐츠 내 탐색은 사용자가 본문의 구조를 훑어보고 원하는 콘텐츠로 빠르게 이동할 수 있도록 하는 탐색 수단이다. 화면을 스크롤 할 때 특정 위치에 고정되어 콘텐츠의 목차 역할을 하는 동시에 사용자가 페이지 내 탐색에서 특정 항목을 클릭하면 연결된 섹션으로 스크롤 된다.'
+      },
+      // position: fixed와 window 스크롤에 의존하므로 Docs에서도 독립 iframe으로 렌더
+      story: { inline: false, iframeHeight: 720 }
     }
   },
   argTypes: {
@@ -68,9 +66,8 @@ export const Default: Story = {
       return { args, handleActionClick }
     },
     template: `
-      <div style="height: 100vh; overflow-y: auto;">
         <div id="wrap" class="g-wrap scroll-up">
-          <div class="krds-in-page-navigation-type" id="container">
+          <div id="container" class="krds-in-page-navigation-type">
             <div class="inner in-between">
               <div class="contents">
                 <KrdsInPageNavigation v-bind="args">
@@ -82,7 +79,7 @@ export const Default: Story = {
                   </template>
                 </KrdsInPageNavigation>
   
-                <div style="padding: 2rem; margin-right: 17rem;">
+                <div>
                     <div id="section_01"
                          style="min-height: 600px; background: #f8f9fa; padding: 2rem; margin-bottom: 2rem; border-radius: 8px;">
                       <h2>서비스 개요</h2>
@@ -202,25 +199,34 @@ export const Default: Story = {
             </div>
           </div>
         </div>
-      </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    // Prevent <a href="#section_XX"> navigation which breaks browser connection in coverage mode
-    canvasElement.addEventListener('click', (e: Event) => {
-      if ((e.target as HTMLElement).closest('a')) e.preventDefault()
+  })
+}
+
+// 회귀 테스트 전용 (Storybook 화면·문서에는 노출하지 않음): 페이지 전체를 스크롤하므로 기본 스토리와 분리한다
+export const ScrollSync: Story = {
+  ...Default,
+  name: '스크롤 연동',
+  tags: ['!dev', '!autodocs'],
+  play: async ({ canvas, userEvent }) => {
+    const link = (name: string) => canvas.getByRole('link', { name })
+
+    // 페이지 맨 위에서는 첫 항목이 활성
+    await waitFor(() => expect(link('서비스 개요')).toHaveClass('active'))
+
+    // 항목 클릭 → 해당 섹션으로 스크롤되고 그 항목이 활성
+    await userEvent.click(link('제출 서류'))
+    await waitFor(() => expect(Math.abs(document.getElementById('section_04')!.getBoundingClientRect().top)).toBeLessThan(2), {
+      timeout: 3000
     })
+    await waitFor(() => expect(link('제출 서류')).toHaveClass('active'))
 
-    // Click navigation items to cover handleItemClick
-    const navItems = canvasElement.querySelectorAll('.in-page-navigation-list a')
-    expect(navItems.length).toBeGreaterThan(0)
+    // 페이지 끝까지 스크롤 → 마지막 항목 활성
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })
+    await waitFor(() => expect(link('정보 변경 내역')).toHaveClass('active'))
 
-    // Click first item
-    await userEvent.click(navItems[0] as HTMLElement)
-
-    // Click second item
-    if (navItems.length > 1) {
-      await userEvent.click(navItems[1] as HTMLElement)
-    }
+    // 맨 위로 돌아가면 다시 첫 항목 활성
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    await waitFor(() => expect(link('서비스 개요')).toHaveClass('active'))
   }
 }
