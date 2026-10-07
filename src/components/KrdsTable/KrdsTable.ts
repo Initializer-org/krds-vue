@@ -1,4 +1,4 @@
-import { defineComponent, h, computed, SlotsType, type VNode } from 'vue'
+import { defineComponent, h, computed, getCurrentInstance, SlotsType, type VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -82,6 +82,8 @@ export default /* @__PURE__ */ defineComponent({
     'no-data'?: () => VNode[]
   }>,
   setup(props, { emit, slots }) {
+    const instance = getCurrentInstance()
+
     /**
      * 테이블 클래스 계산
      */
@@ -237,6 +239,10 @@ export default /* @__PURE__ */ defineComponent({
         ])
       }
 
+      // row-click 리스너가 있을 때만 행을 대화형으로 (기본 표는 비대화형)
+      const vnodeProps = instance?.vnode.props
+      const clickable = !!(vnodeProps?.onRowClick || vnodeProps?.['onRow-click'])
+
       const bodyRows = props.rows.map((row, index) => {
         const cells = props.columns.map((column, colIndex) => {
           const cellValue = getCellValue(row, column)
@@ -257,9 +263,13 @@ export default /* @__PURE__ */ defineComponent({
 
         return h(
           'tr',
-          {
-            onClick: () => handleRowClick(row, index)
-          },
+          clickable
+            ? {
+                tabindex: 0,
+                onClick: () => handleRowClick(row, index),
+                onKeydown: (event: KeyboardEvent) => handleRowKeydown(event, row, index)
+              }
+            : null,
           cells
         )
       })
@@ -272,6 +282,16 @@ export default /* @__PURE__ */ defineComponent({
      */
     const handleRowClick = (row: TableRow, index: number) => {
       emit('row-click', row, index)
+    }
+
+    /**
+     * 행 키보드 핸들러 (Enter·Space로 행 선택, 셀 안 컨트롤의 키 입력은 무시)
+     */
+    const handleRowKeydown = (event: KeyboardEvent, row: TableRow, index: number) => {
+      if (event.target !== event.currentTarget || (event.key !== 'Enter' && event.key !== ' ')) return
+      // Space의 페이지 스크롤 방지
+      event.preventDefault()
+      handleRowClick(row, index)
     }
 
     return () => {
