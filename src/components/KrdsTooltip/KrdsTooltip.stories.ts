@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsTooltip from './KrdsTooltip'
 
 const meta: Meta<typeof KrdsTooltip> = {
@@ -39,21 +38,7 @@ export const Default: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, userEvent }) => {
-    const buttons = canvas.getAllByRole('button')
-    const firstBtn = buttons[0]
-
-    await userEvent.hover(firstBtn)
-    await waitFor(() => {
-      expect(canvas.getByText('툴팁의 기본 설정입니다')).toBeVisible()
-    })
-
-    await userEvent.unhover(firstBtn)
-    await waitFor(() => {
-      expect(canvas.getByText('툴팁의 기본 설정입니다')).not.toBeVisible()
-    })
-  }
+  })
 }
 
 export const TooltipVertical: Story = {

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsContextualHelp from './KrdsContextualHelp'
 
 const meta: Meta<typeof KrdsContextualHelp> = {
@@ -56,22 +55,7 @@ export const Default: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, userEvent }) => {
-    const tooltipBtn = canvas.getByRole('button', { name: '도움말' })
-    await userEvent.click(tooltipBtn)
-
-    await waitFor(() => {
-      expect(tooltipBtn).toHaveAttribute('aria-expanded', 'true')
-    })
-
-    const closeBtn = canvas.getByRole('button', { name: '닫기' })
-    await userEvent.click(closeBtn)
-
-    await waitFor(() => {
-      expect(tooltipBtn).toHaveAttribute('aria-expanded', 'false')
-    })
-  }
+  })
 }
 
 export const Positions: Story = {

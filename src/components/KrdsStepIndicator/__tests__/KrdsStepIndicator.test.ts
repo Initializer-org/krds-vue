@@ -1,0 +1,58 @@
+import { describe, expect, it } from 'vitest'
+import { expectNoA11yViolations, render } from '@/test/utils'
+
+describe('KrdsStepIndicator', () => {
+  it('기본', async () => {
+    render({
+      template: `
+        <KrdsStepIndicator :model-value="3">
+          <KrdsStep step="1단계" title="단계 레이블" />
+          <KrdsStep step="2단계" title="단계 레이블" />
+          <KrdsStep step="3단계" title="단계 레이블" />
+          <KrdsStep step="4단계" title="단계 레이블" />
+          <KrdsStep step="5단계" title="단계 레이블" />
+        </KrdsStepIndicator>
+      `
+    })
+    await expectNoA11yViolations()
+  })
+
+  it('상태 지정: status 속성이 단계 클래스와 현재단계 텍스트를 결정', async () => {
+    const { container } = render({
+      template: `
+        <KrdsStepIndicator>
+          <KrdsStep step="1단계" title="약관 동의" status="done" />
+          <KrdsStep step="2단계" title="정보 입력" status="active" />
+          <KrdsStep step="3단계" title="신청 완료" status="pending" />
+        </KrdsStepIndicator>
+      `
+    })
+    const [done, active, pending] = Array.from(container.querySelectorAll('.krds-step-wrap > li'))
+
+    expect(done).toHaveClass('done')
+    expect(active).toHaveClass('active')
+    expect(pending).toHaveClass('pending')
+
+    // 활성 단계에는 스크린 리더용 현재단계 텍스트가 붙는다
+    expect(active.querySelector('.sr-only')).toHaveTextContent('현재단계')
+    expect(done.querySelector('.sr-only')).toBeNull()
+    await expectNoA11yViolations()
+  })
+
+  it('페이지 타이틀과 함께', async () => {
+    render({
+      template: `
+        <div class="page-title-wrap between">
+          <h2 class="h-tit">타이틀</h2>
+          <KrdsStepIndicator :model-value="2">
+            <KrdsStep step="1단계" title="유의 사항 확인" />
+            <KrdsStep step="2단계" title="신청인 정보" />
+            <KrdsStep step="3단계" title="이사 전 살던 곳" />
+            <KrdsStep step="4단계" title="이사 온 곳" />
+          </KrdsStepIndicator>
+        </div>
+      `
+    })
+    await expectNoA11yViolations()
+  })
+})
