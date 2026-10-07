@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { expect, within } from 'storybook/test'
+import { ref } from 'vue'
 import KrdsTable from './KrdsTable'
 
 const meta: Meta<typeof KrdsTable> = {
@@ -86,6 +87,64 @@ export const Default: Story = {
     await expect(rowHeaders.map(th => th.textContent)).toEqual(['제목1-1', '제목1-2', '제목1-3'])
     for (const th of rowHeaders) await expect(th).toHaveAttribute('scope', 'row')
     await expect(canvas.getAllByRole('cell')).toHaveLength(3)
+
+    // row-click 리스너가 없으면 행은 대화형이 아님 (초점 불가)
+    for (const row of canvas.getAllByRole('row')) await expect(row).not.toHaveAttribute('tabindex')
+  }
+}
+
+// 행 클릭 (row-click 리스너가 있을 때만 행이 키보드로 동작)
+export const RowClick: Story = {
+  name: '행 클릭',
+  args: {
+    caption: '행을 클릭하거나 Enter·Space로 선택하는 테이블',
+    columns: [
+      { name: 'name', label: '이름', field: 'name' },
+      { name: 'score', label: '점수', field: 'score' }
+    ],
+    rows: [
+      { name: '김철수', score: 95 },
+      { name: '이영희', score: 78 },
+      { name: '박민수', score: 88 }
+    ]
+  },
+  render: args => ({
+    components: { KrdsTable },
+    setup() {
+      const selected = ref('없음')
+      return { args, selected }
+    },
+    template: `
+      <KrdsTable v-bind="args" @row-click="(row, index) => (selected = row.name + ' (' + index + ')')" />
+      <p data-testid="selected">선택된 행: {{ selected }}</p>`
+  }),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const selected = canvas.getByTestId('selected')
+    const [headerRow, ...bodyRows] = canvas.getAllByRole('row')
+
+    // 바디 행만 Tab 순서에 포함
+    await expect(headerRow).not.toHaveAttribute('tabindex')
+    for (const row of bodyRows) await expect(row).toHaveAttribute('tabindex', '0')
+
+    // 마우스 클릭
+    await userEvent.click(within(bodyRows[2]).getByRole('cell'))
+    await expect(selected).toHaveTextContent('선택된 행: 박민수 (2)')
+
+    // Tab → 첫 행, Enter로 선택
+    bodyRows[2].blur()
+    await userEvent.tab()
+    await expect(bodyRows[0]).toHaveFocus()
+    await userEvent.keyboard('{Enter}')
+    await expect(selected).toHaveTextContent('선택된 행: 김철수 (0)')
+
+    // Space로 선택, 페이지 스크롤(기본 동작)은 막음
+    let spacePrevented = false
+    canvasElement.addEventListener('keydown', e => (spacePrevented = e.key === ' ' && e.defaultPrevented))
+    await userEvent.tab()
+    await expect(bodyRows[1]).toHaveFocus()
+    await userEvent.keyboard(' ')
+    await expect(selected).toHaveTextContent('선택된 행: 이영희 (1)')
+    await expect(spacePrevented).toBe(true)
   }
 }
 
