@@ -354,15 +354,13 @@ export const ImageOnly: Story = {
     await expect(canvas.getByText('a [jpg, 1B]').closest('li')).not.toHaveClass('is-error')
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 5개')
 
-    // 오류 항목은 개수를 차지하지 않아 f까지 추가되고, 최대 개수(5개)를 넘는 g는 오류 항목으로 안내
+    // 오류 항목은 개수를 차지하지 않아 f까지 추가되고, 최대 개수(5개)를 넘는 g는 추가되지 않음
     await userEvent.upload(
       input,
       ['c', 'd', 'e', 'f', 'g'].map(name => new File([name], `${name}.png`, { type: 'image/png' }))
     )
     await expect(canvas.getByText('f [png, 1B]').closest('li')).not.toHaveClass('is-error')
-    const overItem = canvas.getByText('g [png, 1B]').closest('li')!
-    await expect(overItem).toHaveClass('is-error')
-    await expect(overItem).toHaveTextContent('등록 가능한 파일 개수를 초과하였습니다.최대 5개의 파일만 등록할 수 있습니다.')
+    await expect(canvas.queryByText('g [png, 1B]')).not.toBeInTheDocument()
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('5개 / 5개')
 
     // 오류 항목도 삭제 가능

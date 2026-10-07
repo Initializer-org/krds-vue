@@ -272,10 +272,9 @@ export default /* @__PURE__ */ defineComponent({
       const files = props.multiple ? Array.from(fileList) : Array.from(fileList).slice(0, 1)
 
       for (const file of files) {
-        let error = validateFile(file)
-        if (!error && validCount >= props.maxFiles) {
-          error = `등록 가능한 파일 개수를 초과하였습니다.\n최대 ${props.maxFiles}개의 파일만 등록할 수 있습니다.`
-        }
+        if (validCount >= props.maxFiles) break
+
+        const error = validateFile(file)
         if (!error) validCount++
         const fileInfo: FileInfo = {
           id: generateId(),
