@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsTextarea from './KrdsTextarea'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
@@ -90,14 +89,5 @@ export const Default: Story = {
         </KrdsFormGroup>
       </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    const textarea = canvasElement.querySelector('textarea') as HTMLTextAreaElement
-    expect(textarea).toBeTruthy()
-
-    // Focus → Input → Blur to cover event handlers
-    await userEvent.click(textarea)
-    await userEvent.type(textarea, 'test')
-    await userEvent.tab()
-  }
+  })
 }

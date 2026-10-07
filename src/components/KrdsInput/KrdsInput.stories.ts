@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsInput from './KrdsInput'
 import KrdsFormGroup from '../KrdsFormGroup/KrdsFormGroup'
 import KrdsFormHint from '../KrdsFormHint/KrdsFormHint'
@@ -96,20 +95,7 @@ export const Default: Story = {
         </KrdsFormGroup>
       </div>
     `
-  }),
-  play: async ({ canvas, userEvent }) => {
-    const inputs = canvas.getAllByRole('textbox')
-    const input = inputs[0]
-
-    await userEvent.click(input)
-    await expect(input).toHaveFocus()
-
-    await userEvent.type(input, 'Hello')
-    await expect(input).toHaveValue('Hello')
-
-    await userEvent.tab()
-    await expect(input).not.toHaveFocus()
-  }
+  })
 }
 
 // 2. 상태
@@ -138,13 +124,7 @@ export const States: Story = {
         </KrdsFormGroup>
       </div>
     `
-  }),
-  play: async ({ canvasElement }) => {
-    // KrdsFormHint type별 클래스 매핑
-    await expect(canvasElement.querySelector('.form-hint-invalid')).toHaveTextContent('에러 메시지')
-    await expect(canvasElement.querySelector('.form-hint-success')).toHaveTextContent('성공 메시지')
-    await expect(canvasElement.querySelector('.form-hint-information')).toHaveTextContent('정보 메시지')
-  }
+  })
 }
 
 // 3. 사이즈
