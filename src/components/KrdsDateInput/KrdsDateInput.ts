@@ -164,6 +164,7 @@ export default /* @__PURE__ */ defineComponent({
     // ========================
 
     // DOM 참조
+    const rootRef = ref<HTMLElement>()
     const datePickerAreaRef = ref<HTMLElement>()
     const datePickerButtonRef = ref<HTMLButtonElement>()
 
@@ -186,13 +187,15 @@ export default /* @__PURE__ */ defineComponent({
       prevMonth,
       nextMonth,
       handleDateSelection,
+      clearDateSelection,
       selectToday,
       isDateInSelectedRange
     } = useDatePicker(props.initialYear, props.initialMonth)
 
     // 외부 클릭 감지
     const closeAllDatePickers = () => {
-      if (isCalendarOpen.value) {
+      // 달력 안에 초점이 있을 때만 버튼으로 복귀 (바깥 클릭·입력창에서는 초점 유지)
+      if (isCalendarOpen.value && datePickerAreaRef.value?.contains(document.activeElement)) {
         datePickerButtonRef.value?.focus()
       }
 
@@ -201,7 +204,7 @@ export default /* @__PURE__ */ defineComponent({
     }
 
     // 외부 클릭 감지 활성화
-    useClickOutside(datePickerAreaRef, closeAllDatePickers, '.calendar-conts')
+    useClickOutside(rootRef, closeAllDatePickers)
 
     /**
      * 날짜 입력 클래스
@@ -265,8 +268,8 @@ export default /* @__PURE__ */ defineComponent({
             dateString,
             isCurrentMonth: currentDate.getMonth() === month - 1,
             isToday: currentDate.toDateString() === new Date().toDateString(),
-            isPrevMonth: currentDate.getMonth() < month - 1 || (currentDate.getMonth() === 11 && month === 1),
-            isNextMonth: currentDate.getMonth() > month - 1 || (currentDate.getMonth() === 0 && month === 12),
+            isPrevMonth: currentDate < firstDate,
+            isNextMonth: currentDate.getMonth() !== month - 1 && currentDate > firstDate,
             isSunday: dayOfWeek === 0,
             isSaturday: dayOfWeek === 6
           })
@@ -337,7 +340,10 @@ export default /* @__PURE__ */ defineComponent({
         class: undefined,
         variant: 'tertiary' as const,
         size: 'small' as const,
-        handler: closeAllDatePickers
+        handler: () => {
+          clearDateSelection()
+          closeAllDatePickers()
+        }
       },
       {
         id: 'confirm-btn',
@@ -356,6 +362,11 @@ export default /* @__PURE__ */ defineComponent({
     /**
      * 드롭다운 토글
      */
+    /** 연/월 버튼으로 초점 이동 (목록이 숨겨질 때 초점 유실 방지) */
+    const focusSwitchButton = (type: 'year' | 'month') => {
+      datePickerAreaRef.value?.querySelector<HTMLElement>(`.btn-cal-switch.${type}`)?.focus()
+    }
+
     const toggleDropdown = (type: 'year' | 'month') => {
       if (activeDropdown.value === type) {
         activeDropdown.value = null
@@ -428,6 +439,7 @@ export default /* @__PURE__ */ defineComponent({
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.code === 'Escape') {
         if (activeDropdown.value) {
+          focusSwitchButton(activeDropdown.value)
           activeDropdown.value = null
         } else if (isCalendarOpen.value) {
           closeAllDatePickers()
@@ -481,6 +493,7 @@ export default /* @__PURE__ */ defineComponent({
       const options = isYear ? yearOptions.value : monthOptions.value
       const currentValue = isYear ? currentYear.value : currentMonth.value
       const format = (value: number) => (isYear ? `${value}년` : `${value.toString().padStart(2, '0')}월`)
+      const isOpen = activeDropdown.value === type
 
       return h('div', { class: 'calendar-drop-down' }, [
         h(
@@ -489,13 +502,13 @@ export default /* @__PURE__ */ defineComponent({
             type: 'button',
             class: `btn-cal-switch ${type}`,
             'aria-label': isYear ? '연도 선택' : '월 선택',
-            'aria-expanded': activeDropdown.value === type,
+            'aria-expanded': isOpen,
             onClick: () => toggleDropdown(type)
           },
           format(currentValue)
         ),
         withDirectives(
-          h('div', { class: `calendar-select ${isYear ? 'calendar-year-wrap' : 'calendar-mon-wrap'}` }, [
+          h('div', { class: ['calendar-select', isYear ? 'calendar-year-wrap' : 'calendar-mon-wrap', { active: isOpen }] }, [
             h(
               'ul',
               { class: `sel ${type}` },
@@ -506,7 +519,11 @@ export default /* @__PURE__ */ defineComponent({
                     {
                       type: 'button',
                       class: { active: option === currentValue },
-                      onClick: () => (isYear ? selectYear(option) : selectMonth(option))
+                      onClick: () => {
+                        if (isYear) selectYear(option)
+                        else selectMonth(option)
+                        focusSwitchButton(type)
+                      }
                     },
                     format(option)
                   )
@@ -514,7 +531,7 @@ export default /* @__PURE__ */ defineComponent({
               )
             )
           ]),
-          [[vShow, activeDropdown.value === type]]
+          [[vShow, isOpen]]
         )
       ])
     }
@@ -560,7 +577,7 @@ export default /* @__PURE__ */ defineComponent({
 
     return () =>
       h('div', { class: 'form-conts' }, [
-        h('div', { class: formContsClasses.value }, [
+        h('div', { ref: rootRef, class: formContsClasses.value, onKeydown: handleKeydown }, [
           h('div', { class: 'calendar-input' }, [
             h('input', {
               id: props.id,
@@ -598,8 +615,7 @@ export default /* @__PURE__ */ defineComponent({
                 {
                   class: 'calendar-wrap bottom',
                   'aria-label': '달력',
-                  tabindex: '0',
-                  onKeydown: handleKeydown
+                  tabindex: '0'
                 },
                 [
                   // 캘린더 헤더

@@ -96,15 +96,21 @@ export function useDatePicker(initialYear?: number, initialMonth?: number) {
    * 날짜가 선택된 범위에 포함되는지 확인
    */
   const isDateInSelectedRange = (dateString: string) => {
-    if (!selectedStartDate.value || !selectedEndDate.value) {
+    if (!selectedStartDate.value) {
       return { isInRange: false, isStart: false, isEnd: false }
+    }
+
+    const isStart = dateString === selectedStartDate.value
+
+    // 종료일 선택 전: 시작일만 선택 표시
+    if (!selectedEndDate.value) {
+      return { isInRange: isStart, isStart, isEnd: false }
     }
 
     const currentDate = new Date(dateString.replace(/\./g, '-'))
     const startDate = new Date(selectedStartDate.value.replace(/\./g, '-'))
     const endDate = new Date(selectedEndDate.value.replace(/\./g, '-'))
 
-    const isStart = dateString === selectedStartDate.value
     const isEnd = dateString === selectedEndDate.value
     const isInRange = currentDate >= startDate && currentDate <= endDate
 
