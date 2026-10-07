@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsStructuredList from './KrdsStructuredList'
 import KrdsBadge from '../KrdsBadge/KrdsBadge'
 import KrdsButton from '../KrdsButton/KrdsButton'
@@ -70,7 +71,20 @@ export const Default: Story = {
         </template>
       </KrdsStructuredList>
     `
-  })
+  }),
+  play: async ({ canvas }) => {
+    // ul.krds-structured-list.type-full > li.structured-item 단일 항목
+    const list = canvas.getByRole('list')
+    await expect(list).toHaveClass('krds-structured-list', 'type-full')
+    const [item] = canvas.getAllByRole('listitem')
+    await expect(item).toHaveClass('structured-item')
+
+    // 슬롯이 .in 안에 card-top·card-body·card-btm·card-btn 순서로 감싸짐
+    const inner = item.querySelector(':scope > .in')!
+    await expect(Array.from(inner.children, el => el.className)).toEqual(['card-top', 'card-body', 'card-btm', 'card-btn'])
+    await expect(inner.querySelector('.card-body')).toContainElement(canvas.getByRole('link', { name: /타이틀 영역/ }))
+    await expect(inner.querySelector('.card-btn')).toContainElement(canvas.getByRole('button', { name: /공유하기/ }))
+  }
 }
 
 // 2. 뱃지만 있는 간단한 구조
@@ -96,5 +110,10 @@ export const SimpleBadge: Story = {
         </template>
       </KrdsStructuredList>
     `
-  })
+  }),
+  play: async ({ canvasElement }) => {
+    // 전달하지 않은 슬롯 영역은 렌더링하지 않음
+    const inner = canvasElement.querySelector('.structured-item > .in')!
+    await expect(Array.from(inner.children, el => el.className)).toEqual(['card-top', 'card-body'])
+  }
 }

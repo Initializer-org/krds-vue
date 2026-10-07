@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect, waitFor, within } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsHeader from './KrdsHeader'
 import KrdsMainMenu from '../KrdsMainMenu'
@@ -116,7 +117,7 @@ export const Default: Story = {
             <button type="button" class="btn-navi sch" title="통합검색 레이어">통합검색</button>
             <a href="#" class="btn-navi login">로그인</a>
             <button type="button" class="btn-navi join">회원가입</button>
-            <button type="button" class="btn-navi all" aria-controls="mobile-nav" @click="mobileOpen = true">전체메뉴</button>
+            <button type="button" class="btn-navi all" aria-controls="mobile-nav" :aria-expanded="String(mobileOpen)" @click="mobileOpen = true">전체메뉴</button>
           </div>
         </template>
 
@@ -129,5 +130,47 @@ export const Default: Story = {
         </template>
       </KrdsHeader>
     `
-  })
+  }),
+  play: async ({ canvas }) => {
+    // banner 랜드마크 + 기본 id
+    const header = canvas.getByRole('banner')
+    await expect(header).toHaveAttribute('id', 'krds-header')
+
+    // utility·branding은 header-container > inner, 네비게이션은 header-in 직속
+    const headerIn = header.querySelector(':scope > .header-in')!
+    const inner = headerIn.querySelector(':scope > .header-container > .inner')!
+    await expect(Array.from(inner.children, el => el.className)).toEqual(['header-utility', 'header-branding'])
+    await expect(headerIn.querySelector(':scope > .krds-main-menu')).toBeInTheDocument()
+
+    // 모바일 드로어는 header-in 밖, header 직속
+    await expect(header.querySelector(':scope > .krds-main-menu-mobile')).toBeInTheDocument()
+  }
+}
+
+/**
+ * 모바일 — 전체메뉴 버튼으로 KrdsMainMenu(variant="mobile") 드로어 열기
+ */
+export const Mobile: Story = {
+  ...Default,
+  name: '모바일',
+  globals: { viewport: { value: 'mobile2', isRotated: false } },
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const allMenu = canvas.getByRole('button', { name: '전체메뉴' })
+    const drawer = canvasElement.querySelector<HTMLElement>(`#${allMenu.getAttribute('aria-controls')}`)!
+    await expect(drawer).toHaveClass('krds-main-menu-mobile')
+    await expect(drawer).not.toHaveClass('is-open')
+    await expect(allMenu).toHaveAttribute('aria-expanded', 'false')
+
+    // 전체메뉴 클릭 → aria-controls 대상 드로어 열림
+    await userEvent.click(allMenu)
+    await waitFor(() => expect(drawer).toHaveClass('is-open'))
+    await expect(allMenu).toHaveAttribute('aria-expanded', 'true')
+    await waitFor(() => expect(drawer).toBeVisible())
+
+    // 닫기 버튼으로 닫기
+    await userEvent.click(within(drawer).getByRole('button', { name: '전체메뉴 닫기' }))
+    await waitFor(() => expect(drawer).not.toBeVisible())
+    await expect(drawer).not.toHaveClass('is-open')
+    await expect(allMenu).toHaveAttribute('aria-expanded', 'false')
+  }
 }

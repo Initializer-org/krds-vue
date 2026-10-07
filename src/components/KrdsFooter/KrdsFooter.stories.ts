@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { expect } from 'storybook/test'
 import KrdsFooter from './KrdsFooter'
 import { KrdsIdentifier } from '../KrdsIdentifier'
 import { KrdsButton } from '../KrdsButton'
@@ -103,5 +104,19 @@ export const Default: Story = {
         </template>
       </KrdsFooter>
     `
-  })
+  }),
+  play: async ({ canvas }) => {
+    // contentinfo 랜드마크 + 기본 id
+    const footer = canvas.getByRole('contentinfo')
+    await expect(footer).toHaveAttribute('id', 'krds-footer')
+
+    // top 슬롯은 foot-quick > inner로 감싸짐
+    await expect(footer.querySelectorAll(':scope > .foot-quick > .inner > button.link')).toHaveLength(4)
+
+    // logo·content·bottom 슬롯은 inner 안에 순서대로 배치
+    const inner = footer.querySelector(':scope > .inner')!
+    await expect(Array.from(inner.children, el => el.className)).toEqual(['f-logo', 'f-cnt', 'f-btm'])
+    await expect(inner.querySelector('.f-cnt > .f-info')).toBeInTheDocument()
+    await expect(inner.querySelector('.f-btm > .krds-identifier')).toBeInTheDocument()
+  }
 }
