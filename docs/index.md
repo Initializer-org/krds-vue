@@ -13,7 +13,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: 컴포넌트 보기
-      link: /components/masthead
+      link: /components/
     - theme: alt
       text: GitHub
       link: https://github.com/Initializer-org/krds-vue
@@ -26,3 +26,15 @@ features:
   - title: 필요한 만큼만
     details: ESM·Tree-shaking으로 쓰는 컴포넌트만 번들에 포함됩니다. TypeScript 타입 정의와 Nuxt 서버 렌더링을 지원합니다.
 ---
+
+## KRDS Vue란?
+
+KRDS Vue는 [KRDS(대한민국 정부 디자인 시스템, Korea Digital Service Design System)](https://www.krds.go.kr/html/site/index.html) 가이드를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 오픈소스 컴포넌트 라이브러리입니다. 공공 웹서비스에서 반복되는 헤더·메인 메뉴 같은 아이덴티티·탐색 요소, 텍스트 입력 필드·날짜 입력 필드·파일 업로드 같은 입력 요소, 모달·탭·표 같은 레이아웃 요소를 KRDS 원본 마크업과 스타일 그대로 Vue 컴포넌트로 제공합니다.
+
+```sh
+npm install @krds.ui/vue
+```
+
+- [시작하기](/guide/getting-started): 설치, 전역 등록·개별 import, Nuxt, TypeScript 설정
+- [컴포넌트 목록](/components/): KRDS 공식 분류별 컴포넌트 예제와 API
+- [GitHub](https://github.com/Initializer-org/krds-vue) · [npm](https://www.npmjs.com/package/@krds.ui/vue)

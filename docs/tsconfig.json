@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "types": ["node"],
+    "paths": {
+      "@/*": ["../src/*"],
+      "@krds.ui/vue": ["../src/index.ts"]
+    }
+  },
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", "components/**/*.vue", "../src/env.d.ts"],
+  "exclude": [".vitepress/cache", ".vitepress/dist"]
+}

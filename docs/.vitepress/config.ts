@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
+import { componentGroups, pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
 const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }
@@ -12,32 +13,31 @@ const siteDescription =
 /** 페이지 URL (cleanUrls 기준) */
 const pageUrl = (relativePath: string) => `${siteUrl}/${relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')}`
 
-/** 마크다운 문단을 메타 설명용 평문으로 */
-const toPlainText = (markdown: string) =>
-  markdown
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\s+/g, ' ')
-    .trim()
-
-const componentGroup = (text: string, pages: [name: string, slug: string][]) => ({
-  text,
-  collapsed: false,
-  items: pages.map(([name, slug]) => ({ text: name, link: `/components/${slug}` }))
-})
+/** 옛 Storybook 주소(/?path=/docs/<id>, /iframe.html?id=<id>)를 새 문서 페이지로 옮긴다 (이미 공유된 링크 보존) */
+const storybookRedirect = `(() => {
+  const params = new URLSearchParams(location.search)
+  const id = location.pathname === '/iframe.html' ? params.get('id') : location.pathname === '/' ? params.get('path')?.replace(/^\\/(docs|story)\\//, '') : null
+  if (!id) return
+  const slugs = ${JSON.stringify(componentGroups.flatMap(group => group.pages.map(([, slug]) => slug)))}
+  const name = /^components-[a-z]+-krds([a-z]+)--/.exec(id)?.[1]
+  const slug = id.startsWith('directives-v-sr-only') ? 'sr-only' : slugs.find(slug => slug.replace(/-/g, '') === name)
+  location.replace(slug ? '/components/' + slug : id.startsWith('krds-vue-') ? '/guide/getting-started' : '/')
+})()`
 
 export default defineConfig({
   lang: 'ko-KR',
   title: 'KRDS Vue',
   description: siteDescription,
   cleanUrls: true,
+  // 페이지 수정일 표시와 사이트맵 lastmod (배포 워크플로는 전체 히스토리로 체크아웃)
+  lastUpdated: true,
   sitemap: {
     hostname: siteUrl,
     // iframe 예제 페이지는 검색 대상에서 제외
     transformItems: items => items.filter(item => !item.url.startsWith('frame/'))
   },
   head: [
+    ['script', {}, storybookRedirect],
     ['link', { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg' }],
     ['link', { rel: 'manifest', href: '/site.webmanifest' }],
     ['meta', { name: 'theme-color', content: '#256ef4' }],
@@ -84,15 +84,8 @@ export default defineConfig({
   // 페이지별 설명: frontmatter description이 없으면 제목 다음 첫 문단(컴포넌트 설명)을 쓴다
   transformPageData(pageData, { siteConfig }) {
     if (pageData.frontmatter.description || pageData.relativePath.startsWith('frame/')) return
-    const source = readFileSync(resolve(siteConfig.srcDir, pageData.relativePath), 'utf-8')
-    const title = /^# /m.exec(source)
-    if (!title) return
-    const paragraph = source
-      .slice(title.index)
-      .split(/\n{2,}/)
-      .slice(1)
-      .find(block => !/^\s*(<|#|\||```|:::|- )/.test(block))
-    if (paragraph) pageData.description = toPlainText(paragraph)
+    const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
+    if (description) pageData.description = description
   },
   transformHead({ pageData, title, description }) {
     if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
@@ -110,79 +103,22 @@ export default defineConfig({
     logo: { src: '/favicon.svg', alt: '' },
     nav: [
       { text: '시작하기', link: '/guide/getting-started' },
-      { text: '컴포넌트', link: '/components/masthead' },
+      { text: '컴포넌트', link: '/components/' },
       { text: `v${version}`, link: 'https://github.com/Initializer-org/krds-vue/blob/main/CHANGELOG.md' }
     ],
     sidebar: [
-      { text: '가이드', items: [{ text: '시작하기', link: '/guide/getting-started' }] },
-      // KRDS 공식 컴포넌트 분류 순서 (README 컴포넌트 범위 표와 같음), 마지막은 공식 목록 외 부가 컴포넌트
-      componentGroup('아이덴티티', [
-        ['공식 배너 Masthead', 'masthead'],
-        ['운영기관 식별자 Identifier', 'identifier'],
-        ['헤더 Header', 'header'],
-        ['푸터 Footer', 'footer']
-      ]),
-      componentGroup('탐색', [
-        ['건너뛰기 링크 Skip link', 'skip-link'],
-        ['메인 메뉴 Main menu', 'main-menu'],
-        ['브레드크럼 Breadcrumb', 'breadcrumb'],
-        ['사이드 메뉴 Side navigation', 'side-navigation'],
-        ['콘텐츠 내 탐색 In-page navigation', 'in-page-navigation'],
-        ['페이지네이션 Pagination', 'pagination'],
-        ['탭바 Tab bar', 'tab-bar']
-      ]),
-      componentGroup('레이아웃 및 표현', [
-        ['구조화 목록 Structured list', 'structured-list'],
-        ['긴급 공지 Critical alerts', 'critical-alerts'],
-        ['디스클로저 Disclosure', 'disclosure'],
-        ['모달 Modal', 'modal'],
-        ['배지 Badge', 'badge'],
-        ['아코디언 Accordion', 'accordion'],
-        ['캐러셀 Carousel', 'carousel'],
-        ['탭 Tab', 'tabs'],
-        ['표 Table', 'table'],
-        ['텍스트 목록 Text list', 'text-list'],
-        ['이미지 Image', 'image'],
-        ['스플래시 스크린 Splash screen', 'splash-screen']
-      ]),
-      componentGroup('액션', [
-        ['링크 Link', 'link'],
-        ['버튼 Button', 'button']
-      ]),
-      componentGroup('선택', [
-        ['라디오 버튼 Radio button', 'radio'],
-        ['체크박스 Checkbox', 'checkbox'],
-        ['셀렉트 Select', 'select'],
-        ['태그 Tag', 'tag'],
-        ['토글 스위치 Toggle switch', 'toggle-switch']
-      ]),
-      componentGroup('피드백', [
-        ['단계 표시기 Step indicator', 'step-indicator'],
-        ['스피너 Spinner', 'spinner']
-      ]),
-      componentGroup('도움', [
-        ['패널 Panel', 'panel'],
-        ['맥락적 도움말 Contextual help', 'contextual-help'],
-        ['코치마크 Coach mark', 'coach-mark'],
-        ['툴팁 Tooltip', 'tooltip'],
-        ['음성 지원 TTS', 'tts']
-      ]),
-      componentGroup('입력', [
-        ['텍스트 입력 필드 Text input', 'input'],
-        ['텍스트 영역 Textarea', 'textarea'],
-        ['날짜 입력 필드 Date input', 'date-input'],
-        ['파일 업로드 File upload', 'file-upload']
-      ]),
-      componentGroup('설정', [
-        ['언어 변경 Language switcher', 'language-switcher'],
-        ['화면 크기 조정 Resize', 'resize']
-      ]),
-      componentGroup('콘텐츠', [['숨긴 콘텐츠 v-sr-only', 'sr-only']]),
-      componentGroup('부가 컴포넌트', [
-        ['폼 그룹 Form group', 'form-group'],
-        ['아이콘 Icon', 'icon'],
-        ['레이아웃 Layout', 'layout']
-      ])
+      {
+        text: '가이드',
+        items: [
+          { text: '시작하기', link: '/guide/getting-started' },
+          { text: '컴포넌트 목록', link: '/components/' }
+        ]
+      },
+      ...componentGroups.map(group => ({
+        text: group.text,
+        collapsed: false,
+        items: group.pages.map(([name, slug]) => ({ text: name, link: `/components/${slug}` }))
+      }))
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Initializer-org/krds-vue' },
@@ -209,6 +145,7 @@ export default defineConfig({
     },
     outline: { label: '이 페이지에서' },
     docFooter: { prev: '이전', next: '다음' },
+    lastUpdated: { text: '마지막 수정', formatOptions: { dateStyle: 'medium', forceLocale: true } },
     darkModeSwitchLabel: '고대비 모드',
     lightModeSwitchTitle: '기본 모드로 전환',
     darkModeSwitchTitle: '고대비 모드로 전환',
