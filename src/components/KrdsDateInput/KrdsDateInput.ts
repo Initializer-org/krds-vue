@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, onBeforeUnmount, ref, vShow, withDirectives } from 'vue'
+import { Teleport, computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, vShow, watch, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
 import KrdsButton from '@/components/KrdsButton/KrdsButton'
@@ -59,6 +59,8 @@ export interface KrdsDateInputProps extends BaseFormProps {
   initialYear?: number
   /** 초기 표시 월 (기본: 현재 월) */
   initialMonth?: number
+  /** 달력을 body에 렌더 (overflow로 잘리는 컨테이너 안에서 사용. 모달 안에서는 쓰지 않음) */
+  teleport?: boolean
 }
 
 /**
@@ -141,6 +143,11 @@ export default /* @__PURE__ */ defineComponent({
       type: Number,
       default: undefined
     },
+    /** 달력을 body에 렌더 (overflow로 잘리는 컨테이너 안에서 사용. 모달 안에서는 쓰지 않음) */
+    teleport: {
+      type: Boolean,
+      default: false
+    },
     /** CSS 클래스 */
     class: {
       type: String,
@@ -173,6 +180,48 @@ export default /* @__PURE__ */ defineComponent({
     // 반응형 상태
     const isCalendarOpen = ref(false)
     const activeDropdown = ref<'year' | 'month' | null>(null)
+    // 원본처럼 위로 여는 것이 기본이고, 위 공간이 모자라고 아래가 더 넓으면 아래로 연다
+    const openUpward = ref(true)
+    const teleportStyle = ref<Record<string, string>>()
+    const isMounted = ref(false)
+    onMounted(() => (isMounted.value = true))
+
+    /** 입력 행 바로 아래에 달력 영역을 둔다 (body로 렌더할 때 원래 자리와 같은 위치) */
+    const updateTeleportPosition = () => {
+      const rect = datePickerButtonRef.value?.parentElement?.getBoundingClientRect()
+      if (!rect) return
+      teleportStyle.value = {
+        position: 'absolute',
+        top: `${rect.bottom + window.scrollY}px`,
+        left: `${rect.left + window.scrollX}px`,
+        width: `${rect.width}px`
+      }
+    }
+
+    const updatePlacement = () => {
+      const rect = datePickerButtonRef.value?.parentElement?.getBoundingClientRect()
+      const calendarWrap = datePickerAreaRef.value?.querySelector<HTMLElement>('.calendar-wrap')
+      if (!rect || !calendarWrap) return
+      const spaceAbove = rect.top
+      const spaceBelow = window.innerHeight - rect.bottom
+      openUpward.value = spaceAbove >= calendarWrap.offsetHeight || spaceAbove >= spaceBelow
+      if (props.teleport) updateTeleportPosition()
+    }
+
+    const togglePositionListeners = (enabled: boolean) => {
+      const method = enabled ? 'addEventListener' : 'removeEventListener'
+      // 스크롤 컨테이너 안의 입력 필드도 따라가도록 capture로 모든 스크롤을 받는다
+      window[method]('scroll', updateTeleportPosition, { capture: true })
+      window[method]('resize', updateTeleportPosition)
+    }
+
+    watch(isCalendarOpen, async isOpen => {
+      if (props.teleport) togglePositionListeners(isOpen)
+      if (!isOpen) return
+      await nextTick()
+      updatePlacement()
+    })
+    onBeforeUnmount(() => togglePositionListeners(false))
 
     // ========================
     // Composables
@@ -608,53 +657,59 @@ export default /* @__PURE__ */ defineComponent({
               [h('span', { class: 'sr-only' }, '달력 열기'), h('i', { class: 'svg-icon ico-calendar' })]
             )
           ]),
-          h('div', { ref: datePickerAreaRef, class: calendarAreaClasses.value }, [
-            withDirectives(
-              h(
-                'div',
-                {
-                  class: 'calendar-wrap bottom',
-                  'aria-label': '달력',
-                  tabindex: '0',
-                  onKeydown: handleKeydown
-                },
-                [
-                  // 캘린더 헤더
-                  h('div', { class: 'calendar-head' }, [
-                    h('button', { type: 'button', class: 'btn-cal-move prev', onClick: prevMonth }, [
-                      h('span', { class: 'sr-only' }, '이전 달')
-                    ]),
-                    h('div', { class: 'calendar-switch-wrap' }, [renderSwitchDropdown('year'), renderSwitchDropdown('month')]),
-                    h('button', { type: 'button', class: 'btn-cal-move next', onClick: nextMonth }, [
-                      h('span', { class: 'sr-only' }, '다음 달')
-                    ])
-                  ]),
-                  // 캘린더 바디
-                  h('div', { class: 'calendar-body' }, [h('div', { class: 'calendar-table-wrap' }, [renderCalendarTable()])]),
-                  // 캘린더 푸터
-                  h('div', { class: 'calendar-footer' }, [
-                    h(
-                      'div',
-                      { class: 'calendar-btn-wrap' },
-                      actionButtons.value.map(action =>
+          h(Teleport, { to: 'body', disabled: !(props.teleport && isMounted.value) }, [
+            h(
+              'div',
+              { ref: datePickerAreaRef, class: calendarAreaClasses.value, style: props.teleport ? teleportStyle.value : undefined },
+              [
+                withDirectives(
+                  h(
+                    'div',
+                    {
+                      class: ['calendar-wrap', { bottom: openUpward.value }],
+                      'aria-label': '달력',
+                      tabindex: '0',
+                      onKeydown: handleKeydown
+                    },
+                    [
+                      // 캘린더 헤더
+                      h('div', { class: 'calendar-head' }, [
+                        h('button', { type: 'button', class: 'btn-cal-move prev', onClick: prevMonth }, [
+                          h('span', { class: 'sr-only' }, '이전 달')
+                        ]),
+                        h('div', { class: 'calendar-switch-wrap' }, [renderSwitchDropdown('year'), renderSwitchDropdown('month')]),
+                        h('button', { type: 'button', class: 'btn-cal-move next', onClick: nextMonth }, [
+                          h('span', { class: 'sr-only' }, '다음 달')
+                        ])
+                      ]),
+                      // 캘린더 바디
+                      h('div', { class: 'calendar-body' }, [h('div', { class: 'calendar-table-wrap' }, [renderCalendarTable()])]),
+                      // 캘린더 푸터
+                      h('div', { class: 'calendar-footer' }, [
                         h(
-                          KrdsButton,
-                          {
-                            id: action.id,
-                            key: action.id,
-                            class: action.class,
-                            variant: action.variant,
-                            size: action.size,
-                            onClick: action.handler
-                          },
-                          { default: () => action.label }
+                          'div',
+                          { class: 'calendar-btn-wrap' },
+                          actionButtons.value.map(action =>
+                            h(
+                              KrdsButton,
+                              {
+                                id: action.id,
+                                key: action.id,
+                                class: action.class,
+                                variant: action.variant,
+                                size: action.size,
+                                onClick: action.handler
+                              },
+                              { default: () => action.label }
+                            )
+                          )
                         )
-                      )
-                    )
-                  ])
-                ]
-              ),
-              [[vShow, isCalendarOpen.value]]
+                      ])
+                    ]
+                  ),
+                  [[vShow, isCalendarOpen.value]]
+                )
+              ]
             )
           ])
         ])

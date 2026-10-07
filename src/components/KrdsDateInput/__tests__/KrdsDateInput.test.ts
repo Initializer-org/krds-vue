@@ -298,4 +298,62 @@ describe('KrdsDateInput', () => {
     await userEvent.click(btn2)
     await expectNoA11yViolations()
   })
+
+  it('달력 방향: 위쪽 공간이 모자라면 아래로, 충분하면 원본처럼 위로 열림', async () => {
+    const { container } = render({
+      template: `
+        <div>
+          <KrdsFormGroup>
+            <KrdsFormLabel for="date-input-top">화면 위쪽</KrdsFormLabel>
+            <KrdsDateInput id="date-input-top" />
+          </KrdsFormGroup>
+          <KrdsFormGroup style="padding-top: 600px;">
+            <KrdsFormLabel for="date-input-lower">화면 아래쪽</KrdsFormLabel>
+            <KrdsDateInput id="date-input-lower" />
+          </KrdsFormGroup>
+        </div>
+      `
+    })
+    const [topBtn, lowerBtn] = screen.getAllByRole('button', { name: '달력 열기' })
+    const [topCal, lowerCal] = container.querySelectorAll<HTMLElement>('.calendar-wrap')
+
+    await userEvent.click(topBtn)
+    await waitFor(() => expect(topCal).toHaveFocus())
+    expect(topCal).not.toHaveClass('bottom')
+    expect(topCal.getBoundingClientRect().top).toBeGreaterThan(topBtn.getBoundingClientRect().bottom)
+
+    await userEvent.click(lowerBtn)
+    await waitFor(() => expect(lowerCal).toHaveFocus())
+    expect(lowerCal).toHaveClass('bottom')
+    expect(lowerCal.getBoundingClientRect().bottom).toBeLessThan(lowerBtn.getBoundingClientRect().top)
+
+    await userEvent.click(lowerBtn)
+    await expectNoA11yViolations()
+  })
+
+  it('teleport: 달력을 body에 렌더하고 입력 필드 바로 아래 자리에 둠', async () => {
+    const { container } = render(withValue('date-input-teleport', '', { teleport: true }))
+    const calBtn = screen.getByRole('button', { name: '달력 열기' })
+
+    await userEvent.click(calBtn)
+    const area = document.querySelector<HTMLElement>('body > .krds-calendar-area')!
+    expect(container.querySelector('.krds-calendar-area')).toBeNull()
+    expect(area).toHaveClass('active')
+    await waitFor(() => expect(area.querySelector('.calendar-wrap')).toHaveFocus())
+
+    // 원래 자리(입력 행 바로 아래)와 같은 위치·폭
+    const row = container.querySelector('.calendar-input')!.getBoundingClientRect()
+    const rect = area.getBoundingClientRect()
+    expect(Math.round(rect.top)).toBe(Math.round(row.bottom))
+    expect(Math.round(rect.left)).toBe(Math.round(row.left))
+    expect(Math.round(rect.width)).toBe(Math.round(row.width))
+
+    // 날짜 선택·확인 → 입력값 반영, 달력 닫힘
+    const cell = area.querySelector<HTMLElement>('td[data-date]:not(.old):not(.new)')!
+    await userEvent.click(cell.querySelector('button')!)
+    await userEvent.click(screen.getByRole('button', { name: '확인' }))
+    expect(screen.getByLabelText('날짜 선택')).toHaveValue(cell.dataset.date)
+    expect(area).not.toHaveClass('active')
+    await expectNoA11yViolations()
+  })
 })
