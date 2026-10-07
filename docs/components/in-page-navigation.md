@@ -4,9 +4,9 @@
 
 ## 기본
 
-화면에 고정되고 창 스크롤에 맞춰 현재 섹션을 표시하므로 예제를 별도 화면(iframe)에 띄웁니다. 768px 이상 화면에서는 본문 오른쪽에 고정되고 그보다 좁으면 본문 위에 표시되므로, 고정 동작은 새 창에서 확인하세요. KRDS 레이아웃(`#container.krds-in-page-navigation-type > .inner.in-between > .contents`) 안에 배치해야 합니다.
+화면에 고정되고 창 스크롤에 맞춰 현재 섹션을 표시하므로 예제를 별도 화면(iframe)에 띄웁니다. 768px 이상 화면에서는 본문 오른쪽에 고정되고 그보다 좁으면 본문 위에 표시됩니다. 이 예제는 800px 폭 화면을 축소해 보여 줍니다. KRDS 레이아웃(`#container.krds-in-page-navigation-type > .inner.in-between > .contents`) 안에 배치해야 합니다.
 
-<DemoFrame src="/frame/in-page-navigation/basic" title="콘텐츠 내 탐색 기본 예제" :height="720" />
+<DemoFrame src="/frame/in-page-navigation/basic" title="콘텐츠 내 탐색 기본 예제" :height="620" :width="800" />
 
 <<< ./demos/in-page-navigation/Basic.vue
 

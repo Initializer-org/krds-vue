@@ -6,9 +6,9 @@
 
 `top`, `logo`, `content`, `bottom` 슬롯에 KRDS 푸터 마크업을 그대로 전달합니다. 하단에는 운영기관 식별자(`KrdsIdentifier`)를 함께 둡니다.
 
-푸터 레이아웃은 화면 폭 기준으로 바뀌므로 예제를 별도 화면(iframe)에 띄웁니다. 미리보기 폭에서는 768px 미만(모바일) 레이아웃으로 표시되니, 1024px 이상의 PC 레이아웃은 새 창에서 확인하세요.
+푸터 레이아웃은 화면 폭 기준으로 바뀌므로 예제를 별도 화면(iframe)에 띄웁니다. 예제는 1024px 폭 화면을 축소해 PC 레이아웃으로 보여 줍니다. 768px 미만 화면에서는 모바일 레이아웃으로 바뀝니다.
 
-<DemoFrame src="/frame/footer/basic" title="푸터 기본 예제" :height="780" />
+<DemoFrame src="/frame/footer/basic" title="푸터 기본 예제" :height="420" :width="1024" />
 
 <<< ./demos/footer/Basic.vue
 

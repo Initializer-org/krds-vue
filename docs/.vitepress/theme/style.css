@@ -35,12 +35,17 @@
   font-size: 14px;
 }
 
-.demo-frame iframe {
-  display: block;
-  width: 100%;
+.demo-frame-box {
   margin-bottom: 8px;
+  overflow: hidden;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
+}
+
+.demo-frame iframe {
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
 }
 
 /* KRDS 모바일 표 래퍼는 폭을 100vw 기준으로 잡아 예제 상자 여백만큼 화면 밖으로 넘친다. 상자 안에서 가로 스크롤되도록 제한 */
@@ -52,4 +57,10 @@
 .VPLocalSearchBox .search-input:focus {
   outline: none;
   box-shadow: none;
+}
+
+/* KRDS reset의 body height: 100%는 body 높이를 화면 높이로 고정해, VitePress 목차가 늘 "페이지 끝"으로 판단하고 마지막 항목만 활성화한다.
+   문서 페이지(.Layout)에서만 원래 높이로 되돌린다 (iframe 예제 페이지는 KRDS 그대로) */
+body:has(.Layout) {
+  height: auto;
 }
