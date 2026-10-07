@@ -22,6 +22,10 @@ const meta: Meta<typeof KrdsSkipLink> = {
         type: { summary: 'string' },
         defaultValue: { summary: 'undefined' }
       }
+    },
+    links: {
+      control: 'object',
+      description: '여러 건너뛰기 링크 (하나의 래퍼 안에 렌더링)'
     }
   },
   tags: ['autodocs']
@@ -69,5 +73,45 @@ export const Default: Story = {
     await userEvent.tab()
     await expect(link).toHaveFocus()
     await waitFor(() => expect(link.getBoundingClientRect().height).toBeGreaterThan(1))
+  }
+}
+
+export const MultipleLinks: Story = {
+  name: '여러 링크',
+  args: {
+    links: [
+      { href: '#main-content', label: '본문 바로가기' },
+      { href: '#gnb', label: '메인메뉴 바로가기' }
+    ]
+  },
+  render: args => ({
+    components: { KrdsSkipLink },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div>
+        <KrdsSkipLink v-bind="args" />
+        <nav id="gnb" aria-label="메인메뉴" style="padding: 20px; border: 1px dashed #ccc;">메인메뉴 영역</nav>
+        <div id="main-content" style="margin-top: 20px; padding: 20px; background: #f5f5f5;">
+          <h2>주요 콘텐츠 영역</h2>
+        </div>
+      </div>
+    `
+  }),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    // 링크가 여러 개여도 #krds-skip-link 래퍼는 하나
+    const wrappers = canvasElement.querySelectorAll('#krds-skip-link')
+    await expect(wrappers).toHaveLength(1)
+    const links = Array.from(wrappers[0].querySelectorAll('a'))
+    await expect(links.map(a => a.getAttribute('href'))).toEqual(['#main-content', '#gnb'])
+    await expect(canvas.getByRole('link', { name: '메인메뉴 바로가기' })).toBe(links[1])
+
+    // 첫 Tab은 첫 링크, 다음 Tab은 두 번째 링크
+    await userEvent.tab()
+    await expect(links[0]).toHaveFocus()
+    await expect(links[0]).toHaveTextContent('본문 바로가기')
+    await userEvent.tab()
+    await expect(links[1]).toHaveFocus()
   }
 }

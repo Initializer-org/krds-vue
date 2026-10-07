@@ -1,12 +1,14 @@
-import { defineComponent, h, type VNode } from 'vue'
+import { defineComponent, h, type PropType, type VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
  * KRDS SkipLink 컴포넌트 속성
  */
 export interface KrdsSkipLinkProps extends BaseComponentProps {
-  /** 건너뛸 대상 요소의 ID */
-  href: string
+  /** 건너뛸 대상 요소의 ID (단일 링크, 기본 슬롯이 링크 텍스트) */
+  href?: string
+  /** 여러 건너뛰기 링크 (하나의 래퍼 안에 렌더링, 지정 시 href·기본 슬롯 대신 사용) */
+  links?: { href: string; label: string }[]
 }
 
 /**
@@ -18,9 +20,16 @@ export interface KrdsSkipLinkProps extends BaseComponentProps {
  *
  * @example
  * ```vue
+ * <!-- 단일 링크 -->
  * <KrdsSkipLink href="#main-content">본문 바로가기</KrdsSkipLink>
- * <KrdsSkipLink href="#breadcrumb">본문 바로가기</KrdsSkipLink>
- * <KrdsSkipLink href="#gnb">메인메뉴 바로가기</KrdsSkipLink>
+ *
+ * <!-- 여러 링크: 컴포넌트를 나란히 두면 #krds-skip-link가 중복되므로 links 사용 -->
+ * <KrdsSkipLink
+ *   :links="[
+ *     { href: '#main-content', label: '본문 바로가기' },
+ *     { href: '#gnb', label: '메인메뉴 바로가기' }
+ *   ]"
+ * />
  * ```
  */
 export default /* @__PURE__ */ defineComponent({
@@ -32,8 +41,16 @@ export default /* @__PURE__ */ defineComponent({
      */
     href: {
       type: String,
-      required: true,
+      default: undefined,
       validator: (value: string) => value.startsWith('#')
+    },
+    /**
+     * 여러 건너뛰기 링크 (하나의 래퍼 안에 렌더링, 지정 시 href·기본 슬롯 대신 사용)
+     */
+    links: {
+      type: Array as PropType<{ href: string; label: string }[]>,
+      default: undefined,
+      validator: (value: { href: string }[]) => value.every(link => link.href.startsWith('#'))
     },
     /**
      * 추가 CSS 클래스
@@ -58,15 +75,17 @@ export default /* @__PURE__ */ defineComponent({
           id: props.id,
           class: props.class
         },
-        [
-          h(
-            'a',
-            {
-              href: props.href
-            },
-            slots.default?.()
-          )
-        ]
+        props.links
+          ? props.links.map(link => h('a', { href: link.href }, link.label))
+          : [
+              h(
+                'a',
+                {
+                  href: props.href
+                },
+                slots.default?.()
+              )
+            ]
       )
     }
   }
