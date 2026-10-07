@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { expectNoA11yViolations, render, waitFor } from '@/test/utils'
+import { expectNoA11yViolations, render } from '@/test/utils'
+
+const scrollWindowTo = (y: number) => {
+  window.scrollTo({ top: y, behavior: 'instant' })
+  window.dispatchEvent(new Event('scroll'))
+}
 
 describe('KrdsLayout', () => {
   it('기본: 스크롤 방향 클래스', async () => {
@@ -158,8 +163,9 @@ describe('KrdsLayout', () => {
                     </div>
                   </div>
                 </div>
+                <div style="height: 200vh"></div>
               </div>
-            </div> 
+            </div>
           </div>
           <KrdsFooter>
             <template #top>
@@ -232,19 +238,20 @@ describe('KrdsLayout', () => {
     expect(wrap).toBeTruthy()
     expect(wrap.classList.contains('custom-layout')).toBe(true)
 
-    // Trigger scroll events to cover handleScroll, updateScrollValues, handleScrollDirection
-    window.scrollTo(0, 300)
-    window.dispatchEvent(new Event('scroll'))
+    // #container 위치 + 50px을 넘어야 방향 클래스가 붙는다
+    const threshold = (document.querySelector('#container') as HTMLElement).offsetTop + 50
 
-    await waitFor(() => {
-      // Check scroll-down class was added (scrolled past threshold)
-      const hasScrollClass = wrap.classList.contains('scroll-down') || wrap.classList.contains('scroll-up')
-      expect(hasScrollClass || true).toBe(true)
-    })
+    scrollWindowTo(threshold + 200)
+    expect(wrap).toHaveClass('scroll-down')
+    expect(wrap).not.toHaveClass('scroll-up')
 
-    // Scroll back up to cover scroll-up direction
-    window.scrollTo(0, 0)
-    window.dispatchEvent(new Event('scroll'))
+    scrollWindowTo(threshold + 100)
+    expect(wrap).toHaveClass('scroll-up')
+    expect(wrap).not.toHaveClass('scroll-down')
+
+    scrollWindowTo(0)
+    expect(wrap).not.toHaveClass('scroll-up')
+    expect(wrap).not.toHaveClass('scroll-down')
     await expectNoA11yViolations()
   })
 
@@ -252,7 +259,7 @@ describe('KrdsLayout', () => {
     const { container } = render({
       template: `
         <KrdsLayout :enable-scroll-detection="false">
-          <div id="container" style="height: 200px; padding: 2rem;">
+          <div id="container" style="height: 200vh; padding: 2rem;">
             <p>스크롤 감지가 비활성화된 레이아웃</p>
           </div>
         </KrdsLayout>
@@ -261,9 +268,8 @@ describe('KrdsLayout', () => {
     const wrap = container.querySelector('#wrap') as HTMLElement
     expect(wrap).toBeTruthy()
 
-    // Dispatch scroll - should NOT add scroll-down/scroll-up classes
-    window.dispatchEvent(new Event('scroll'))
-    expect(wrap.classList.contains('scroll-down')).toBe(false)
+    scrollWindowTo(1000)
+    expect(wrap).not.toHaveClass('scroll-down')
     await expectNoA11yViolations()
   })
 })
