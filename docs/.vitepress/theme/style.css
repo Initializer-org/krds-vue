@@ -18,3 +18,10 @@
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
 }
+
+/* KRDS reset의 *:focus 링은 마우스 클릭·프로그램 포커스에도 그려진다.
+   문서 사이트 UI는 VitePress처럼 키보드 포커스(:focus-visible)에만 표시하고, 예제 영역은 KRDS 원본 동작을 유지한다 */
+.Layout :focus:not(:focus-visible, .vp-raw *) {
+  outline: none;
+  box-shadow: none;
+}
