@@ -215,7 +215,7 @@ export default /* @__PURE__ */ defineComponent({
     const formatFileSize = (bytes: number): string => {
       if (bytes < 1024) return `${bytes}B`
       if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)}KB`
-      return `${(bytes / (1024 * 1024)).toFixed(1)}MB`
+      return `${Number((bytes / (1024 * 1024)).toFixed(1))}MB`
     }
 
     const getFileExtension = (name: string): string => {
@@ -234,7 +234,7 @@ export default /* @__PURE__ */ defineComponent({
     }
 
     const validateFile = (file: File): string | null => {
-      if (props.maxFileSize && file.size > props.maxFileSize) {
+      if (props.maxFileSize && file.size >= props.maxFileSize) {
         return `등록 가능한 파일 용량을 초과하였습니다.\n${formatFileSize(props.maxFileSize)} 미만의 파일만 등록할 수 있습니다.`
       }
       if (props.accept) {
@@ -266,12 +266,17 @@ export default /* @__PURE__ */ defineComponent({
       }
 
       const newFiles: FileInfo[] = []
+      // 오류 항목은 개수에서 제외 (목록의 유효 개수 표시와 동일 기준)
+      let validCount = currentFiles.filter(f => f.status !== 'error').length
+      // 단일 파일 모드는 첫 파일만 사용 (네이티브 input과 동일)
+      const files = props.multiple ? Array.from(fileList) : Array.from(fileList).slice(0, 1)
 
-      for (let i = 0; i < fileList.length; i++) {
-        if (currentFiles.length + newFiles.length >= props.maxFiles) break
-
-        const file = fileList[i]
-        const error = validateFile(file)
+      for (const file of files) {
+        let error = validateFile(file)
+        if (!error && validCount >= props.maxFiles) {
+          error = `등록 가능한 파일 개수를 초과하였습니다.\n최대 ${props.maxFiles}개의 파일만 등록할 수 있습니다.`
+        }
+        if (!error) validCount++
         const fileInfo: FileInfo = {
           id: generateId(),
           file,
@@ -359,7 +364,7 @@ export default /* @__PURE__ */ defineComponent({
       h(
         'div',
         {
-          class: 'file-upload',
+          class: ['file-upload', { active: isDragOver.value }],
           onDragover: onDragOver,
           onDragleave: onDragLeave,
           onDrop: onDrop

@@ -147,8 +147,16 @@ export const Default: Story = {
     description: '컨텐츠 영역'
   },
   play: async ({ canvas, canvasElement }) => {
-    // 드래그 앤 드롭: dragover를 취소해 드롭을 허용하고, 드롭한 파일을 모두 추가
-    const dropAllowed = dropFiles(canvasElement.querySelector('.file-upload')!, [
+    const uploadArea = canvasElement.querySelector('.file-upload')!
+
+    // 드래그 중에는 업로드 영역 강조(active), 벗어나면 해제
+    uploadArea.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true }))
+    await waitFor(() => expect(uploadArea).toHaveClass('active'))
+    uploadArea.dispatchEvent(new DragEvent('dragleave', { bubbles: true }))
+    await waitFor(() => expect(uploadArea).not.toHaveClass('active'))
+
+    // 드래그 앤 드롭: dragover를 취소해 드롭을 허용하고, 드롭한 파일을 모두 추가(드롭 후 강조 해제)
+    const dropAllowed = dropFiles(uploadArea, [
       new File(['a'], 'a.pdf', { type: 'application/pdf' }),
       new File(['bb'], 'b.hwp', { type: 'application/x-hwp' })
     ])
@@ -156,6 +164,7 @@ export const Default: Story = {
     await expect(await canvas.findByText('a [pdf, 1B]')).toBeInTheDocument()
     await expect(canvas.getByText('b [hwp, 2B]')).toBeInTheDocument()
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('2개 / 10개')
+    await expect(uploadArea).not.toHaveClass('active')
   }
 }
 
@@ -264,12 +273,12 @@ export const Interactive: Story = {
     await userEvent.upload(input, fileA)
     await expect(canvas.getByText('a [pdf, 5B]')).toBeInTheDocument()
 
-    // 최대 용량(20MB) 초과 파일은 오류 항목으로 표시되고 유효 개수에서 제외
-    await userEvent.upload(input, new File([new Uint8Array(20 * 1024 * 1024 + 1)], 'big.pdf', { type: 'application/pdf' }))
-    const bigItem = canvas.getByText(/^big \[pdf/).closest('li')!
+    // "20MB 미만"만 허용: 정확히 20MB인 파일도 오류 항목으로 표시되고 유효 개수에서 제외
+    await userEvent.upload(input, new File([new Uint8Array(20 * 1024 * 1024)], 'big.pdf', { type: 'application/pdf' }))
+    const bigItem = canvas.getByText('big [pdf, 20MB]').closest('li')!
     await expect(bigItem).toHaveClass('is-error')
     await expect(bigItem.querySelector('.file-hint-invalid')).toHaveTextContent(
-      /등록 가능한 파일 용량을 초과하였습니다\..*미만의 파일만 등록할 수 있습니다\./
+      '등록 가능한 파일 용량을 초과하였습니다.20MB 미만의 파일만 등록할 수 있습니다.'
     )
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('2개 / 10개')
   }
@@ -288,7 +297,6 @@ export const SingleFile: Story = {
   }),
   args: {
     multiple: false,
-    maxFiles: 1,
     title: '단일 파일 업로드',
     description: '하나의 파일만 업로드할 수 있습니다.'
   },
@@ -303,14 +311,14 @@ export const SingleFile: Story = {
     await expect(canvas.getByText('b [pdf, 1B]')).toBeInTheDocument()
     await expect(canvas.queryByText('a [pdf, 1B]')).not.toBeInTheDocument()
 
-    // 여러 파일을 드롭해도 최대 1개만 남음
+    // 여러 파일을 드롭해도 첫 파일 1개만 남음 (maxFiles와 무관)
     dropFiles(canvasElement.querySelector('.file-upload')!, [
       new File(['c'], 'c.pdf', { type: 'application/pdf' }),
       new File(['d'], 'd.pdf', { type: 'application/pdf' })
     ])
     await expect(await canvas.findByText('c [pdf, 1B]')).toBeInTheDocument()
     await expect(canvas.getAllByRole('listitem')).toHaveLength(1)
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 1개')
+    await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 10개')
   }
 }
 
@@ -346,17 +354,20 @@ export const ImageOnly: Story = {
     await expect(canvas.getByText('a [jpg, 1B]').closest('li')).not.toHaveClass('is-error')
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 5개')
 
-    // 오류 항목도 삭제 가능
-    await userEvent.click(within(invalidItem).getByRole('button', { name: '삭제' }))
-    await expect(canvas.queryByText('b [pdf, 1B]')).not.toBeInTheDocument()
-
-    // 최대 개수(5개)를 넘는 파일은 추가되지 않음
+    // 오류 항목은 개수를 차지하지 않아 f까지 추가되고, 최대 개수(5개)를 넘는 g는 오류 항목으로 안내
     await userEvent.upload(
       input,
       ['c', 'd', 'e', 'f', 'g'].map(name => new File([name], `${name}.png`, { type: 'image/png' }))
     )
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(5)
-    await expect(canvas.queryByText('g [png, 1B]')).not.toBeInTheDocument()
+    await expect(canvas.getByText('f [png, 1B]').closest('li')).not.toHaveClass('is-error')
+    const overItem = canvas.getByText('g [png, 1B]').closest('li')!
+    await expect(overItem).toHaveClass('is-error')
+    await expect(overItem).toHaveTextContent('등록 가능한 파일 개수를 초과하였습니다.최대 5개의 파일만 등록할 수 있습니다.')
+    await expect(canvasElement.querySelector('.total')).toHaveTextContent('5개 / 5개')
+
+    // 오류 항목도 삭제 가능
+    await userEvent.click(within(invalidItem).getByRole('button', { name: '삭제' }))
+    await expect(canvas.queryByText('b [pdf, 1B]')).not.toBeInTheDocument()
     await expect(canvasElement.querySelector('.total')).toHaveTextContent('5개 / 5개')
   }
 }
