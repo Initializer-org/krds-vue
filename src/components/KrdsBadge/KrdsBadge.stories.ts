@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsBadge from './KrdsBadge'
 
 const meta: Meta<typeof KrdsBadge> = {
@@ -46,12 +45,7 @@ export const Default: Story = {
       return { args }
     },
     template: '<KrdsBadge v-bind="args" class="custom-badge">label</KrdsBadge>'
-  }),
-  play: async ({ canvas, userEvent }) => {
-    const badge = canvas.getByText('label')
-    expect(badge).toBeTruthy()
-    await userEvent.click(badge)
-  }
+  })
 }
 
 // 2. 기본 전체

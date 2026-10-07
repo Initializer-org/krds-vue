@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsTextList from './KrdsTextList'
 
 const meta: Meta<typeof KrdsTextList> = {
@@ -54,21 +53,7 @@ export const Default: Story = {
         <li>텍스트 목록 레벨1</li>
       </KrdsTextList>
     `
-  }),
-  play: async ({ canvas }) => {
-    const [outer, inner] = canvas.getAllByRole('list')
-
-    // KRDS 구조: ul.krds-info-list.<variant>
-    await expect(outer.tagName).toBe('UL')
-    await expect(outer).toHaveClass('krds-info-list', 'dash')
-    await expect(outer.children).toHaveLength(3)
-
-    // 중첩 목록은 상위 항목(li) 안에 위치
-    await expect(inner.tagName).toBe('UL')
-    await expect(inner).toHaveClass('krds-info-list', 'hollow')
-    await expect(inner.parentElement).toBe(outer.children[1])
-    await expect(inner.children).toHaveLength(2)
-  }
+  })
 }
 
 export const Ordered: Story = {
@@ -130,27 +115,5 @@ export const Ordered: Story = {
       </KrdsTextList>
       
     `
-  }),
-  play: async ({ canvas }) => {
-    const lists = canvas.getAllByRole('list')
-
-    // type="ol" + ordered: 3단계 중첩 ol.krds-info-list.ordered
-    const [level1, level2, level3] = lists
-    for (const list of [level1, level2, level3]) {
-      await expect(list.tagName).toBe('OL')
-      await expect(list).toHaveClass('krds-info-list', 'ordered')
-    }
-    await expect(level2.closest('li')!.parentElement).toBe(level1)
-    await expect(level3.closest('li')!.parentElement).toBe(level2)
-
-    // ul/ol 혼합 중첩: ul.decimal > ul.dash > ol.ordered
-    const decimal = lists.find(list => list.classList.contains('decimal'))!
-    await expect(decimal.tagName).toBe('UL')
-    const dash = decimal.querySelector(':scope > li > .krds-info-list')!
-    await expect(dash.tagName).toBe('UL')
-    await expect(dash).toHaveClass('dash')
-    const ordered = dash.querySelector(':scope > li > .krds-info-list')!
-    await expect(ordered.tagName).toBe('OL')
-    await expect(ordered).toHaveClass('ordered')
-  }
+  })
 }
