@@ -1,33 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import KrdsPanel from './KrdsPanel'
-import KrdsTabs from '../KrdsTabs'
+import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
+import { expectNoA11yViolations, render, userEvent, waitFor } from '@/test/utils'
 
-const meta: Meta<typeof KrdsPanel> = {
-  title: 'Components/Help/KrdsPanel',
-  component: KrdsPanel,
-  parameters: {
-    a11y: {
-      // 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
-      config: { rules: [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }] }
-    },
-    docs: {
-      description: {
-        component:
-          '패널은 본문 콘텐츠의 섹션이나 일부 요소에 대한 개념/용어 설명, 옵션의 구성, 이용 방법 등과 관련된 정보나 도움말, 따라하기 콘텐츠를 제공하는 사이드 패널이다.'
-      }
-    }
-  },
-  argTypes: {
-    modelValue: {
-      control: 'boolean',
-      description: '열린상태 (v-model)'
-    }
-  }
-}
-
-export default meta
-type Story = StoryObj<typeof meta>
+// 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
+const a11yRules = [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }]
 
 // 도움/따라하기 탭 공통 콘텐츠 (KrdsTabs 패널 슬롯에 주입)
 const helpContent = `
@@ -153,79 +129,81 @@ const tutorialContent = `
     </div>
   </div>`
 
-// 1. 기본
-export const Default: Story = {
-  name: '기본',
-  args: {},
-  render: () => ({
-    components: { KrdsPanel },
-    setup() {
-      const open = ref(false)
-      return { open }
-    },
-    template: `
-      <div style="width: 100%; height: 1000px;">
-        <KrdsPanel v-model="open">
-        </KrdsPanel>
-      </div>
-    `
+const tabs = [
+  { id: 'help', label: '도움' },
+  { id: 'tutorial', label: '따라하기' }
+]
+
+const openPanel = async (container: Element) => {
+  await userEvent.click(container.querySelector('.btn-help-exec') as HTMLElement)
+  await waitFor(() => {
+    expect(container.querySelector('.krds-help-panel.expand')).toBeTruthy()
   })
 }
 
-// 2. 도움 패널
-export const HelpPanel: Story = {
-  name: '도움 패널',
-  args: {},
-  render: () => ({
-    components: { KrdsPanel, KrdsTabs },
-    setup() {
-      const open = ref(false)
-      const tabs = [
-        { id: 'help', label: '도움' },
-        { id: 'tutorial', label: '따라하기' }
-      ]
-      return { open, tabs }
-    },
-    template: `
-      <div style="width: 100%; height: 1000px;">
-        <KrdsPanel v-model="open">
-          <KrdsTabs :tabs="tabs">
-            <template #help>${helpContent}</template>
-            <template #tutorial>${tutorialContent}</template>
-          </KrdsTabs>
-        </KrdsPanel>
-      </div>
-    `
-  })
-}
+describe('KrdsPanel', () => {
+  it('기본: 열고 닫기', async () => {
+    const { container } = render({
+      setup: () => ({ open: ref(false) }),
+      template: `
+        <div style="width: 100%; height: 1000px;">
+          <KrdsPanel v-model="open">
+          </KrdsPanel>
+        </div>
+      `
+    })
+    await openPanel(container)
 
-// 3. 따라하기 패널
-export const TutorialPanel: Story = {
-  name: '따라하기 패널',
-  args: {},
-  render: () => ({
-    components: { KrdsPanel, KrdsTabs },
-    setup() {
-      const open = ref(false)
-      const activeTab = ref('tutorial')
-      const tabs = [
-        { id: 'help', label: '도움' },
-        { id: 'tutorial', label: '따라하기' }
-      ]
-      return { open, activeTab, tabs }
-    },
-    template: `
-      <div style="width: 100%; height: 1000px">
-        <KrdsPanel v-model="open">
-          <KrdsTabs :tabs="tabs" v-model="activeTab">
-            <template #help>${helpContent}</template>
-            <template #tutorial>${tutorialContent}</template>
-          </KrdsTabs>
-          <button type="button" class="krds-btn small tertiary btn-help-panel fold">
-            <span class="sr-only">도움말</span> 접어두기 <i class="svg-icon ico-angle right"></i>
-          </button>
-        </KrdsPanel>
-      </div>
-    `
+    await userEvent.click(container.querySelector('.btn-help-panel.fold') as HTMLElement)
+    await waitFor(() => {
+      expect(container.querySelector('.krds-help-panel.expand')).toBeFalsy()
+    })
+    await expectNoA11yViolations(a11yRules)
   })
-}
+
+  it('도움 패널: 패널 내부 탭 전환', async () => {
+    const { container } = render({
+      setup: () => ({ open: ref(false), tabs }),
+      template: `
+        <div style="width: 100%; height: 1000px;">
+          <KrdsPanel v-model="open">
+            <KrdsTabs :tabs="tabs">
+              <template #help>${helpContent}</template>
+              <template #tutorial>${tutorialContent}</template>
+            </KrdsTabs>
+          </KrdsPanel>
+        </div>
+      `
+    })
+    await openPanel(container)
+
+    // 패널 내부 탭 전환 (도움 → 따라하기)
+    const [helpTab, tutorialTab] = Array.from(container.querySelectorAll('[role="tab"]'))
+    expect(helpTab).toHaveAttribute('aria-selected', 'true')
+
+    await userEvent.click(tutorialTab.querySelector('button')!)
+    expect(tutorialTab).toHaveAttribute('aria-selected', 'true')
+    expect(container.querySelector('.coach-help-process')?.closest('.tab-conts')).toHaveClass('active')
+    await expectNoA11yViolations(a11yRules)
+  })
+
+  it('따라하기 패널', async () => {
+    render({
+      setup: () => ({ open: ref(false), activeTab: ref('tutorial'), tabs }),
+      template: `
+        <div style="width: 100%; height: 1000px">
+          <KrdsPanel v-model="open">
+            <KrdsTabs :tabs="tabs" v-model="activeTab">
+              <template #help>${helpContent}</template>
+              <template #tutorial>${tutorialContent}</template>
+            </KrdsTabs>
+            <button type="button" class="krds-btn small tertiary btn-help-panel fold">
+              <span class="sr-only">도움말</span> 접어두기 <i class="svg-icon ico-angle right"></i>
+            </button>
+          </KrdsPanel>
+        </div>
+      `
+    })
+    await expectNoA11yViolations(a11yRules)
+  })
+})
