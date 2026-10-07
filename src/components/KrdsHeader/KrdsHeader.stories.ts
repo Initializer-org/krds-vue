@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor, within } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsHeader from './KrdsHeader'
 import KrdsMainMenu from '../KrdsMainMenu'
@@ -166,9 +166,11 @@ export const Mobile: Story = {
     await waitFor(() => expect(drawer).toHaveClass('is-open'))
     await expect(allMenu).toHaveAttribute('aria-expanded', 'true')
     await waitFor(() => expect(drawer).toBeVisible())
+    await waitFor(() => expect(drawer.querySelector('.gnb-wrap')).toHaveFocus())
 
-    // 닫기 버튼으로 닫기
-    await userEvent.click(within(drawer).getByRole('button', { name: '전체메뉴 닫기' }))
+    // ESC로 닫으면 전체메뉴 버튼으로 포커스 복귀
+    await userEvent.keyboard('{Escape}')
+    await expect(allMenu).toHaveFocus()
     await waitFor(() => expect(drawer).not.toBeVisible())
     await expect(drawer).not.toHaveClass('is-open')
     await expect(allMenu).toHaveAttribute('aria-expanded', 'false')
