@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, ref, vShow, withDirectives } from 'vue'
+import { computed, defineComponent, h, onBeforeUnmount, ref, vShow, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
 import KrdsButton from '@/components/KrdsButton/KrdsButton'
@@ -74,6 +74,9 @@ export interface KrdsDateInputEmits {
 
 /** 요일 헤더 */
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
+
+/** 열린 달력의 닫기 함수 (원본처럼 달력을 열면 다른 달력은 모두 닫는다) */
+const openCalendars = /* @__PURE__ */ new Set<() => void>()
 
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsDateInput',
@@ -164,7 +167,6 @@ export default /* @__PURE__ */ defineComponent({
     // ========================
 
     // DOM 참조
-    const rootRef = ref<HTMLElement>()
     const datePickerAreaRef = ref<HTMLElement>()
     const datePickerButtonRef = ref<HTMLButtonElement>()
 
@@ -187,24 +189,24 @@ export default /* @__PURE__ */ defineComponent({
       prevMonth,
       nextMonth,
       handleDateSelection,
-      clearDateSelection,
       selectToday,
       isDateInSelectedRange
     } = useDatePicker(props.initialYear, props.initialMonth)
 
     // 외부 클릭 감지
     const closeAllDatePickers = () => {
-      // 달력 안에 초점이 있을 때만 버튼으로 복귀 (바깥 클릭·입력창에서는 초점 유지)
-      if (isCalendarOpen.value && datePickerAreaRef.value?.contains(document.activeElement)) {
+      if (isCalendarOpen.value) {
         datePickerButtonRef.value?.focus()
       }
 
       isCalendarOpen.value = false
       activeDropdown.value = null
+      openCalendars.delete(closeAllDatePickers)
     }
+    onBeforeUnmount(() => openCalendars.delete(closeAllDatePickers))
 
     // 외부 클릭 감지 활성화
-    useClickOutside(rootRef, closeAllDatePickers)
+    useClickOutside(datePickerAreaRef, closeAllDatePickers, '.calendar-conts')
 
     /**
      * 날짜 입력 클래스
@@ -340,10 +342,7 @@ export default /* @__PURE__ */ defineComponent({
         class: undefined,
         variant: 'tertiary' as const,
         size: 'small' as const,
-        handler: () => {
-          clearDateSelection()
-          closeAllDatePickers()
-        }
+        handler: closeAllDatePickers
       },
       {
         id: 'confirm-btn',
@@ -412,6 +411,8 @@ export default /* @__PURE__ */ defineComponent({
      * 캘린더 열기
      */
     const openDatePicker = () => {
+      openCalendars.forEach(close => close())
+      openCalendars.add(closeAllDatePickers)
       isCalendarOpen.value = true
       activeDropdown.value = null
 
@@ -439,7 +440,6 @@ export default /* @__PURE__ */ defineComponent({
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.code === 'Escape') {
         if (activeDropdown.value) {
-          focusSwitchButton(activeDropdown.value)
           activeDropdown.value = null
         } else if (isCalendarOpen.value) {
           closeAllDatePickers()
@@ -577,7 +577,7 @@ export default /* @__PURE__ */ defineComponent({
 
     return () =>
       h('div', { class: 'form-conts' }, [
-        h('div', { ref: rootRef, class: formContsClasses.value, onKeydown: handleKeydown }, [
+        h('div', { class: formContsClasses.value }, [
           h('div', { class: 'calendar-input' }, [
             h('input', {
               id: props.id,
@@ -615,7 +615,8 @@ export default /* @__PURE__ */ defineComponent({
                 {
                   class: 'calendar-wrap bottom',
                   'aria-label': '달력',
-                  tabindex: '0'
+                  tabindex: '0',
+                  onKeydown: handleKeydown
                 },
                 [
                   // 캘린더 헤더

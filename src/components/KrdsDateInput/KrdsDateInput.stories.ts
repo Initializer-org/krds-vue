@@ -108,11 +108,8 @@ export const Default: Story = {
     await userEvent.click(monthBtn)
     await expect(yearBtn).toHaveAttribute('aria-expanded', 'false')
     await expect(monthBtn).toHaveAttribute('aria-expanded', 'true')
-    // 목록 항목에서 Escape → 목록만 닫히고 월 버튼으로 초점 복귀
-    canvasElement.querySelector<HTMLElement>('.sel.month button')!.focus()
     await userEvent.keyboard('{Escape}')
     await expect(monthBtn).toHaveAttribute('aria-expanded', 'false')
-    await expect(monthBtn).toHaveFocus()
     await expect(calendar).toBeVisible()
 
     // 처음엔 이번 달 표시 → 이전 달로 1월까지 이동
@@ -185,13 +182,6 @@ export const Default: Story = {
     await expect(calendar).not.toBeVisible()
     await expect(calBtn).toHaveFocus()
 
-    // 취소한 선택은 버려짐: 다시 열고 확인해도 반영 안 됨
-    await open()
-    await expect(cell(`${year}.02.05`)).not.toHaveClass('period')
-    await confirm()
-    await expect(input).toHaveValue(today)
-    await userEvent.click(canvas.getByRole('button', { name: '취소' }))
-
     // 달력 버튼 재클릭 → 닫힘
     await open()
     await userEvent.click(calBtn)
@@ -210,16 +200,10 @@ export const Default: Story = {
     await expect(calendar).not.toBeVisible()
     await expect(calBtn).toHaveFocus()
 
-    // 입력창 클릭은 유지, 입력창에서 Escape → 닫히고 초점 유지
+    // 입력창 클릭은 유지, 바깥 클릭 → 닫힘
     await open()
     await userEvent.click(input)
     await expect(calendar).toBeVisible()
-    await userEvent.keyboard('{Escape}')
-    await expect(calendar).not.toBeVisible()
-    await expect(input).toHaveFocus()
-
-    // 바깥 클릭 → 닫힘
-    await open()
     await userEvent.click(canvas.getByText('도움말'))
     await expect(calendar).not.toBeVisible()
     await expect(calBtn).toHaveAttribute('aria-expanded', 'false')
@@ -371,24 +355,15 @@ export const Multiple: Story = {
   play: async ({ canvas, canvasElement, userEvent }) => {
     const [btn1, btn2] = canvas.getAllByRole('button', { name: '달력 열기' })
     const [cal1, cal2] = canvasElement.querySelectorAll<HTMLElement>('.calendar-wrap')
-    const input2 = canvas.getByLabelText('종료일')
 
-    // 다른 입력창 클릭 → 첫 달력 닫히고, 클릭한 입력창에 초점 유지
+    // 다른 달력 열기 → 기존 달력은 닫힘 (원본 openDatePicker와 동일)
     await userEvent.click(btn1)
     await waitFor(() => expect(cal1).toHaveFocus())
-    await userEvent.click(input2)
-    await expect(cal1).not.toBeVisible()
-    await expect(btn1).toHaveAttribute('aria-expanded', 'false')
-    await expect(input2).toHaveFocus()
-
-    // 다른 달력 열기 → 기존 달력은 닫힘
     await userEvent.click(btn2)
     await waitFor(() => expect(cal2).toHaveFocus())
-    await userEvent.click(btn1)
-    await waitFor(() => expect(cal1).toHaveFocus())
-    await expect(cal2).not.toBeVisible()
-    await expect(btn2).toHaveAttribute('aria-expanded', 'false')
+    await expect(cal1).not.toBeVisible()
+    await expect(btn1).toHaveAttribute('aria-expanded', 'false')
 
-    await userEvent.click(btn1)
+    await userEvent.click(btn2)
   }
 }
