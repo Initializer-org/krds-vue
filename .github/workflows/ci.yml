@@ -78,7 +78,7 @@ jobs:
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run tests (Storybook 인터랙션 + a11y)
+      - name: Run tests (컴포넌트 동작 + a11y)
         run: pnpm vitest run
 
   build:
