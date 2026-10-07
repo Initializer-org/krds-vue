@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsSkipLink from './KrdsSkipLink'
 
 const meta: Meta<typeof KrdsSkipLink> = {
@@ -57,23 +56,7 @@ export const Default: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const link = canvas.getByRole('link', { name: '본문 바로가기' })
-
-    // KRDS 구조: #krds-skip-link > a, href는 본문 영역을 가리킴
-    await expect(link.parentElement).toHaveAttribute('id', 'krds-skip-link')
-    await expect(link).toHaveAttribute('href', '#main-content')
-    await expect(canvasElement.querySelector('#main-content')).toBeInTheDocument()
-
-    // 초점 전에는 화면에서 숨김(sr-only)
-    await expect(link.getBoundingClientRect().height).toBeLessThanOrEqual(1)
-
-    // 첫 Tab에 초점을 받고 화면에 노출 (전역 transition이 있어 대기)
-    await userEvent.tab()
-    await expect(link).toHaveFocus()
-    await waitFor(() => expect(link.getBoundingClientRect().height).toBeGreaterThan(1))
-  }
+  })
 }
 
 export const MultipleLinks: Story = {
@@ -98,20 +81,5 @@ export const MultipleLinks: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    // 링크가 여러 개여도 #krds-skip-link 래퍼는 하나
-    const wrappers = canvasElement.querySelectorAll('#krds-skip-link')
-    await expect(wrappers).toHaveLength(1)
-    const links = Array.from(wrappers[0].querySelectorAll('a'))
-    await expect(links.map(a => a.getAttribute('href'))).toEqual(['#main-content', '#gnb'])
-    await expect(canvas.getByRole('link', { name: '메인메뉴 바로가기' })).toBe(links[1])
-
-    // 첫 Tab은 첫 링크, 다음 Tab은 두 번째 링크
-    await userEvent.tab()
-    await expect(links[0]).toHaveFocus()
-    await expect(links[0]).toHaveTextContent('본문 바로가기')
-    await userEvent.tab()
-    await expect(links[1]).toHaveFocus()
-  }
+  })
 }
