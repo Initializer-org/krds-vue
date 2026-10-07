@@ -10,3 +10,8 @@ patchedDependencies:
 overrides:
   # jsdom(vitest optional peer) 경유 취약 버전 차단
   undici: ^8.10.2
+auditConfig:
+  ignoreGhsas:
+    # sprintf-js 정밀도 지정자 DoS. 빌드 도구(api-extractor > argparse) 경유 devDependency이고
+    # argparse는 고정 포맷 문자열만 넘긴다. 패치 버전(1.1.4)이 npm에 아직 없어 해제 대기
+    - GHSA-hp3w-g68c-fv3c
