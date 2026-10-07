@@ -24,7 +24,7 @@ export interface KrdsToggleSwitchEmits {
   (e: 'change', value: boolean): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsToggleSwitch',
   props: {
     /** 모델 값 */

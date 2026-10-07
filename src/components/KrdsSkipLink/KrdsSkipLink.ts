@@ -23,7 +23,7 @@ export interface KrdsSkipLinkProps extends BaseComponentProps {
  * <KrdsSkipLink href="#gnb">메인메뉴 바로가기</KrdsSkipLink>
  * ```
  */
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsSkipLink',
   props: {
     /**

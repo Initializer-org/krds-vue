@@ -16,7 +16,7 @@ export interface KrdsFormLabelEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFormLabel',
   props: {
     /** label의 for 속성 */

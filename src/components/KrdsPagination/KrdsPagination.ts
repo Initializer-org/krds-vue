@@ -45,7 +45,7 @@ export interface KrdsPaginationEmits {
   (e: 'update:modelValue', value: number): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsPagination',
   props: {
     /** 현재 페이지 번호 (v-model) */

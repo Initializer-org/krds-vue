@@ -37,7 +37,7 @@ export interface KrdsTtsEmits {
   (e: 'error', error: Error): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTts',
   props: {
     /** 읽어줄 텍스트 */

@@ -20,7 +20,7 @@ export interface KrdsTooltipProps extends BaseComponentProps {
   disabled?: boolean
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTooltip',
   props: {
     /** 트리거 버튼 타입 */

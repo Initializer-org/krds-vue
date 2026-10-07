@@ -28,7 +28,7 @@ export interface KrdsLanguageSwitcherEmits {
   (e: 'close'): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsLanguageSwitcher',
   props: {
     /** 언어 목록 */

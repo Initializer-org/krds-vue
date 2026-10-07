@@ -23,7 +23,7 @@ export interface KrdsCheckboxEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCheckbox',
   props: {
     /** 모델 값 */

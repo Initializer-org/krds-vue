@@ -183,7 +183,7 @@ const DRAWER_CLOSE_DELAY = 400
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsMainMenu',
   props: {
     /** 메뉴 아이템 배열 */

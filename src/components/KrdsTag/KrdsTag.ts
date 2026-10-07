@@ -22,7 +22,7 @@ export interface KrdsTagEmits {
   (e: 'remove', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTag',
   props: {
     /** 링크 태그 여부 */

@@ -10,7 +10,7 @@ export interface KrdsCheckAreaProps extends BaseComponentProps {
   column?: boolean
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCheckArea',
   props: {
     /** 추가 클래스 */

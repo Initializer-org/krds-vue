@@ -16,7 +16,7 @@ export interface KrdsIdentifierEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsIdentifier',
   props: {
     /** CSS 클래스 */

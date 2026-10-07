@@ -51,7 +51,7 @@ export interface KrdsInputEmits {
   (e: 'keyup', event: KeyboardEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsInput',
   props: {
     /** 입력값 */

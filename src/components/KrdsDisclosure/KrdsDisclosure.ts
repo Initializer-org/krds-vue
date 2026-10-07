@@ -18,7 +18,7 @@ export interface KrdsDisclosureEmits {
   (e: 'update:modelValue', value: boolean): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsDisclosure',
   props: {
     /** 디스클로저 제목 */

@@ -16,7 +16,7 @@ export interface KrdsFormHintEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFormHint',
   props: {
     /** 힌트 타입 */

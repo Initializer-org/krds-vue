@@ -27,7 +27,7 @@ export interface KrdsCriticalAlertsEmits {
   (e: 'link-click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCriticalAlerts',
   props: {
     /** 알림 타입 */

@@ -38,7 +38,7 @@ export interface KrdsInPageNavigationEmits {
   (e: 'itemClick', item: NavigationItem, event: MouseEvent | KeyboardEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsInPageNavigation',
   props: {
     /** 네비게이션 제목 */

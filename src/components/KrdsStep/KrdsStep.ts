@@ -31,7 +31,7 @@ interface StepIndicatorContext {
   resetStepIndex: () => void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsStep',
   props: {
     /** 단계 번호 */

@@ -44,7 +44,7 @@ export interface KrdsSelectEmits {
   (e: 'blur', event: FocusEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsSelect',
   props: {
     /** 선택된 값 */
