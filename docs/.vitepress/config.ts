@@ -31,14 +31,10 @@ export default defineConfig({
     ],
     sidebar: [
       { text: '가이드', items: [{ text: '시작하기', link: '/guide/getting-started' }] },
-      {
-        text: '컴포넌트',
-        items: [
-          { text: '버튼 Button', link: '/components/button' },
-          { text: '모달 Modal', link: '/components/modal' },
-          { text: '셀렉트 Select', link: '/components/select' }
-        ]
-      }
+      // KRDS 공식 컴포넌트 분류 순서: 아이덴티티, 탐색, 레이아웃 및 표현, 액션, 선택, 피드백, 도움, 입력, 설정, 콘텐츠
+      { text: '레이아웃 및 표현', items: [{ text: '모달 Modal', link: '/components/modal' }] },
+      { text: '액션', items: [{ text: '버튼 Button', link: '/components/button' }] },
+      { text: '선택', items: [{ text: '셀렉트 Select', link: '/components/select' }] }
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Initializer-org/krds-vue' },
