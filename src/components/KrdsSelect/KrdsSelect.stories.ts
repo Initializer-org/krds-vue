@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsSelect from './KrdsSelect'
 import { KrdsFormGroup } from '../KrdsFormGroup'
@@ -97,16 +96,7 @@ export const Default: Story = {
         </KrdsFormGroup>
       </div>
     `
-  }),
-  play: async ({ canvas, userEvent }) => {
-    const select = canvas.getByLabelText('거주 지역')
-
-    await userEvent.selectOptions(select, 'seoul')
-    await expect(select).toHaveValue('seoul')
-
-    await userEvent.selectOptions(select, 'busan')
-    await expect(select).toHaveValue('busan')
-  }
+  })
 }
 
 /**

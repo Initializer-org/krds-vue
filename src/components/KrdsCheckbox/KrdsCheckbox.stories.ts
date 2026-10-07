@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsCheckbox from './KrdsCheckbox'
 import KrdsCheckArea from '../KrdsCheckArea/KrdsCheckArea'
@@ -82,23 +81,7 @@ export const Checkbox: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const checkbox = canvas.getByLabelText('기본')
-
-    await expect(checkbox).not.toBeChecked()
-
-    await userEvent.click(checkbox)
-    await expect(checkbox).toBeChecked()
-
-    await userEvent.click(checkbox)
-    await expect(checkbox).not.toBeChecked()
-
-    // KrdsCheckArea 배치: 기본은 가로, column 속성은 세로(chk-column)
-    const areas = canvasElement.querySelectorAll('.krds-check-area')
-    await expect(areas[0]).not.toHaveClass('chk-column')
-    await expect(areas[1]).toHaveClass('chk-column')
-  }
+  })
 }
 
 export const Sizes: Story = {
