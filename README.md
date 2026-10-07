@@ -265,10 +265,11 @@ pnpm docs:build     # 문서 사이트 빌드
 
 `npm pack --dry-run` 기준으로 패키지에는 다음 산출물이 포함됩니다.
 
-- `dist/krds-vue.es.js`
+- `dist/krds-vue.es.js` (+ 소스맵 `dist/krds-vue.es.js.map`)
 - `dist/style.css`
-- `dist/types/index.d.ts`
+- `dist/types/index.d.ts`, `global.d.ts` (전역 컴포넌트 타입)
 - `dist/img/component/icon/*.svg`
+- `dist/fonts/*.woff2` (Pretendard GOV)
 
 ## 라이선스
 

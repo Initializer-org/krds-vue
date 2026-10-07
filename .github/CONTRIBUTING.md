@@ -28,7 +28,6 @@ pnpm install
 3. **개발 서버 실행**
 
 ```bash
-pnpm dev          # Vite 개발 서버
 pnpm docs:dev     # 문서 사이트 개발 서버
 ```
 
