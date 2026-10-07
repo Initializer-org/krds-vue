@@ -277,6 +277,8 @@ export const EventsAndHolidays: Story = {
     const cell = (date: string) => canvasElement.querySelector(`td[data-date="${date}"]`)
     const calBtn = canvas.getByRole('button', { name: '달력 열기' })
     await userEvent.click(calBtn)
+    // 열린 뒤 50ms 지연으로 달력에 초점이 가므로, 그 전에 조작하면 이후 초점 검증과 경합한다
+    await waitFor(() => expect(canvasElement.querySelector('.calendar-wrap')).toHaveFocus())
 
     // initialYear/initialMonth로 시작 월 지정
     await expect(canvas.getByRole('table', { name: '2025년 05월' })).toBeInTheDocument()
