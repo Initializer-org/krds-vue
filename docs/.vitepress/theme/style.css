@@ -17,8 +17,15 @@
   padding: 24px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
-  /* 예제 안 KRDS 요소의 z-index(헤더 70 등)가 VitePress 상단 내비게이션 위로 올라오지 않도록 */
-  isolation: isolate;
+  /* 예제 안 KRDS 요소의 z-index(헤더 70 등)는 예제 상자 안에서만 쌓이게 해 VitePress 상단 내비게이션을 덮지 않게 하고,
+     상자 자체는 코드 블록(z-index 1) 위에 둬서 예제 밖으로 열리는 달력·드롭다운이 가려지지 않게 한다 */
+  position: relative;
+  z-index: 2;
+}
+
+/* 열린 팝업이 아래 예제 상자에 덮이지 않도록 조작 중인 예제를 위로 */
+.demo:focus-within {
+  z-index: 3;
 }
 
 /* KRDS reset의 *:focus 링은 마우스 클릭·프로그램 포커스에도 그려진다.
