@@ -11,7 +11,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: 컴포넌트 보기
-      link: /components/button
+      link: /components/masthead
     - theme: alt
       text: GitHub
       link: https://github.com/Initializer-org/krds-vue

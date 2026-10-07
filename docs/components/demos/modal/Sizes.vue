@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <div style="display: flex; gap: 1rem">
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem">
     <KrdsButton size="large" variant="secondary" @click="open('small')">Small 모달 열기</KrdsButton>
     <KrdsButton size="large" variant="secondary" @click="open('large')">Large 모달 열기</KrdsButton>
   </div>
