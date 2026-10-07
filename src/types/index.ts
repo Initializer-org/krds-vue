@@ -26,16 +26,19 @@ export type Variant = 'primary' | 'secondary' | 'tertiary'
 
 /**
  * 정렬 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type Alignment = 'left' | 'center' | 'right' | 'justify'
 
 /**
  * 방향 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type Direction = 'horizontal' | 'vertical'
 
 /**
  * 위치 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type Position = 'top' | 'bottom' | 'left' | 'right'
 
@@ -65,6 +68,7 @@ export interface BaseFormProps extends BaseComponentProps {
 
 /**
  * 아이콘 속성
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export interface IconProps {
   /** 아이콘 이름 */
@@ -77,6 +81,7 @@ export interface IconProps {
 
 /**
  * 로딩 상태 속성
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export interface LoadingProps {
   /** 로딩 중 여부 */
@@ -87,6 +92,7 @@ export interface LoadingProps {
 
 /**
  * 컴포넌트 슬롯 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export interface ComponentSlots {
   default?: () => unknown
@@ -95,6 +101,7 @@ export interface ComponentSlots {
 
 /**
  * KRDS 컴포넌트 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type KrdsComponent<Props = object, Slots = object, Emits = object> = Component & {
   __krdsComponent: true
@@ -106,18 +113,22 @@ export type KrdsComponent<Props = object, Slots = object, Emits = object> = Comp
 /**
  * 유틸리티 타입들
  */
+/** @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정 */
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+/** @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정 */
 export type RequiredKeys<T> = {
   [K in keyof T]-?: object extends Pick<T, K> ? never : K
 }[keyof T]
 
 /**
  * CSS 변수 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type CSSCustomProperties = Record<`--${string}`, string | number>
 
 /**
  * 반응형 값 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type ResponsiveValue<T> =
   | T
@@ -129,10 +140,12 @@ export type ResponsiveValue<T> =
 
 /**
  * 컴포넌트 상태 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type ComponentState = 'default' | 'hover' | 'active' | 'focus' | 'disabled'
 
 /**
  * 입력 상태 타입
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export type InputState = ComponentState | 'error' | 'success'
