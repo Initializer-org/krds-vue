@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, ref, vShow, withDirectives } from 'vue'
+import { computed, defineComponent, h, onBeforeUnmount, ref, vShow, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
 import KrdsButton from '@/components/KrdsButton/KrdsButton'
@@ -74,6 +74,9 @@ export interface KrdsDateInputEmits {
 
 /** 요일 헤더 */
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
+
+/** 열린 달력의 닫기 함수 (원본처럼 달력을 열면 다른 달력은 모두 닫는다) */
+const openCalendars = /* @__PURE__ */ new Set<() => void>()
 
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsDateInput',
@@ -198,7 +201,9 @@ export default /* @__PURE__ */ defineComponent({
 
       isCalendarOpen.value = false
       activeDropdown.value = null
+      openCalendars.delete(closeAllDatePickers)
     }
+    onBeforeUnmount(() => openCalendars.delete(closeAllDatePickers))
 
     // 외부 클릭 감지 활성화
     useClickOutside(datePickerAreaRef, closeAllDatePickers, '.calendar-conts')
@@ -265,8 +270,8 @@ export default /* @__PURE__ */ defineComponent({
             dateString,
             isCurrentMonth: currentDate.getMonth() === month - 1,
             isToday: currentDate.toDateString() === new Date().toDateString(),
-            isPrevMonth: currentDate.getMonth() < month - 1 || (currentDate.getMonth() === 11 && month === 1),
-            isNextMonth: currentDate.getMonth() > month - 1 || (currentDate.getMonth() === 0 && month === 12),
+            isPrevMonth: currentDate < firstDate,
+            isNextMonth: currentDate.getMonth() !== month - 1 && currentDate > firstDate,
             isSunday: dayOfWeek === 0,
             isSaturday: dayOfWeek === 6
           })
@@ -356,6 +361,11 @@ export default /* @__PURE__ */ defineComponent({
     /**
      * 드롭다운 토글
      */
+    /** 연/월 버튼으로 초점 이동 (목록이 숨겨질 때 초점 유실 방지) */
+    const focusSwitchButton = (type: 'year' | 'month') => {
+      datePickerAreaRef.value?.querySelector<HTMLElement>(`.btn-cal-switch.${type}`)?.focus()
+    }
+
     const toggleDropdown = (type: 'year' | 'month') => {
       if (activeDropdown.value === type) {
         activeDropdown.value = null
@@ -401,6 +411,8 @@ export default /* @__PURE__ */ defineComponent({
      * 캘린더 열기
      */
     const openDatePicker = () => {
+      openCalendars.forEach(close => close())
+      openCalendars.add(closeAllDatePickers)
       isCalendarOpen.value = true
       activeDropdown.value = null
 
@@ -481,6 +493,7 @@ export default /* @__PURE__ */ defineComponent({
       const options = isYear ? yearOptions.value : monthOptions.value
       const currentValue = isYear ? currentYear.value : currentMonth.value
       const format = (value: number) => (isYear ? `${value}년` : `${value.toString().padStart(2, '0')}월`)
+      const isOpen = activeDropdown.value === type
 
       return h('div', { class: 'calendar-drop-down' }, [
         h(
@@ -489,13 +502,13 @@ export default /* @__PURE__ */ defineComponent({
             type: 'button',
             class: `btn-cal-switch ${type}`,
             'aria-label': isYear ? '연도 선택' : '월 선택',
-            'aria-expanded': activeDropdown.value === type,
+            'aria-expanded': isOpen,
             onClick: () => toggleDropdown(type)
           },
           format(currentValue)
         ),
         withDirectives(
-          h('div', { class: `calendar-select ${isYear ? 'calendar-year-wrap' : 'calendar-mon-wrap'}` }, [
+          h('div', { class: ['calendar-select', isYear ? 'calendar-year-wrap' : 'calendar-mon-wrap', { active: isOpen }] }, [
             h(
               'ul',
               { class: `sel ${type}` },
@@ -506,7 +519,11 @@ export default /* @__PURE__ */ defineComponent({
                     {
                       type: 'button',
                       class: { active: option === currentValue },
-                      onClick: () => (isYear ? selectYear(option) : selectMonth(option))
+                      onClick: () => {
+                        if (isYear) selectYear(option)
+                        else selectMonth(option)
+                        focusSwitchButton(type)
+                      }
                     },
                     format(option)
                   )
@@ -514,7 +531,7 @@ export default /* @__PURE__ */ defineComponent({
               )
             )
           ]),
-          [[vShow, activeDropdown.value === type]]
+          [[vShow, isOpen]]
         )
       ])
     }

@@ -134,10 +134,16 @@ export const Default: Story = {
     await expect(cell(`${year}.02.01`)).not.toHaveClass('new')
     await expect(cell(`${year}.03.01`)).toHaveClass('new')
 
-    // 뒤 날짜 → 앞 날짜 순이면 시작일 재지정, 다음 클릭으로 기간 완성
+    // 첫 클릭 → 시작일로 선택 표시
     await pick(`${year}.02.12`)
+    await expect(cell(`${year}.02.12`)).toHaveClass('period', 'start')
+    await expect(cell(`${year}.02.12`).querySelector('button')).toHaveAttribute('aria-pressed', 'true')
+
+    // 뒤 날짜 → 앞 날짜 순이면 시작일 재지정, 다음 클릭으로 기간 완성
     await pick(`${year}.02.10`)
-    await expect(canvasElement.querySelector('td.period')).toBeNull()
+    await expect(cell(`${year}.02.10`)).toHaveClass('period', 'start')
+    await expect(cell(`${year}.02.12`)).not.toHaveClass('period')
+    await expect(cell(`${year}.02.12`).querySelector('button')).toHaveAttribute('aria-pressed', 'false')
     await pick(`${year}.02.12`)
     await expect(cell(`${year}.02.10`)).toHaveClass('period', 'start')
     await expect(cell(`${year}.02.11`)).toHaveClass('period')
@@ -285,6 +291,79 @@ export const EventsAndHolidays: Story = {
     await expect(cell('2025.05.15')).toHaveClass('day-event')
     await expect(cell('2025.05.16')).not.toHaveClass('day-event')
 
+    // 월 목록: 열면 보이고, 항목 선택 → 해당 월로 이동 후 닫히고 월 버튼으로 초점 복귀
+    const monthBtn = canvas.getByRole('button', { name: '월 선택' })
+    const monthList = canvasElement.querySelector('.calendar-mon-wrap')
+    await userEvent.click(monthBtn)
+    await expect(monthList).toBeVisible()
+    await userEvent.click(canvas.getByRole('button', { name: '12월' }))
+    await expect(canvas.getByRole('table', { name: '2025년 12월' })).toBeInTheDocument()
+    await expect(monthList).not.toBeVisible()
+    await expect(monthBtn).toHaveTextContent('12월')
+    await expect(monthBtn).toHaveFocus()
+
+    // 12월: 이웃 달 날짜는 old/new 중 하나만
+    await expect(cell('2025.11.30')).toHaveClass('old')
+    await expect(cell('2025.11.30')).not.toHaveClass('new')
+    await expect(cell('2026.01.01')).toHaveClass('new')
+    await expect(cell('2026.01.01')).not.toHaveClass('old')
+
+    // 연도 목록: 작년 선택 → 해당 연도로 이동 후 닫히고 연도 버튼으로 초점 복귀
+    const lastYear = new Date().getFullYear() - 1
+    const yearBtn = canvas.getByRole('button', { name: '연도 선택' })
+    const yearList = canvasElement.querySelector('.calendar-year-wrap')
+    await userEvent.click(yearBtn)
+    await expect(yearList).toBeVisible()
+    await userEvent.click(canvas.getByRole('button', { name: `${lastYear}년` }))
+    await expect(canvas.getByRole('table', { name: `${lastYear}년 12월` })).toBeInTheDocument()
+    await expect(yearList).not.toBeVisible()
+    await expect(yearBtn).toHaveTextContent(`${lastYear}년`)
+    await expect(yearBtn).toHaveFocus()
+
+    // 1월: 이전 해 12월 날짜는 old만
+    await userEvent.click(monthBtn)
+    await userEvent.click(canvas.getByRole('button', { name: '01월' }))
+    const dec31 = cell(`${lastYear - 1}.12.31`)
+    await expect(dec31).toHaveClass('old')
+    await expect(dec31).not.toHaveClass('new')
+
     await userEvent.click(calBtn)
+  }
+}
+
+// 5. 여러 개 배치
+export const Multiple: Story = {
+  name: '여러 개 배치',
+  render: () => ({
+    components: { KrdsDateInput, KrdsFormGroup, KrdsFormLabel },
+    setup() {
+      return { start: ref(''), end: ref('') }
+    },
+    template: `
+      <div style="padding-top: 600px;">
+        <KrdsFormGroup>
+          <KrdsFormLabel for="date-input-start">시작일</KrdsFormLabel>
+          <KrdsDateInput id="date-input-start" v-model="start" />
+        </KrdsFormGroup>
+        <KrdsFormGroup>
+          <KrdsFormLabel for="date-input-end">종료일</KrdsFormLabel>
+          <KrdsDateInput id="date-input-end" v-model="end" />
+        </KrdsFormGroup>
+      </div>
+    `
+  }),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const [btn1, btn2] = canvas.getAllByRole('button', { name: '달력 열기' })
+    const [cal1, cal2] = canvasElement.querySelectorAll<HTMLElement>('.calendar-wrap')
+
+    // 다른 달력 열기 → 기존 달력은 닫힘 (원본 openDatePicker와 동일)
+    await userEvent.click(btn1)
+    await waitFor(() => expect(cal1).toHaveFocus())
+    await userEvent.click(btn2)
+    await waitFor(() => expect(cal2).toHaveFocus())
+    await expect(cal1).not.toBeVisible()
+    await expect(btn1).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(btn2)
   }
 }
