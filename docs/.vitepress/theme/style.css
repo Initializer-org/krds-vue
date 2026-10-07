@@ -1,0 +1,20 @@
+/* 브랜드 색을 KRDS primary로 */
+:root {
+  --vp-c-brand-1: var(--krds-light-color-text-primary);
+  --vp-c-brand-2: var(--krds-light-color-element-primary);
+  --vp-c-brand-3: var(--krds-light-color-element-primary);
+  --vp-c-brand-soft: var(--krds-color-light-primary-5);
+}
+
+.dark {
+  --vp-c-brand-1: var(--krds-high-contrast-color-text-primary);
+  --vp-c-brand-soft: rgb(177 206 251 / 16%);
+}
+
+/* 예제 미리보기 영역 (vp-raw로 문서 본문 스타일과 분리) */
+.demo {
+  margin: 16px 0;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}

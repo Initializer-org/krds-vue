@@ -108,6 +108,9 @@ jobs:
       - name: SSR smoke test
         run: node scripts/ssr-smoke.mjs
 
+      - name: Build docs site
+        run: pnpm docs:build
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:

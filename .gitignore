@@ -67,3 +67,6 @@ coverage/
 
 # Vitest browser mode attachments
 .vitest-attachments/
+
+# VitePress
+docs/.vitepress/cache/
