@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.20](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.19...@krds.ui/vue-v0.0.20) (2026-10-07)
+
+
+### Features
+
+* **date-input:** 공간에 따라 달력을 위·아래로 열고, body에 렌더하는 teleport 옵션 추가 ([#269](https://github.com/Initializer-org/krds-vue/issues/269)) ([c6463ba](https://github.com/Initializer-org/krds-vue/commit/c6463ba7dc8c3dd0ff4711a8d7f01cee03e8bfa2))
+
+
+### Bug Fixes
+
+* **a11y:** SkipLink id 중복·Table 행 키보드 접근 수정 ([#253](https://github.com/Initializer-org/krds-vue/issues/253)) ([c341c34](https://github.com/Initializer-org/krds-vue/commit/c341c3471f6d270b1017343954683ef76ff0510b))
+* **build:** defineComponent에 PURE 주석을 달아 트리셰이킹 복구 ([#243](https://github.com/Initializer-org/krds-vue/issues/243)) ([d0ffcc0](https://github.com/Initializer-org/krds-vue/commit/d0ffcc02f37109d3549038f09dacb4d3d0844583))
+* **date-input:** 연/월 목록 표시·선택 표시·이웃 달 표시를 원본 KRDS 동작에 맞춤 ([#254](https://github.com/Initializer-org/krds-vue/issues/254)) ([2ff225c](https://github.com/Initializer-org/krds-vue/commit/2ff225c5aec82dfc0a1f0c6109b7da6a8ca5aa18))
+* **file-upload:** 드래그 강조·단일 파일·개수 제한·용량 경계 오류 수정 ([#252](https://github.com/Initializer-org/krds-vue/issues/252)) ([24d6f35](https://github.com/Initializer-org/krds-vue/commit/24d6f35c0604a322b586b4fb078d414fc0bab4f9))
+* **main-menu:** 모바일 드로어 포커스 이동·복귀와 aria-controls 연결 수정 ([#256](https://github.com/Initializer-org/krds-vue/issues/256)) ([ac19233](https://github.com/Initializer-org/krds-vue/commit/ac1923353a2407b39f654411b56963244a9ad37d))
+* **side-navigation:** 2Depth 링크·id 중복·전환 없는 팝업 포커스 수정 ([#255](https://github.com/Initializer-org/krds-vue/issues/255)) ([1b8f82f](https://github.com/Initializer-org/krds-vue/commit/1b8f82f17cabb91507c7ed7c2f73f145e2cf37d4))
+
+
+### Chores
+
+* **deps-dev:** bump the development group across 1 directory with 3 updates ([#258](https://github.com/Initializer-org/krds-vue/issues/258)) ([64893c2](https://github.com/Initializer-org/krds-vue/commit/64893c286d7d58bbcda4da50a85a777bf8604f5e))
+* **deps-dev:** 개발 의존성 업데이트, jest-dom 7로 올림 ([#265](https://github.com/Initializer-org/krds-vue/issues/265)) ([0259d45](https://github.com/Initializer-org/krds-vue/commit/0259d450c9ea3275f4139311efbf245e6d5fca38))
+* **deps:** 패치 버전이 없는 sprintf-js 취약점 audit 예외 처리 ([#250](https://github.com/Initializer-org/krds-vue/issues/250)) ([0cb4da2](https://github.com/Initializer-org/krds-vue/commit/0cb4da26dac9b8f86ff15f28f79f88f3d477ff19))
+* 실수로 커밋된 vitest 실패 스크린샷 제거 ([#268](https://github.com/Initializer-org/krds-vue/issues/268)) ([1c51861](https://github.com/Initializer-org/krds-vue/commit/1c51861310da5e22bca4325900cf89defb2a24a2))
+
+
+### Documentation
+
+* **in-page-navigation:** 스토리에서 스크롤 연동·초기 활성 항목·레이아웃이 깨지던 문제 수정 ([#260](https://github.com/Initializer-org/krds-vue/issues/260)) ([6ea16d7](https://github.com/Initializer-org/krds-vue/commit/6ea16d75a941934c8ee8bb871a281851f175950c))
+* **main-menu:** 스토리에 테스트 조작이 남거나 배경 딤이 메뉴를 덮던 문제 수정 ([#261](https://github.com/Initializer-org/krds-vue/issues/261)) ([fb69f9d](https://github.com/Initializer-org/krds-vue/commit/fb69f9dc6bdf9c39194ece41d4c7d6986fc7313e))
+* Storybook을 제거하고 VitePress 문서 사이트로 배포·SEO 이전 ([#270](https://github.com/Initializer-org/krds-vue/issues/270)) ([1f6b990](https://github.com/Initializer-org/krds-vue/commit/1f6b990a9998ec74d03c2dba1271b05185be4a06))
+* VitePress 문서 사이트 뼈대 추가 (시작하기·버튼·모달·셀렉트) ([#266](https://github.com/Initializer-org/krds-vue/issues/266)) ([e499a9d](https://github.com/Initializer-org/krds-vue/commit/e499a9dedd3c9e53270c3aa23169e0bb354617af))
+
+
+### Code Refactoring
+
+* 사용처 없는 public export를 deprecated 처리하고 빈 tokens 모듈 제거 ([#246](https://github.com/Initializer-org/krds-vue/issues/246)) ([eadc7cc](https://github.com/Initializer-org/krds-vue/commit/eadc7cc5b11735ecaa263b474c59b6d829d6aa98))
+
+
+### Tests
+
+* **date-input:** 달력 열림 직후 초점 경합으로 간헐 실패하던 스토리 수정 ([#259](https://github.com/Initializer-org/krds-vue/issues/259)) ([434abad](https://github.com/Initializer-org/krds-vue/commit/434abad58c837fbdc67cde9d154b8f88d094223e))
+* **layout:** 항상 통과하던 스크롤 방향 검증을 실제 검증으로 교체 ([#264](https://github.com/Initializer-org/krds-vue/issues/264)) ([c8cf93d](https://github.com/Initializer-org/krds-vue/commit/c8cf93dad0ebea94c50bdf51b941401154afe90d))
+* MainMenu·DateInput·FileUpload·SideNavigation 인터랙션 play 테스트 보강 ([#251](https://github.com/Initializer-org/krds-vue/issues/251)) ([11cd0cc](https://github.com/Initializer-org/krds-vue/commit/11cd0cc5d10cbf661a5eeac0e76795859cd0629f))
+* play 테스트가 없던 스토리 8종에 인터랙션·구조 테스트 추가 ([#248](https://github.com/Initializer-org/krds-vue/issues/248)) ([bf60aa1](https://github.com/Initializer-org/krds-vue/commit/bf60aa17117c731c5079c077900143a81f7a9cfe))
+* 전 컴포넌트 SSR 렌더링 스모크 테스트 추가 ([#247](https://github.com/Initializer-org/krds-vue/issues/247)) ([8917d53](https://github.com/Initializer-org/krds-vue/commit/8917d535d971db1682b36acd5754f2d676cfdf31))
+* 컴포넌트 테스트를 Storybook에서 vitest로 이전 ([#263](https://github.com/Initializer-org/krds-vue/issues/263)) ([1c6181c](https://github.com/Initializer-org/krds-vue/commit/1c6181ced6dca0666bf836c46457ba85a71aee20))
+
+
+### Continuous Integration
+
+* Storybook 인터랙션·a11y 테스트를 CI에서 실행 ([#244](https://github.com/Initializer-org/krds-vue/issues/244)) ([3ccf904](https://github.com/Initializer-org/krds-vue/commit/3ccf9048662b3dd7fa0388ef8a0a9d556e48449c))
+* 아무것도 검사하지 않던 Browser Compatibility job 제거 ([#245](https://github.com/Initializer-org/krds-vue/issues/245)) ([24fe47d](https://github.com/Initializer-org/krds-vue/commit/24fe47d32c83738c0cfdf61eaf356fa9ff1f51eb))
+
 ## [0.0.19](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.18...@krds.ui/vue-v0.0.19) (2026-10-04)
 
 
