@@ -64,3 +64,6 @@ temp/
 # Vitest
 coverage/
 *storybook.log
+
+# Vitest browser mode attachments
+.vitest-attachments/

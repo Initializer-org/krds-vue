@@ -30,6 +30,23 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        // 테스트 템플릿 문자열을 런타임에 컴파일하므로 컴파일러 포함 빌드 사용
+        resolve: { alias: { vue: 'vue/dist/vue.esm-bundler.js' } },
+        test: {
+          name: 'components',
+          include: ['src/**/*.test.ts'],
+          setupFiles: ['src/test/setup.ts'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium' }],
+            viewport: { width: 1200, height: 900 }
+          }
+        }
+      },
+      {
+        extends: true,
         plugins: [
           storybookTest({
             configDir: '.storybook',
