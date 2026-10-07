@@ -91,7 +91,8 @@ const pcItems: MainMenuItem[] = [
           {
             text: '직업 훈련',
             href: '#',
-            description: '메뉴명과 메뉴에 관한 간략한 설명이 표시되는 스타일입니다.'
+            description: '메뉴명과 메뉴에 관한 간략한 설명이 표시되는 스타일입니다.',
+            selected: true
           }
         ]
       },
@@ -199,15 +200,23 @@ export const Default: Story = {
   render: args => ({
     components: { KrdsMainMenu },
     setup() {
-      return { args }
+      // menu-toggle 이벤트로 추적한 열린 패널 인덱스
+      const openPanels = ref<number[]>([])
+      const onMenuToggle = (index: number, expanded: boolean) => {
+        openPanels.value = expanded ? [...openPanels.value, index] : openPanels.value.filter(i => i !== index)
+      }
+      return { args, openPanels, onMenuToggle }
     },
     template: `
-      <KrdsMainMenu v-bind="args">
-        <template #banner>
-          <span class="krds-badge bg-secondary">신규 서비스</span>
-          <button type="button" class="krds-btn medium text">메뉴명 <i class="svg-icon ico-angle right"></i></button>
-        </template>
-      </KrdsMainMenu>
+      <div>
+        <KrdsMainMenu v-bind="args" @menu-toggle="onMenuToggle">
+          <template #banner>
+            <span class="krds-badge bg-secondary">신규 서비스</span>
+            <button type="button" class="krds-btn medium text">메뉴명 <i class="svg-icon ico-angle right"></i></button>
+          </template>
+        </KrdsMainMenu>
+        <p data-testid="open-panels">열린 패널: {{ openPanels.join(', ') || '없음' }}</p>
+      </div>
     `
   }),
   play: async ({ canvas, userEvent }) => {
@@ -215,6 +224,7 @@ export const Default: Story = {
     const policyTrigger = canvas.getByRole('button', { name: '정책정보' })
     const noticeTrigger = canvas.getByRole('button', { name: '알림소식' })
     const aboutLink = canvas.getByRole('link', { name: '기관소개' })
+    const openPanels = canvas.getByTestId('open-panels')
     const panel = controlledBy(trigger)
 
     // 초기 상태는 닫힘, 하위 메뉴 없는 1depth는 단순 링크
@@ -231,6 +241,7 @@ export const Default: Story = {
     await expect(panel).toBeVisible()
     await expect(document.body).toHaveClass('is-gnb-web')
     await expect(document.querySelector('.gnb-backdrop')).toBeInTheDocument()
+    await expect(openPanels).toHaveTextContent('열린 패널: 0')
 
     // 링크가 아닌 첫 번째 2depth가 기본 활성화되어 서브 패널이 노출됨
     const applyTrigger = canvas.getByRole('button', { name: '민원신청' })
@@ -264,6 +275,10 @@ export const Default: Story = {
     await expect(supportTrigger).toHaveFocus()
     await expect(jobTrigger).toHaveAttribute('aria-expanded', 'false')
 
+    // 설명형 링크도 selected면 강조
+    await userEvent.click(jobTrigger)
+    await expect(canvas.getByRole('link', { name: '직업 훈련' })).toHaveClass('active')
+
     // ESC로 닫으면 1depth 트리거로 포커스 복귀
     await userEvent.keyboard('{Escape}')
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -271,6 +286,7 @@ export const Default: Story = {
     await expect(panel).not.toBeVisible()
     await expect(document.body).not.toHaveClass('is-gnb-web')
     await expect(document.querySelector('.gnb-backdrop')).not.toBeInTheDocument()
+    await expect(openPanels).toHaveTextContent('열린 패널: 없음')
 
     // 1depth 방향키·Home·End 이동
     await userEvent.keyboard('{ArrowRight}')
@@ -299,11 +315,14 @@ export const Default: Story = {
     await expect(panel).not.toBeVisible()
     await expect(policyTrigger).toHaveAttribute('aria-expanded', 'true')
     await expect(controlledBy(policyTrigger)).toBeVisible()
+    // 이전 패널의 닫힘도 menu-toggle로 전달
+    await expect(openPanels).toHaveTextContent('열린 패널: 1')
 
     // backdrop(메뉴 바깥) 클릭 시 닫힘
     await userEvent.click(document.querySelector('.gnb-backdrop') as HTMLElement)
     await expect(policyTrigger).toHaveAttribute('aria-expanded', 'false')
     await expect(document.body).not.toHaveClass('is-gnb-web')
+    await expect(openPanels).toHaveTextContent('열린 패널: 없음')
   }
 }
 
@@ -412,6 +431,7 @@ export const Mobile: Story = {
     const openButton = canvas.getByRole('button', { name: '전체메뉴 열기' })
     const drawer = canvasElement.querySelector('#mobile-nav') as HTMLElement
     const closeButton = drawer.querySelector('#close-nav') as HTMLElement
+    const gnbWrap = drawer.querySelector('.gnb-wrap') as HTMLElement
 
     // 초기 상태는 숨김
     await expect(drawer).not.toBeVisible()
@@ -422,9 +442,13 @@ export const Mobile: Story = {
     await expect(document.body).toHaveClass('is-gnb-mobile')
     await expect(openButton).toHaveAttribute('aria-expanded', 'true')
 
+    // 열리면 드로어로 포커스 이동
+    await waitFor(() => expect(gnbWrap).toHaveFocus())
+
     // 포커스 트랩: 처음과 끝에서 순환
     const loginButton = canvas.getByRole('button', { name: '로그인을 해주세요' })
-    await userEvent.click(loginButton)
+    await userEvent.keyboard('{Tab}')
+    await expect(loginButton).toHaveFocus()
     await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
     await expect(closeButton).toHaveFocus()
     await userEvent.keyboard('{Tab}')
@@ -445,6 +469,7 @@ export const Mobile: Story = {
     depth3Trigger.focus()
     await userEvent.keyboard('{Enter}')
     await expect(depth3Trigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(controlledBy(depth3Trigger)).toBe(depth3Wrap)
     await waitFor(() => expect(depth3Wrap).toBeVisible())
 
     // 4depth: 열면 이전화면 버튼으로 포커스 이동
@@ -489,20 +514,38 @@ export const Mobile: Story = {
       expect(tabs[0]).toHaveAttribute('aria-selected', 'false')
     })
 
-    // ESC로 드로어 닫기
+    // ESC로 드로어 닫기 → 연 버튼으로 포커스 복귀
     await userEvent.keyboard('{Escape}')
     await expect(drawer).not.toHaveClass('is-open')
     await expect(openButton).toHaveAttribute('aria-expanded', 'false')
+    await expect(openButton).toHaveFocus()
     await waitFor(() => {
       expect(drawer).not.toBeVisible()
       expect(document.body).not.toHaveClass('is-gnb-mobile')
     })
 
-    // 다시 열고 닫기 버튼으로 닫기
+    // 다시 열고 닫기 버튼으로 닫기 → 포커스 복귀
     await userEvent.click(openButton)
-    await waitFor(() => expect(drawer).toBeVisible())
+    await waitFor(() => expect(gnbWrap).toHaveFocus())
     await userEvent.click(closeButton)
     await expect(drawer).not.toHaveClass('is-open')
     await expect(openButton).toHaveAttribute('aria-expanded', 'false')
+    await expect(openButton).toHaveFocus()
+
+    // 전환이 없어도(transition: none) transitionend를 기다리지 않고 드로어로 포커스 이동
+    const noTransition = document.createElement('style')
+    noTransition.textContent = '#mobile-nav, #mobile-nav *, #mobile-nav::after { transition: none !important; }'
+    document.head.append(noTransition)
+    await userEvent.click(openButton)
+    await waitFor(() => expect(gnbWrap).toHaveFocus())
+    await userEvent.click(closeButton)
+    noTransition.remove()
+
+    // 2depth를 펼친 채로 끝내 aria-controls 대상을 a11y 검사로도 확인
+    await userEvent.click(openButton)
+    await waitFor(() => expect(gnbWrap).toHaveFocus())
+    await userEvent.click(depth3Trigger)
+    await expect(depth3Trigger).toHaveAttribute('aria-expanded', 'true')
+    await waitFor(() => expect(controlledBy(depth3Trigger)).toBeVisible())
   }
 }

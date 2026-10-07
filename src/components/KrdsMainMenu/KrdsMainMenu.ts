@@ -361,6 +361,8 @@ export default /* @__PURE__ */ defineComponent({
         closeMainMenu()
         return
       }
+      // 다른 패널이 열려 있으면 먼저 닫아 menu-toggle(이전, false)를 전달
+      closeMainMenu()
       openIndex.value = index
       setPcBodyState(true)
       emit('menu-toggle', index, true)
@@ -468,6 +470,8 @@ export default /* @__PURE__ */ defineComponent({
 
     let openTimer: ReturnType<typeof setTimeout> | undefined
     let closeTimer: ReturnType<typeof setTimeout> | undefined
+    /** 드로어를 열기 전 포커스 요소 (닫을 때 복귀) */
+    let previousActiveElement: HTMLElement | null = null
 
     const setMobileBodyState = (isOpen: boolean) => {
       if (typeof document === 'undefined') return
@@ -475,18 +479,31 @@ export default /* @__PURE__ */ defineComponent({
     }
 
     /**
+     * 열린 드로어로 포커스 이동
+     */
+    const focusDrawer = () => {
+      if (drawerOpened.value) wrapRef.value?.focus()
+    }
+
+    /**
      * 드로어 열기
      *
      * `display` 변경 직후에는 transition이 동작하지 않으므로,
      * 원본과 동일하게 지연을 두고 열림 클래스를 부여한다.
+     * `visibility` 전환이 끝나기 전에는 포커스를 받을 수 없어 원본처럼 `transitionend` 이후에 이동한다.
      */
     const openDrawer = () => {
       if (closeTimer) clearTimeout(closeTimer)
+      previousActiveElement = document.activeElement as HTMLElement | null
       drawerDisplayed.value = true
       openTimer = setTimeout(() => {
         drawerOpened.value = true
         setMobileBodyState(true)
-        wrapRef.value?.focus()
+        rootRef.value?.addEventListener('transitionend', focusDrawer, { once: true })
+        // 전환이 없으면(transition: none 등) transitionend가 오지 않으므로 렌더 후 바로 포커스
+        requestAnimationFrame(() => {
+          if (!rootRef.value?.getAnimations().length) focusDrawer()
+        })
       }, DRAWER_OPEN_DELAY)
     }
 
@@ -496,6 +513,8 @@ export default /* @__PURE__ */ defineComponent({
     const closeDrawer = () => {
       if (openTimer) clearTimeout(openTimer)
       drawerOpened.value = false
+      previousActiveElement?.focus()
+      previousActiveElement = null
       closeTimer = setTimeout(() => {
         drawerDisplayed.value = false
         setMobileBodyState(false)
@@ -665,6 +684,7 @@ export default /* @__PURE__ */ defineComponent({
                 {
                   href: linkItem.href || '#',
                   ...attrs,
+                  class: { active: linkItem.selected },
                   onClick: (event: MouseEvent) => handleItemClick(linkItem, event)
                 },
                 [linkItem.text, icon]
@@ -967,7 +987,11 @@ export default /* @__PURE__ */ defineComponent({
         ])
       })
 
-      return h('div', { class: ['depth3-wrap', { 'is-open': depth3Expanded.value[`${index}-${subIndex}`] }] }, [h('ul', {}, children)])
+      return h(
+        'div',
+        { id: depth3Id(index, subIndex), class: ['depth3-wrap', { 'is-open': depth3Expanded.value[`${index}-${subIndex}`] }] },
+        [h('ul', {}, children)]
+      )
     }
 
     /**
