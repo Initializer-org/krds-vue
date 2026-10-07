@@ -1,15 +1,15 @@
-name: Deploy Storybook
+name: Deploy Docs
 
 on:
   push:
     branches: [main]
     paths:
+      - 'docs/**'
       - 'src/**'
-      - '.storybook/**'
       - 'public/**'
-      - 'scripts/storybook-seo.mjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - '.github/workflows/docs.yml'
   workflow_dispatch:
 
 permissions:
@@ -22,8 +22,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-storybook:
-    name: Build Storybook
+  build:
+    name: Build docs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,15 +40,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build Storybook
-        run: pnpm build-storybook
-        env:
-          NODE_ENV: production
+      - name: Build docs
+        run: pnpm docs:build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: ./storybook-static
+          path: ./docs/.vitepress/dist
 
   deploy:
     name: Deploy to GitHub Pages
@@ -56,7 +54,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-storybook
+    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

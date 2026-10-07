@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /frame/
+Sitemap: https://krds.initializer.org/sitemap.xml

@@ -144,12 +144,12 @@ const mobileItems: MainMenuItem[] = [
 /** aria-controls로 연결된 요소 */
 const controlledBy = (el: Element) => document.getElementById(el.getAttribute('aria-controls') ?? '')
 
-/** 스토리 decorator와 같이 PC 메가 메뉴를 헤더(#krds-header)로 감싼다 (배경 딤 위에 메뉴 표시) */
+/** PC 메가 메뉴를 헤더(#krds-header)로 감싼다 (배경 딤 위에 메뉴 표시) */
 const inHeader = (template: string) => `<div><header id="krds-header">${template}</header></div>`
 
 const mobileArgs = { items: mobileItems, variant: 'mobile', open: false }
 
-/** 모바일 드로어 메뉴 스토리 */
+/** 모바일 드로어 메뉴 */
 const mobileMenu = {
   setup: () => ({ args: mobileArgs, isOpen: ref(false) }),
   template: `

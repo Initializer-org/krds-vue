@@ -14,7 +14,7 @@ export { data }
 const root = resolve(import.meta.dirname, '../../..')
 const stripUndefined = (type: string) => type.replace(/ \| undefined$/, '')
 
-/** 컴포넌트 소스의 props 정의·JSDoc에서 API 표를 만든다 (Storybook docgen과 같은 vue-component-meta 사용) */
+/** 컴포넌트 소스의 props 정의·JSDoc에서 API 표를 만든다 (vue-component-meta) */
 export default defineLoader({
   watch: ['../../../src/components/*/Krds*.ts'],
   load(files): Record<string, ComponentApi> {

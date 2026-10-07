@@ -44,9 +44,6 @@ coverage/
 # nyc test coverage
 .nyc_output
 
-# Storybook build outputs
-storybook-static/
-
 # Temporary folders
 tmp/
 temp/
@@ -63,7 +60,6 @@ temp/
 
 # Vitest
 coverage/
-*storybook.log
 
 # Vitest browser mode attachments
 .vitest-attachments/

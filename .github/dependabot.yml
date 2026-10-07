@@ -21,13 +21,6 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-      storybook:
-        patterns:
-          - '@storybook/*'
-          - 'storybook'
-        update-types:
-          - 'minor'
-          - 'patch'
       vue:
         patterns:
           - 'vue'
