@@ -29,9 +29,6 @@ export * from './utils'
 // 타입 exports
 export * from './types'
 
-// 토큰 exports
-export * from './tokens'
-
 // 개별 컴포넌트 export (Tree-shaking 지원)
 export * from './components'
 

@@ -10,6 +10,7 @@ let idCounter = 0
  *
  * @param prefix - ID 접두사
  * @returns 고유한 ID 문자열
+ * @deprecated 모듈 전역 카운터라 SSR에서 요청 간 값이 공유된다. Vue의 `useId()`를 사용. 다음 breaking 릴리스에서 제거 예정
  */
 export function generateId(prefix: string = 'krds'): string {
   return `${prefix}-${++idCounter}`
@@ -20,6 +21,7 @@ export function generateId(prefix: string = 'krds'): string {
  * 브라우저와 Node.js 환경에서 모두 작동합니다.
  *
  * @returns 7자리 랜덤 문자열
+ * @deprecated 라이브러리에서 쓰이지 않아 다음 breaking 릴리스에서 제거 예정
  */
 export function generateUid(): string {
   // 암호학적으로 안전한 난수가 필요한 경우가 아니라면
