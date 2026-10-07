@@ -1,0 +1,11 @@
+{
+  "name": "KRDS Vue",
+  "short_name": "KRDS Vue",
+  "description": "KRDS 디자인 시스템을 Vue 3와 TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리 문서",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#256ef4",
+  "lang": "ko",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

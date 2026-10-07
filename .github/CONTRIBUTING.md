@@ -28,8 +28,7 @@ pnpm install
 3. **개발 서버 실행**
 
 ```bash
-pnpm dev          # Vite 개발 서버
-pnpm storybook    # Storybook 개발 서버
+pnpm docs:dev     # 문서 사이트 개발 서버
 ```
 
 ## 개발 가이드
@@ -62,11 +61,14 @@ pnpm type-check  # 타입 체크
 
 ```
 src/components/KrdsNewComponent/
-├── KrdsNewComponent.ts         # 컴포넌트 로직
-├── KrdsNewComponent.stories.ts # Storybook 스토리
-├── index.ts                    # Export
-└── __tests__/                  # 테스트 (vitest 브라우저 모드)
+├── KrdsNewComponent.ts   # 컴포넌트 로직
+├── index.ts              # Export
+└── __tests__/            # 테스트 (vitest 브라우저 모드)
     └── KrdsNewComponent.test.ts
+
+docs/components/
+├── new-component.md      # 문서 페이지 (설명 + 예제 + <ComponentApi name="KrdsNewComponent" />)
+└── demos/new-component/  # 예제 SFC (@krds.ui/vue에서 import, 코드 블록으로도 표시됨)
 ```
 
 2. **네이밍 규칙**
@@ -78,8 +80,8 @@ src/components/KrdsNewComponent/
 3. **필수 포함사항**
 
 - TypeScript 타입 정의
-- Storybook 스토리 (사용 예시만 두고, 동작 검증은 테스트에 작성)
-- `__tests__/` 테스트: 스토리 예시별 렌더 + 동작 검증 + `expectNoA11yViolations()` 접근성 검사 (`src/test/utils.ts`)
+- 문서 페이지 (사용 예시만 두고, 동작 검증은 테스트에 작성). 사이드바는 `docs/.vitepress/config.ts`에 KRDS 분류별로 추가
+- `__tests__/` 테스트: 예제별 렌더 + 동작 검증 + `expectNoA11yViolations()` 접근성 검사 (`src/test/utils.ts`)
 - JSDoc 주석
 - 접근성 고려사항
 - `export default /* @__PURE__ */ defineComponent({...})` 형태 (빠지면 트리셰이킹이 깨져 `pnpm bundle-size`가 실패)
@@ -114,7 +116,7 @@ feat(button): add loading state support
 Add loading prop and spinner icon to KrdsButton component
 - Show spinner when loading is true
 - Disable button interactions during loading
-- Update Storybook stories
+- Update docs examples
 
 Closes #123
 ```
@@ -126,7 +128,7 @@ Closes #123
 - [ ] 코드가 린트 규칙을 통과하는지 확인
 - [ ] 타입 체크 통과 확인
 - [ ] 빌드 성공 확인
-- [ ] 관련 Storybook 스토리 업데이트
+- [ ] 관련 문서 페이지·예제 업데이트
 - [ ] 문서 업데이트 (필요시)
 - [ ] 브레이킹 체인지 여부 명시
 

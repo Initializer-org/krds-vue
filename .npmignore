@@ -1,11 +1,9 @@
 # Source files
 src/
-stories/
 docs/
 public/
 
 # Development files
-.storybook/
 .vscode/
 .github/
 .husky/
@@ -26,7 +24,6 @@ package-lock.json
 
 # Build artifacts (keep only dist)
 dev-dist/
-storybook-static/
 coverage/
 temp/
 

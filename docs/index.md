@@ -1,5 +1,7 @@
 ---
 layout: home
+title: KRDS Vue
+titleTemplate: 대한민국 정부 디자인 시스템 Vue 3 컴포넌트 라이브러리
 
 hero:
   name: KRDS Vue

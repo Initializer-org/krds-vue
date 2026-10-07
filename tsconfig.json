@@ -30,7 +30,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts", ".storybook/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts", "src/test"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts", "src/test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

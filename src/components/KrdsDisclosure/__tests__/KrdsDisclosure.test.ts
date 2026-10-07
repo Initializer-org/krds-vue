@@ -5,7 +5,7 @@ import { expectNoA11yViolations, render, screen, userEvent } from '@/test/utils'
 describe('KrdsDisclosure', () => {
   it('기본: 펼치고 접기', async () => {
     render({
-      // Storybook args처럼 reactive로 두어야 v-model이 반영된다
+      // reactive로 두어야 v-model이 반영된다
       setup: () => ({ args: reactive({ title: '신청 서비스안내', modelValue: false }) }),
       template: `
         <KrdsDisclosure v-model="args.modelValue" :title="args.title">

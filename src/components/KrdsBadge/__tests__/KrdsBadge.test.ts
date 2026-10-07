@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { expectNoA11yViolations, render, screen, userEvent } from '@/test/utils'
 
-// 스토리 '기본 전체'와 '사이즈'의 마크업 (두 스토리가 동일)
+// 문서 예제 '기본 전체'의 마크업
 const allBadges = `
   <div style="display: flex; flex-direction: column; gap: 1rem;">
     <div style="display: flex; gap: 1rem; align-items: center;">

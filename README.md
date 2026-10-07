@@ -12,7 +12,7 @@ KRDS Vue는 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이�
 
 ## 링크
 
-- [Storybook 문서](https://krds.initializer.org/) - 컴포넌트 예제, Controls, API 문서
+- [문서 사이트](https://krds.initializer.org/) - 컴포넌트 예제, 코드, API(props·events·slots) 문서
 - [npm 패키지](https://www.npmjs.com/package/@krds.ui/vue)
 - [GitHub 저장소](https://github.com/Initializer-org/krds-vue)
 - [KRDS 공식 홈페이지](https://www.krds.go.kr/html/site/index.html)
@@ -174,7 +174,7 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 ## 컴포넌트 범위
 
-[KRDS 공식 컴포넌트 목록](https://www.krds.go.kr/html/site/component/component_summary.html) 55종 기준 대응 현황입니다. 각 컴포넌트의 props/events는 [Storybook 문서](https://krds.initializer.org/)에서 확인하세요.
+[KRDS 공식 컴포넌트 목록](https://www.krds.go.kr/html/site/component/component_summary.html) 55종 기준 대응 현황입니다. 각 컴포넌트의 예제와 props/events는 [문서 사이트](https://krds.initializer.org/)에서 확인하세요.
 
 | 분류             | 공식 컴포넌트 → 제공 컴포넌트                                                                                                                                                                                                                                                                                  |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -195,8 +195,8 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 
 아래 항목은 KRDS 원본 저장소가 구현(HTML/SCSS)을 제공하지 않아 포팅 대상이 아닙니다.
 
-- **플로팅 버튼(FAB), 이미지**: 이미지는 Storybook에 안내 문서만 제공합니다.
-- **모바일 계열**(범위슬라이드, 뒤로가기 버튼, 바텀시트, 수량 토글, 토스트, 스낵바, 탭바, 스플래시 스크린): 모바일 앱 전용 항목입니다. 탭바·스플래시 스크린은 Storybook에 안내 문서만 제공합니다.
+- **플로팅 버튼(FAB), 이미지**: 이미지는 문서 사이트에 안내 문서만 제공합니다.
+- **모바일 계열**(범위슬라이드, 뒤로가기 버튼, 바텀시트, 수량 토글, 토스트, 스낵바, 탭바, 스플래시 스크린): 모바일 앱 전용 항목입니다. 탭바·스플래시 스크린은 문서 사이트에 안내 문서만 제공합니다.
 - **파비콘, 접근 가능한 미디어**: 컴포넌트가 아닌 가이드 항목입니다.
 
 ### 원본 동기화 기준
@@ -251,12 +251,12 @@ git clone https://github.com/Initializer-org/krds-vue.git
 cd krds-vue
 
 pnpm install
-pnpm storybook       # Storybook 개발 서버 실행
+pnpm docs:dev       # 문서 사이트 개발 서버 실행
 pnpm test            # Vitest 실행 (Playwright 브라우저 모드)
 pnpm lint            # oxlint 검사 (--fix로 자동 수정)
 pnpm format          # oxfmt 포매팅
 pnpm build           # 타입 검사와 라이브러리 빌드
-pnpm build-storybook # 정적 Storybook 빌드
+pnpm docs:build     # 문서 사이트 빌드
 ```
 
 커밋 메시지는 Conventional Commits(`feat:`, `fix:`, `docs:` 등)를 따릅니다. 커밋 타입과 내용이 체인지로그와 버전 산정에 그대로 반영됩니다.
@@ -265,10 +265,11 @@ pnpm build-storybook # 정적 Storybook 빌드
 
 `npm pack --dry-run` 기준으로 패키지에는 다음 산출물이 포함됩니다.
 
-- `dist/krds-vue.es.js`
+- `dist/krds-vue.es.js` (+ 소스맵 `dist/krds-vue.es.js.map`)
 - `dist/style.css`
-- `dist/types/index.d.ts`
+- `dist/types/index.d.ts`, `global.d.ts` (전역 컴포넌트 타입)
 - `dist/img/component/icon/*.svg`
+- `dist/fonts/*.woff2` (Pretendard GOV)
 
 ## 라이선스
 

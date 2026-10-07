@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent, waitFor, within } from '@/test/utils'
 import type { FileInfo } from '../KrdsFileUpload'
 
-// KRDS 원본 HTML과 동일한 샘플 데이터 (스토리와 동일)
+// KRDS 원본 HTML과 동일한 샘플 데이터
 const sampleFiles: FileInfo[] = [
   {
     id: '1',

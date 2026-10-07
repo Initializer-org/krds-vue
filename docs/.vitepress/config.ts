@@ -5,6 +5,22 @@ import { defineConfig, postcssIsolateStyles } from 'vitepress'
 const root = resolve(import.meta.dirname, '../..')
 const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }
 
+const siteUrl = 'https://krds.initializer.org'
+const siteDescription =
+  'KRDS 디자인 시스템을 Vue 3와 TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리 문서입니다. 공공 웹서비스를 위한 폼, 내비게이션, 레이아웃, 피드백 UI 예제와 API를 제공합니다.'
+
+/** 페이지 URL (cleanUrls 기준) */
+const pageUrl = (relativePath: string) => `${siteUrl}/${relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')}`
+
+/** 마크다운 문단을 메타 설명용 평문으로 */
+const toPlainText = (markdown: string) =>
+  markdown
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+
 const componentGroup = (text: string, pages: [name: string, slug: string][]) => ({
   text,
   collapsed: false,
@@ -14,10 +30,46 @@ const componentGroup = (text: string, pages: [name: string, slug: string][]) => 
 export default defineConfig({
   lang: 'ko-KR',
   title: 'KRDS Vue',
-  description: 'KRDS(대한민국 정부 디자인 시스템) Vue 3 컴포넌트 라이브러리',
+  description: siteDescription,
   cleanUrls: true,
+  sitemap: {
+    hostname: siteUrl,
+    // iframe 예제 페이지는 검색 대상에서 제외
+    transformItems: items => items.filter(item => !item.url.startsWith('frame/'))
+  },
   head: [
-    // VitePress 다크 모드를 KRDS 고대비 모드로 연결 (Storybook의 Dark 토글과 동일)
+    ['link', { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg' }],
+    ['link', { rel: 'manifest', href: '/site.webmanifest' }],
+    ['meta', { name: 'theme-color', content: '#256ef4' }],
+    ['meta', { name: 'author', content: 'Initializer Team' }],
+    [
+      'meta',
+      { name: 'keywords', content: 'KRDS, KRDS Vue, Vue 3, Vue 컴포넌트, TypeScript, 디자인 시스템, 정부 디자인 시스템, 공공 웹서비스' }
+    ],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'KRDS Vue' }],
+    ['meta', { property: 'og:locale', content: 'ko_KR' }],
+    ['meta', { property: 'og:image', content: `${siteUrl}/og-image.png` }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
+    [
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: 'KRDS Vue',
+        description: siteDescription,
+        url: siteUrl,
+        codeRepository: 'https://github.com/Initializer-org/krds-vue',
+        programmingLanguage: ['TypeScript', 'Vue'],
+        runtimePlatform: 'Vue 3',
+        license: 'https://opensource.org/licenses/MIT'
+      })
+    ],
+    // VitePress 다크 모드를 KRDS 고대비 모드로 연결
     [
       'script',
       {},
@@ -29,7 +81,33 @@ export default defineConfig({
       })()`
     ]
   ],
+  // 페이지별 설명: frontmatter description이 없으면 제목 다음 첫 문단(컴포넌트 설명)을 쓴다
+  transformPageData(pageData, { siteConfig }) {
+    if (pageData.frontmatter.description || pageData.relativePath.startsWith('frame/')) return
+    const source = readFileSync(resolve(siteConfig.srcDir, pageData.relativePath), 'utf-8')
+    const title = /^# /m.exec(source)
+    if (!title) return
+    const paragraph = source
+      .slice(title.index)
+      .split(/\n{2,}/)
+      .slice(1)
+      .find(block => !/^\s*(<|#|\||```|:::|- )/.test(block))
+    if (paragraph) pageData.description = toPlainText(paragraph)
+  },
+  transformHead({ pageData, title, description }) {
+    if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
+    const url = pageUrl(pageData.relativePath)
+    return [
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }]
+    ]
+  },
   themeConfig: {
+    logo: { src: '/favicon.svg', alt: '' },
     nav: [
       { text: '시작하기', link: '/guide/getting-started' },
       { text: '컴포넌트', link: '/components/masthead' },
@@ -139,12 +217,12 @@ export default defineConfig({
     footer: { message: 'MIT License', copyright: 'Initializer Team' }
   },
   vite: {
-    // KRDS 이미지·폰트(public/img, public/fonts)를 사이트 루트에서 제공
-    publicDir: resolve(root, 'public'),
     resolve: {
       alias: [
         // 예제 코드를 그대로 복사해 쓸 수 있도록 패키지 이름으로 import하고, 빌드는 소스를 사용
         { find: /^@krds\.ui\/vue$/, replacement: resolve(root, 'src/index.ts') },
+        // KRDS CSS의 이미지·폰트(저장소 public/img, public/fonts)를 Vite 자산으로 번들 (저장소 public/은 라이브러리 dist로 복사되므로 문서 전용 파일은 docs/public에 둔다)
+        { find: '@krds-assets', replacement: resolve(root, 'public') },
         { find: '@', replacement: resolve(root, 'src') }
       ]
     },
@@ -171,8 +249,8 @@ export default defineConfig({
         scss: {
           quietDeps: true,
           silenceDeprecations: ['import'],
-          // KRDS CSS의 자산 경로는 배포 CSS 기준 상대 경로($url: '.')이므로 문서 사이트에서는 루트 기준으로 바꾼다
-          additionalData: `@use '${resolve(root, 'src/styles/common/path')}' with ($url: '');`
+          // KRDS CSS의 자산 경로는 배포 CSS 기준 상대 경로($url: '.')이므로 문서 사이트에서는 별칭으로 바꾼다
+          additionalData: `@use '${resolve(root, 'src/styles/common/path')}' with ($url: '@krds-assets');`
         }
       }
     }
