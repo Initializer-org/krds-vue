@@ -20,6 +20,9 @@ importers:
       '@size-limit/file':
         specifier: ^14.0.0
         version: 14.1.0(size-limit@14.1.0)
+      '@size-limit/rolldown':
+        specifier: ^14.1.0
+        version: 14.1.0(size-limit@14.1.0)
       '@storybook/addon-a11y':
         specifier: ^10.6.1
         version: 10.6.1(storybook@10.6.1(@types/react@19.1.12)(prettier@3.9.9)(react@19.2.8))
@@ -1253,6 +1256,12 @@ packages:
 
   '@size-limit/file@14.1.0':
     resolution: {integrity: sha512-mR0uVxzdzV31pk8Iz795dDXxhHsrv9RSsyjeCVboUr1Q2+2KL/GpjeMZ44ydFqI2JfXZ22dOsbY28yPeOse1Nw==}
+    engines: {node: ^22.19.0 || ^24.5.0 || >=26.0.0}
+    peerDependencies:
+      size-limit: 14.1.0
+
+  '@size-limit/rolldown@14.1.0':
+    resolution: {integrity: sha512-N6V0JICm5WryHrHRN7LB5mBdnJMKhfUvyH/myOtj6BIzzJOpTWNbuPfCXC1VPBb3Kdwyl5aiL3k7Owc3m7xz7g==}
     engines: {node: ^22.19.0 || ^24.5.0 || >=26.0.0}
     peerDependencies:
       size-limit: 14.1.0
@@ -3725,6 +3734,11 @@ snapshots:
 
   '@size-limit/file@14.1.0(size-limit@14.1.0)':
     dependencies:
+      size-limit: 14.1.0
+
+  '@size-limit/rolldown@14.1.0(size-limit@14.1.0)':
+    dependencies:
+      rolldown: 1.2.12
       size-limit: 14.1.0
 
   '@standard-schema/spec@1.1.0': {}

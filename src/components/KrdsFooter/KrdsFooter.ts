@@ -9,7 +9,7 @@ export interface KrdsFooterProps extends BaseComponentProps {
   id?: string
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFooter',
   props: {
     /** Footer ID */

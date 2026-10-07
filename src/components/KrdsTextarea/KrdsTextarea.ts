@@ -42,7 +42,7 @@ export interface KrdsTextareaEmits {
   (e: 'keyup', event: KeyboardEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTextarea',
   props: {
     /** 입력값 */

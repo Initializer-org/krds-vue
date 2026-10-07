@@ -80,7 +80,7 @@ export interface KrdsFileUploadEmits {
 
 let uid = 0
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFileUpload',
   props: {
     /** 파일 목록 */

@@ -15,7 +15,7 @@ export interface KrdsHeaderProps {
   class?: string
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsHeader',
   props: {
     /** 헤더 ID */

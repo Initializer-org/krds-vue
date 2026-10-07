@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsSpinner',
   props: {
     /** 로딩 안내 텍스트 */

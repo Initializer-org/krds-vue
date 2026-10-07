@@ -24,7 +24,7 @@ export interface KrdsModalProps {
   persistent?: boolean
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsModal',
   props: {
     /** 모달 표시 여부 (v-model) */

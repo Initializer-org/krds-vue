@@ -33,7 +33,7 @@ export interface KrdsLinkEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsLink',
   props: {
     /** 링크 URL */

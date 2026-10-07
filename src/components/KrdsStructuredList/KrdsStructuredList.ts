@@ -9,7 +9,7 @@ export interface KrdsStructuredListProps extends BaseComponentProps {
   full?: boolean
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsStructuredList',
   props: {
     /** 전체 타입 여부 */

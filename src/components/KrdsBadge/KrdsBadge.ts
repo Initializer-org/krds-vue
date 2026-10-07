@@ -24,7 +24,7 @@ export interface KrdsBadgeEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsBadge',
   props: {
     /** 배지 타입 */

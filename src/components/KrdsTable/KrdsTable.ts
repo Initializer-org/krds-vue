@@ -49,7 +49,7 @@ export interface KrdsTableEmits {
   (e: 'row-click', row: TableRow, index: number): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTable',
   props: {
     /** 테이블 캡션 */

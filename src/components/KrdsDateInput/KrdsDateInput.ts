@@ -75,7 +75,7 @@ export interface KrdsDateInputEmits {
 /** 요일 헤더 */
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsDateInput',
   props: {
     /** 선택된 날짜 값 */

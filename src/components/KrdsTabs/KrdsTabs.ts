@@ -43,7 +43,7 @@ export interface KrdsTabsEmits {
   (e: 'change', id: string): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsTabs',
   props: {
     /** 탭 아이템 목록 */

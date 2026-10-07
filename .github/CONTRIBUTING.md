@@ -81,6 +81,7 @@ src/components/KrdsNewComponent/
 - Storybook 스토리
 - JSDoc 주석
 - 접근성 고려사항
+- `export default /* @__PURE__ */ defineComponent({...})` 형태 (빠지면 트리셰이킹이 깨져 `pnpm bundle-size`가 실패)
 
 ### 커밋 메시지 규칙
 

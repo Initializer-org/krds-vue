@@ -15,7 +15,7 @@ export interface KrdsContextualHelpProps {
   position?: ContextualHelpPosition
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsContextualHelp',
   props: {
     /** 툴팁 제목 */

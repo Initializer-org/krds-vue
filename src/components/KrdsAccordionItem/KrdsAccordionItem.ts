@@ -21,7 +21,7 @@ export interface KrdsAccordionItemEmits {
   (e: 'toggle', id: string): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsAccordionItem',
   props: {
     /** 아이템 고유 식별자 */

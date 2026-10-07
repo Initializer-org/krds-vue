@@ -30,7 +30,7 @@ export interface KrdsButtonEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsButton',
   props: {
     /** 버튼 타입 */

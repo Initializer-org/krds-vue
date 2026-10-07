@@ -26,7 +26,7 @@ export interface KrdsCoachMarkEmits {
   (e: 'close'): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCoachMark',
   props: {
     /** 코치마크 래퍼에 추가할 클래스 */

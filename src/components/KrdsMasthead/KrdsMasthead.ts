@@ -14,7 +14,7 @@ export interface KrdsMastheadEmits {
   (e: 'click', event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsMasthead',
   props: {
     /** CSS 클래스 */

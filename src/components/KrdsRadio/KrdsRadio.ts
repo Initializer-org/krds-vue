@@ -25,7 +25,7 @@ export interface KrdsRadioEmits {
   (e: 'update:modelValue', value: string | number | boolean): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsRadio',
   props: {
     /** 모델 값 */

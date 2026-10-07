@@ -34,7 +34,7 @@ export interface KrdsBreadcrumbEmits {
   (e: 'item-click', item: BreadcrumbItem, event: MouseEvent): void
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsBreadcrumb',
   props: {
     /** 브레드크럼 아이템 배열 */

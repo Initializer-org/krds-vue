@@ -114,7 +114,7 @@ const flattenSlides = (nodes?: VNode[]): VNode[] => {
   })
 }
 
-export default defineComponent({
+export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCarousel',
   props: {
     /** 캐러셀 형태 (기본값: visual) */
