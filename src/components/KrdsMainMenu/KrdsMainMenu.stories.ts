@@ -187,6 +187,9 @@ const mobileItems: MainMenuItem[] = [
   }
 ]
 
+/** aria-controls로 연결된 요소 */
+const controlledBy = (el: Element) => document.getElementById(el.getAttribute('aria-controls') ?? '')
+
 export const Default: Story = {
   name: 'PC 메가 메뉴',
   args: {
@@ -207,44 +210,100 @@ export const Default: Story = {
       </KrdsMainMenu>
     `
   }),
-  play: async ({ canvasElement, canvas, userEvent }) => {
+  play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole('button', { name: '정보서비스' })
+    const policyTrigger = canvas.getByRole('button', { name: '정책정보' })
+    const noticeTrigger = canvas.getByRole('button', { name: '알림소식' })
+    const aboutLink = canvas.getByRole('link', { name: '기관소개' })
+    const panel = controlledBy(trigger)
 
-    // 초기 상태는 닫힘
+    // 초기 상태는 닫힘, 하위 메뉴 없는 1depth는 단순 링크
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(trigger).toHaveAttribute('aria-haspopup', 'true')
+    await expect(panel).not.toBeVisible()
+    await expect(aboutLink).not.toHaveAttribute('aria-expanded')
+    await expect(aboutLink).not.toHaveAttribute('aria-controls')
 
-    // 메인 트리거 클릭 → 메가 패널 열림
+    // 메인 트리거 클릭 → 메가 패널 열림 + backdrop
     await userEvent.click(trigger)
-    await waitFor(() => {
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
-    })
-    await expect(trigger).toHaveClass(/active/)
-
-    const panelId = trigger.getAttribute('aria-controls') as string
-    const panel = canvasElement.querySelector(`#${panelId}`) as HTMLElement
-    await expect(panel).toHaveClass(/is-open/)
-
-    // 첫 번째 2depth가 기본 활성화되어 서브 패널이 노출됨
-    const subTriggers = canvasElement.querySelectorAll(`#${panelId} .gnb-sub-trigger:not(.is-link)`)
-    await expect(subTriggers[0]).toHaveAttribute('aria-expanded', 'true')
-    await expect(subTriggers[0].nextElementSibling).toHaveClass(/active/)
-
-    // 다른 2depth 선택 → 활성 서브 패널 전환
-    await userEvent.click(subTriggers[1] as HTMLElement)
-    await waitFor(() => {
-      expect(subTriggers[1]).toHaveAttribute('aria-expanded', 'true')
-      expect(subTriggers[0]).toHaveAttribute('aria-expanded', 'false')
-    })
-
-    // backdrop 노출 확인
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(trigger).toHaveClass('active')
+    await expect(panel).toBeVisible()
+    await expect(document.body).toHaveClass('is-gnb-web')
     await expect(document.querySelector('.gnb-backdrop')).toBeInTheDocument()
 
-    // ESC로 닫기
+    // 링크가 아닌 첫 번째 2depth가 기본 활성화되어 서브 패널이 노출됨
+    const applyTrigger = canvas.getByRole('button', { name: '민원신청' })
+    const supportTrigger = canvas.getByRole('button', { name: '생활지원' })
+    const jobTrigger = canvas.getByRole('button', { name: '고용정보' })
+    await expect(applyTrigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(controlledBy(applyTrigger)).toBeVisible()
+    await expect(supportTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(controlledBy(supportTrigger)).not.toBeVisible()
+
+    // 하위 항목 없는 2depth는 바로가기 링크
+    const searchLink = canvas.getByRole('link', { name: '통합검색 바로가기' })
+    await expect(searchLink).not.toHaveAttribute('aria-expanded')
+    await expect(canvas.getByRole('link', { name: '외부 서비스' })).toHaveAttribute('title', '새 창 열림')
+
+    // 다른 2depth 선택 → 활성 서브 패널 전환
+    await userEvent.click(supportTrigger)
+    await expect(supportTrigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(applyTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(controlledBy(supportTrigger)).toBeVisible()
+    await expect(controlledBy(applyTrigger)).not.toBeVisible()
+
+    // 2depth 사이 방향키 이동 (포커스만 이동, 활성 상태 유지)
+    await userEvent.keyboard('{ArrowDown}')
+    await expect(jobTrigger).toHaveFocus()
+    await userEvent.keyboard('{ArrowRight}')
+    await expect(searchLink).toHaveFocus()
+    await userEvent.keyboard('{ArrowUp}')
+    await expect(jobTrigger).toHaveFocus()
+    await userEvent.keyboard('{ArrowLeft}')
+    await expect(supportTrigger).toHaveFocus()
+    await expect(jobTrigger).toHaveAttribute('aria-expanded', 'false')
+
+    // ESC로 닫으면 1depth 트리거로 포커스 복귀
     await userEvent.keyboard('{Escape}')
-    await waitFor(() => {
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
-    })
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(trigger).toHaveFocus()
+    await expect(panel).not.toBeVisible()
+    await expect(document.body).not.toHaveClass('is-gnb-web')
     await expect(document.querySelector('.gnb-backdrop')).not.toBeInTheDocument()
+
+    // 1depth 방향키·Home·End 이동
+    await userEvent.keyboard('{ArrowRight}')
+    await expect(policyTrigger).toHaveFocus()
+    await userEvent.keyboard('{ArrowDown}')
+    await expect(noticeTrigger).toHaveFocus()
+    await userEvent.keyboard('{ArrowLeft}')
+    await expect(policyTrigger).toHaveFocus()
+    await userEvent.keyboard('{ArrowUp}')
+    await expect(trigger).toHaveFocus()
+    await userEvent.keyboard('{End}')
+    await expect(aboutLink).toHaveFocus()
+    await userEvent.keyboard('{Home}')
+    await expect(trigger).toHaveFocus()
+
+    // Enter로 열고 다시 Enter로 닫기
+    await userEvent.keyboard('{Enter}')
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    await userEvent.keyboard('{Enter}')
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    // 열린 상태에서 다른 1depth 클릭 → 패널 전환
+    await userEvent.click(trigger)
+    await userEvent.click(policyTrigger)
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(panel).not.toBeVisible()
+    await expect(policyTrigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(controlledBy(policyTrigger)).toBeVisible()
+
+    // backdrop(메뉴 바깥) 클릭 시 닫힘
+    await userEvent.click(document.querySelector('.gnb-backdrop') as HTMLElement)
+    await expect(policyTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(document.body).not.toHaveClass('is-gnb-web')
   }
 }
 
@@ -260,6 +319,45 @@ export const SingleList: Story = {
         story: '2depth 목록 없이 마지막 뎁스 링크만 나열하는 경우 `single-list` 레이아웃으로 렌더링된다. `items`만 지정하면 된다.'
       }
     }
+  },
+  render: args => ({
+    components: { KrdsMainMenu },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div>
+        <KrdsMainMenu v-bind="args" />
+        <a href="#" class="krds-btn small text">본문 링크</a>
+      </div>
+    `
+  }),
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole('button', { name: '알림소식' })
+    const panel = controlledBy(trigger)
+
+    // single-list 패널도 aria-controls로 연결되어 토글
+    await userEvent.click(trigger)
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(panel).toBeVisible()
+
+    // Tab으로 패널 내부를 이동하는 동안은 열림 유지
+    await userEvent.keyboard('{Tab}')
+    await expect(canvas.getByRole('link', { name: '공지사항' })).toHaveFocus()
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    // 메뉴 안의 다른 1depth로 이동해도 열림 유지
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    await expect(trigger).toHaveFocus()
+    await userEvent.keyboard('{End}')
+    await expect(canvas.getByRole('link', { name: '기관소개' })).toHaveFocus()
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    // Tab으로 메뉴를 벗어나면 닫힘
+    await userEvent.keyboard('{Tab}')
+    await expect(canvas.getByRole('link', { name: '본문 링크' })).toHaveFocus()
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(panel).not.toBeVisible()
   }
 }
 
@@ -270,6 +368,8 @@ export const Mobile: Story = {
     variant: 'mobile',
     open: false
   },
+  // 1024px 이상에서는 모바일 드로어가 숨겨지므로 모바일 뷰포트로 고정
+  globals: { viewport: { value: 'mobile2' } },
   parameters: {
     docs: {
       description: {
@@ -310,42 +410,99 @@ export const Mobile: Story = {
   }),
   play: async ({ canvas, canvasElement, userEvent }) => {
     const openButton = canvas.getByRole('button', { name: '전체메뉴 열기' })
-    await userEvent.click(openButton)
-
     const drawer = canvasElement.querySelector('#mobile-nav') as HTMLElement
-    await waitFor(() => {
-      expect(drawer).toHaveClass(/is-open/)
-    })
+    const closeButton = drawer.querySelector('#close-nav') as HTMLElement
+
+    // 초기 상태는 숨김
+    await expect(drawer).not.toBeVisible()
+
+    await userEvent.click(openButton)
+    await waitFor(() => expect(drawer).toBeVisible())
+    await expect(drawer).toHaveClass('is-open')
+    await expect(document.body).toHaveClass('is-gnb-mobile')
     await expect(openButton).toHaveAttribute('aria-expanded', 'true')
 
-    // 3depth 토글
-    const depth3Trigger = canvasElement.querySelector('.gnb-sub-trigger.has-depth3') as HTMLElement
+    // 포커스 트랩: 처음과 끝에서 순환
+    const loginButton = canvas.getByRole('button', { name: '로그인을 해주세요' })
+    await userEvent.click(loginButton)
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    await expect(closeButton).toHaveFocus()
+    await userEvent.keyboard('{Tab}')
+    await expect(loginButton).toHaveFocus()
+
+    // 1depth 탭과 패널의 ARIA 연결
+    const tabs = canvas.getAllByRole('tab')
+    await expect(tabs[0]).toHaveAttribute('aria-selected', 'true')
+    await expect(tabs[1]).toHaveAttribute('aria-selected', 'false')
+    await expect(controlledBy(tabs[0])).toHaveAttribute('role', 'tabpanel')
+    await expect(controlledBy(tabs[0])).toHaveAttribute('aria-labelledby', tabs[0].id)
+
+    // 3depth: Enter로 펼침
+    const depth3Trigger = canvas.getByRole('link', { name: '고용정보' })
+    const depth3Wrap = depth3Trigger.nextElementSibling as HTMLElement
     await expect(depth3Trigger).toHaveAttribute('aria-expanded', 'false')
-    await userEvent.click(depth3Trigger)
-    await waitFor(() => {
-      expect(depth3Trigger).toHaveAttribute('aria-expanded', 'true')
-      expect(depth3Trigger.nextElementSibling).toHaveClass(/is-open/)
-    })
+    await expect(depth3Wrap).not.toBeVisible()
+    depth3Trigger.focus()
+    await userEvent.keyboard('{Enter}')
+    await expect(depth3Trigger).toHaveAttribute('aria-expanded', 'true')
+    await waitFor(() => expect(depth3Wrap).toBeVisible())
 
-    // 4depth 패널 열기
-    const depth4Trigger = canvasElement.querySelector('.depth3-trigger.has-depth4') as HTMLElement
+    // 4depth: 열면 이전화면 버튼으로 포커스 이동
+    const depth4Trigger = canvas.getByRole('link', { name: '직업 훈련' })
+    const depth4Wrap = depth4Trigger.nextElementSibling as HTMLElement
+    const prevButton = depth4Wrap.querySelector('.trigger-prev') as HTMLElement
+    await expect(depth4Trigger).toHaveAttribute('aria-expanded', 'false')
     await userEvent.click(depth4Trigger)
-    await waitFor(() => {
-      expect(depth4Trigger.nextElementSibling).toHaveClass(/is-open/)
-    })
+    await waitFor(() => expect(prevButton).toHaveFocus())
+    await expect(depth4Wrap).toHaveClass('is-open')
+    await expect(depth4Trigger).toHaveAttribute('aria-expanded', 'true')
 
-    // 이전화면 버튼으로 4depth 닫기
-    const prevButton = canvasElement.querySelector('.depth4-wrap .trigger-prev') as HTMLElement
+    // 4depth 패널 안에서 포커스 트랩
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    await expect(canvas.getByRole('link', { name: '온라인 과정' })).toHaveFocus()
+    await userEvent.keyboard('{Tab}')
+    await expect(prevButton).toHaveFocus()
+
+    // ESC는 4depth만 닫고 트리거로 포커스 복귀
+    await userEvent.keyboard('{Escape}')
+    await expect(depth4Wrap).not.toHaveClass('is-open')
+    await expect(depth4Trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(depth4Trigger).toHaveFocus()
+    await expect(drawer).toHaveClass('is-open')
+
+    // Enter로 다시 열고 이전화면 버튼으로 닫기
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => expect(prevButton).toHaveFocus())
     await userEvent.click(prevButton)
+    await expect(depth4Wrap).not.toHaveClass('is-open')
+    await expect(depth4Trigger).toHaveFocus()
+
+    // 3depth 다시 클릭 시 접힘
+    await userEvent.click(depth3Trigger)
+    await expect(depth3Trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(depth3Wrap).not.toHaveClass('is-open')
+
+    // 탭 클릭 시 해당 탭 선택
+    await userEvent.click(tabs[3])
     await waitFor(() => {
-      expect(depth4Trigger.nextElementSibling).not.toHaveClass(/is-open/)
+      expect(tabs[3]).toHaveAttribute('aria-selected', 'true')
+      expect(tabs[0]).toHaveAttribute('aria-selected', 'false')
     })
 
-    // 닫기 버튼으로 드로어 닫기
-    const closeButton = canvasElement.querySelector('#close-nav') as HTMLElement
-    await userEvent.click(closeButton)
+    // ESC로 드로어 닫기
+    await userEvent.keyboard('{Escape}')
+    await expect(drawer).not.toHaveClass('is-open')
+    await expect(openButton).toHaveAttribute('aria-expanded', 'false')
     await waitFor(() => {
-      expect(drawer).not.toHaveClass(/is-open/)
+      expect(drawer).not.toBeVisible()
+      expect(document.body).not.toHaveClass('is-gnb-mobile')
     })
+
+    // 다시 열고 닫기 버튼으로 닫기
+    await userEvent.click(openButton)
+    await waitFor(() => expect(drawer).toBeVisible())
+    await userEvent.click(closeButton)
+    await expect(drawer).not.toHaveClass('is-open')
+    await expect(openButton).toHaveAttribute('aria-expanded', 'false')
   }
 }

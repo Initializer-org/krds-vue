@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
+import { expect, waitFor, within } from 'storybook/test'
 import KrdsSideNavigation from './KrdsSideNavigation'
 import type { SideNavItem } from './KrdsSideNavigation'
 import { ref } from 'vue'
@@ -104,37 +104,58 @@ export const Default: Story = {
     },
     template: '<KrdsSideNavigation :title="title" v-model="menuData" />'
   }),
-  play: async ({ canvasElement, canvas, userEvent }) => {
-    // Get 2Depth toggle buttons
-    const toggleButtons = canvas.getAllByRole('menuitem', { name: '2Depth-menu' })
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const controlled = (el: HTMLElement) => canvasElement.querySelector<HTMLElement>(`#${CSS.escape(el.getAttribute('aria-controls')!)}`)!
+    const toggles = canvas.getAllByRole('menuitem', { name: '2Depth-menu' })
 
-    // First menu is already expanded
-    await expect(toggleButtons[0]).toHaveAttribute('aria-expanded', 'true')
+    // 2Depth 토글: aria-expanded + aria-controls로 하위 메뉴(role=menu) 연결
+    await expect(canvas.getByRole('menubar')).toBeInTheDocument()
+    await expect(toggles[0]).toHaveAttribute('aria-expanded', 'true')
+    await expect(toggles[0].closest('li')).toHaveClass('active')
+    await expect(toggles[1]).toHaveAttribute('aria-expanded', 'false')
+    await expect(controlled(toggles[0])).toHaveAttribute('role', 'menu')
 
-    // Open 3Depth popup in the first menu
-    const popupBtn = canvasElement.querySelector('.lnb-toggle-popup') as HTMLElement
+    // 3Depth 팝업 버튼: aria-haspopup, 닫힌 상태로 시작
+    const popupBtn = canvas.getByRole('menuitem', { name: '3Depth-menu' })
+    const popup = controlled(popupBtn)
+    await expect(popupBtn).toHaveAttribute('aria-haspopup', 'true')
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
+    await expect(popup).toHaveAttribute('role', 'menu')
+    await expect(popup).not.toHaveClass('active')
+
+    // 클릭으로 열면 전환이 끝난 뒤 팝업 제목으로 초점 이동
     await userEvent.click(popupBtn)
-    await waitFor(() => {
-      expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
-    })
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
+    await expect(popup).toHaveClass('active')
+    const popupTitle = await within(popup).findByRole('button', { name: '3Depth-title' })
+    await waitFor(() => expect(popupTitle).toHaveFocus())
+    await expect(within(popup).getAllByRole('menuitem', { name: '4Depth' })).toHaveLength(3)
 
-    // Close popup via title button
-    const popupTitle = canvasElement.querySelector('.lnb-btn-tit') as HTMLElement
-    await userEvent.click(popupTitle)
-    await waitFor(() => {
-      expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
-    })
+    // 제목 버튼(Enter)으로 닫으면 초점이 팝업 버튼으로 복귀
+    await userEvent.keyboard('{Enter}')
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
+    await waitFor(() => expect(popupBtn).toHaveFocus())
 
-    // Collapse first menu
-    await userEvent.click(toggleButtons[0])
-    await waitFor(() => {
-      expect(toggleButtons[0]).toHaveAttribute('aria-expanded', 'false')
-    })
+    // Enter로 다시 열고, Tab으로 팝업을 벗어나면 닫힘
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => expect(popupTitle).toHaveFocus())
+    await userEvent.keyboard('{Tab}{Tab}{Tab}{Tab}')
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
 
-    // Expand second menu
-    await userEvent.click(toggleButtons[1])
-    await waitFor(() => {
-      expect(toggleButtons[1]).toHaveAttribute('aria-expanded', 'true')
-    })
+    // 팝업이 열린 채로 2Depth를 접으면 하위 팝업도 닫힘
+    await userEvent.click(popupBtn)
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
+    await userEvent.click(toggles[0])
+    await expect(toggles[0]).toHaveAttribute('aria-expanded', 'false')
+    await expect(toggles[0].closest('li')).not.toHaveClass('active')
+    await userEvent.click(toggles[0])
+    await expect(toggles[0]).toHaveAttribute('aria-expanded', 'true')
+    await expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
+
+    // 2Depth 토글은 키보드(Space)로도 펼침
+    toggles[1].focus()
+    await userEvent.keyboard('[Space]')
+    await expect(toggles[1]).toHaveAttribute('aria-expanded', 'true')
+    await expect(toggles[1].closest('li')).toHaveClass('active')
   }
 }
