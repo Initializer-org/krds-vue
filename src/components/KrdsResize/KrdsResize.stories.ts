@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsResize from './KrdsResize'
 
 const meta: Meta<typeof KrdsResize> = {
@@ -29,44 +28,5 @@ export const Default: Story = {
         <KrdsResize />
       </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    const toggleBtn = canvasElement.querySelector('.drop-btn') as HTMLElement
-
-    // Open dropdown
-    await userEvent.click(toggleBtn)
-
-    // Wait for dropdown to open
-    await waitFor(() => {
-      const menu = canvasElement.querySelector('.drop-menu') as HTMLElement
-      expect(menu.style.display).toBe('block')
-    })
-
-    // Select a size option
-    const largeBtn = canvasElement.querySelector('[data-adjust-scale="xlg"]') as HTMLElement
-    await userEvent.click(largeBtn)
-
-    // Reopen dropdown and reset
-    await userEvent.click(toggleBtn)
-    await waitFor(() => {
-      const menu = canvasElement.querySelector('.drop-menu') as HTMLElement
-      expect(menu.style.display).toBe('block')
-    })
-    const resetBtn = canvasElement.querySelector('[data-adjust-scale="md"].krds-btn') as HTMLElement
-    await userEvent.click(resetBtn)
-
-    // Reopen and close with Escape
-    await userEvent.click(toggleBtn)
-    await waitFor(() => {
-      const menu = canvasElement.querySelector('.drop-menu') as HTMLElement
-      expect(menu.style.display).toBe('block')
-    })
-    await userEvent.keyboard('{Escape}')
-
-    // Verify dropdown closed
-    await waitFor(() => {
-      const menu = canvasElement.querySelector('.drop-menu') as HTMLElement
-      expect(menu.style.display).toBe('none')
-    })
-  }
+  })
 }

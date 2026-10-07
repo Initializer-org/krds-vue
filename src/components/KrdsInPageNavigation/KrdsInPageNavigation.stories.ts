@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsInPageNavigation from './KrdsInPageNavigation'
 import type { NavigationItem } from './KrdsInPageNavigation'
 
@@ -201,32 +200,4 @@ export const Default: Story = {
         </div>
     `
   })
-}
-
-// 회귀 테스트 전용 (Storybook 화면·문서에는 노출하지 않음): 페이지 전체를 스크롤하므로 기본 스토리와 분리한다
-export const ScrollSync: Story = {
-  ...Default,
-  name: '스크롤 연동',
-  tags: ['!dev', '!autodocs'],
-  play: async ({ canvas, userEvent }) => {
-    const link = (name: string) => canvas.getByRole('link', { name })
-
-    // 페이지 맨 위에서는 첫 항목이 활성
-    await waitFor(() => expect(link('서비스 개요')).toHaveClass('active'))
-
-    // 항목 클릭 → 해당 섹션으로 스크롤되고 그 항목이 활성
-    await userEvent.click(link('제출 서류'))
-    await waitFor(() => expect(Math.abs(document.getElementById('section_04')!.getBoundingClientRect().top)).toBeLessThan(2), {
-      timeout: 3000
-    })
-    await waitFor(() => expect(link('제출 서류')).toHaveClass('active'))
-
-    // 페이지 끝까지 스크롤 → 마지막 항목 활성
-    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })
-    await waitFor(() => expect(link('정보 변경 내역')).toHaveClass('active'))
-
-    // 맨 위로 돌아가면 다시 첫 항목 활성
-    window.scrollTo({ top: 0, behavior: 'instant' })
-    await waitFor(() => expect(link('서비스 개요')).toHaveClass('active'))
-  }
 }

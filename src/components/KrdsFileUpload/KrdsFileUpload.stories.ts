@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor, within } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsFileUpload from './KrdsFileUpload'
 import type { FileInfo } from './KrdsFileUpload'
@@ -120,15 +119,6 @@ const sampleFiles: FileInfo[] = [
   }
 ]
 
-// 드래그 앤 드롭 재현: dragover가 취소되어 드롭이 허용됐는지 반환
-const dropFiles = (target: Element, files: File[]) => {
-  const dataTransfer = new DataTransfer()
-  files.forEach(file => dataTransfer.items.add(file))
-  const dropAllowed = !target.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }))
-  target.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }))
-  return dropAllowed
-}
-
 // 1. 기본
 export const Default: Story = {
   name: '기본',
@@ -145,26 +135,6 @@ export const Default: Story = {
   args: {
     title: '타이틀영역',
     description: '컨텐츠 영역'
-  },
-  play: async ({ canvas, canvasElement }) => {
-    const uploadArea = canvasElement.querySelector('.file-upload')!
-
-    // 드래그 중에는 업로드 영역 강조(active), 벗어나면 해제
-    uploadArea.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true }))
-    await waitFor(() => expect(uploadArea).toHaveClass('active'))
-    uploadArea.dispatchEvent(new DragEvent('dragleave', { bubbles: true }))
-    await waitFor(() => expect(uploadArea).not.toHaveClass('active'))
-
-    // 드래그 앤 드롭: dragover를 취소해 드롭을 허용하고, 드롭한 파일을 모두 추가(드롭 후 강조 해제)
-    const dropAllowed = dropFiles(uploadArea, [
-      new File(['a'], 'a.pdf', { type: 'application/pdf' }),
-      new File(['bb'], 'b.hwp', { type: 'application/x-hwp' })
-    ])
-    await expect(dropAllowed).toBe(true)
-    await expect(await canvas.findByText('a [pdf, 1B]')).toBeInTheDocument()
-    await expect(canvas.getByText('b [hwp, 2B]')).toBeInTheDocument()
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('2개 / 10개')
-    await expect(uploadArea).not.toHaveClass('active')
   }
 }
 
@@ -184,35 +154,6 @@ export const WithFiles: Story = {
   args: {
     title: '타이틀영역',
     description: '컨텐츠 영역'
-  },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    // 상태별 표시: 업로드 중(status), 업로드 완료, 오류 안내
-    await expect(canvas.getByRole('status')).toHaveTextContent('업로드 중')
-    await expect(canvas.getByText('업로드 완료')).toBeInTheDocument()
-    await expect(canvasElement.querySelector('li.is-error .file-hint-invalid')).toHaveTextContent('등록 가능한 파일 용량을 초과하였습니다.')
-
-    // 유효 파일 수(오류 제외 4개)
-    await expect(canvas.getByText('4개')).toBeInTheDocument()
-
-    // downloadUrl이 있는 파일은 다운로드·바로보기 버튼 제공
-    await userEvent.click(canvas.getByRole('button', { name: '다운로드' }))
-    await userEvent.click(canvas.getByRole('button', { name: '바로보기' }))
-
-    // 삭제 버튼은 대기·오류 파일에만 있음
-    const deleteButtons = canvas.getAllByRole('button', { name: '삭제' })
-    await expect(deleteButtons).toHaveLength(2)
-
-    // 대기 파일 삭제 시 개수 감소
-    await userEvent.click(deleteButtons[0])
-    await waitFor(() => {
-      expect(canvas.getByText('3개')).toBeInTheDocument()
-    })
-
-    // 전체 파일 삭제 시 목록 제거
-    await userEvent.click(canvas.getByRole('button', { name: '전체 파일 삭제' }))
-    await waitFor(() => {
-      expect(canvas.queryByRole('button', { name: '전체 파일 삭제' })).not.toBeInTheDocument()
-    })
   }
 }
 
@@ -239,48 +180,6 @@ export const Interactive: Story = {
     title: '파일 업로드',
     description: '파일을 선택하거나 드래그하여 업로드하세요.',
     maxFileSize: 20 * 1024 * 1024
-  },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const input = canvasElement.querySelector<HTMLInputElement>('input[type="file"]')!
-
-    // 파일선택 버튼(클릭·Enter)은 숨겨진 input을 한 번씩만 연다 (파일 대화상자는 막음)
-    let opened = 0
-    const onOpen = (event: Event) => {
-      opened++
-      event.preventDefault()
-    }
-    input.addEventListener('click', onOpen)
-    await userEvent.click(canvas.getByRole('button', { name: '파일선택' }))
-    await expect(opened).toBe(1)
-    await userEvent.keyboard('{Enter}')
-    await expect(opened).toBe(2)
-    input.removeEventListener('click', onOpen)
-
-    // 다중 선택: "이름 [확장자, 크기]"로 표시되고 v-model에 반영
-    const fileA = new File(['hello'], 'a.pdf', { type: 'application/pdf' })
-    await userEvent.upload(input, [fileA, new File(['hi'], 'b.pdf', { type: 'application/pdf' })])
-    await expect(canvas.getByText('a [pdf, 5B]')).toBeInTheDocument()
-    await expect(canvas.getByText('b [pdf, 2B]')).toBeInTheDocument()
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('2개 / 10개')
-    await expect(canvas.getByText('선택된 파일 수: 2개')).toBeInTheDocument()
-
-    // 삭제하면 목록과 v-model에서 제거
-    await userEvent.click(within(canvas.getByText('a [pdf, 5B]').closest('li')!).getByRole('button', { name: '삭제' }))
-    await expect(canvas.queryByText('a [pdf, 5B]')).not.toBeInTheDocument()
-    await expect(canvas.getByText('선택된 파일 수: 1개')).toBeInTheDocument()
-
-    // input 값이 비워져 같은 파일을 다시 선택할 수 있음
-    await userEvent.upload(input, fileA)
-    await expect(canvas.getByText('a [pdf, 5B]')).toBeInTheDocument()
-
-    // "20MB 미만"만 허용: 정확히 20MB인 파일도 오류 항목으로 표시되고 유효 개수에서 제외
-    await userEvent.upload(input, new File([new Uint8Array(20 * 1024 * 1024)], 'big.pdf', { type: 'application/pdf' }))
-    const bigItem = canvas.getByText('big [pdf, 20MB]').closest('li')!
-    await expect(bigItem).toHaveClass('is-error')
-    await expect(bigItem.querySelector('.file-hint-invalid')).toHaveTextContent(
-      '등록 가능한 파일 용량을 초과하였습니다.20MB 미만의 파일만 등록할 수 있습니다.'
-    )
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('2개 / 10개')
   }
 }
 
@@ -299,26 +198,6 @@ export const SingleFile: Story = {
     multiple: false,
     title: '단일 파일 업로드',
     description: '하나의 파일만 업로드할 수 있습니다.'
-  },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const input = canvasElement.querySelector<HTMLInputElement>('input[type="file"]')!
-    await expect(input).not.toHaveAttribute('multiple')
-
-    // 새로 선택한 파일이 기존 파일을 대체
-    await userEvent.upload(input, new File(['a'], 'a.pdf', { type: 'application/pdf' }))
-    await expect(canvas.getByText('a [pdf, 1B]')).toBeInTheDocument()
-    await userEvent.upload(input, new File(['b'], 'b.pdf', { type: 'application/pdf' }))
-    await expect(canvas.getByText('b [pdf, 1B]')).toBeInTheDocument()
-    await expect(canvas.queryByText('a [pdf, 1B]')).not.toBeInTheDocument()
-
-    // 여러 파일을 드롭해도 첫 파일 1개만 남음 (maxFiles와 무관)
-    dropFiles(canvasElement.querySelector('.file-upload')!, [
-      new File(['c'], 'c.pdf', { type: 'application/pdf' }),
-      new File(['d'], 'd.pdf', { type: 'application/pdf' })
-    ])
-    await expect(await canvas.findByText('c [pdf, 1B]')).toBeInTheDocument()
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(1)
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 10개')
   }
 }
 
@@ -338,35 +217,6 @@ export const ImageOnly: Story = {
     maxFiles: 5,
     title: '이미지 파일 업로드',
     description: 'JPG, PNG, GIF 파일만 업로드할 수 있습니다.'
-  },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const input = canvasElement.querySelector<HTMLInputElement>('input[type="file"]')!
-    await expect(input).toHaveAttribute('accept', '.jpg,.jpeg,.png,.gif')
-
-    // 드롭은 accept 필터를 거치지 않으므로 컴포넌트가 형식을 검증
-    dropFiles(canvasElement.querySelector('.file-upload')!, [
-      new File(['a'], 'a.jpg', { type: 'image/jpeg' }),
-      new File(['b'], 'b.pdf', { type: 'application/pdf' })
-    ])
-    const invalidItem = (await canvas.findByText('b [pdf, 1B]')).closest('li')!
-    await expect(invalidItem).toHaveClass('is-error')
-    await expect(invalidItem).toHaveTextContent('허용되지 않는 파일 형식입니다.')
-    await expect(canvas.getByText('a [jpg, 1B]').closest('li')).not.toHaveClass('is-error')
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('1개 / 5개')
-
-    // 오류 항목은 개수를 차지하지 않아 f까지 추가되고, 최대 개수(5개)를 넘는 g는 추가되지 않음
-    await userEvent.upload(
-      input,
-      ['c', 'd', 'e', 'f', 'g'].map(name => new File([name], `${name}.png`, { type: 'image/png' }))
-    )
-    await expect(canvas.getByText('f [png, 1B]').closest('li')).not.toHaveClass('is-error')
-    await expect(canvas.queryByText('g [png, 1B]')).not.toBeInTheDocument()
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('5개 / 5개')
-
-    // 오류 항목도 삭제 가능
-    await userEvent.click(within(invalidItem).getByRole('button', { name: '삭제' }))
-    await expect(canvas.queryByText('b [pdf, 1B]')).not.toBeInTheDocument()
-    await expect(canvasElement.querySelector('.total')).toHaveTextContent('5개 / 5개')
   }
 }
 
@@ -387,20 +237,7 @@ export const Disabled: Story = {
         description="파일 업로드가 비활성화된 상태입니다."
       />
     `
-  }),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    // 모든 조작 버튼 비활성화
-    await expect(canvas.getByRole('button', { name: '파일선택' })).toBeDisabled()
-    await expect(canvas.getByRole('button', { name: '삭제' })).toBeDisabled()
-    await expect(canvas.getByRole('button', { name: '전체 파일 삭제' })).toBeDisabled()
-
-    // 드롭은 허용되지 않고(dragover 미취소), 드롭·input 선택 모두 무시
-    const dropAllowed = dropFiles(canvasElement.querySelector('.file-upload')!, [new File(['a'], 'a.pdf', { type: 'application/pdf' })])
-    await expect(dropAllowed).toBe(false)
-    const input = canvasElement.querySelector<HTMLInputElement>('input[type="file"]')!
-    await userEvent.upload(input, new File(['b'], 'b.pdf', { type: 'application/pdf' }))
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(1)
-  }
+  })
 }
 
 // 7. 읽기 전용
@@ -420,13 +257,5 @@ export const ReadOnly: Story = {
         description="업로드된 파일만 확인할 수 있습니다."
       />
     `
-  }),
-  play: async ({ canvas, canvasElement }) => {
-    // 업로드 영역과 전체 삭제 없이 다운로드·바로보기만 제공
-    await expect(canvasElement.querySelector('input[type="file"]')).toBeNull()
-    await expect(canvas.queryByRole('button', { name: '파일선택' })).not.toBeInTheDocument()
-    await expect(canvas.queryByRole('button', { name: '전체 파일 삭제' })).not.toBeInTheDocument()
-    await expect(canvas.getByRole('button', { name: '다운로드' })).toBeInTheDocument()
-    await expect(canvas.getByRole('button', { name: '바로보기' })).toBeInTheDocument()
-  }
+  })
 }

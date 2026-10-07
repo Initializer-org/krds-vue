@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsIcon from './KrdsIcon'
 
 const meta: Meta<typeof KrdsIcon> = {
@@ -30,12 +29,7 @@ export const Default: Story = {
       return { args }
     },
     template: `<KrdsIcon v-bind="args" />`
-  }),
-  play: async ({ canvasElement }) => {
-    const icon = canvasElement.querySelector('.svg-icon')
-    await expect(icon).toBeTruthy()
-    await expect(icon).toHaveClass('ico-help')
-  }
+  })
 }
 
 // 2. 아이콘 목록

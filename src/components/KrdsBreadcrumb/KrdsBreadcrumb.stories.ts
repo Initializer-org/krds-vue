@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsBreadcrumb from './KrdsBreadcrumb'
 import type { BreadcrumbItem } from './KrdsBreadcrumb'
 
@@ -49,15 +48,5 @@ export const Default: Story = {
       return { args }
     },
     template: '<KrdsBreadcrumb v-bind="args" />'
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    // Click breadcrumb items to cover handleClick and emit
-    const links = canvasElement.querySelectorAll('.breadcrumb a.txt')
-    expect(links.length).toBeGreaterThan(0)
-
-    // Click second item (서비스 신청)
-    if (links.length > 1) {
-      await userEvent.click(links[1] as HTMLElement)
-    }
-  }
+  })
 }

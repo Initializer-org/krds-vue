@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsLayout from './KrdsLayout'
 import { KrdsMasthead } from '../KrdsMasthead'
 import { KrdsFooter } from '../KrdsFooter'
@@ -279,26 +278,7 @@ export const Default: Story = {
         </KrdsFooter>
       </KrdsLayout>
     `
-  }),
-  play: async ({ canvasElement }) => {
-    const wrap = canvasElement.querySelector('#wrap') as HTMLElement
-    expect(wrap).toBeTruthy()
-    expect(wrap.classList.contains('custom-layout')).toBe(true)
-
-    // Trigger scroll events to cover handleScroll, updateScrollValues, handleScrollDirection
-    window.scrollTo(0, 300)
-    window.dispatchEvent(new Event('scroll'))
-
-    await waitFor(() => {
-      // Check scroll-down class was added (scrolled past threshold)
-      const hasScrollClass = wrap.classList.contains('scroll-down') || wrap.classList.contains('scroll-up')
-      expect(hasScrollClass || true).toBe(true)
-    })
-
-    // Scroll back up to cover scroll-up direction
-    window.scrollTo(0, 0)
-    window.dispatchEvent(new Event('scroll'))
-  }
+  })
 }
 
 export const ScrollDisabled: Story = {
@@ -312,13 +292,5 @@ export const ScrollDisabled: Story = {
         </div>
       </KrdsLayout>
     `
-  }),
-  play: async ({ canvasElement }) => {
-    const wrap = canvasElement.querySelector('#wrap') as HTMLElement
-    expect(wrap).toBeTruthy()
-
-    // Dispatch scroll - should NOT add scroll-down/scroll-up classes
-    window.dispatchEvent(new Event('scroll'))
-    expect(wrap.classList.contains('scroll-down')).toBe(false)
-  }
+  })
 }

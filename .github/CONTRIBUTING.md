@@ -65,7 +65,7 @@ src/components/KrdsNewComponent/
 ├── KrdsNewComponent.ts         # 컴포넌트 로직
 ├── KrdsNewComponent.stories.ts # Storybook 스토리
 ├── index.ts                    # Export
-└── __tests__/                  # 테스트 (선택사항)
+└── __tests__/                  # 테스트 (vitest 브라우저 모드)
     └── KrdsNewComponent.test.ts
 ```
 
@@ -78,7 +78,8 @@ src/components/KrdsNewComponent/
 3. **필수 포함사항**
 
 - TypeScript 타입 정의
-- Storybook 스토리
+- Storybook 스토리 (사용 예시만 두고, 동작 검증은 테스트에 작성)
+- `__tests__/` 테스트: 스토리 예시별 렌더 + 동작 검증 + `expectNoA11yViolations()` 접근성 검사 (`src/test/utils.ts`)
 - JSDoc 주석
 - 접근성 고려사항
 - `export default /* @__PURE__ */ defineComponent({...})` 형태 (빠지면 트리셰이킹이 깨져 `pnpm bundle-size`가 실패)

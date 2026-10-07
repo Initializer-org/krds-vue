@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsPanel from './KrdsPanel'
 import KrdsTabs from '../KrdsTabs'
 import { ref } from 'vue'
@@ -170,24 +169,7 @@ export const Default: Story = {
         </KrdsPanel>
       </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    // Open panel
-    const openBtn = canvasElement.querySelector('.btn-help-exec') as HTMLElement
-    await userEvent.click(openBtn)
-
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.krds-help-panel.expand')).toBeTruthy()
-    })
-
-    // Close panel
-    const closeBtn = canvasElement.querySelector('.btn-help-panel.fold') as HTMLElement
-    await userEvent.click(closeBtn)
-
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.krds-help-panel.expand')).toBeFalsy()
-    })
-  }
+  })
 }
 
 // 2. 도움 패널
@@ -214,24 +196,7 @@ export const HelpPanel: Story = {
         </KrdsPanel>
       </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    // 패널 열기
-    const openBtn = canvasElement.querySelector('.btn-help-exec') as HTMLElement
-    await userEvent.click(openBtn)
-
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.krds-help-panel.expand')).toBeTruthy()
-    })
-
-    // 패널 내부 탭 전환 (도움 → 따라하기)
-    const [helpTab, tutorialTab] = Array.from(canvasElement.querySelectorAll('[role="tab"]'))
-    await expect(helpTab).toHaveAttribute('aria-selected', 'true')
-
-    await userEvent.click(tutorialTab.querySelector('button')!)
-    await expect(tutorialTab).toHaveAttribute('aria-selected', 'true')
-    await expect(canvasElement.querySelector('.coach-help-process')?.closest('.tab-conts')).toHaveClass('active')
-  }
+  })
 }
 
 // 3. 따라하기 패널

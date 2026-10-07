@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsRadio from './KrdsRadio'
 import KrdsCheckArea from '../KrdsCheckArea/KrdsCheckArea'
@@ -83,11 +82,5 @@ export const Radio: Story = {
         </div>
       </div>
     `
-  }),
-  play: async ({ canvas, userEvent }) => {
-    // Click "기본" radio (option1) — initially option2 is selected
-    const radio = canvas.getByLabelText('기본')
-    await userEvent.click(radio)
-    expect(radio).toBeChecked()
-  }
+  })
 }

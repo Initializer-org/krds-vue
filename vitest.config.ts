@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import { playwright } from '@vitest/browser-playwright'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'path'
@@ -27,25 +26,16 @@ export default defineConfig({
     }
   },
   test: {
-    projects: [
-      {
-        extends: true,
-        plugins: [
-          storybookTest({
-            configDir: '.storybook',
-            storybookScript: 'pnpm storybook --no-open'
-          })
-        ],
-        test: {
-          name: 'storybook',
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright(),
-            instances: [{ browser: 'chromium' }]
-          }
-        }
-      }
-    ]
+    // 테스트 템플릿 문자열을 런타임에 컴파일하므로 컴파일러 포함 빌드 사용
+    alias: { vue: 'vue/dist/vue.esm-bundler.js' },
+    include: ['src/**/*.test.ts'],
+    setupFiles: ['src/test/setup.ts'],
+    browser: {
+      enabled: true,
+      headless: true,
+      provider: playwright(),
+      instances: [{ browser: 'chromium' }],
+      viewport: { width: 1200, height: 900 }
+    }
   }
 })

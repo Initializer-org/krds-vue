@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsStepIndicator from './KrdsStepIndicator'
 import KrdsStep from '../KrdsStep/KrdsStep'
 
@@ -54,18 +53,7 @@ export const ForcedStatus: Story = {
         <KrdsStep step="3단계" title="신청 완료" status="pending" />
       </KrdsStepIndicator>
     `
-  }),
-  play: async ({ canvasElement }) => {
-    const [done, active, pending] = Array.from(canvasElement.querySelectorAll('.krds-step-wrap > li'))
-
-    await expect(done).toHaveClass('done')
-    await expect(active).toHaveClass('active')
-    await expect(pending).toHaveClass('pending')
-
-    // 활성 단계에는 스크린 리더용 현재단계 텍스트가 붙는다
-    await expect(active.querySelector('.sr-only')).toHaveTextContent('현재단계')
-    await expect(done.querySelector('.sr-only')).toBeNull()
-  }
+  })
 }
 
 export const WithPageTitle: Story = {

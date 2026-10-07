@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsHeader from './KrdsHeader'
 import KrdsMainMenu from '../KrdsMainMenu'
@@ -130,21 +129,7 @@ export const Default: Story = {
         </template>
       </KrdsHeader>
     `
-  }),
-  play: async ({ canvas }) => {
-    // banner 랜드마크 + 기본 id
-    const header = canvas.getByRole('banner')
-    await expect(header).toHaveAttribute('id', 'krds-header')
-
-    // utility·branding은 header-container > inner, 네비게이션은 header-in 직속
-    const headerIn = header.querySelector(':scope > .header-in')!
-    const inner = headerIn.querySelector(':scope > .header-container > .inner')!
-    await expect(Array.from(inner.children, el => el.className)).toEqual(['header-utility', 'header-branding'])
-    await expect(headerIn.querySelector(':scope > .krds-main-menu')).toBeInTheDocument()
-
-    // 모바일 드로어는 header-in 밖, header 직속
-    await expect(header.querySelector(':scope > .krds-main-menu-mobile')).toBeInTheDocument()
-  }
+  })
 }
 
 /**
@@ -153,26 +138,5 @@ export const Default: Story = {
 export const Mobile: Story = {
   ...Default,
   name: '모바일',
-  globals: { viewport: { value: 'mobile2', isRotated: false } },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const allMenu = canvas.getByRole('button', { name: '전체메뉴' })
-    const drawer = canvasElement.querySelector<HTMLElement>(`#${allMenu.getAttribute('aria-controls')}`)!
-    await expect(drawer).toHaveClass('krds-main-menu-mobile')
-    await expect(drawer).not.toHaveClass('is-open')
-    await expect(allMenu).toHaveAttribute('aria-expanded', 'false')
-
-    // 전체메뉴 클릭 → aria-controls 대상 드로어 열림
-    await userEvent.click(allMenu)
-    await waitFor(() => expect(drawer).toHaveClass('is-open'))
-    await expect(allMenu).toHaveAttribute('aria-expanded', 'true')
-    await waitFor(() => expect(drawer).toBeVisible())
-    await waitFor(() => expect(drawer.querySelector('.gnb-wrap')).toHaveFocus())
-
-    // ESC로 닫으면 전체메뉴 버튼으로 포커스 복귀
-    await userEvent.keyboard('{Escape}')
-    await expect(allMenu).toHaveFocus()
-    await waitFor(() => expect(drawer).not.toBeVisible())
-    await expect(drawer).not.toHaveClass('is-open')
-    await expect(allMenu).toHaveAttribute('aria-expanded', 'false')
-  }
+  globals: { viewport: { value: 'mobile2', isRotated: false } }
 }

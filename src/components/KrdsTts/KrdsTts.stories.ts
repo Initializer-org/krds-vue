@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect } from 'storybook/test'
 import KrdsTts from './KrdsTts'
 
 const meta: Meta<typeof KrdsTts> = {
@@ -57,19 +56,6 @@ export const Default: Story = {
     label: '듣기',
     size: 'medium',
     icon: 'volume'
-  },
-  play: async ({ canvas, userEvent }) => {
-    const ttsBtn = canvas.getByRole('button', { name: '듣기' })
-    await expect(ttsBtn).toBeInTheDocument()
-
-    // Click to start TTS
-    await userEvent.click(ttsBtn)
-
-    // Wait briefly for speech synthesis to start
-    await new Promise(r => setTimeout(r, 100))
-
-    // Click again to stop
-    await userEvent.click(ttsBtn)
   }
 }
 

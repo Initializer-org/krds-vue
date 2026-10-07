@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import { ref } from 'vue'
 import KrdsPagination from './KrdsPagination'
 
@@ -65,31 +64,5 @@ export const Default: Story = {
         />
       </div>
     `
-  }),
-  play: async ({ canvasElement, userEvent }) => {
-    // Prevent <a href="#"> navigation which breaks browser connection in coverage mode
-    canvasElement.addEventListener('click', (e: Event) => {
-      if ((e.target as HTMLElement).closest('a')) e.preventDefault()
-    })
-
-    // Click next page (4 → 5)
-    await userEvent.click(canvasElement.querySelector('.page-navi.next') as HTMLElement)
-
-    await waitFor(() => {
-      const active = canvasElement.querySelector('[aria-current="page"]')
-      expect(active?.textContent).toContain('5')
-    })
-
-    // Click prev page (5 → 4)
-    await userEvent.click(canvasElement.querySelector('.page-navi.prev') as HTMLElement)
-
-    await waitFor(() => {
-      const active = canvasElement.querySelector('[aria-current="page"]')
-      expect(active?.textContent).toContain('4')
-    })
-
-    // Click a specific page link
-    const pageLink = canvasElement.querySelector('.page-link:not(.active):not(.link-dot)') as HTMLElement
-    if (pageLink) await userEvent.click(pageLink)
-  }
+  })
 }

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, waitFor } from 'storybook/test'
 import KrdsCarousel from './KrdsCarousel'
 
 const meta: Meta<typeof KrdsCarousel> = {
@@ -128,38 +127,7 @@ export const Default: Story = {
     ariaLabel: '주요 서비스 안내',
     moreHref: '#'
   },
-  render: renderVisual,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    // SCSS가 기대하는 마크업 구조 (.swiper > ul.swiper-wrapper > li.swiper-slide)
-    await expect(canvasElement.querySelectorAll('.swiper > ul.swiper-wrapper > li.swiper-slide')).toHaveLength(4)
-    await expect(canvasElement.querySelector('.swiper-indicator')).toHaveClass('text-center')
-
-    // 첫 번째 슬라이드가 활성 상태로 시작하고, 나머지는 보조기기에서 감춰진다
-    await expect(canvasElement.querySelector('.swiper-slide-active')).toHaveAttribute('aria-label', '1 / 4')
-    await expect(canvasElement.querySelectorAll('.swiper-slide[aria-hidden="true"]')).toHaveLength(3)
-
-    // 다음 버튼으로 두 번째 슬라이드로 이동
-    await userEvent.click(canvas.getByRole('button', { name: '다음' }))
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.swiper-slide-active')).toHaveAttribute('aria-label', '2 / 4')
-    })
-
-    // 현재 위치가 페이지네이션 불릿에도 반영된다
-    const bullets = canvas.getAllByRole('button', { name: /슬라이드로 이동$/ })
-    await expect(bullets[1]).toHaveAttribute('aria-current', 'true')
-
-    // 불릿 클릭으로 마지막 슬라이드로 이동
-    await userEvent.click(bullets[3])
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.swiper-slide-active')).toHaveAttribute('aria-label', '4 / 4')
-    })
-
-    // 이전 버튼으로 되돌아온다
-    await userEvent.click(canvas.getByRole('button', { name: '이전' }))
-    await waitFor(() => {
-      expect(canvasElement.querySelector('.swiper-slide-active')).toHaveAttribute('aria-label', '3 / 4')
-    })
-  }
+  render: renderVisual
 }
 
 export const Banner: Story = {
@@ -175,20 +143,6 @@ export const Banner: Story = {
         story: '배너형은 인디케이터 안에 분수형 페이지네이션과 이전/다음·더 보기 버튼을 배치한다.'
       }
     }
-  },
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    // 인디케이터 안에 분수형 페이지네이션과 내비게이션이 함께 배치된다
-    const fraction = canvasElement.querySelector('.swiper-indicator .swiper-pagination.swiper-pagination-fraction')
-    await expect(fraction?.querySelector('.swiper-pagination-current')).toHaveTextContent('1')
-    await expect(fraction?.querySelector('.swiper-pagination-total')).toHaveTextContent('3')
-    await expect(canvasElement.querySelectorAll('.swiper-indicator .swiper-navigation > .swiper-button-prev')).toHaveLength(1)
-    await expect(canvasElement.querySelectorAll('.swiper-indicator .swiper-navigation > .swiper-button-more')).toHaveLength(1)
-
-    // 다음 버튼 클릭 시 분수 표기가 갱신된다
-    await userEvent.click(canvas.getByRole('button', { name: '다음' }))
-    await waitFor(() => {
-      expect(fraction?.querySelector('.swiper-pagination-current')).toHaveTextContent('2')
-    })
   }
 }
 
@@ -208,16 +162,6 @@ export const Autoplay: Story = {
           '자동 재생 중에는 정지 버튼이 노출되며, 정지하면 재생 버튼으로 바뀐다. 마우스 오버나 키보드 포커스가 캐러셀 안에 있는 동안에는 자동 재생이 멈춘다.'
       }
     }
-  },
-  play: async ({ canvas, userEvent }) => {
-    // 재생 중에는 정지 버튼만 노출된다
-    const stopButton = canvas.getByRole('button', { name: '슬라이드 멈춤' })
-    await userEvent.click(stopButton)
-
-    // 정지 후에는 재생 버튼으로 전환된다
-    await waitFor(() => {
-      expect(canvas.getByRole('button', { name: '슬라이드 재생' })).toBeInTheDocument()
-    })
   }
 }
 
