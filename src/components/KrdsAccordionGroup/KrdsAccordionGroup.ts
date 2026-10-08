@@ -1,4 +1,5 @@
 import { computed, defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 export interface KrdsAccordionGroupProps extends BaseComponentProps {
@@ -19,6 +20,10 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  slots: Object as SlotsType<{
+    /** 아코디언 항목 (KrdsAccordionItem) */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     const accordionGroupClasses = computed(() => {
       const classes = ['krds-accordion']

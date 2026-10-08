@@ -1,4 +1,5 @@
 import { defineComponent, computed, h, inject, onBeforeUnmount, onMounted, ref } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
 
@@ -51,6 +52,10 @@ export default /* @__PURE__ */ defineComponent({
     click: (event: MouseEvent, step: string | number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 단계 제목 아래 추가 내용 */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /** 단계 상태: status가 없으면 KrdsStepIndicator 안의 위치로 정한다 */
     const stepIndicator = inject<StepIndicatorContext | null>('stepIndicator', null)

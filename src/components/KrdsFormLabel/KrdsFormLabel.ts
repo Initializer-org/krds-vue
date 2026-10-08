@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -46,6 +47,10 @@ export default /* @__PURE__ */ defineComponent({
     click: (event: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 레이블 문구 */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /**
      * 클릭 핸들러

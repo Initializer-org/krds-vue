@@ -13,6 +13,7 @@ import {
   type CSSProperties,
   type VNode
 } from 'vue'
+import type { SlotsType } from 'vue'
 
 // ========================
 // 타입 정의
@@ -222,6 +223,10 @@ export default /* @__PURE__ */ defineComponent({
     'more-click': (event: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 슬라이드 (자식 요소 하나가 한 장) */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     const uid = getCurrentInstance()?.uid
     const wrapperId = computed(() => `${props.id ?? `krds-carousel-${uid}`}-wrapper`)

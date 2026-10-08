@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -71,6 +72,10 @@ export default /* @__PURE__ */ defineComponent({
     'scroll-height': (height: number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 페이지 내용 (공식 배너·헤더·본문·푸터) */
+    default?(): VNode[]
+  }>,
   setup(props, { slots, emit }) {
     const scrollY = ref(0)
     const scrollH = ref(0)

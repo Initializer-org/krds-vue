@@ -1,4 +1,5 @@
 import { defineComponent, h, type PropType, type VNode } from 'vue'
+import type { SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -67,6 +68,10 @@ export default /* @__PURE__ */ defineComponent({
       default: 'krds-skip-link'
     }
   },
+  slots: Object as SlotsType<{
+    /** 링크 문구 (links를 쓰지 않을 때) */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     return (): VNode => {
       return h(

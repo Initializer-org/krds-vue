@@ -1,4 +1,5 @@
 import { defineComponent, computed, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseFormProps, Size, InputType } from '@/types'
 import KrdsSpinner from '@/components/KrdsSpinner/KrdsSpinner'
 
@@ -173,6 +174,10 @@ export default /* @__PURE__ */ defineComponent({
     keyup: (event: KeyboardEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 입력 필드 안쪽 버튼 (icon 속성과 함께, 여러 개면 KrdsButtonGroup) */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /**
      * 입력 필드 클래스 계산

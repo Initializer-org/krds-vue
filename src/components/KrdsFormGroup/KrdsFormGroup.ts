@@ -1,4 +1,5 @@
 import { defineComponent, computed, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -25,6 +26,10 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  slots: Object as SlotsType<{
+    /** 레이블·입력 요소·도움말 */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     /**
      * 클래스 계산

@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, ref, useId } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -85,6 +86,8 @@ export default /* @__PURE__ */ defineComponent({
     change: (id: string) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  /** 탭 id와 같은 이름의 슬롯에 그 탭의 내용을 넣는다 */
+  slots: Object as SlotsType<Record<string, () => VNode[]>>,
   setup(props, { emit, slots }) {
     /**
      * 컴포넌트 고유 ID (탭-패널 ARIA 연결용)

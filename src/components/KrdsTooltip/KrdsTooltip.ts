@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, nextTick, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -49,6 +50,10 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     }
   },
+  slots: Object as SlotsType<{
+    /** 툴팁을 여는 버튼 내용 */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     const containerRef = ref<HTMLElement | null>(null)
     const popoverRef = ref<HTMLElement | null>(null)

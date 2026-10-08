@@ -1,4 +1,5 @@
 import { defineComponent, h, computed, useId } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -38,6 +39,10 @@ export default /* @__PURE__ */ defineComponent({
     'update:modelValue': (value: boolean) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 펼쳤을 때 보이는 내용 */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /**
      * 컴포넌트 고유 ID
