@@ -235,7 +235,7 @@
       </template>
     </KrdsFooter>
 
-    <KrdsFloatingButton label="빠른 메뉴" :items="floatingItems" @select="scrollToTop" />
+    <KrdsFloatingButton label="빠른 메뉴" :items="floatingItems" @select="item => !item.href && scrollToTop()" />
   </KrdsLayout>
 </template>
 

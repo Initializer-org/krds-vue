@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
+import { defineComponent, h, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
 import type { PropType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -12,6 +12,8 @@ export interface KrdsFloatingButtonItem {
   icon: string
   /** 링크 주소 (없으면 버튼으로 렌더링) */
   href?: string
+  /** 링크를 새 창으로 열기 ('새 창 열림' 안내 포함) */
+  external?: boolean
 }
 
 /**
@@ -24,6 +26,8 @@ export interface KrdsFloatingButtonProps extends BaseComponentProps {
   icon?: string
   /** 단일형 버튼의 링크 주소 */
   href?: string
+  /** 단일형 링크를 새 창으로 열기 ('새 창 열림' 안내 포함) */
+  external?: boolean
   /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
   hideLabel?: boolean
   /** 확장형 항목 (지정하면 확장형, 3개 이하 권장) */
@@ -36,8 +40,8 @@ export interface KrdsFloatingButtonProps extends BaseComponentProps {
 export interface KrdsFloatingButtonEmits {
   /** 단일형 버튼 클릭 */
   (e: 'click', event: MouseEvent): void
-  /** 확장형 항목 선택 */
-  (e: 'select', item: KrdsFloatingButtonItem, index: number): void
+  /** 확장형 항목 선택 (링크 항목은 event.preventDefault()로 라우터 이동 가능) */
+  (e: 'select', item: KrdsFloatingButtonItem, index: number, event: MouseEvent): void
 }
 
 /**
@@ -82,6 +86,11 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       default: undefined
     },
+    /** 단일형 링크를 새 창으로 열기 ('새 창 열림' 안내 포함) */
+    external: {
+      type: Boolean,
+      default: false
+    },
     /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
     hideLabel: {
       type: Boolean,
@@ -93,19 +102,24 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
-    click: (_event: MouseEvent) => true,
-    select: (_item: KrdsFloatingButtonItem, _index: number) => true
+    /** 단일형 버튼 클릭 */
+    click: (event: MouseEvent) => true,
+    /** 확장형 항목 선택 (링크 항목은 event.preventDefault()로 라우터 이동 가능) */
+    select: (item: KrdsFloatingButtonItem, index: number, event: MouseEvent) => true
   },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit }) {
     const rootRef = ref<HTMLElement | null>(null)
     const toggleRef = ref<HTMLButtonElement | null>(null)
     const listId = `floating-list-${useId()}`
     const isOpen = ref(false)
 
+    // 초점은 바로 옮긴다: select 핸들러가 모달을 열거나 다른 곳으로 초점을 옮기면 그쪽이 이기고, 모달은 확장 버튼을 돌아갈 곳으로 기억한다
     const close = (returnFocus = false) => {
       isOpen.value = false
-      if (returnFocus) nextTick(() => toggleRef.value?.focus())
+      if (returnFocus) toggleRef.value?.focus()
     }
 
     // Safari 등은 버튼을 클릭해도 초점을 주지 않으므로 Esc는 문서 전체에서 받는다 (다른 펼침 컴포넌트와 같음)
@@ -126,7 +140,9 @@ export default /* @__PURE__ */ defineComponent({
         item.href ? 'a' : 'button',
         {
           class: 'floating-action',
-          ...(item.href ? { href: item.href } : { type: 'button' }),
+          ...(item.href
+            ? { href: item.href, ...(item.external && { target: '_blank', rel: 'noopener noreferrer', title: '새 창 열림' }) }
+            : { type: 'button' }),
           onClick
         },
         [
@@ -139,7 +155,11 @@ export default /* @__PURE__ */ defineComponent({
       const { items } = props
       if (!items) {
         return h('div', { class: 'krds-floating-button' }, [
-          renderAction({ label: props.label, icon: props.icon, href: props.href }, event => emit('click', event), props.hideLabel)
+          renderAction(
+            { label: props.label, icon: props.icon, href: props.href, external: props.external },
+            event => emit('click', event),
+            props.hideLabel
+          )
         ])
       }
 
@@ -173,10 +193,10 @@ export default /* @__PURE__ */ defineComponent({
               { id: listId, class: 'floating-list' },
               items.map((item, index) =>
                 h('li', { key: index }, [
-                  renderAction(item, () => {
-                    if (!item.href) emit('select', item, index)
-                    // 링크도 tel:·mailto:처럼 페이지에 남는 경우가 있어 초점을 확장 버튼으로 돌려준다
+                  renderAction(item, event => {
+                    // 링크도 tel:·mailto:처럼 페이지에 남는 경우가 있어 초점을 확장 버튼으로 돌려준 뒤 알린다
                     close(true)
+                    emit('select', item, index, event)
                   })
                 ])
               )

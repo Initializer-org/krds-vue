@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent } from '@/test/utils'
 
 const items = [
@@ -44,7 +45,7 @@ describe('KrdsFloatingButton', () => {
     await expectNoA11yViolations()
 
     await userEvent.click(screen.getByRole('button', { name: '자주 묻는 질문' }))
-    expect(onSelect).toHaveBeenCalledWith(items[0], 0)
+    expect(onSelect).toHaveBeenCalledWith(items[0], 0, expect.any(MouseEvent))
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
     await vi.waitFor(() => expect(toggle).toHaveFocus())
   })
@@ -86,5 +87,31 @@ describe('KrdsFloatingButton', () => {
     toggle.blur()
     await userEvent.keyboard('{Escape}')
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('확장형: 항목에서 연 모달을 닫으면 초점이 확장 버튼으로 돌아옴', async () => {
+    const open = ref(false)
+    render({
+      template: `
+        <div>
+          <KrdsFloatingButton label="상담 메뉴" :items="[{ label: '문의하기', icon: 'ico-faq' }]" @select="open = true" />
+          <KrdsModal v-model="open" title="문의하기"><p>내용</p></KrdsModal>
+        </div>
+      `,
+      setup: () => ({ open })
+    })
+    const toggle = screen.getByRole('button', { name: '상담 메뉴' })
+    await userEvent.click(toggle)
+    await userEvent.click(screen.getByRole('button', { name: '문의하기' }))
+    await vi.waitFor(() => expect(open.value).toBe(true))
+    open.value = false
+    await vi.waitFor(() => expect(toggle).toHaveFocus())
+  })
+
+  it('external이면 새 창 링크와 안내', () => {
+    render({ template: `<KrdsFloatingButton label="채팅 상담" href="https://example.go.kr" external />` })
+    const link = screen.getByRole('link', { name: '채팅 상담' })
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('title', '새 창 열림')
   })
 })
