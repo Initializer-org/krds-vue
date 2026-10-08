@@ -240,9 +240,23 @@
     min-width: 0;
   }
 
-  /* 헤더가 숨으면 콘텐츠 내 탐색이 위 6rem으로 올라와 도움말 버튼(위 4rem 고정)과 겹치므로 그 아래로 내린다 */
+  /*
+   * 도움말 버튼(원본: 위 4rem 고정)은 헤더가 보일 때 헤더 뒤에 가려진다. 콘텐츠 내 탐색처럼 헤더가 보일 때는
+   * 헤더 아래(탐색 자리)로 내리고, 탐색은 버튼 아래에 둔다. 헤더가 숨으면 버튼은 제자리, 탐색은 버튼 아래로
+   */
+  #wrap:not(.scroll-down) .btn-help-panel.expand {
+    top: 25.6rem;
+  }
+  #wrap:not(.scroll-down) #container .krds-in-page-navigation-area {
+    top: 32rem;
+  }
   #wrap.scroll-down #container .krds-in-page-navigation-area {
     top: 10rem;
+  }
+  @media (max-width: 767px) {
+    #wrap:not(.scroll-down) .btn-help-panel.expand {
+      top: 16rem;
+    }
   }
 
   /* 배너 캐러셀은 높이를 부모의 100%로 잡는데, 본문(flex 항목)은 사이드 메뉴 높이에 맞춰 늘어나므로 내용 높이를 따르게 한다 */
