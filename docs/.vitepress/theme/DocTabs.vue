@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
+  import { useRoute } from 'vitepress'
+  import { nextTick, onMounted, ref, useId, watch } from 'vue'
 
   /**
    * 컴포넌트 문서의 "개요 / API 레퍼런스" 탭.
@@ -12,6 +13,7 @@
   type TabKey = (typeof tabs)[number]['key']
 
   const id = useId()
+  const route = useRoute()
   const active = ref<TabKey>('overview')
   const tabRefs = ref<HTMLButtonElement[]>([])
   const overviewPanel = ref<HTMLElement>()
@@ -30,21 +32,31 @@
     select(tabs[target].key, true)
   }
 
+  /** 주소의 #제목 요소. VitePress 제목 id는 NFKD로 정규화되므로 직접 입력한 주소(NFC)도 찾을 수 있게 둘 다 확인 */
+  const hashTarget = () => {
+    const hash = decodeURIComponent(location.hash.slice(1))
+    return hash ? (document.getElementById(hash) ?? document.getElementById(hash.normalize('NFKD'))) : null
+  }
+  const panelOf = (el: HTMLElement | null): TabKey | null =>
+    el && apiPanel.value?.contains(el) ? 'api' : el && overviewPanel.value?.contains(el) ? 'overview' : null
+
   watch(active, key => {
     const url = new URL(location.href)
     if (key === 'api') url.searchParams.set('tab', 'api')
     else url.searchParams.delete('tab')
+    // 다른 탭의 제목을 가리키는 해시는 지운다 (새로고침하거나 같은 검색 결과를 다시 눌러도 탭이 어긋나지 않게)
+    const target = hashTarget()
+    if (target && panelOf(target) !== key) url.hash = ''
     history.replaceState(history.state, '', url)
+    // VitePress 경로 정보도 맞춰 둬야 다음 같은 페이지 이동에서 바뀜을 알아챈다
+    route.query = url.search
+    route.hash = decodeURIComponent(url.hash)
   })
 
-  /**
-   * 주소의 #제목이 든 패널을 연다 (검색 결과·공유 링크가 API 제목을 가리키는 경우). 해시가 없으면 ?tab=api를 따른다.
-   * VitePress 제목 id는 NFKD로 정규화되므로 직접 입력한 주소(NFC)도 찾을 수 있게 둘 다 확인
-   */
+  /** 주소의 #제목이 든 패널을 연다 (검색 결과·공유 링크가 API 제목을 가리키는 경우). 해시가 없으면 ?tab=api를 따른다 */
   const syncFromLocation = () => {
-    const hash = decodeURIComponent(location.hash.slice(1))
-    const target = hash ? (document.getElementById(hash) ?? document.getElementById(hash.normalize('NFKD'))) : null
-    const panel = target && apiPanel.value?.contains(target) ? 'api' : target && overviewPanel.value?.contains(target) ? 'overview' : null
+    const target = hashTarget()
+    const panel = panelOf(target)
     select(panel ?? (new URLSearchParams(location.search).get('tab') === 'api' ? 'api' : 'overview'))
     return panel === 'api' ? target : null
   }
@@ -53,10 +65,9 @@
     // 처음 열 때는 숨은 API 패널 안 제목으로 브라우저가 스크롤하지 못하므로, 패널을 연 뒤 직접 스크롤
     const apiTarget = syncFromLocation()
     if (apiTarget) nextTick(() => apiTarget.scrollIntoView())
-    // 같은 페이지 안 이동은 VitePress가 hashchange 뒤에 스크롤하므로 패널만 바꾼다
-    window.addEventListener('hashchange', syncFromLocation)
   })
-  onBeforeUnmount(() => window.removeEventListener('hashchange', syncFromLocation))
+  // VitePress는 같은 페이지 안 이동(해시·쿼리 변경, 뒤로·앞으로)에서 페이지를 다시 만들지 않고 이 값만 바꾼 뒤 스크롤한다
+  watch(() => [route.query, route.hash], syncFromLocation)
 </script>
 
 <template>
