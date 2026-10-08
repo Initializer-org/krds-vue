@@ -110,3 +110,113 @@ html[data-doc-tab-api] .VPDocAsideOutline {
   padding-top: 0;
   border-top: 0;
 }
+
+/* 홈 컴포넌트 미리보기 (HomeShowcase): 3열, 1024px 미만은 1열 */
+.showcase {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.showcase-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.showcase-card {
+  padding: 28px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+}
+
+.showcase-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.showcase-title-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.showcase-desc {
+  margin: 6px 0 20px;
+  color: var(--vp-c-text-2);
+  font-size: 15px;
+}
+
+.showcase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.showcase-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.showcase-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.showcase-subtitle {
+  margin: 20px 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.showcase-requests li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.showcase-requests strong {
+  display: block;
+  font-size: 16px;
+}
+
+.showcase-requests span {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.showcase-links {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.showcase-links a {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+.showcase-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1023px) {
+  .showcase {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

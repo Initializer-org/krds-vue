@@ -27,6 +27,16 @@ features:
     details: ESM·Tree-shaking으로 쓰는 컴포넌트만 번들에 포함됩니다. TypeScript 타입 정의와 Nuxt 서버 렌더링을 지원합니다.
 ---
 
+<script setup>
+import HomeShowcase from './.vitepress/theme/HomeShowcase.vue'
+</script>
+
+## 컴포넌트 미리보기
+
+공공 서비스 화면을 KRDS Vue 컴포넌트로 조합한 예시입니다. 직접 입력하고 선택해 보세요. 상단 테마 전환 버튼으로 고대비 모드도 확인할 수 있습니다.
+
+<HomeShowcase />
+
 ## KRDS Vue란?
 
 KRDS Vue는 [KRDS(대한민국 정부 디자인 시스템, Korea Digital Service Design System)](https://www.krds.go.kr/html/site/index.html) 가이드를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 오픈소스 컴포넌트 라이브러리입니다. 공공 웹서비스에서 반복되는 헤더·메인 메뉴 같은 아이덴티티·탐색 요소, 텍스트 입력 필드·날짜 입력 필드·파일 업로드 같은 입력 요소, 모달·탭·표 같은 레이아웃 요소를 KRDS 원본 마크업과 스타일 그대로 Vue 컴포넌트로 제공합니다.
