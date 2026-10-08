@@ -47,26 +47,27 @@
     // 다른 탭의 제목을 가리키는 해시는 지운다 (새로고침하거나 같은 검색 결과를 다시 눌러도 탭이 어긋나지 않게)
     const target = hashTarget()
     if (target && panelOf(target) !== key) url.hash = ''
-    history.replaceState(history.state, '', url)
+    // 브라우저 기본 해시 이동으로 생긴 기록은 state가 null이라 VitePress가 앞으로·뒤로 가기를 무시하므로 빈 객체로 둔다
+    history.replaceState(history.state ?? {}, '', url)
     // VitePress 경로 정보도 맞춰 둬야 다음 같은 페이지 이동에서 바뀜을 알아챈다
     route.query = url.search
     route.hash = decodeURIComponent(url.hash)
   })
 
-  /** 주소의 #제목이 든 패널을 연다 (검색 결과·공유 링크가 API 제목을 가리키는 경우). 해시가 없으면 ?tab=api를 따른다 */
+  /**
+   * 주소의 #제목이 든 패널을 연다 (검색 결과·공유 링크가 API 제목을 가리키는 경우). 해시가 없으면 ?tab=api를 따른다.
+   * 숨어 있던 패널의 제목이면 브라우저가 스크롤하지 못했으므로 패널을 연 뒤 직접 스크롤한다
+   */
   const syncFromLocation = () => {
     const target = hashTarget()
     const panel = panelOf(target)
+    const switched = panel && panel !== active.value
     select(panel ?? (new URLSearchParams(location.search).get('tab') === 'api' ? 'api' : 'overview'))
-    return panel === 'api' ? target : null
+    if (switched) nextTick(() => target?.scrollIntoView())
   }
 
-  onMounted(() => {
-    // 처음 열 때는 숨은 API 패널 안 제목으로 브라우저가 스크롤하지 못하므로, 패널을 연 뒤 직접 스크롤
-    const apiTarget = syncFromLocation()
-    if (apiTarget) nextTick(() => apiTarget.scrollIntoView())
-  })
-  // VitePress는 같은 페이지 안 이동(해시·쿼리 변경, 뒤로·앞으로)에서 페이지를 다시 만들지 않고 이 값만 바꾼 뒤 스크롤한다
+  onMounted(syncFromLocation)
+  // VitePress는 같은 페이지 안 이동(해시·쿼리 변경, 뒤로·앞으로)에서 페이지를 다시 만들지 않고 이 값만 바꾼다
   watch(() => [route.query, route.hash], syncFromLocation)
 </script>
 
