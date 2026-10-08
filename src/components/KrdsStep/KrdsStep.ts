@@ -1,5 +1,6 @@
-import { defineComponent, computed, h } from 'vue'
+import { defineComponent, computed, h, inject, ref } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
 
 /**
  * KRDS Step 컴포넌트 속성
@@ -50,8 +51,13 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
-    /** 단계 상태 (KrdsStepIndicator 안에서는 순서에 따라 자동 지정) */
-    const stepStatus = computed(() => props.status ?? 'pending')
+    /** 단계 상태: status가 없으면 KrdsStepIndicator 안의 위치로 정한다 */
+    const stepIndicator = inject<StepIndicatorContext | null>('stepIndicator', null)
+    const createdIndex = stepIndicator ? stepIndicator.register() : -1
+    const elRef = ref<HTMLElement | null>(null)
+    const stepStatus = computed(
+      () => props.status ?? (stepIndicator ? stepIndicator.statusAt(stepIndicator.indexOf(elRef.value, createdIndex)) : 'pending')
+    )
 
     /**
      * 단계 클래스 계산
@@ -80,6 +86,7 @@ export default /* @__PURE__ */ defineComponent({
       return h(
         'li',
         {
+          ref: elRef,
           class: stepClasses.value,
           onClick: handleClick
         },

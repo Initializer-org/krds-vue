@@ -1,7 +1,5 @@
-import { Fragment, cloneVNode, defineComponent, h } from 'vue'
-import type { VNode } from 'vue'
+import { computed, defineComponent, h, onBeforeUnmount, onMounted, provide, ref, shallowRef } from 'vue'
 import type { BaseComponentProps } from '@/types'
-import KrdsStep from '../KrdsStep/KrdsStep'
 
 /**
  * KRDS StepIndicator 컴포넌트 속성
@@ -11,9 +9,23 @@ export interface KrdsStepIndicatorProps extends BaseComponentProps {
   modelValue?: number
 }
 
-/** v-for 등으로 생긴 Fragment를 펼쳐 단계를 순서대로 센다 */
-const flatten = (nodes: VNode[]): VNode[] =>
-  nodes.flatMap(node => (node.type === Fragment && Array.isArray(node.children) ? flatten(node.children as VNode[]) : [node]))
+/**
+ * KRDS StepIndicator 컴포넌트 이벤트
+ * @deprecated 단계 표시기는 진행 상태만 보여 주므로 update:modelValue를 보내지 않습니다. 다음 주요 버전에서 제거합니다.
+ */
+export interface KrdsStepIndicatorEmits {
+  (e: 'update:modelValue', value: number): void
+}
+
+/** KrdsStep에 주는 단계 표시기 컨텍스트 */
+export interface StepIndicatorContext {
+  /** 단계가 만들어진 순서 (첫 렌더·SSR에서 쓰는 위치) */
+  register: () => number
+  /** 화면에 그려진 순서로 본 단계 위치 (아직 반영 전이면 fallback) */
+  indexOf: (el: Element | null, fallback: number) => number
+  /** 위치에 따른 상태 */
+  statusAt: (index: number) => 'done' | 'active' | 'pending'
+}
 
 /**
  * KRDS StepIndicator 컴포넌트
@@ -35,19 +47,42 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
+  emits: {
+    /** @deprecated 보내지 않습니다 (기존 v-model 사용 코드 호환용) */
+    'update:modelValue': (value: number) => true
+  },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { slots }) {
-    // 렌더할 때마다 단계 순서로 상태를 정해 단계가 추가·삭제·재정렬돼도 맞게 표시한다
-    return () => {
-      let index = 0
-      const steps = flatten(slots.default?.() ?? []).map(node => {
-        if (node.type !== KrdsStep) return node
-        const current = index++
-        if (node.props?.status) return node
-        const status = current < props.modelValue ? 'done' : current === props.modelValue ? 'active' : 'pending'
-        return cloneVNode(node, { status })
-      })
+    const listRef = ref<HTMLOListElement | null>(null)
+    const activeStep = computed(() => props.modelValue || 0)
+    // 마운트 후에는 실제 <li> 순서로 위치를 정해, 단계가 추가·삭제·재정렬되거나 다른 컴포넌트로 감싸져도 맞게 표시한다
+    const order = shallowRef<Element[] | null>(null)
+    const syncOrder = () => {
+      order.value = listRef.value ? Array.from(listRef.value.children) : null
+    }
+    let nextIndex = 0
+    let observer: MutationObserver | undefined
 
-      return h('ol', { class: ['krds-step-wrap', props.class] }, steps)
+    onMounted(() => {
+      syncOrder()
+      observer = new MutationObserver(syncOrder)
+      observer.observe(listRef.value!, { childList: true })
+    })
+    onBeforeUnmount(() => observer?.disconnect())
+
+    provide<StepIndicatorContext>('stepIndicator', {
+      register: () => nextIndex++,
+      indexOf: (el, fallback) => {
+        const index = el && order.value ? order.value.indexOf(el) : -1
+        return index >= 0 ? index : fallback
+      },
+      statusAt: index => (index < activeStep.value ? 'done' : index === activeStep.value ? 'active' : 'pending')
+    })
+
+    return () => {
+      nextIndex = 0
+      return h('ol', { ref: listRef, class: ['krds-step-wrap', props.class] }, slots.default?.())
     }
   }
 })

@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import { nextTick, ref } from 'vue'
+import { describe, expect, it, vi } from 'vitest'
+import { defineComponent, h, ref } from 'vue'
+import { KrdsStep } from '@/components'
 import { expectNoA11yViolations, render } from '@/test/utils'
 
 describe('KrdsStepIndicator', () => {
@@ -57,6 +58,9 @@ describe('KrdsStepIndicator', () => {
     await expectNoA11yViolations()
   })
 
+  const statuses = (container: Element) =>
+    Array.from(container.querySelectorAll('.krds-step-wrap > li'), li => `${li.className}:${li.querySelector('.step-tit')?.textContent}`)
+
   it('현재 단계 변경·단계 추가와 순서 변경을 반영', async () => {
     const current = ref(0)
     const steps = ref(['약관 동의', '정보 입력'])
@@ -68,18 +72,64 @@ describe('KrdsStepIndicator', () => {
       `,
       setup: () => ({ current, steps })
     })
-    const statuses = () => Array.from(container.querySelectorAll('.krds-step-wrap > li'), li => li.className)
 
     current.value = 1
-    await nextTick()
-    expect(statuses()).toEqual(['done', 'active'])
+    await vi.waitFor(() => expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력']))
 
     steps.value = [...steps.value, '서류 첨부', '신청 완료']
-    await nextTick()
-    expect(statuses()).toEqual(['done', 'active', 'pending', 'pending'])
+    await vi.waitFor(() =>
+      expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력', 'pending:서류 첨부', 'pending:신청 완료'])
+    )
 
     steps.value = ['본인 확인', ...steps.value]
-    await nextTick()
-    expect(statuses()).toEqual(['done', 'active', 'pending', 'pending', 'pending'])
+    await vi.waitFor(() =>
+      expect(statuses(container)).toEqual([
+        'done:본인 확인',
+        'active:약관 동의',
+        'pending:정보 입력',
+        'pending:서류 첨부',
+        'pending:신청 완료'
+      ])
+    )
+  })
+
+  it('v-if 단계와 index key v-for 단계를 섞어도 단계가 중복되지 않음', async () => {
+    const loggedIn = ref(false)
+    const { container } = render({
+      template: `
+        <KrdsStepIndicator :model-value="0">
+          <KrdsStep v-if="!loggedIn" step="1단계" title="로그인" />
+          <KrdsStep v-for="(title, i) in (loggedIn ? ['신청서 작성', '제출'] : ['약관 동의', '신청서 작성', '제출'])" :key="i" :step="i" :title="title" />
+        </KrdsStepIndicator>
+      `,
+      setup: () => ({ loggedIn })
+    })
+
+    loggedIn.value = true
+    await vi.waitFor(() => expect(statuses(container)).toEqual(['active:신청서 작성', 'pending:제출']))
+    loggedIn.value = false
+    await vi.waitFor(() =>
+      expect(statuses(container)).toEqual(['active:로그인', 'pending:약관 동의', 'pending:신청서 작성', 'pending:제출'])
+    )
+  })
+
+  it('KrdsStep을 감싼 컴포넌트도 순서대로 상태를 받음', () => {
+    const AppStep = defineComponent({
+      props: { title: { type: String, required: true } },
+      setup: props => () => h(KrdsStep, { step: '단계', title: props.title })
+    })
+    const { container } = render({
+      components: { AppStep },
+      template: `<KrdsStepIndicator :model-value="1"><AppStep title="a" /><KrdsStep step="단계" title="b" /><AppStep title="c" /></KrdsStepIndicator>`
+    })
+    expect(statuses(container)).toEqual(['done:a', 'active:b', 'pending:c'])
+  })
+
+  it('model-value가 null이나 NaN이면 첫 단계를 현재 단계로', () => {
+    const { container } = render({
+      template: `<KrdsStepIndicator :model-value="value"><KrdsStep step="1" title="a" /><KrdsStep step="2" title="b" /></KrdsStepIndicator>`,
+      setup: () => ({ value: Number.NaN })
+    })
+    expect(statuses(container)).toEqual(['active:a', 'pending:b'])
   })
 })
