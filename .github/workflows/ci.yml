@@ -106,14 +106,13 @@ jobs:
         run: pnpm build
 
       # npm에 올라갈 패키지 파일을 예제 프로젝트에 설치해 타입 검사·빌드 (exports·타입·CSS 자산 경로 검증)
-      # 예제는 저장소 작업 공간 밖의 일반 사용자 프로젝트처럼 npm으로 설치한다
+      # 예제는 저장소 작업 공간과 별개인 일반 프로젝트로 설치하고(--ignore-workspace), latest 대신 방금 만든 패키지 파일을 쓴다
       - name: Example project with packed package
         run: |
           pnpm pack --pack-destination "$RUNNER_TEMP"
           cd examples/vite
-          npm install --no-package-lock --no-audit --no-fund
-          npm install --no-package-lock --no-audit --no-fund --no-save "$RUNNER_TEMP"/krds.ui-vue-*.tgz
-          npm run build
+          pnpm add --ignore-workspace "$(ls "$RUNNER_TEMP"/krds.ui-vue-*.tgz)"
+          pnpm run build
 
       - name: SSR smoke test
         run: node scripts/ssr-smoke.mjs

@@ -67,3 +67,7 @@ __screenshots__/
 
 # VitePress
 docs/.vitepress/cache/
+
+# 예제 프로젝트 (CI·로컬 설치 산출물)
+examples/*/pnpm-lock.yaml
+examples/*/package-lock.json
