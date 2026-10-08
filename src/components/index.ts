@@ -14,6 +14,10 @@ export type { KrdsButtonGroupProps } from './KrdsButtonGroup'
 export { default as KrdsIcon } from './KrdsIcon'
 export type { KrdsIconProps } from './KrdsIcon'
 
+// FloatingButton 컴포넌트
+export { default as KrdsFloatingButton } from './KrdsFloatingButton'
+export type { KrdsFloatingButtonProps, KrdsFloatingButtonEmits, KrdsFloatingButtonItem } from './KrdsFloatingButton'
+
 // Link 컴포넌트
 export { default as KrdsLink } from './KrdsLink'
 export type { KrdsLinkProps, KrdsLinkEmits, KrdsLinkSize } from './KrdsLink'

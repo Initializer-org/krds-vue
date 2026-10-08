@@ -14,6 +14,6 @@ import Basic from './demos/identifier/Basic.vue'
 
 ## API
 
-### KrdsIdentifier
+## KrdsIdentifier
 
 <ComponentApi name="KrdsIdentifier" />

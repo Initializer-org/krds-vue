@@ -16,6 +16,6 @@ import Basic from './demos/disclosure/Basic.vue'
 
 ## API
 
-### KrdsDisclosure
+## KrdsDisclosure
 
 <ComponentApi name="KrdsDisclosure" />

@@ -16,6 +16,6 @@ import Basic from './demos/pagination/Basic.vue'
 
 ## API
 
-### KrdsPagination
+## KrdsPagination
 
 <ComponentApi name="KrdsPagination" />

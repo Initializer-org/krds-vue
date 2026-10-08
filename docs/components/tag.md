@@ -43,10 +43,10 @@ import WithSlot from './demos/tag/WithSlot.vue'
 
 ## API
 
-### KrdsTag
+## KrdsTag
 
 <ComponentApi name="KrdsTag" />
 
-### KrdsTagGroup
+## KrdsTagGroup
 
 <ComponentApi name="KrdsTagGroup" />

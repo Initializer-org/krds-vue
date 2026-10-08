@@ -12,6 +12,6 @@
 
 ## API
 
-### KrdsResize
+## KrdsResize
 
 <ComponentApi name="KrdsResize" />

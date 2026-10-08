@@ -4,7 +4,6 @@ import Sizes from './demos/button/Sizes.vue'
 import WithIcon from './demos/button/WithIcon.vue'
 import Text from './demos/button/Text.vue'
 import IconOnly from './demos/button/IconOnly.vue'
-import Group from './demos/button/Group.vue'
 </script>
 
 # 버튼 Button
@@ -47,18 +46,8 @@ import Group from './demos/button/Group.vue'
 
 <<< ./demos/button/IconOnly.vue
 
-## 버튼 그룹
-
-<div class="demo vp-raw"><Group /></div>
-
-<<< ./demos/button/Group.vue
-
 ## API
 
-### KrdsButton
+## KrdsButton
 
 <ComponentApi name="KrdsButton" />
-
-### KrdsButtonGroup
-
-<ComponentApi name="KrdsButtonGroup" />

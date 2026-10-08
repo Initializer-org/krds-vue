@@ -67,7 +67,7 @@ src/components/KrdsNewComponent/
     └── KrdsNewComponent.test.ts
 
 docs/components/
-├── new-component.md      # 문서 페이지 (설명 + 예제 + <ComponentApi name="KrdsNewComponent" />)
+├── new-component.md      # 문서 페이지: 설명 + <DocTabs>(#overview 예제, #api <ComponentApi name="KrdsNewComponent" />)
 └── demos/new-component/  # 예제 SFC (@krds.ui/vue에서 import, 코드 블록으로도 표시됨)
 ```
 

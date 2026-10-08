@@ -16,10 +16,10 @@ import Basic from './demos/radio/Basic.vue'
 
 ## API
 
-### KrdsRadio
+## KrdsRadio
 
 <ComponentApi name="KrdsRadio" />
 
-### KrdsCheckArea
+## KrdsCheckArea
 
 <ComponentApi name="KrdsCheckArea" />

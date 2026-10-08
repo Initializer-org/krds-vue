@@ -27,10 +27,10 @@ import Line from './demos/accordion/Line.vue'
 
 ## API
 
-### KrdsAccordionGroup
+## KrdsAccordionGroup
 
 <ComponentApi name="KrdsAccordionGroup" />
 
-### KrdsAccordionItem
+## KrdsAccordionItem
 
 <ComponentApi name="KrdsAccordionItem" />

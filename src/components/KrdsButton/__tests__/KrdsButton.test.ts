@@ -82,16 +82,4 @@ describe('KrdsButton', () => {
     })
     await expectNoA11yViolations()
   })
-
-  it('버튼 그룹', async () => {
-    render({
-      template: `
-        <KrdsButtonGroup>
-          <KrdsButton variant="secondary">취소</KrdsButton>
-          <KrdsButton variant="primary">확인</KrdsButton>
-        </KrdsButtonGroup>
-      `
-    })
-    await expectNoA11yViolations()
-  })
 })

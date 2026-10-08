@@ -23,6 +23,6 @@ KRDS SVG 아이콘을 표시하는 컴포넌트이다. name 속성에 아이콘 
 
 ## API
 
-### KrdsIcon
+## KrdsIcon
 
 <ComponentApi name="KrdsIcon" />

@@ -5,6 +5,7 @@ import { vSrOnly } from '@/directives'
 import ComponentApi from './ComponentApi.vue'
 import ComponentList from './ComponentList.vue'
 import DemoFrame from './DemoFrame.vue'
+import DocTabs from './DocTabs.vue'
 import './style.css'
 
 export default {
@@ -13,6 +14,7 @@ export default {
     app.component('ComponentApi', ComponentApi)
     app.component('ComponentList', ComponentList)
     app.component('DemoFrame', DemoFrame)
+    app.component('DocTabs', DocTabs)
     // 플러그인(app.use(KrdsVue))을 등록한 앱과 같도록 v-sr-only를 전역 등록 (패키지 엔트리에서는 export되지 않음)
     app.directive('sr-only', vSrOnly)
   }

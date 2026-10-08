@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
-import { expectNoA11yViolations, render, userEvent, waitFor } from '@/test/utils'
+import { expectNoA11yViolations, render, screen, userEvent, waitFor } from '@/test/utils'
 
 // 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
 const a11yRules = [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }]
@@ -205,5 +205,33 @@ describe('KrdsPanel', () => {
       `
     })
     await expectNoA11yViolations(a11yRules)
+  })
+
+  it('공식 배너·헤더가 보이면 그 높이만큼 버튼과 패널 내용을 내리고, 헤더가 숨으면 원위치', async () => {
+    const { container } = render({
+      template: `
+        <div id="wrap" class="g-wrap">
+          <div id="krds-masthead" style="height: 40px"></div>
+          <div id="krds-header"><div class="header-in" style="height: 100px"></div></div>
+          <KrdsPanel />
+          <div style="height: 3000px"></div>
+        </div>
+      `
+    })
+    const expand = screen.getByRole('button', { name: '도움말' })
+    const wrap = container.querySelector('.help-panel-wrap') as HTMLElement
+    const offset = () =>
+      (container.querySelector('.help-panel-flexible') as HTMLElement).style.getPropertyValue('--krds-help-panel--header-offset')
+    await waitFor(() => expect(offset()).toBe('140px'))
+    // PC(1200px)에서는 패널 내용도 내린다 (transition이 끝난 뒤)
+    await waitFor(() => expect(getComputedStyle(wrap).paddingTop).toBe('140px'))
+    // 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝(top 4rem + 140px + 버튼 높이)을 알린다
+    const bottom = () => parseFloat(document.documentElement.style.getPropertyValue('--krds-help-panel--button-bottom'))
+    expect(bottom()).toBe(40 + 140 + expand.offsetHeight)
+
+    // 공식 배너가 지나가고 헤더가 숨은 상태(scroll-down)
+    container.querySelector('#wrap')!.classList.add('scroll-down')
+    window.scrollTo({ top: 500, behavior: 'instant' })
+    await waitFor(() => expect(offset()).toBe('0px'))
   })
 })

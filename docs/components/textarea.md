@@ -16,6 +16,6 @@ import Basic from './demos/textarea/Basic.vue'
 
 ## API
 
-### KrdsTextarea
+## KrdsTextarea
 
 <ComponentApi name="KrdsTextarea" />

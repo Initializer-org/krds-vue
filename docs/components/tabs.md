@@ -48,6 +48,6 @@ import Controlled from './demos/tabs/Controlled.vue'
 
 ## API
 
-### KrdsTabs
+## KrdsTabs
 
 <ComponentApi name="KrdsTabs" />

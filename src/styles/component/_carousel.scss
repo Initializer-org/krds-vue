@@ -265,11 +265,9 @@ $mode-setting: light;
 .krds-carousel.main-d-ban-swiper {
   @include flex-layout($ai: normal, $fd: column);
   z-index: 1;
-  height: 100%;
   text-align: center;
   .swiper {
     width: 100%;
-    height: 100%;
   }
   .swiper-indicator {
     justify-content: center;

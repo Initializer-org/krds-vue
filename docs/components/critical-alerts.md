@@ -25,6 +25,6 @@ import Types from './demos/critical-alerts/Types.vue'
 
 ## API
 
-### KrdsCriticalAlerts
+## KrdsCriticalAlerts
 
 <ComponentApi name="KrdsCriticalAlerts" />

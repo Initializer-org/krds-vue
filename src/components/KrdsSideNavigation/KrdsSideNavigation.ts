@@ -79,6 +79,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 메뉴를 펼치거나 접어 항목 상태가 바뀔 때 (v-model) */
     'update:modelValue': (value: SideNavItem[]) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

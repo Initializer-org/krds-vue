@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
-import { componentGroups, pageDescription } from './pages.ts'
+import type { MarkdownRenderer } from 'vitepress'
+import { componentGroups } from './component-groups.ts'
+import { pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
 const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }
@@ -24,11 +26,33 @@ const storybookRedirect = `(() => {
   location.replace(slug ? '/components/' + slug : id.startsWith('krds-vue-') ? '/guide/getting-started' : '/')
 })()`
 
+/**
+ * 컴포넌트 문서의 '## API' 제목을 경계로 개요 / API 레퍼런스 탭 패널을 일반 HTML로 감싼다 (DocTabs는 탭 목록만 그림).
+ * 본문을 컴포넌트 슬롯에 넣지 않아야 Vue가 정적 내용을 문자열로 묶어 페이지 JS가 커지지 않는다
+ */
+const docTabs = (md: MarkdownRenderer) => {
+  md.core.ruler.push('doc-tabs', state => {
+    if (!state.env.relativePath?.startsWith('components/')) return
+    const { tokens } = state
+    const isH2 = (index: number) => tokens[index].type === 'heading_open' && tokens[index].tag === 'h2'
+    const api = tokens.findIndex((_, index) => isH2(index) && tokens[index + 1].content === 'API')
+    if (api < 0) return
+    const first = tokens.findIndex((_, index) => isH2(index))
+    const html = (content: string) => Object.assign(new state.Token('html_block', '', 0), { content })
+    const panel = (tab: string) =>
+      `<div id="doc-panel-${tab}" class="doc-tab-panel" data-tab="${tab}" role="tabpanel" aria-labelledby="doc-tab-${tab}">\n`
+    tokens.splice(api, 3, html(`</div>\n${panel('api')}`))
+    tokens.splice(first, 0, html(`<div class="doc-tabs" data-active="overview">\n<DocTabs />\n${panel('overview')}`))
+    tokens.push(html('</div>\n</div>\n'))
+  })
+}
+
 export default defineConfig({
   lang: 'ko-KR',
   title: 'KRDS Vue',
   description: siteDescription,
   cleanUrls: true,
+  markdown: { config: docTabs },
   // 페이지 수정일 표시와 사이트맵 lastmod (배포 워크플로는 전체 히스토리로 체크아웃)
   lastUpdated: true,
   sitemap: {
@@ -104,6 +128,7 @@ export default defineConfig({
     nav: [
       { text: '시작하기', link: '/guide/getting-started' },
       { text: '컴포넌트', link: '/components/' },
+      { text: '플레이그라운드', link: '/playground' },
       { text: `v${version}`, link: 'https://github.com/Initializer-org/krds-vue/blob/main/CHANGELOG.md' }
     ],
     sidebar: [
@@ -146,12 +171,24 @@ export default defineConfig({
     outline: { label: '이 페이지에서' },
     docFooter: { prev: '이전', next: '다음' },
     lastUpdated: { text: '마지막 수정', formatOptions: { dateStyle: 'medium', forceLocale: true } },
-    darkModeSwitchLabel: '고대비 모드',
-    lightModeSwitchTitle: '기본 모드로 전환',
-    darkModeSwitchTitle: '고대비 모드로 전환',
+    darkModeSwitchLabel: '선명하게 (어두운 배경)',
+    lightModeSwitchTitle: '기본 (밝은 배경)으로 전환',
+    darkModeSwitchTitle: '선명하게 (어두운 배경)으로 전환',
     sidebarMenuLabel: '메뉴',
     returnToTopLabel: '맨 위로',
-    footer: { message: 'MIT License', copyright: 'Initializer Team' }
+    // 왼쪽 저작권, 오른쪽 링크 한 줄(style.css). 화면 순서와 DOM 순서를 맞추려고 message에 저작권, copyright에 링크를 둔다
+    footer: {
+      message:
+        'Copyright © 2025 Initializer Team. <a href="https://github.com/Initializer-org/krds-vue/blob/main/LICENSE">MIT License</a>로 배포됩니다.',
+      copyright: [
+        ['GitHub', 'https://github.com/Initializer-org/krds-vue'],
+        ['npm', 'https://www.npmjs.com/package/@krds.ui/vue'],
+        ['변경 기록', 'https://github.com/Initializer-org/krds-vue/blob/main/CHANGELOG.md'],
+        ['KRDS 공식 사이트', 'https://www.krds.go.kr']
+      ]
+        .map(([text, href]) => `<a href="${href}">${text}</a>`)
+        .join('')
+    }
   },
   vite: {
     resolve: {

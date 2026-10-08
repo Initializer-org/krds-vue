@@ -18,7 +18,9 @@ export default /* @__PURE__ */ defineComponent({
   name: 'KrdsResize',
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 보내지 않음 (기존 코드 호환용 선언) */
     'update:modelValue': (value: string) => true,
+    /** 크기 목록이 닫힐 때 */
     close: () => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

@@ -25,6 +25,6 @@ import External from './demos/language-switcher/External.vue'
 
 ## API
 
-### KrdsLanguageSwitcher
+## KrdsLanguageSwitcher
 
 <ComponentApi name="KrdsLanguageSwitcher" />

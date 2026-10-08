@@ -72,6 +72,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 이 항목을 선택할 때 (항목 value, v-model) */
     'update:modelValue': (value: string | number | boolean) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

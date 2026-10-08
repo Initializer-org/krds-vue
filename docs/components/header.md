@@ -22,10 +22,10 @@
 
 ## API
 
-### KrdsHeader
+## KrdsHeader
 
 <ComponentApi name="KrdsHeader" />
 
-### KrdsMainMenu
+## KrdsMainMenu
 
 <ComponentApi name="KrdsMainMenu" />

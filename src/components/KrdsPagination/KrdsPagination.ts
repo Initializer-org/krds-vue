@@ -81,6 +81,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 페이지를 바꿀 때 (페이지 번호, v-model) */
     'update:modelValue': (value: number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

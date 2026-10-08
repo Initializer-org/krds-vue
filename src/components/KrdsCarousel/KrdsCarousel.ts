@@ -210,10 +210,15 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 현재 슬라이드 순서가 바뀔 때 (v-model:active-index) */
     'update:activeIndex': (value: number) => true,
+    /** 슬라이드가 바뀌었을 때 (새 순서) */
     change: (value: number) => true,
+    /** 자동 재생을 시작했을 때 */
     play: () => true,
+    /** 자동 재생을 멈췄을 때 */
     stop: () => true,
+    /** 더 보기 버튼을 클릭했을 때 */
     'more-click': (event: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

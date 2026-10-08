@@ -8,7 +8,7 @@
 
 <template>
   <template v-if="api">
-    <h4>Props</h4>
+    <h3>Props</h3>
     <table v-if="api.props.length">
       <thead>
         <tr>
@@ -38,7 +38,7 @@
     <p v-else>없음</p>
 
     <template v-if="api.events.length">
-      <h4>Events</h4>
+      <h3>Events</h3>
       <table>
         <thead>
           <tr>
@@ -62,7 +62,7 @@
     </template>
 
     <template v-if="api.slots.length">
-      <h4>Slots</h4>
+      <h3>Slots</h3>
       <table>
         <thead>
           <tr>

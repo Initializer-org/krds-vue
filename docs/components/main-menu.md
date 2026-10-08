@@ -37,6 +37,6 @@ PC 메가 메뉴는 1024px 이상 화면에서만 표시됩니다. 미리보기�
 
 ## API
 
-### KrdsMainMenu
+## KrdsMainMenu
 
 <ComponentApi name="KrdsMainMenu" />

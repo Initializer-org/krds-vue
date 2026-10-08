@@ -25,6 +25,6 @@ import Ordered from './demos/text-list/Ordered.vue'
 
 ## API
 
-### KrdsTextList
+## KrdsTextList
 
 <ComponentApi name="KrdsTextList" />

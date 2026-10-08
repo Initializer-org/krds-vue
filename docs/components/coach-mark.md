@@ -16,6 +16,6 @@ import Basic from './demos/coach-mark/Basic.vue'
 
 ## API
 
-### KrdsCoachMark
+## KrdsCoachMark
 
 <ComponentApi name="KrdsCoachMark" />

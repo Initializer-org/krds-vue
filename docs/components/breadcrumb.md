@@ -16,6 +16,6 @@ import Basic from './demos/breadcrumb/Basic.vue'
 
 ## API
 
-### KrdsBreadcrumb
+## KrdsBreadcrumb
 
 <ComponentApi name="KrdsBreadcrumb" />

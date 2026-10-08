@@ -61,11 +61,16 @@ export default /* @__PURE__ */ defineComponent({
       default: true
     }
   },
+  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
-    resize: (_size: LayoutSize) => true,
-    scroll: (_details: ScrollDetails) => true,
-    'scroll-height': (_height: number) => true
+    /** 창 크기가 바뀔 때 (레이아웃 크기) */
+    resize: (size: LayoutSize) => true,
+    /** 스크롤할 때 (위치·방향) */
+    scroll: (details: ScrollDetails) => true,
+    /** 문서 스크롤 높이가 바뀔 때 */
+    'scroll-height': (height: number) => true
   },
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { slots, emit }) {
     const scrollY = ref(0)
     const scrollH = ref(0)

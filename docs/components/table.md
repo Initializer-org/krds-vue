@@ -52,6 +52,6 @@ import NoDataSlot from './demos/table/NoDataSlot.vue'
 
 ## API
 
-### KrdsTable
+## KrdsTable
 
 <ComponentApi name="KrdsTable" />

@@ -12,6 +12,6 @@
 
 ## API
 
-### KrdsInPageNavigation
+## KrdsInPageNavigation
 
 <ComponentApi name="KrdsInPageNavigation" />

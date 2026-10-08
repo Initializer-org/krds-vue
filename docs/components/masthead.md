@@ -14,6 +14,6 @@ import Basic from './demos/masthead/Basic.vue'
 
 ## API
 
-### KrdsMasthead
+## KrdsMasthead
 
 <ComponentApi name="KrdsMasthead" />

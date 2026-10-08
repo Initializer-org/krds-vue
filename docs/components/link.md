@@ -23,6 +23,6 @@ import Variations from './demos/link/Variations.vue'
 
 ## API
 
-### KrdsLink
+## KrdsLink
 
 <ComponentApi name="KrdsLink" />

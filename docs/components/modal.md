@@ -53,6 +53,6 @@ import Persistent from './demos/modal/Persistent.vue'
 
 ## API
 
-### KrdsModal
+## KrdsModal
 
 <ComponentApi name="KrdsModal" />

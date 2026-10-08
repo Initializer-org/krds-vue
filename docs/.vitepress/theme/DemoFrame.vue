@@ -30,7 +30,7 @@
 <template>
   <div class="demo-frame">
     <div ref="box" class="demo-frame-box" :style="{ height: `${height}px` }">
-      <iframe :src="withBase(src)" :title="title" :style="frameStyle"></iframe>
+      <iframe :src="withBase(src)" :title="title" :style="frameStyle" loading="lazy"></iframe>
     </div>
     <a :href="withBase(src)" target="_blank" rel="noreferrer">새 창에서 보기</a>
   </div>

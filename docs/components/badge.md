@@ -32,6 +32,6 @@ import NumberBadge from './demos/badge/NumberBadge.vue'
 
 ## API
 
-### KrdsBadge
+## KrdsBadge
 
 <ComponentApi name="KrdsBadge" />

@@ -42,7 +42,7 @@ import IconButtons from './demos/input/IconButtons.vue'
 
 ## 아이콘 버튼
 
-`icon`을 지정하고 기본 슬롯에 버튼을 넣으면 입력 필드 안쪽에 버튼이 배치됩니다. 보이는 텍스트가 없으므로 `sr-only` 텍스트로 버튼 이름을 제공합니다. 비밀번호 보기 전환이나 내용 삭제 같은 버튼 동작은 컴포넌트가 처리하지 않으므로 직접 구현합니다.
+`icon`을 지정하고 기본 슬롯에 버튼을 넣으면 입력 필드 안쪽에 버튼이 배치됩니다. 보이는 텍스트가 없으므로 `sr-only` 텍스트로 버튼 이름을 제공합니다. 비밀번호 보기 전환이나 내용 삭제 같은 버튼 동작은 컴포넌트가 처리하지 않으므로 직접 구현합니다. 버튼이 여러 개면 `KrdsButtonGroup`으로 묶습니다 (KRDS `.btn-group`, 입력 필드 안 전용).
 
 <div class="demo vp-raw"><IconButtons /></div>
 
@@ -50,6 +50,10 @@ import IconButtons from './demos/input/IconButtons.vue'
 
 ## API
 
-### KrdsInput
+## KrdsInput
 
 <ComponentApi name="KrdsInput" />
+
+## KrdsButtonGroup
+
+<ComponentApi name="KrdsButtonGroup" />

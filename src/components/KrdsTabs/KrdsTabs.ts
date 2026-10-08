@@ -79,7 +79,9 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 선택한 탭 id가 바뀔 때 (v-model) */
     'update:modelValue': (id: string) => true,
+    /** 탭을 바꿨을 때 (탭 id) */
     change: (id: string) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

@@ -1,0 +1,152 @@
+@use '../common/include' as *;
+
+/* 플로팅 버튼 (KRDS 가이드: 단일형·확장형) */
+//사이즈 정의
+@mixin floating-button-size-variable() {
+  --krds-floating-button--size: var(--krds-size-height-9);
+  --krds-floating-button--icon-size: var(--krds-size-height-5);
+  --krds-floating-button--item-size: var(--krds-size-height-8);
+  --krds-floating-button--item-icon-size: var(--krds-icon--size-xlarge);
+  --krds-floating-button--pc-font-size: var(--krds-pc-font-size-body-medium);
+  --krds-floating-button--mobile-font-size: var(--krds-mobile-font-size-body-medium);
+}
+
+//컬러 정의
+@mixin floating-button-color-variable($mode: light) {
+  --krds-floating-button--color-fill: var(--krds-#{$mode}-color-button-primary-fill);
+  --krds-floating-button--color-fill-hover: var(--krds-#{$mode}-color-button-primary-fill-hover);
+  --krds-floating-button--color-fill-pressed: var(--krds-#{$mode}-color-button-primary-fill-pressed);
+  --krds-floating-button--color-icon: var(--krds-#{$mode}-color-text-inverse-static);
+  --krds-floating-button--color-item-fill: var(--krds-#{$mode}-color-action-white);
+  --krds-floating-button--color-item-fill-hover: var(--krds-#{$mode}-color-action-secondary-hover);
+  --krds-floating-button--color-item-fill-pressed: var(--krds-#{$mode}-color-action-secondary-pressed);
+  --krds-floating-button--color-item-border: var(--krds-#{$mode}-color-border-gray-light);
+  --krds-floating-button--color-item-icon: var(--krds-#{$mode}-color-text-basic);
+  --krds-floating-button--color-label: var(--krds-#{$mode}-color-text-basic);
+  --krds-floating-button--color-label-dim: var(--krds-#{$mode}-color-text-inverse-static);
+  --krds-floating-button--color-dim: var(--krds-#{$mode}-color-background-dim);
+  --krds-floating-button--color-shadow1: var(--krds-#{$mode}-color-alpha-shadow1);
+  --krds-floating-button--color-shadow2: var(--krds-#{$mode}-color-alpha-shadow2);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-floating-button {
+  @include floating-button-size-variable();
+  @include floating-button-color-variable(#{$mode-setting});
+
+  position: fixed;
+  right: 4rem;
+  bottom: 4rem;
+  //평소에는 본문·푸터(50) 위, 헤더(70)·도움 패널(60)·메뉴 가림막(60) 아래. 펼치면 모달(1000) 아래의 모든 요소 위
+  z-index: 55;
+  &.active {
+    z-index: 101;
+  }
+  //확장형: 확장 버튼(첫 요소)을 아래, 항목을 위에 둔다
+  @include flex-layout($ai: flex-end, $fd: column-reverse);
+  gap: var(--krds-gap-4);
+  font-size: var(--krds-floating-button--pc-font-size);
+
+  .floating-action,
+  .floating-toggle {
+    @include flex-layout($ai: center, $fd: column);
+    gap: var(--krds-gap-2);
+    color: var(--krds-floating-button--color-label);
+  }
+  .floating-toggle {
+    border-radius: 50%;
+  }
+  .floating-icon {
+    @include flex-layout($ai: center, $jc: center);
+    width: var(--krds-floating-button--size);
+    height: var(--krds-floating-button--size);
+    border-radius: 50%;
+    background-color: var(--krds-floating-button--color-fill);
+    box-shadow:
+      0 0 2px 0 var(--krds-floating-button--color-shadow1),
+      0 4px 8px 0 var(--krds-floating-button--color-shadow2);
+    transition: var(--krds-transition-base);
+    .svg-icon {
+      width: var(--krds-floating-button--icon-size);
+      height: var(--krds-floating-button--icon-size);
+      background-color: var(--krds-floating-button--color-icon);
+      transition: var(--krds-transition-base);
+    }
+  }
+  .floating-action:hover .floating-icon,
+  .floating-toggle:hover .floating-icon {
+    background-color: var(--krds-floating-button--color-fill-hover);
+  }
+  .floating-action:active .floating-icon,
+  .floating-toggle:active .floating-icon,
+  &.active .floating-toggle .floating-icon {
+    background-color: var(--krds-floating-button--color-fill-pressed);
+  }
+  //닫기: + 아이콘을 돌려 X로
+  &.active .floating-toggle .svg-icon {
+    transform: rotate(45deg);
+  }
+
+  //확장형 항목: 레이블 왼쪽, 아이콘 오른쪽 (아이콘 중심을 확장 버튼에 맞춤)
+  .floating-list {
+    @include flex-layout($ai: flex-end, $fd: column);
+    gap: var(--krds-gap-4);
+    margin-right: calc((var(--krds-floating-button--size) - var(--krds-floating-button--item-size)) / 2);
+    .floating-action {
+      flex-direction: row-reverse;
+      gap: var(--krds-gap-4);
+      color: var(--krds-floating-button--color-label-dim);
+    }
+    .floating-icon {
+      width: var(--krds-floating-button--item-size);
+      height: var(--krds-floating-button--item-size);
+      border: 0.1rem solid var(--krds-floating-button--color-item-border);
+      background-color: var(--krds-floating-button--color-item-fill);
+      .svg-icon {
+        width: var(--krds-floating-button--item-icon-size);
+        height: var(--krds-floating-button--item-icon-size);
+        background-color: var(--krds-floating-button--color-item-icon);
+      }
+    }
+    .floating-action:hover .floating-icon {
+      background-color: var(--krds-floating-button--color-item-fill-hover);
+    }
+    .floating-action:active .floating-icon {
+      background-color: var(--krds-floating-button--color-item-fill-pressed);
+    }
+  }
+
+  //오버레이: 플로팅 버튼과 기본 화면을 구분하는 가림막
+  .floating-dim {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--krds-floating-button--color-dim);
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-floating-button {
+    @include floating-button-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive tablet
+@include size-large-less {
+  .krds-floating-button {
+    right: var(--krds-contents-padding-x);
+    bottom: var(--krds-contents-padding-x);
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-floating-button {
+    font-size: var(--krds-floating-button--mobile-font-size);
+  }
+}

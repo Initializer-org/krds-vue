@@ -23,6 +23,6 @@ import SimpleBadge from './demos/structured-list/SimpleBadge.vue'
 
 ## API
 
-### KrdsStructuredList
+## KrdsStructuredList
 
 <ComponentApi name="KrdsStructuredList" />

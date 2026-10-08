@@ -52,6 +52,8 @@ $mode-setting: light;
 .tab {
   @include tab-size-variable();
   @include tab-color-variable(#{$mode-setting});
+  //.krds-tab-area(세로 flex, align-items: flex-start) 안에서 탭 전체 폭으로 늘어나지 않고 ul이 가로 스크롤되게
+  max-width: 100%;
 
   > ul {
     @include flex-layout($ai: center);

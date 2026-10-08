@@ -6,7 +6,18 @@
   --vp-c-brand-soft: var(--krds-color-light-primary-5);
 }
 
+/* 다크 토글은 KRDS 고대비 모드에 연결되므로(KRDS에는 일반 다크 모드가 없음) 사이트 색도 KRDS 고대비 회색 단계로 맞춘다 */
 .dark {
+  --vp-c-bg: var(--krds-color-high-contrast-gray-100);
+  --vp-c-bg-alt: var(--krds-color-high-contrast-gray-95);
+  --vp-c-bg-elv: var(--krds-color-high-contrast-gray-90);
+  --vp-c-bg-soft: var(--krds-color-high-contrast-gray-90);
+  --vp-c-gutter: var(--krds-color-high-contrast-gray-100);
+  --vp-c-text-1: var(--krds-color-high-contrast-gray-5);
+  --vp-c-text-2: var(--krds-color-high-contrast-gray-20);
+  --vp-c-text-3: var(--krds-color-high-contrast-gray-30);
+  --vp-c-divider: var(--krds-color-high-contrast-gray-70);
+  --vp-c-border: var(--krds-color-high-contrast-gray-60);
   --vp-c-brand-1: var(--krds-high-contrast-color-text-primary);
   --vp-c-brand-soft: rgb(177 206 251 / 16%);
 }
@@ -70,4 +81,219 @@
    문서 페이지(.Layout)에서만 원래 높이로 되돌린다 (iframe 예제 페이지는 KRDS 그대로) */
 body:has(.Layout) {
   height: auto;
+}
+
+/* 컴포넌트 문서 "개요 / API 레퍼런스" 탭 (DocTabs) */
+.doc-tabs-list {
+  display: flex;
+  margin: 32px 0 8px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.doc-tabs-tab {
+  margin-bottom: -1px;
+  padding: 12px 24px;
+  border-bottom: 3px solid transparent;
+  color: var(--vp-c-text-2);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.doc-tabs-tab:hover {
+  color: var(--vp-c-text-1);
+}
+
+.doc-tabs-tab[aria-selected='true'] {
+  border-bottom-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+/* 탭 아래 첫 제목은 탭 밑줄과 겹치지 않게 구분선 없이 */
+/* 비활성 탭 패널 숨김 (DocTabs가 바깥 틀의 data-active를 바꿈) */
+.doc-tabs:not([data-active='api']) > .doc-tab-panel[data-tab='api'],
+.doc-tabs[data-active='api'] > .doc-tab-panel[data-tab='overview'] {
+  display: none;
+}
+
+.vp-doc .doc-tabs [role='tabpanel'] > h2:first-child {
+  margin-top: 32px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* 홈 컴포넌트 미리보기 (HomeShowcase): 3열, 1024px 미만은 1열 */
+.showcase {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.showcase-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.showcase-card {
+  padding: 28px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+}
+
+.showcase-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.showcase-title-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.showcase-desc {
+  margin: 6px 0 20px;
+  color: var(--vp-c-text-2);
+  font-size: 15px;
+}
+
+.showcase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.showcase-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.showcase-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.showcase-subtitle {
+  margin: 20px 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.showcase-requests li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.showcase-requests strong {
+  display: block;
+  font-size: 16px;
+}
+
+.showcase-requests span {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.showcase-links {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.showcase-links a {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+.showcase-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1023px) {
+  .showcase {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* 푸터: 옅은 배경 위 작은 회색 글씨 한 줄. VitePress 컴포넌트 스타일(scoped)보다 선택자를 한 단계 높여 덮어쓴다 */
+.VPContent.is-home .VPHome {
+  margin-bottom: 64px;
+}
+
+.Layout footer.VPFooter {
+  padding: 20px 24px;
+  border-top-color: var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+}
+
+footer.VPFooter .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  max-width: 1152px;
+  text-align: left;
+}
+
+.VPFooter .container p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--vp-c-text-2);
+}
+
+.VPFooter .container p a {
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+}
+
+.VPFooter .container p a:hover {
+  text-decoration: underline;
+}
+
+.VPFooter .container .copyright a:not(:last-child) {
+  margin-right: 8px;
+  padding-right: 8px;
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+/* 상단 검색 버튼: VitePress 기본은 글자 폭만큼이라 눈에 덜 띄어 입력창처럼 넓힌다 (모바일 아이콘 버튼은 그대로) */
+@media (min-width: 768px) {
+  .VPNavBarSearch button.VPNavBarSearchButton {
+    width: 240px;
+    height: 40px;
+    padding: 0 8px 0 12px;
+    border: 1px solid transparent;
+    font-size: 16px;
+    transition: border-color 0.25s;
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton:hover {
+    border-color: var(--vp-c-brand-1);
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton .text {
+    font-size: 14px;
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton .keys {
+    margin-left: auto;
+  }
 }

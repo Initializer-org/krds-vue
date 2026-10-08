@@ -39,6 +39,6 @@ import Error from './demos/select/Error.vue'
 
 ## API
 
-### KrdsSelect
+## KrdsSelect
 
 <ComponentApi name="KrdsSelect" />

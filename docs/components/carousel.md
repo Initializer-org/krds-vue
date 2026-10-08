@@ -50,6 +50,6 @@ import Fraction from './demos/carousel/Fraction.vue'
 
 ## API
 
-### KrdsCarousel
+## KrdsCarousel
 
 <ComponentApi name="KrdsCarousel" />

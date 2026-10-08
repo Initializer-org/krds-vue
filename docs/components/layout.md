@@ -20,6 +20,6 @@
 
 ## API
 
-### KrdsLayout
+## KrdsLayout
 
 <ComponentApi name="KrdsLayout" />

@@ -32,10 +32,10 @@ import Chip from './demos/checkbox/Chip.vue'
 
 ## API
 
-### KrdsCheckbox
+## KrdsCheckbox
 
 <ComponentApi name="KrdsCheckbox" />
 
-### KrdsCheckArea
+## KrdsCheckArea
 
 <ComponentApi name="KrdsCheckArea" />

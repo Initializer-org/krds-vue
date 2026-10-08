@@ -76,7 +76,9 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 켜짐 상태가 바뀔 때 (v-model) */
     'update:modelValue': (value: boolean) => true,
+    /** 켜거나 껐을 때 */
     change: (value: boolean) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

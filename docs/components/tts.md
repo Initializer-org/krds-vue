@@ -46,6 +46,6 @@ TTS(Text-to-Speech)는 텍스트를 음성으로 변환하여 읽어주는 기�
 
 ## API
 
-### KrdsTts
+## KrdsTts
 
 <ComponentApi name="KrdsTts" />

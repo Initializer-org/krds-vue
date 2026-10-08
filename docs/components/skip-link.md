@@ -20,6 +20,6 @@
 
 ## API
 
-### KrdsSkipLink
+## KrdsSkipLink
 
 <ComponentApi name="KrdsSkipLink" />

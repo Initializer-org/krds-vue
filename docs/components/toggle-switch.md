@@ -23,6 +23,6 @@ import Sizes from './demos/toggle-switch/Sizes.vue'
 
 ## API
 
-### KrdsToggleSwitch
+## KrdsToggleSwitch
 
 <ComponentApi name="KrdsToggleSwitch" />

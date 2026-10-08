@@ -14,10 +14,10 @@
 
 ## API
 
-### KrdsFooter
+## KrdsFooter
 
 <ComponentApi name="KrdsFooter" />
 
-### KrdsIdentifier
+## KrdsIdentifier
 
 <ComponentApi name="KrdsIdentifier" />

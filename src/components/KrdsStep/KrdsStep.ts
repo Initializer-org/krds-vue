@@ -1,6 +1,6 @@
-import { defineComponent, inject, computed, h } from 'vue'
+import { defineComponent, computed, h, inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { BaseComponentProps } from '@/types'
-import type { ComputedRef } from 'vue'
+import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
 
 /**
  * KRDS Step 컴포넌트 속성
@@ -10,7 +10,7 @@ export interface KrdsStepProps extends BaseComponentProps {
   step: string | number
   /** 단계 제목 */
   title: string
-  /** 단계 상태 강제 설정 (선택적) */
+  /** 단계 상태 (지정하지 않으면 KrdsStepIndicator가 순서에 따라 정함) */
   status?: 'done' | 'active' | 'pending'
 }
 
@@ -19,16 +19,6 @@ export interface KrdsStepProps extends BaseComponentProps {
  */
 export interface KrdsStepEmits {
   (e: 'click', event: MouseEvent, step: string | number): void
-}
-
-/**
- * Stepper 컨텍스트 타입
- */
-interface StepIndicatorContext {
-  activeStep: ComputedRef<number>
-  getStepStatus: (index: number) => 'done' | 'active' | 'pending'
-  getNextStepIndex: () => number
-  resetStepIndex: () => void
 }
 
 export default /* @__PURE__ */ defineComponent({
@@ -44,7 +34,7 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       required: true
     },
-    /** 단계 상태 강제 설정 (선택적) */
+    /** 단계 상태 (지정하지 않으면 KrdsStepIndicator가 순서에 따라 정함) */
     status: {
       type: String as () => 'done' | 'active' | 'pending',
       default: undefined
@@ -57,37 +47,21 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 단계를 클릭했을 때 (단계 번호) */
     click: (event: MouseEvent, step: string | number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
-    /**
-     * StepIndicator 컨텍스트 주입 (선택적)
-     */
-    const stepIndicatorContext = inject<StepIndicatorContext | null>('stepIndicator')
-
-    /**
-     * 현재 단계의 인덱스 계산
-     */
-    const stepIndex = stepIndicatorContext ? stepIndicatorContext.getNextStepIndex() : -1
-
-    /**
-     * 단계 상태 계산
-     */
-    const stepStatus = computed(() => {
-      // props로 상태가 직접 지정된 경우 우선 사용
-      if (props.status) {
-        return props.status
-      }
-
-      // StepIndicator 컨텍스트가 있으면 인덱스 기반으로 상태 계산
-      if (stepIndicatorContext && stepIndex >= 0) {
-        return stepIndicatorContext.getStepStatus(stepIndex)
-      }
-
-      // 기본값
-      return 'pending'
-    })
+    /** 단계 상태: status가 없으면 KrdsStepIndicator 안의 위치로 정한다 */
+    const stepIndicator = inject<StepIndicatorContext | null>('stepIndicator', null)
+    const createdIndex = stepIndicator ? stepIndicator.register() : -1
+    const elRef = ref<HTMLElement | null>(null)
+    onMounted(() => elRef.value && stepIndicator?.track(elRef.value))
+    onBeforeUnmount(() => elRef.value && stepIndicator?.untrack(elRef.value))
+    const stepStatus = computed(
+      // 빈 문자열도 지정하지 않은 것으로 본다 (:status="cond ? 'done' : ''")
+      () => props.status || (stepIndicator ? stepIndicator.statusAt(stepIndicator.indexOf(elRef.value, createdIndex)) : 'pending')
+    )
 
     /**
      * 단계 클래스 계산
@@ -116,6 +90,7 @@ export default /* @__PURE__ */ defineComponent({
       return h(
         'li',
         {
+          ref: elRef,
           class: stepClasses.value,
           onClick: handleClick
         },
