@@ -265,7 +265,6 @@ footer.VPFooter .container {
 }
 
 .VPFooter .container p a:hover {
-  color: var(--vp-c-text-1);
   text-decoration: underline;
 }
 
@@ -273,4 +272,28 @@ footer.VPFooter .container {
   margin-right: 8px;
   padding-right: 8px;
   border-right: 1px solid var(--vp-c-divider);
+}
+
+/* 상단 검색 버튼: VitePress 기본은 글자 폭만큼이라 눈에 덜 띄어 입력창처럼 넓힌다 (모바일 아이콘 버튼은 그대로) */
+@media (min-width: 768px) {
+  .VPNavBarSearch button.VPNavBarSearchButton {
+    width: 240px;
+    height: 40px;
+    padding: 0 8px 0 12px;
+    border: 1px solid transparent;
+    font-size: 16px;
+    transition: border-color 0.25s;
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton:hover {
+    border-color: var(--vp-c-brand-1);
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton .text {
+    font-size: 14px;
+  }
+
+  .VPNavBarSearch button.VPNavBarSearchButton .keys {
+    margin-left: auto;
+  }
 }
