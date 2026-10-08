@@ -1,6 +1,7 @@
 import { resolve } from 'node:path'
 import { defineLoader } from 'vitepress'
-import { componentGroups, pageDescription } from '../pages.ts'
+import { componentGroups } from '../component-groups.ts'
+import { pageDescription } from '../pages.ts'
 
 export interface ComponentListGroup {
   text: string

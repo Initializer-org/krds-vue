@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
-import { componentGroups, pageDescription } from './pages.ts'
+import { componentGroups } from './component-groups.ts'
+import { pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
 const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }

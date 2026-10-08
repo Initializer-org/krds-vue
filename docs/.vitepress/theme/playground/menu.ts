@@ -6,8 +6,7 @@ import { componentGroups } from '../../component-groups.ts'
  * 컴포넌트는 2depth에 KRDS 분류를 나열한다. 메인 메뉴·사이드 메뉴 모두 실제 문서로 연결된다
  */
 
-const pageLinks = (groupText: string) =>
-  componentGroups.find(group => group.text === groupText)!.pages.map(([name, slug]) => ({ text: name, href: `/components/${slug}` }))
+const pageLinks = (pages: [name: string, slug: string][]) => pages.map(([name, slug]) => ({ text: name, href: `/components/${slug}` }))
 
 export const mainMenuItems: MainMenuItem[] = [
   {
@@ -20,7 +19,7 @@ export const mainMenuItems: MainMenuItem[] = [
   },
   {
     text: '컴포넌트',
-    subItems: componentGroups.map(group => ({ text: group.text, items: pageLinks(group.text) }))
+    subItems: componentGroups.map(group => ({ text: group.text, items: pageLinks(group.pages) }))
   },
   {
     text: '리소스',
@@ -37,5 +36,5 @@ export const sideNavItems = (): SideNavItem[] =>
   componentGroups.map((group, index) => ({
     text: group.text,
     expanded: index === 0,
-    subItems: pageLinks(group.text)
+    subItems: pageLinks(group.pages)
   }))

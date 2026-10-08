@@ -20,27 +20,25 @@ export default defineLoader({
   load(files): Record<string, ComponentApi> {
     const checker = createChecker(resolve(root, 'tsconfig.json'), { forceUseTs: true, printer: { newLine: 1 } })
     return Object.fromEntries(
-      files
-        .filter(file => !file.endsWith('.stories.ts'))
-        .map(file => {
-          const meta = checker.getComponentMeta(file)
-          return [
-            basename(file, '.ts'),
-            {
-              props: meta.props
-                .filter(prop => !prop.global)
-                .map(prop => ({
-                  name: prop.name,
-                  type: stripUndefined(prop.type),
-                  default: prop.default === 'undefined' ? undefined : prop.default,
-                  required: prop.required,
-                  description: prop.description
-                })),
-              events: meta.events.map(event => ({ name: event.name, type: event.type, description: event.description })),
-              slots: meta.slots.map(slot => ({ name: slot.name, description: slot.description }))
-            }
-          ]
-        })
+      files.map(file => {
+        const meta = checker.getComponentMeta(file)
+        return [
+          basename(file, '.ts'),
+          {
+            props: meta.props
+              .filter(prop => !prop.global)
+              .map(prop => ({
+                name: prop.name,
+                type: stripUndefined(prop.type),
+                default: prop.default === 'undefined' ? undefined : prop.default,
+                required: prop.required,
+                description: prop.description
+              })),
+            events: meta.events.map(event => ({ name: event.name, type: event.type, description: event.description })),
+            slots: meta.slots.map(slot => ({ name: slot.name, description: slot.description }))
+          }
+        ]
+      })
     )
   }
 })

@@ -1,7 +1,5 @@
 import { readFileSync } from 'node:fs'
 
-export { componentGroups } from './component-groups.ts'
-
 /** 마크다운 문단을 평문으로 */
 const toPlainText = (markdown: string) =>
   markdown
