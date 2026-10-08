@@ -68,7 +68,8 @@ export default /* @__PURE__ */ defineComponent({
         const masthead = document.querySelector<HTMLElement>(props.headerTopSelector)
         const header = document.querySelector<HTMLElement>(props.headerInnerSelector)
         const mastheadShown = !!masthead && masthead.getBoundingClientRect().bottom > 0
-        const headerHidden = !!document.querySelector('#wrap.scroll-down')
+        // KrdsLayout이 루트(기본 #wrap, id는 바꿀 수 있음)에 붙이는 헤더 숨김 클래스
+        const headerHidden = !!document.querySelector('.scroll-down')
         headerOffset.value = !header
           ? 0
           : mastheadShown
