@@ -91,7 +91,7 @@ export { default as KrdsSpinner } from './KrdsSpinner'
 
 // StepIndicator 컴포넌트
 export { default as KrdsStepIndicator } from './KrdsStepIndicator'
-export type { KrdsStepIndicatorProps, KrdsStepIndicatorEmits } from './KrdsStepIndicator'
+export type { KrdsStepIndicatorProps } from './KrdsStepIndicator'
 
 // Step 컴포넌트
 export { default as KrdsStep } from './KrdsStep'

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { nextTick, ref } from 'vue'
 import { expectNoA11yViolations, render } from '@/test/utils'
 
 describe('KrdsStepIndicator', () => {
@@ -54,5 +55,31 @@ describe('KrdsStepIndicator', () => {
       `
     })
     await expectNoA11yViolations()
+  })
+
+  it('현재 단계 변경·단계 추가와 순서 변경을 반영', async () => {
+    const current = ref(0)
+    const steps = ref(['약관 동의', '정보 입력'])
+    const { container } = render({
+      template: `
+        <KrdsStepIndicator :model-value="current">
+          <KrdsStep v-for="(title, index) in steps" :key="title" :step="index + 1 + '단계'" :title="title" />
+        </KrdsStepIndicator>
+      `,
+      setup: () => ({ current, steps })
+    })
+    const statuses = () => Array.from(container.querySelectorAll('.krds-step-wrap > li'), li => li.className)
+
+    current.value = 1
+    await nextTick()
+    expect(statuses()).toEqual(['done', 'active'])
+
+    steps.value = [...steps.value, '서류 첨부', '신청 완료']
+    await nextTick()
+    expect(statuses()).toEqual(['done', 'active', 'pending', 'pending'])
+
+    steps.value = ['본인 확인', ...steps.value]
+    await nextTick()
+    expect(statuses()).toEqual(['done', 'active', 'pending', 'pending', 'pending'])
   })
 })

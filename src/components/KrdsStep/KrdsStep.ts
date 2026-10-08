@@ -1,6 +1,5 @@
-import { defineComponent, inject, computed, h } from 'vue'
+import { defineComponent, computed, h } from 'vue'
 import type { BaseComponentProps } from '@/types'
-import type { ComputedRef } from 'vue'
 
 /**
  * KRDS Step 컴포넌트 속성
@@ -10,7 +9,7 @@ export interface KrdsStepProps extends BaseComponentProps {
   step: string | number
   /** 단계 제목 */
   title: string
-  /** 단계 상태 강제 설정 (선택적) */
+  /** 단계 상태 (지정하지 않으면 KrdsStepIndicator가 순서에 따라 정함) */
   status?: 'done' | 'active' | 'pending'
 }
 
@@ -19,16 +18,6 @@ export interface KrdsStepProps extends BaseComponentProps {
  */
 export interface KrdsStepEmits {
   (e: 'click', event: MouseEvent, step: string | number): void
-}
-
-/**
- * Stepper 컨텍스트 타입
- */
-interface StepIndicatorContext {
-  activeStep: ComputedRef<number>
-  getStepStatus: (index: number) => 'done' | 'active' | 'pending'
-  getNextStepIndex: () => number
-  resetStepIndex: () => void
 }
 
 export default /* @__PURE__ */ defineComponent({
@@ -44,7 +33,7 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       required: true
     },
-    /** 단계 상태 강제 설정 (선택적) */
+    /** 단계 상태 (지정하지 않으면 KrdsStepIndicator가 순서에 따라 정함) */
     status: {
       type: String as () => 'done' | 'active' | 'pending',
       default: undefined
@@ -61,33 +50,8 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { emit, slots }) {
-    /**
-     * StepIndicator 컨텍스트 주입 (선택적)
-     */
-    const stepIndicatorContext = inject<StepIndicatorContext | null>('stepIndicator')
-
-    /**
-     * 현재 단계의 인덱스 계산
-     */
-    const stepIndex = stepIndicatorContext ? stepIndicatorContext.getNextStepIndex() : -1
-
-    /**
-     * 단계 상태 계산
-     */
-    const stepStatus = computed(() => {
-      // props로 상태가 직접 지정된 경우 우선 사용
-      if (props.status) {
-        return props.status
-      }
-
-      // StepIndicator 컨텍스트가 있으면 인덱스 기반으로 상태 계산
-      if (stepIndicatorContext && stepIndex >= 0) {
-        return stepIndicatorContext.getStepStatus(stepIndex)
-      }
-
-      // 기본값
-      return 'pending'
-    })
+    /** 단계 상태 (KrdsStepIndicator 안에서는 순서에 따라 자동 지정) */
+    const stepStatus = computed(() => props.status ?? 'pending')
 
     /**
      * 단계 클래스 계산

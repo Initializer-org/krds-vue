@@ -3,8 +3,8 @@
  */
 
 import KrdsStepIndicator from './KrdsStepIndicator'
-import type { KrdsStepIndicatorProps, KrdsStepIndicatorEmits } from './KrdsStepIndicator'
+import type { KrdsStepIndicatorProps } from './KrdsStepIndicator'
 
 export { KrdsStepIndicator }
-export type { KrdsStepIndicatorProps, KrdsStepIndicatorEmits }
+export type { KrdsStepIndicatorProps }
 export default KrdsStepIndicator

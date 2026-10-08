@@ -1,25 +1,30 @@
-import { defineComponent, provide, computed, ref, h } from 'vue'
+import { Fragment, cloneVNode, defineComponent, h } from 'vue'
+import type { VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import KrdsStep from '../KrdsStep/KrdsStep'
 
 /**
  * KRDS StepIndicator 컴포넌트 속성
  */
 export interface KrdsStepIndicatorProps extends BaseComponentProps {
-  /** 현재 활성 단계 인덱스 (0부터 시작) - v-model */
+  /** 현재 단계 인덱스 (0부터 시작). 앞 단계는 완료, 뒤 단계는 대기로 표시 */
   modelValue?: number
 }
 
-/**
- * KRDS StepIndicator 컴포넌트 이벤트
- */
-export interface KrdsStepIndicatorEmits {
-  (e: 'update:modelValue', value: number): void
-}
+/** v-for 등으로 생긴 Fragment를 펼쳐 단계를 순서대로 센다 */
+const flatten = (nodes: VNode[]): VNode[] =>
+  nodes.flatMap(node => (node.type === Fragment && Array.isArray(node.children) ? flatten(node.children as VNode[]) : [node]))
 
+/**
+ * KRDS StepIndicator 컴포넌트
+ *
+ * 진행 상태를 보여 주기만 하는 컴포넌트입니다 (KRDS 원본과 같이 단계를 눌러 이동하지 않음).
+ * 단계 이동은 이전/다음 버튼 등에서 `model-value`를 바꿔 반영합니다.
+ */
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsStepIndicator',
   props: {
-    /** 현재 활성 단계 인덱스 (0부터 시작) - v-model */
+    /** 현재 단계 인덱스 (0부터 시작). 앞 단계는 완료, 뒤 단계는 대기로 표시 */
     modelValue: {
       type: Number,
       default: 0
@@ -30,67 +35,19 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
-  /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
-  emits: {
-    'update:modelValue': (value: number) => true
-  },
-  /* eslint-enable @typescript-eslint/no-unused-vars */
   setup(props, { slots }) {
-    /**
-     * Stepper 클래스 계산
-     */
-    const stepperClasses = computed(() => {
-      const classes = ['krds-step-wrap']
-
-      // 사용자 정의 클래스
-      if (props.class) {
-        classes.push(props.class)
-      }
-
-      return classes
-    })
-
-    /**
-     * 단계별 상태 계산
-     */
-    const getStepStatus = (index: number): 'done' | 'active' | 'pending' => {
-      const currentStep = props.modelValue || 0
-      if (index < currentStep) return 'done'
-      if (index === currentStep) return 'active'
-      return 'pending'
-    }
-
-    /**
-     * 단계 인덱스 추적 (반응형)
-     */
-    const stepIndex = ref(0)
-    const resetStepIndex = () => {
-      stepIndex.value = 0
-    }
-    const getNextStepIndex = () => {
-      return stepIndex.value++
-    }
-
-    /**
-     * 컨텍스트 제공
-     */
-    provide('stepIndicator', {
-      activeStep: computed(() => props.modelValue || 0),
-      getStepStatus,
-      getNextStepIndex,
-      resetStepIndex
-    })
-
+    // 렌더할 때마다 단계 순서로 상태를 정해 단계가 추가·삭제·재정렬돼도 맞게 표시한다
     return () => {
-      // 슬롯 기반 렌더링
-      resetStepIndex() // 렌더링 시작 전 인덱스 초기화
-      return h(
-        'ol',
-        {
-          class: stepperClasses.value
-        },
-        slots.default?.()
-      )
+      let index = 0
+      const steps = flatten(slots.default?.() ?? []).map(node => {
+        if (node.type !== KrdsStep) return node
+        const current = index++
+        if (node.props?.status) return node
+        const status = current < props.modelValue ? 'done' : current === props.modelValue ? 'active' : 'pending'
+        return cloneVNode(node, { status })
+      })
+
+      return h('ol', { class: ['krds-step-wrap', props.class] }, steps)
     }
   }
 })
