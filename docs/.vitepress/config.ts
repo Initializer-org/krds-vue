@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
 import type { MarkdownRenderer } from 'vitepress'
 import { componentGroups } from './component-groups.ts'
-import { writeLlmsFiles } from './llms.ts'
+import { cursorRule, writeAiFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
@@ -112,9 +112,9 @@ export default defineConfig({
     const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
     if (description) pageData.description = description
   },
-  // AI 도구용 문서(llms.txt, llms-full.txt)
+  // AI 도구용 파일 (llms.txt, llms-full.txt, Cursor 규칙 파일)
   async buildEnd(siteConfig) {
-    await writeLlmsFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
+    await writeAiFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
   },
   transformHead({ pageData, title, description }) {
     if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
@@ -142,7 +142,6 @@ export default defineConfig({
         items: [
           { text: '시작하기', link: '/guide/getting-started' },
           { text: 'AI로 개발하기', link: '/guide/ai' },
-          { text: 'KRDS Vue 개발 지침', link: '/guide/ai-guidelines' },
           { text: '컴포넌트 목록', link: '/components/' }
         ]
       },
@@ -198,6 +197,18 @@ export default defineConfig({
     }
   },
   vite: {
+    plugins: [
+      {
+        // 개발 서버에서도 Cursor 규칙 파일을 내려받을 수 있게 한다 (빌드는 buildEnd에서 파일로 만든다)
+        name: 'krds-cursor-rule',
+        configureServer(server) {
+          server.middlewares.use('/ai/krds-vue.mdc', (_request, response) => {
+            response.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+            response.end(cursorRule(resolve(import.meta.dirname, '..')))
+          })
+        }
+      }
+    ],
     resolve: {
       alias: [
         // 예제 코드를 그대로 복사해 쓸 수 있도록 패키지 이름으로 import하고, 빌드는 소스를 사용

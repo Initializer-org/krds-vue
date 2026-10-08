@@ -4,7 +4,7 @@ Claude Code, Cursor, GitHub Copilot 같은 AI 코딩 도구가 KRDS Vue를 올�
 
 ## 지침 파일
 
-[KRDS Vue 개발 지침](./ai-guidelines)에 KRDS Vue로 화면을 만들 때 AI가 따라야 할 규칙을 정리했습니다. 원본 파일은 <a href="/ai/guidelines.md" download="krds-vue-guidelines.md">guidelines.md</a>로 내려받을 수 있습니다.
+AI가 KRDS Vue로 화면을 만들 때 따를 규칙을 지침 파일로 정리했습니다.
 
 - 설치와 설정 (스타일, 전역 등록, 전역 타입, Nuxt)
 - 공공 누리집 페이지 레이아웃 (공식 배너, 헤더, 메인 메뉴, 사이드 메뉴, 푸터, 운영기관 식별자)
@@ -12,24 +12,22 @@ Claude Code, Cursor, GitHub Copilot 같은 AI 코딩 도구가 KRDS Vue를 올�
 - 자주 쓰는 컴포넌트의 핵심 속성
 - 접근성, 화면 모드(고대비), 하지 말 것
 
-프로젝트에 내려받아 쓰는 AI 도구의 규칙 파일로 등록합니다.
-
-```bash
-curl -fsSL https://krds.initializer.org/ai/guidelines.md -o krds-vue-guidelines.md
-```
-
 ## 도구별 규칙 파일
 
-| 도구                             | 규칙 파일 위치                    | 등록 방법                                                                        |
-| -------------------------------- | --------------------------------- | -------------------------------------------------------------------------------- |
-| Claude Code                      | `CLAUDE.md`                       | 내용을 붙여 넣거나 `@krds-vue-guidelines.md` 한 줄로 가져옵니다.                 |
-| Cursor                           | `.cursor/rules/krds-vue.mdc`      | 파일 맨 위에 `alwaysApply: true`를 담은 frontmatter를 두고 내용을 붙여 넣습니다. |
-| GitHub Copilot (VS Code, GitHub) | `.github/copilot-instructions.md` | 내용을 붙여 넣습니다.                                                            |
-| Codex 등 `AGENTS.md`를 읽는 도구 | `AGENTS.md`                       | 내용을 붙여 넣습니다.                                                            |
-| Gemini CLI                       | `GEMINI.md`                       | 내용을 붙여 넣거나 `@krds-vue-guidelines.md`로 가져옵니다.                       |
-| Windsurf                         | `.windsurf/rules/krds-vue.md`     | 내용을 붙여 넣습니다.                                                            |
+쓰는 도구의 파일 이름을 누르면 그 이름으로 내려받습니다. 표의 위치에 두면 도구가 지침을 읽습니다.
 
-이미 같은 파일이 있으면 덮어쓰지 말고 내용을 덧붙이세요.
+| 도구                             | 규칙 파일                                                                                  | 두는 위치          |
+| -------------------------------- | ------------------------------------------------------------------------------------------ | ------------------ |
+| Claude Code                      | <a href="/ai/guidelines.md" download="CLAUDE.md">CLAUDE.md</a>                             | 프로젝트 루트      |
+| Cursor                           | <a href="/ai/krds-vue.mdc" download="krds-vue.mdc">krds-vue.mdc</a>                        | `.cursor/rules/`   |
+| GitHub Copilot (VS Code, GitHub) | <a href="/ai/guidelines.md" download="copilot-instructions.md">copilot-instructions.md</a> | `.github/`         |
+| Codex 등 `AGENTS.md`를 읽는 도구 | <a href="/ai/guidelines.md" download="AGENTS.md">AGENTS.md</a>                             | 프로젝트 루트      |
+| Gemini CLI                       | <a href="/ai/guidelines.md" download="GEMINI.md">GEMINI.md</a>                             | 프로젝트 루트      |
+| Windsurf                         | <a href="/ai/guidelines.md" download="krds-vue.md">krds-vue.md</a>                         | `.windsurf/rules/` |
+
+- 같은 이름의 파일이 이미 있으면 덮어쓰지 말고 내용을 덧붙이세요.
+- Cursor 파일에는 늘 적용되도록 `alwaysApply: true` 설정이 들어 있습니다.
+- 명령줄에서 받을 수도 있습니다: `curl -fsSL https://krds.initializer.org/ai/guidelines.md -o AGENTS.md`
 
 ## AI용 문서 (llms.txt)
 

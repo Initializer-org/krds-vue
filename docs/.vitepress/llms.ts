@@ -5,12 +5,17 @@ import { pageDescription } from './pages.ts'
 import componentMeta from './theme/component-meta.data.ts'
 import type { ComponentApi } from './theme/component-meta.data.ts'
 
+/** Cursor 규칙 파일: 항상 적용되도록 frontmatter를 붙인 지침 (원본은 docs/public/ai/guidelines.md 하나) */
+export const cursorRule = (srcDir: string) =>
+  `---\ndescription: KRDS Vue(@krds.ui/vue)로 화면을 만들 때 따를 지침\nalwaysApply: true\n---\n\n${readFileSync(resolve(srcDir, 'public/ai/guidelines.md'), 'utf-8')}`
+
 /**
- * AI 도구용 문서(llmstxt.org 형식)를 빌드 결과에 쓴다.
- * - llms.txt: 문서 목차와 설명
+ * AI 도구용 파일을 빌드 결과에 쓴다.
+ * - llms.txt: 문서 목차와 설명 (llmstxt.org 형식)
  * - llms-full.txt: 가이드와 컴포넌트 문서 전체 (예제 코드와 Props·Events·Slots 표 포함)
+ * - ai/krds-vue.mdc: Cursor 규칙 파일
  */
-export const writeLlmsFiles = async (srcDir: string, outDir: string, siteUrl: string) => {
+export const writeAiFiles = async (srcDir: string, outDir: string, siteUrl: string) => {
   const root = resolve(srcDir, '..')
   const files = componentGroups.flatMap(group => group.pages.map(([, slug]) => `components/${slug}.md`))
   const metaFiles = [
@@ -29,8 +34,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, siteUrl: st
   const link = (file: string) => `${siteUrl}/${file.replace(/\.md$/, '')}`
   const guides = [
     ['시작하기', 'guide/getting-started.md'],
-    ['AI로 개발하기', 'guide/ai.md'],
-    ['KRDS Vue 개발 지침', 'guide/ai-guidelines.md']
+    ['AI로 개발하기', 'guide/ai.md']
   ]
 
   const index = [
@@ -65,6 +69,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, siteUrl: st
 
   writeFileSync(resolve(outDir, 'llms.txt'), `${index.join('\n')}\n`)
   writeFileSync(resolve(outDir, 'llms-full.txt'), `${full.join('\n\n---\n\n')}\n`)
+  writeFileSync(resolve(outDir, 'ai/krds-vue.mdc'), cursorRule(srcDir))
 }
 
 const cell = (text = '') => text.replace(/\|/g, '\\|').replace(/\s*\n\s*/g, ' ') || '-'
