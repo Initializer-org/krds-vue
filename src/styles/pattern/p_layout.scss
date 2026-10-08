@@ -55,6 +55,8 @@ $mode-setting: light;
     }
     .contents {
       flex: 1;
+      //flex 항목은 기본 min-width가 내용 폭이라, 표·탭·캐러셀처럼 넓은 내용이 사이드 메뉴를 밀어내지 않게 한다
+      min-width: 0;
       padding-bottom: var(--krds-gap-12);
       .breadcrumb-wrap {
         padding-top: var(--krds-pc-gap-layout-header-breadcrumb);
