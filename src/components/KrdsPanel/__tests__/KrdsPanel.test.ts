@@ -210,7 +210,7 @@ describe('KrdsPanel', () => {
   it('공식 배너·헤더가 보이면 그 높이만큼 버튼과 패널 내용을 내리고, 헤더가 숨으면 원위치', async () => {
     const { container } = render({
       template: `
-        <div id="wrap">
+        <div id="wrap" class="g-wrap">
           <div id="krds-masthead" style="height: 40px"></div>
           <div id="krds-header"><div class="header-in" style="height: 100px"></div></div>
           <KrdsPanel />
@@ -220,8 +220,11 @@ describe('KrdsPanel', () => {
     })
     const expand = screen.getByRole('button', { name: '도움말' })
     const wrap = container.querySelector('.help-panel-wrap') as HTMLElement
-    await waitFor(() => expect(expand.style.marginTop).toBe('140px'))
-    expect(wrap.style.paddingTop).toBe('140px')
+    const offset = () =>
+      (container.querySelector('.help-panel-flexible') as HTMLElement).style.getPropertyValue('--krds-help-panel--header-offset')
+    await waitFor(() => expect(offset()).toBe('140px'))
+    // PC(1200px)에서는 패널 내용도 내린다 (transition이 끝난 뒤)
+    await waitFor(() => expect(getComputedStyle(wrap).paddingTop).toBe('140px'))
     // 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝(top 4rem + 140px + 버튼 높이)을 알린다
     const bottom = () => parseFloat(document.documentElement.style.getPropertyValue('--krds-help-panel--button-bottom'))
     expect(bottom()).toBe(40 + 140 + expand.offsetHeight)
@@ -229,6 +232,6 @@ describe('KrdsPanel', () => {
     // 공식 배너가 지나가고 헤더가 숨은 상태(scroll-down)
     container.querySelector('#wrap')!.classList.add('scroll-down')
     window.scrollTo({ top: 500, behavior: 'instant' })
-    await waitFor(() => expect(expand.style.marginTop).toBe('0px'))
+    await waitFor(() => expect(offset()).toBe('0px'))
   })
 })

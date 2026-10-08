@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, h, onActivated, onMounted, onUnmounted, ref } from 'vue'
 
 /**
  * KRDS Panel 컴포넌트 속성
@@ -18,6 +18,9 @@ export interface KrdsPanelProps {
 export interface KrdsPanelEmits {
   (e: 'update:modelValue', value: boolean): void
 }
+
+/** --krds-help-panel--button-bottom을 마지막으로 쓴 패널 (언마운트 때 다른 패널 값을 지우지 않게) */
+let buttonBottomOwner: symbol | null = null
 
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsPanel',
@@ -56,10 +59,11 @@ export default /* @__PURE__ */ defineComponent({
       open.value = false
     }
 
-    // 원본 ui-script(krds_helpPanel.setupPadding)처럼 보이는 공식 배너·헤더 높이만큼 버튼과 패널 내용을 내려 헤더에 가려지지 않게 한다
+    // 원본 ui-script(krds_helpPanel.setupPadding)처럼 보이는 공식 배너·헤더 높이만큼 버튼과 패널 내용을 내려 헤더에 가려지지 않게 한다.
+    // 값은 CSS 변수로만 넘기고, PC에서만 패널 내용을 내리는 분기는 _help_panel.scss의 중단점이 맡는다
     const headerOffset = ref(0)
-    const isPc = ref(false)
     const expandRef = ref<HTMLButtonElement | null>(null)
+    const owner = Symbol('KrdsPanel')
     let frame = 0
     const updateOffset = () => {
       cancelAnimationFrame(frame)
@@ -68,8 +72,8 @@ export default /* @__PURE__ */ defineComponent({
         const masthead = document.querySelector<HTMLElement>(props.headerTopSelector)
         const header = document.querySelector<HTMLElement>(props.headerInnerSelector)
         const mastheadShown = !!masthead && masthead.getBoundingClientRect().bottom > 0
-        // KrdsLayout이 루트(기본 #wrap, id는 바꿀 수 있음)에 붙이는 헤더 숨김 클래스
-        const headerHidden = !!document.querySelector('.scroll-down')
+        // KrdsLayout 루트(.g-wrap, id는 바꿀 수 있음)에 붙는 헤더 숨김 클래스
+        const headerHidden = !!document.querySelector('.g-wrap.scroll-down')
         headerOffset.value = !header
           ? 0
           : mastheadShown
@@ -77,12 +81,14 @@ export default /* @__PURE__ */ defineComponent({
             : headerHidden
               ? 0
               : header.offsetHeight
-        isPc.value = window.innerWidth >= 1024
-        // 같은 오른쪽에 고정되는 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝 위치를 알린다 (_in_page_navigation.scss)
+        // 같은 오른쪽에 고정되는 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝 위치를 알린다 (_in_page_navigation.scss).
+        // KeepAlive로 비활성화돼 문서에서 떨어진 패널은 쓰지 않는다
         const button = expandRef.value
-        if (button) {
-          const bottom = parseFloat(getComputedStyle(button).top) + headerOffset.value + button.offsetHeight
+        if (!button?.isConnected) return
+        const bottom = parseFloat(getComputedStyle(button).top) + headerOffset.value + button.offsetHeight
+        if (Number.isFinite(bottom)) {
           document.documentElement.style.setProperty('--krds-help-panel--button-bottom', `${bottom}px`)
+          buttonBottomOwner = owner
         }
       })
     }
@@ -92,29 +98,32 @@ export default /* @__PURE__ */ defineComponent({
       window.addEventListener('scroll', updateOffset, { passive: true })
       window.addEventListener('resize', updateOffset)
     })
+    onActivated(updateOffset)
 
     onUnmounted(() => {
       cancelAnimationFrame(frame)
-      document.documentElement.style.removeProperty('--krds-help-panel--button-bottom')
+      // 다른 패널이 쓴 값은 남겨 둔다
+      if (buttonBottomOwner === owner) document.documentElement.style.removeProperty('--krds-help-panel--button-bottom')
       window.removeEventListener('scroll', updateOffset)
       window.removeEventListener('resize', updateOffset)
     })
 
     return () =>
-      h('div', { class: 'inner help-panel-flexible' }, [
+      h('div', { class: 'inner help-panel-flexible', style: { '--krds-help-panel--header-offset': `${headerOffset.value}px` } }, [
         h(
           'button',
           {
             ref: expandRef,
             type: 'button',
             class: 'krds-btn small tertiary btn-help-panel expand btn-help-exec',
-            style: { marginTop: `${headerOffset.value}px` },
+            // 화면 폭이 바뀌면 top이 transition으로 바뀌므로 끝난 뒤 버튼 아래쪽 끝을 다시 잰다
+            onTransitionend: updateOffset,
             onClick: handleOpen
           },
           [h('i', { class: 'svg-icon ico-fold' }), ' 도움말']
         ),
         h('div', { class: ['krds-help-panel', { expand: open.value }] }, [
-          h('div', { class: 'help-panel-wrap', style: isPc.value ? { paddingTop: `${headerOffset.value}px` } : undefined }, [
+          h('div', { class: 'help-panel-wrap' }, [
             h('div', { class: 'help-conts-area' }, [
               slots.default?.(),
               h(
@@ -122,7 +131,6 @@ export default /* @__PURE__ */ defineComponent({
                 {
                   type: 'button',
                   class: 'krds-btn small tertiary btn-help-panel fold',
-                  style: isPc.value ? { marginTop: `${headerOffset.value}px` } : undefined,
                   onClick: handleClose
                 },
                 [h('span', { class: 'sr-only' }, '도움말'), ' 접어두기 ', h('i', { class: 'svg-icon ico-angle right' })]

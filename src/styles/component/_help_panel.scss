@@ -197,6 +197,10 @@ $mode-setting: light;
 // 도움패널 펼치고 닫는 버튼
 .btn-help-panel {
   @include position($p: fixed, $t: 4rem, $r: 4rem);
+  //원본 ui-script처럼 보이는 공식 배너·헤더 높이만큼 내린다 (KrdsPanel이 --krds-help-panel--header-offset 지정)
+  &.expand {
+    margin-top: var(--krds-help-panel--header-offset, 0);
+  }
 }
 
 /* 도움패널 flexible 레이아웃 */
@@ -239,9 +243,14 @@ $mode-setting: light;
 @include size-large-more {
   .krds-help-panel {
     .help-panel-wrap {
+      //PC에서는 패널 내용과 접기 버튼도 헤더 아래로 (원본 ui-script와 같음)
+      padding-top: var(--krds-help-panel--header-offset, 0);
       .help-conts-area {
         @include scrollbar;
       }
+    }
+    .btn-help-panel.fold {
+      margin-top: var(--krds-help-panel--header-offset, 0);
     }
   }
 }
