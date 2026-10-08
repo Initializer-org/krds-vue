@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onBeforeUnmount, ref } from 'vue'
   import {
     KrdsBreadcrumb,
     KrdsCarousel,
@@ -58,6 +58,11 @@
   ]
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
+  // 화면크기(KrdsResize)는 body 확대를 바꾸므로, 문서 사이트(SPA)로 돌아갈 때 되돌린다
+  onBeforeUnmount(() => {
+    document.body.style.zoom = ''
+  })
+
   const pageNavItems = sections.map(section => ({ href: `#${section.id}`, text: section.label }))
 
   const intro =
@@ -65,7 +70,7 @@
 </script>
 
 <template>
-  <KrdsLayout>
+  <KrdsLayout class="playground">
     <KrdsSkipLink href="#container">본문 바로가기</KrdsSkipLink>
     <KrdsMasthead>이 누리집은 KRDS Vue 컴포넌트로 만든 예시 누리집입니다.</KrdsMasthead>
 
@@ -236,32 +241,21 @@
 
 <style>
   /* KRDS 레이아웃(.in-between)은 flex라 탭 목록처럼 줄바꿈되지 않는 내용이 본문 폭을 화면 밖으로 밀어내지 않게 한다 */
-  #container .contents {
+  .playground #container .contents {
     min-width: 0;
   }
 
-  /*
-   * 도움말 버튼(원본: 위 4rem 고정)은 헤더가 보일 때 헤더 뒤에 가려진다. 콘텐츠 내 탐색처럼 헤더가 보일 때는
-   * 헤더 아래(탐색 자리)로 내리고, 탐색은 버튼 아래에 둔다. 헤더가 숨으면 버튼은 제자리, 탐색은 버튼 아래로
-   */
-  #wrap:not(.scroll-down) .btn-help-panel.expand {
-    top: 25.6rem;
-  }
-  #wrap:not(.scroll-down) #container .krds-in-page-navigation-area {
+  /* 도움말 버튼은 헤더 아래로 내려오므로(KrdsPanel), 같은 오른쪽에 있는 콘텐츠 내 탐색을 버튼 아래에 둔다 */
+  .playground:not(.scroll-down) #container .krds-in-page-navigation-area {
     top: 32rem;
   }
-  #wrap.scroll-down #container .krds-in-page-navigation-area {
+  .playground.scroll-down #container .krds-in-page-navigation-area {
     top: 10rem;
-  }
-  @media (max-width: 767px) {
-    #wrap:not(.scroll-down) .btn-help-panel.expand {
-      top: 16rem;
-    }
   }
 
   /* 배너 캐러셀은 높이를 부모의 100%로 잡는데, 본문(flex 항목)은 사이드 메뉴 높이에 맞춰 늘어나므로 내용 높이를 따르게 한다 */
-  #container .pg-banner,
-  #container .pg-banner .swiper {
+  .playground #container .pg-banner,
+  .playground #container .pg-banner .swiper {
     height: auto;
   }
 
@@ -313,7 +307,7 @@
   }
 
   /* 탭 목록이 본문 폭을 넘지 않고 KRDS 원래 동작대로 가로 스크롤되게 */
-  #container .krds-tab-area > .tab {
+  .playground #container .krds-tab-area > .tab {
     max-width: 100%;
   }
 
