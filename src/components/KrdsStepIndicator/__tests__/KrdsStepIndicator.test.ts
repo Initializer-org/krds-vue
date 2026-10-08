@@ -125,11 +125,24 @@ describe('KrdsStepIndicator', () => {
     expect(statuses(container)).toEqual(['done:a', 'active:b', 'pending:c'])
   })
 
-  it('model-value가 null이나 NaN이면 첫 단계를 현재 단계로', () => {
+  it.each([null, Number.NaN])('model-value가 %s이면 첫 단계를 현재 단계로', value => {
     const { container } = render({
       template: `<KrdsStepIndicator :model-value="value"><KrdsStep step="1" title="a" /><KrdsStep step="2" title="b" /></KrdsStepIndicator>`,
-      setup: () => ({ value: Number.NaN })
+      setup: () => ({ value })
     })
     expect(statuses(container)).toEqual(['active:a', 'pending:b'])
+  })
+
+  it('단계가 아닌 <li>는 순서에서 뺌', async () => {
+    const { container } = render({
+      template: `
+        <KrdsStepIndicator :model-value="1">
+          <li class="sr-only">총 3단계</li>
+          <KrdsStep step="1" title="a" /><KrdsStep step="2" title="b" /><KrdsStep step="3" title="c" />
+        </KrdsStepIndicator>
+      `
+    })
+    const steps = () => Array.from(container.querySelectorAll('.krds-step-wrap > li:not(.sr-only)'), li => li.className)
+    await vi.waitFor(() => expect(steps()).toEqual(['done', 'active', 'pending']))
   })
 })

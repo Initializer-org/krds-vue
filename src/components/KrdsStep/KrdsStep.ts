@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, inject, ref } from 'vue'
+import { defineComponent, computed, h, inject, onMounted, ref } from 'vue'
 import type { BaseComponentProps } from '@/types'
 import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
 
@@ -55,6 +55,7 @@ export default /* @__PURE__ */ defineComponent({
     const stepIndicator = inject<StepIndicatorContext | null>('stepIndicator', null)
     const createdIndex = stepIndicator ? stepIndicator.register() : -1
     const elRef = ref<HTMLElement | null>(null)
+    onMounted(() => elRef.value && stepIndicator?.track(elRef.value))
     const stepStatus = computed(
       () => props.status ?? (stepIndicator ? stepIndicator.statusAt(stepIndicator.indexOf(elRef.value, createdIndex)) : 'pending')
     )

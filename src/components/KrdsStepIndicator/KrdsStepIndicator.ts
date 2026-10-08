@@ -21,6 +21,8 @@ export interface KrdsStepIndicatorEmits {
 export interface StepIndicatorContext {
   /** 단계가 만들어진 순서 (첫 렌더·SSR에서 쓰는 위치) */
   register: () => number
+  /** 마운트된 단계의 <li> 등록 (단계가 아닌 <li>는 순서에서 뺀다) */
+  track: (el: Element) => void
   /** 화면에 그려진 순서로 본 단계 위치 (아직 반영 전이면 fallback) */
   indexOf: (el: Element | null, fallback: number) => number
   /** 위치에 따른 상태 */
@@ -49,7 +51,10 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
-    /** @deprecated 보내지 않습니다 (기존 v-model 사용 코드 호환용) */
+    /**
+     * 보내지 않음: 단계 표시기는 진행 상태만 보여 주므로 v-model 값이 바뀌지 않습니다 (기존 코드 호환용, 다음 주요 버전에서 제거)
+     * @deprecated
+     */
     'update:modelValue': (value: number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
@@ -58,8 +63,9 @@ export default /* @__PURE__ */ defineComponent({
     const activeStep = computed(() => props.modelValue || 0)
     // 마운트 후에는 실제 <li> 순서로 위치를 정해, 단계가 추가·삭제·재정렬되거나 다른 컴포넌트로 감싸져도 맞게 표시한다
     const order = shallowRef<Element[] | null>(null)
+    const steps = new WeakSet<Element>()
     const syncOrder = () => {
-      order.value = listRef.value ? Array.from(listRef.value.children) : null
+      order.value = listRef.value ? Array.from(listRef.value.children).filter(el => steps.has(el)) : null
     }
     let nextIndex = 0
     let observer: MutationObserver | undefined
@@ -73,6 +79,7 @@ export default /* @__PURE__ */ defineComponent({
 
     provide<StepIndicatorContext>('stepIndicator', {
       register: () => nextIndex++,
+      track: el => steps.add(el),
       indexOf: (el, fallback) => {
         const index = el && order.value ? order.value.indexOf(el) : -1
         return index >= 0 ? index : fallback
