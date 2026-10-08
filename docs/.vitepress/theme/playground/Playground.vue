@@ -177,16 +177,16 @@
 
       <template #content>
         <div class="f-info">
-          <p class="info-addr">KRDS(대한민국 정부 디자인 시스템) Vue 3 + TypeScript 컴포넌트 라이브러리</p>
           <ul class="info-cs">
-            <li><strong class="strong">설치</strong><span class="span">&nbsp;npm install @krds.ui/vue</span></li>
-            <li><strong class="strong">라이선스</strong><span class="span">&nbsp;MIT</span></li>
+            <li><strong class="strong">패키지 @krds.ui/vue</strong><span class="span">(Vue 3 + TypeScript)</span></li>
+            <li><strong class="strong">라이선스 MIT</strong><span class="span">(오픈소스)</span></li>
           </ul>
         </div>
         <div class="f-link">
           <div class="link-go">
-            <a href="/guide/getting-started" class="krds-btn medium text">시작하기 <i class="svg-icon ico-angle right"></i></a>
-            <a href="/components/" class="krds-btn medium text">컴포넌트 목록 <i class="svg-icon ico-angle right"></i></a>
+            <a href="https://github.com/Initializer-org/krds-vue/issues" class="krds-btn medium text">
+              문의 및 건의 <i class="svg-icon ico-angle right"></i>
+            </a>
             <a
               href="https://github.com/Initializer-org/krds-vue"
               class="krds-btn medium text"
@@ -196,6 +196,15 @@
             >
               GitHub <i class="svg-icon ico-go"></i>
             </a>
+            <a
+              href="https://www.npmjs.com/package/@krds.ui/vue"
+              class="krds-btn medium text"
+              target="_blank"
+              rel="noopener"
+              title="새 창 열림"
+            >
+              npm <i class="svg-icon ico-go"></i>
+            </a>
           </div>
         </div>
       </template>
@@ -203,10 +212,11 @@
       <template #bottom>
         <div class="f-btm-text">
           <div class="f-menu">
-            <a href="https://github.com/Initializer-org/krds-vue/blob/main/LICENSE" class="point">라이선스</a>
-            <a href="https://github.com/Initializer-org/krds-vue/issues">문의·제보</a>
+            <a href="/">KRDS Vue 소개</a>
+            <a href="/guide/getting-started">시작하기</a>
+            <a href="https://github.com/Initializer-org/krds-vue/blob/main/LICENSE">라이선스</a>
           </div>
-          <p class="f-copy">© Initializer Team. KRDS 디자인은 행정안전부 대한민국 정부 디자인 시스템을 따릅니다.</p>
+          <p class="f-copy">© 2026 Initializer Team. All rights reserved.</p>
         </div>
         <KrdsIdentifier>이 누리집은 KRDS Vue 예시 누리집입니다.</KrdsIdentifier>
       </template>
