@@ -1,4 +1,5 @@
 import { describe, expect, it, onTestFinished } from 'vitest'
+import { nextTick, ref } from 'vue'
 import { expectNoA11yViolations, render, userEvent, waitFor } from '@/test/utils'
 
 describe('KrdsResize', () => {
@@ -39,5 +40,26 @@ describe('KrdsResize', () => {
     await userEvent.keyboard('{Escape}')
     await expectMenuDisplay('none')
     await expectNoA11yViolations()
+  })
+
+  it('v-model: 처음 값으로 화면 크기를 적용하고, 고르면 값을 갱신하며, 바깥에서 바꿔도 따라감', async () => {
+    onTestFinished(() => {
+      document.body.style.zoom = ''
+    })
+    const size = ref<'sm' | 'md' | 'lg' | 'xlg' | 'xxlg'>('lg')
+    const { container } = render({ template: `<KrdsResize v-model="size" />`, setup: () => ({ size }) })
+    await nextTick()
+    expect(document.body.style.zoom).toBe('1.1')
+    expect(container.querySelector('[data-adjust-scale="lg"].item-link')).toHaveClass('active')
+
+    await userEvent.click(container.querySelector('.drop-btn') as HTMLElement)
+    await userEvent.click(container.querySelector('[data-adjust-scale="xxlg"]') as HTMLElement)
+    expect(size.value).toBe('xxlg')
+    expect(document.body.style.zoom).toBe('1.5')
+
+    size.value = 'sm'
+    await nextTick()
+    expect(document.body.style.zoom).toBe('0.9')
+    expect(container.querySelector('[data-adjust-scale="sm"].item-link')).toHaveClass('active')
   })
 })

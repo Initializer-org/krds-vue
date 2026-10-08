@@ -10,6 +10,14 @@
 
 <<< ./demos/resize/Basic.vue
 
+## v-model
+
+`v-model`로 고른 크기(`sm` 작게 · `md` 보통 · `lg` 조금 크게 · `xlg` 크게 · `xxlg` 가장 크게)를 주고받습니다. 처음 값을 주면 그 크기로 시작하고, 고른 값을 저장해 두었다가 다음 방문 때 다시 넘기면 사용자가 고른 크기를 유지할 수 있습니다.
+
+<DemoFrame src="/frame/resize/v-model" title="화면 크기 조정 v-model 예제" :height="480" />
+
+<<< ./demos/resize/VModel.vue
+
 ## API
 
 ## KrdsResize
