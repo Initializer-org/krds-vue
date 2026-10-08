@@ -47,6 +47,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 단계를 클릭했을 때 (단계 번호) */
     click: (event: MouseEvent, step: string | number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

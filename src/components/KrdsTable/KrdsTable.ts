@@ -75,6 +75,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 행을 클릭했을 때 (행, 순서) */
     'row-click': (row: TableRow, index: number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

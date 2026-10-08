@@ -161,10 +161,15 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 날짜를 입력하거나 달력에서 고를 때 (v-model) */
     'update:modelValue': (value: string) => true,
+    /** 입력할 때 (네이티브 input) */
     input: (event: Event) => true,
+    /** 값이 확정됐을 때 (네이티브 change) */
     change: (event: Event) => true,
+    /** 초점을 받았을 때 */
     focus: (event: FocusEvent) => true,
+    /** 초점을 잃었을 때 */
     blur: (event: FocusEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

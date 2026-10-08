@@ -57,7 +57,9 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 이전·다음 버튼으로 단계가 바뀔 때 (v-model) */
     'update:modelValue': (value: number | null) => true,
+    /** 닫기 버튼으로 닫을 때 */
     close: () => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

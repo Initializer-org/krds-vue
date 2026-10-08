@@ -110,8 +110,11 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 선택한 값이 바뀔 때 (v-model) */
     'update:modelValue': (value: string | number | null) => true,
+    /** 초점을 받았을 때 */
     focus: (event: FocusEvent) => true,
+    /** 초점을 잃었을 때 */
     blur: (event: FocusEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

@@ -224,8 +224,11 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 모바일 메뉴가 열리거나 닫힐 때 (v-model:open) */
     'update:open': (value: boolean) => true,
+    /** 1차 메뉴를 펼치거나 접을 때 (순서, 펼침 여부) */
     'menu-toggle': (index: number, expanded: boolean) => true,
+    /** 메뉴 항목을 클릭했을 때 */
     'item-click': (item: MainMenuAnyItem, mouseEvent: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

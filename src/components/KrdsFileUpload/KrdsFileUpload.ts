@@ -192,16 +192,27 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 파일을 추가·삭제해 목록이 바뀔 때 (v-model) */
     'update:modelValue': (files: FileInfo[]) => true,
+    /** 파일을 추가했을 때 */
     'file-added': (file: FileInfo) => true,
+    /** 파일을 삭제했을 때 (파일 id) */
     'file-removed': (fileId: string) => true,
+    /** 추가한 파일이 검사(크기·형식 등)에 실패했을 때 (오류 메시지) */
     'file-error': (file: FileInfo, error: string) => true,
+    /** 보내지 않음 (기존 코드 호환용 선언), 업로드는 사용하는 쪽에서 처리 */
     'upload-start': (file: FileInfo) => true,
+    /** 보내지 않음 (기존 코드 호환용 선언), 업로드는 사용하는 쪽에서 처리 */
     'upload-progress': (file: FileInfo, progress: number) => true,
+    /** 보내지 않음 (기존 코드 호환용 선언), 업로드는 사용하는 쪽에서 처리 */
     'upload-complete': (file: FileInfo) => true,
+    /** 보내지 않음 (기존 코드 호환용 선언), 업로드는 사용하는 쪽에서 처리 */
     'upload-error': (file: FileInfo, error: string) => true,
+    /** 전체 삭제 버튼을 눌렀을 때 */
     'clear-all': () => true,
+    /** 파일의 다운로드 버튼을 눌렀을 때 */
     download: (file: FileInfo) => true,
+    /** 파일의 미리보기 버튼을 눌렀을 때 */
     preview: (file: FileInfo) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

@@ -73,9 +73,13 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 읽기를 시작했을 때 (읽는 문장) */
     play: (text: string) => true,
+    /** 일시 정지했을 때 */
     pause: () => true,
+    /** 읽기가 끝났을 때 */
     end: () => true,
+    /** 음성 합성을 지원하지 않거나 읽기에 실패했을 때 */
     error: (error: Error) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */

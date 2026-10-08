@@ -43,6 +43,7 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
+    /** 도움 패널을 펼치거나 접을 때 (v-model) */
     'update:modelValue': (value: boolean) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
