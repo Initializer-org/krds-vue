@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.21](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.20...@krds.ui/vue-v0.0.21) (2026-10-08)
+
+
+### Features
+
+* 플로팅 버튼 추가, 단계 표시기·도움 패널·레이아웃 수정 및 문서 사이트 개선 ([#273](https://github.com/Initializer-org/krds-vue/issues/273)) ([7c97cdd](https://github.com/Initializer-org/krds-vue/commit/7c97cddb8b064e180fd0a50960dea6451b33de89))
+* 화면 크기 조정(KrdsResize)에 v-model 지원 ([#276](https://github.com/Initializer-org/krds-vue/issues/276)) ([7f6f595](https://github.com/Initializer-org/krds-vue/commit/7f6f595ecf645029eeebef86f8bca760b52dc922))
+
+
+### Documentation
+
+* 검색 노출 개선 (옛 Storybook 주소 이동, 컴포넌트 목록 페이지, 수정일) 및 문서 코드 타입 검사 ([#271](https://github.com/Initializer-org/krds-vue/issues/271)) ([2e41efb](https://github.com/Initializer-org/krds-vue/commit/2e41efbb08077aa44380df7fc20cedf4d8ed0613))
+
 ## [0.0.20](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.19...@krds.ui/vue-v0.0.20) (2026-10-07)
 
 
