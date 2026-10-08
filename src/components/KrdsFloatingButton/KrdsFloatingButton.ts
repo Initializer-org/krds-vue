@@ -194,8 +194,9 @@ export default /* @__PURE__ */ defineComponent({
               items.map((item, index) =>
                 h('li', { key: index }, [
                   renderAction(item, event => {
-                    // 링크도 tel:·mailto:처럼 페이지에 남는 경우가 있어 초점을 확장 버튼으로 돌려준 뒤 알린다
-                    close(true)
+                    // tel:·mailto:처럼 페이지에 남는 링크도 초점을 확장 버튼으로 돌려준 뒤 알린다.
+                    // 같은 페이지 안 링크(#...)는 브라우저가 이동한 위치에서 탐색을 이어 가도록 초점을 옮기지 않는다
+                    close(!item.href?.startsWith('#'))
                     emit('select', item, index, event)
                   })
                 ])

@@ -114,4 +114,15 @@ describe('KrdsFloatingButton', () => {
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('title', '새 창 열림')
   })
+
+  it('확장형: 같은 페이지 안 링크(#)는 초점을 확장 버튼으로 가져오지 않음', async () => {
+    render({
+      template: `<KrdsFloatingButton label="상담 메뉴" :items="[{ label: '본문으로', icon: 'ico-go-top', href: '#pg-target' }]" />`
+    })
+    const toggle = screen.getByRole('button', { name: '상담 메뉴' })
+    await userEvent.click(toggle)
+    await userEvent.click(screen.getByRole('link', { name: '본문으로' }))
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).not.toHaveFocus()
+  })
 })
