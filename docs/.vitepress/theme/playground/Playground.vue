@@ -3,6 +3,7 @@
   import {
     KrdsBreadcrumb,
     KrdsCarousel,
+    KrdsFloatingButton,
     KrdsFooter,
     KrdsHeader,
     KrdsIdentifier,
@@ -17,6 +18,7 @@
     KrdsInPageNavigation,
     KrdsTts
   } from '@krds.ui/vue'
+  import type { KrdsFloatingButtonItem } from '@krds.ui/vue'
   import { mainMenuItems, sideNavItems } from './menu'
   import ContentSection from './ContentSection.vue'
   import FeedbackSection from './FeedbackSection.vue'
@@ -50,6 +52,12 @@
     { id: 'pg-content', label: '레이아웃 및 표현', component: ContentSection },
     { id: 'pg-navigation', label: '탐색·액션', component: NavigationSection }
   ]
+  const floatingItems: KrdsFloatingButtonItem[] = [
+    { label: '맨 위로', icon: 'ico-go-top' },
+    { label: '문의 및 건의', icon: 'ico-faq', href: 'https://github.com/Initializer-org/krds-vue/issues' }
+  ]
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+
   const pageNavItems = sections.map(section => ({ href: `#${section.id}`, text: section.label }))
 
   const intro =
@@ -221,6 +229,8 @@
         <KrdsIdentifier>이 누리집은 KRDS Vue 예시 누리집입니다.</KrdsIdentifier>
       </template>
     </KrdsFooter>
+
+    <KrdsFloatingButton label="빠른 메뉴" :items="floatingItems" @select="scrollToTop" />
   </KrdsLayout>
 </template>
 

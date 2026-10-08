@@ -42,7 +42,8 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
     text: '액션',
     pages: [
       ['링크 Link', 'link'],
-      ['버튼 Button', 'button']
+      ['버튼 Button', 'button'],
+      ['플로팅 버튼 Floating action button', 'floating-button']
     ]
   },
   {
