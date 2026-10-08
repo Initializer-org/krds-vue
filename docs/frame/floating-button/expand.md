@@ -7,4 +7,6 @@ search: false
 import Expand from '../../components/demos/floating-button/Expand.vue'
 </script>
 
-<Expand />
+<div style="padding: 2.4rem">
+  <Expand />
+</div>

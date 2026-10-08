@@ -16,6 +16,11 @@ describe('KrdsFloatingButton', () => {
     await expectNoA11yViolations()
   })
 
+  it('단일형: hide-label이면 레이블을 화면에서 숨기고 이름은 유지', () => {
+    render({ template: `<KrdsFloatingButton label="맨 위로" icon="ico-go-top" hide-label />` })
+    expect(screen.getByRole('button', { name: '맨 위로' }).querySelector('.sr-only')).toHaveTextContent('맨 위로')
+  })
+
   it('단일형: href가 있으면 링크', () => {
     render({ template: `<KrdsFloatingButton label="상담 신청" href="/apply" />` })
     expect(screen.getByRole('link', { name: '상담 신청' })).toHaveAttribute('href', '/apply')

@@ -39,7 +39,11 @@ $mode-setting: light;
   position: fixed;
   right: 4rem;
   bottom: 4rem;
-  z-index: 60;
+  //평소에는 본문 위·헤더(70)·도움 패널(60)·메뉴 가림막(60) 아래, 펼치면 모달(1000) 아래의 모든 요소 위
+  z-index: 50;
+  &.active {
+    z-index: 101;
+  }
   //확장형: 확장 버튼(첫 요소)을 아래, 항목을 위에 둔다
   @include flex-layout($ai: flex-end, $fd: column-reverse);
   gap: var(--krds-gap-4);

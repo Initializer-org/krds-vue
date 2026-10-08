@@ -7,4 +7,6 @@ search: false
 import Single from '../../components/demos/floating-button/Single.vue'
 </script>
 
-<Single />
+<div style="padding: 2.4rem">
+  <Single />
+</div>

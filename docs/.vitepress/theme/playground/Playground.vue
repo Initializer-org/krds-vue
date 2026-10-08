@@ -240,6 +240,11 @@
     min-width: 0;
   }
 
+  /* 헤더가 숨으면 콘텐츠 내 탐색이 위 6rem으로 올라와 도움말 버튼(위 4rem 고정)과 겹치므로 그 아래로 내린다 */
+  #wrap.scroll-down #container .krds-in-page-navigation-area {
+    top: 10rem;
+  }
+
   /* 배너 캐러셀은 높이를 부모의 100%로 잡는데, 본문(flex 항목)은 사이드 메뉴 높이에 맞춰 늘어나므로 내용 높이를 따르게 한다 */
   #container .pg-banner,
   #container .pg-banner .swiper {

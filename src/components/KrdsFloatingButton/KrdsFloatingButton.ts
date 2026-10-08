@@ -28,6 +28,8 @@ export interface KrdsFloatingButtonProps extends BaseComponentProps {
   href?: string
   /** 단일형 버튼의 링크 target */
   target?: string
+  /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
+  hideLabel?: boolean
   /** 확장형 항목 (지정하면 확장형, 3개 이하 권장) */
   items?: KrdsFloatingButtonItem[]
 }
@@ -52,6 +54,9 @@ export interface KrdsFloatingButtonEmits {
  * ```vue
  * <!-- 단일형 -->
  * <KrdsFloatingButton label="채팅 상담" icon="ico-faq" @click="openChat" />
+ *
+ * <!-- 아이콘만 -->
+ * <KrdsFloatingButton label="맨 위로" icon="ico-go-top" hide-label @click="scrollToTop" />
  *
  * <!-- 확장형 -->
  * <KrdsFloatingButton
@@ -86,6 +91,11 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       default: undefined
     },
+    /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
+    hideLabel: {
+      type: Boolean,
+      default: false
+    },
     /** 확장형 항목 (지정하면 확장형, 3개 이하 권장) */
     items: {
       type: Array as PropType<KrdsFloatingButtonItem[]>,
@@ -117,7 +127,7 @@ export default /* @__PURE__ */ defineComponent({
       if (next && !rootRef.value?.contains(next)) close()
     }
 
-    const renderAction = (item: KrdsFloatingButtonItem, onClick: (event: MouseEvent) => void): VNode =>
+    const renderAction = (item: KrdsFloatingButtonItem, onClick: (event: MouseEvent) => void, hideLabel = false): VNode =>
       h(
         item.href ? 'a' : 'button',
         {
@@ -127,7 +137,7 @@ export default /* @__PURE__ */ defineComponent({
         },
         [
           h('span', { class: 'floating-icon' }, [h('i', { class: ['svg-icon', item.icon], 'aria-hidden': 'true' })]),
-          h('span', { class: 'floating-label' }, item.label)
+          h('span', { class: hideLabel ? 'sr-only' : 'floating-label' }, item.label)
         ]
       )
 
@@ -135,7 +145,11 @@ export default /* @__PURE__ */ defineComponent({
       const { items } = props
       if (!items) {
         return h('div', { class: 'krds-floating-button' }, [
-          renderAction({ label: props.label, icon: props.icon, href: props.href, target: props.target }, event => emit('click', event))
+          renderAction(
+            { label: props.label, icon: props.icon, href: props.href, target: props.target },
+            event => emit('click', event),
+            props.hideLabel
+          )
         ])
       }
 
