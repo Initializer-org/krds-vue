@@ -1,25 +1,6 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import {
-    KrdsAccordionGroup,
-    KrdsAccordionItem,
-    KrdsButton,
-    KrdsCheckbox,
-    KrdsFloatingButtonItem,
-    KrdsFormGroup,
-    KrdsFormHint,
-    KrdsFormLabel,
-    KrdsHeader,
-    KrdsInput,
-    KrdsLanguageSwitcher,
-    KrdsLayout,
-    KrdsMasthead,
-    KrdsResize,
-    KrdsResizeScale,
-    KrdsSkipLink,
-    MainMenuItem,
-    SideNavItem
-  } from '@krds.ui/vue'
+  import type { KrdsFloatingButtonItem, KrdsResizeScale, MainMenuItem, SideNavItem } from '@krds.ui/vue'
 
   // 컴포넌트는 main.ts에서 플러그인으로 전역 등록했고, 템플릿 타입은 tsconfig의 @krds.ui/vue/global이 제공한다.
   // 구성은 KRDS 공식 누리집(https://www.krds.go.kr/html/site/index.html)의 기본 레이아웃을 따른다
