@@ -1,34 +1,53 @@
-import { defineComponent, h, onUnmounted, ref, watch, withModifiers } from 'vue'
+import { defineComponent, h, onMounted, onUnmounted, ref, watch, withModifiers } from 'vue'
+import type { PropType } from 'vue'
+
+/** 화면 크기 (작게 sm · 보통 md · 조금 크게 lg · 크게 xlg · 가장 크게 xxlg) */
+export type KrdsResizeScale = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg'
+
+/**
+ * KRDS Resize 컴포넌트 속성
+ */
+export interface KrdsResizeProps {
+  /** 선택한 화면 크기 (v-model). 지정하면 그 크기로 화면을 확대·축소한다 */
+  modelValue?: KrdsResizeScale
+}
 
 /**
  * KRDS Resize 컴포넌트 이벤트
  */
 export interface KrdsResizeEmits {
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: KrdsResizeScale): void
   (e: 'close'): void
 }
 
 interface ScaleProps {
-  key: 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg'
+  key: KrdsResizeScale
   label: string
   zoom: string
 }
 
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsResize',
+  props: {
+    /** 선택한 화면 크기 (v-model). 지정하면 그 크기로 화면을 확대·축소한다 */
+    modelValue: {
+      type: String as PropType<KrdsResizeScale>,
+      default: undefined
+    }
+  },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
-    /** 보내지 않음 (기존 코드 호환용 선언) */
-    'update:modelValue': (value: string) => true,
+    /** 화면 크기를 골랐을 때 (v-model) */
+    'update:modelValue': (value: KrdsResizeScale) => true,
     /** 크기 목록이 닫힐 때 */
     close: () => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
-  setup(_props, { emit }) {
+  setup(props, { emit }) {
     const isOpen = ref(false)
     const dropdownRef = ref<HTMLElement>()
     const buttonRef = ref<HTMLElement>()
-    const selectedSize = ref('md')
+    const selectedSize = ref<KrdsResizeScale>(props.modelValue ?? 'md')
 
     const scaleList: ScaleProps[] = [
       { key: 'sm', label: '작게', zoom: '0.9' },
@@ -50,13 +69,27 @@ export default /* @__PURE__ */ defineComponent({
       isOpen.value = false
     }
 
+    const applySize = (key: KrdsResizeScale) => {
+      const scale = scaleList.find(item => item.key === key)
+      if (!scale) return
+      selectedSize.value = scale.key
+      document.body.style.zoom = scale.zoom
+    }
+
     const selectSize = (scale: ScaleProps) => {
       closeDropdown()
       emit('close')
       buttonRef.value?.focus()
-      selectedSize.value = scale.key
-      document.body.style.zoom = scale?.zoom
+      applySize(scale.key)
+      emit('update:modelValue', scale.key)
     }
+
+    // v-model로 받은 크기는 마운트할 때와 바뀔 때 화면에 적용한다 (SSR에서는 document가 없어 마운트 후)
+    onMounted(() => props.modelValue && applySize(props.modelValue))
+    watch(
+      () => props.modelValue,
+      key => key && applySize(key)
+    )
 
     const resetSize = () => {
       const defaultScale = scaleList.find(scale => scale.key === 'md')

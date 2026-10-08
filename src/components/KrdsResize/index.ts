@@ -3,8 +3,8 @@
  */
 
 import KrdsResize from './KrdsResize'
-import type { KrdsResizeEmits } from './KrdsResize'
+import type { KrdsResizeEmits, KrdsResizeProps, KrdsResizeScale } from './KrdsResize'
 
 export { KrdsResize }
-export type { KrdsResizeEmits }
+export type { KrdsResizeEmits, KrdsResizeProps, KrdsResizeScale }
 export default KrdsResize
