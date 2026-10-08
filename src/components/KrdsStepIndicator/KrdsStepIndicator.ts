@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, onBeforeUnmount, onMounted, onUpdated, provide, ref, shallowRef } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -60,6 +61,10 @@ export default /* @__PURE__ */ defineComponent({
     'update:modelValue': (value: number) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 단계 (KrdsStep) */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     const listRef = ref<HTMLOListElement | null>(null)
     const activeStep = computed(() => props.modelValue || 0)

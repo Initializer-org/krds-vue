@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -24,6 +25,10 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     }
   },
+  slots: Object as SlotsType<{
+    /** 체크박스·라디오 버튼 묶음 */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     return () => {
       const classes = ['krds-check-area']

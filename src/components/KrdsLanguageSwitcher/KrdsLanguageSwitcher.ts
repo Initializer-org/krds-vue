@@ -1,4 +1,5 @@
 import { defineComponent, h, onUnmounted, ref, watch, withModifiers } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -60,6 +61,12 @@ export default /* @__PURE__ */ defineComponent({
     close: () => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 언어 버튼 문구 (예: Language) */
+    default?(): VNode[]
+    /** 언어 목록 위에 넣을 내용 */
+    'prev-item'?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     const isOpen = ref(false)
     const dropdownRef = ref<HTMLElement>()

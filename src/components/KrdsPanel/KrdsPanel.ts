@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, onActivated, onMounted, onUnmounted, ref } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 
 /**
  * KRDS Panel 컴포넌트 속성
@@ -47,6 +48,10 @@ export default /* @__PURE__ */ defineComponent({
     'update:modelValue': (value: boolean) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 도움 패널 내용 */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     const open = computed({
       get: () => props.modelValue,

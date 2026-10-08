@@ -1,4 +1,5 @@
 import { defineComponent, computed, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -36,6 +37,10 @@ export default /* @__PURE__ */ defineComponent({
     click: (event: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 운영기관 안내 문구 */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /**
      * 배지 클래스 계산

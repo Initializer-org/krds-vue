@@ -105,6 +105,15 @@ jobs:
       - name: Build library
         run: pnpm build
 
+      # npm에 올라갈 패키지 파일을 예제 프로젝트에 설치해 타입 검사·빌드 (exports·타입·CSS 자산 경로 검증)
+      # 예제는 저장소 작업 공간과 별개인 일반 프로젝트로 설치하고(--ignore-workspace), latest 대신 방금 만든 패키지 파일을 쓴다
+      - name: Example project with packed package
+        run: |
+          pnpm pack --pack-destination "$RUNNER_TEMP"
+          cd examples/vite
+          pnpm add --ignore-workspace "$(ls "$RUNNER_TEMP"/krds.ui-vue-*.tgz)"
+          pnpm run build
+
       - name: SSR smoke test
         run: node scripts/ssr-smoke.mjs
 

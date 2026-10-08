@@ -35,8 +35,14 @@
     "./global": {
       "types": "./global.d.ts"
     },
-    "./dist/style.css": "./dist/style.css",
-    "./style": "./dist/style.css",
+    "./dist/style.css": {
+      "types": "./style.d.ts",
+      "default": "./dist/style.css"
+    },
+    "./style": {
+      "types": "./style.d.ts",
+      "default": "./dist/style.css"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": [
@@ -44,7 +50,8 @@
   ],
   "files": [
     "dist",
-    "global.d.ts"
+    "global.d.ts",
+    "style.d.ts"
   ],
   "scripts": {
     "build": "pnpm run type-check && pnpm run build:lib",

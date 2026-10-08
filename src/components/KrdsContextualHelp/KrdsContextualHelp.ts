@@ -1,4 +1,5 @@
 import { defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 
 type ContextualHelpPosition = 'top left' | 'top center' | 'top right' | 'bottom left' | 'bottom center' | 'bottom right'
@@ -34,6 +35,10 @@ export default /* @__PURE__ */ defineComponent({
       default: 'top left'
     }
   },
+  slots: Object as SlotsType<{
+    /** 도움말 내용 */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     // Template refs
     const containerRef = ref<HTMLElement>()

@@ -1,4 +1,5 @@
 import { defineComponent, computed, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -28,6 +29,10 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  slots: Object as SlotsType<{
+    /** 태그 (KrdsTag) */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     /**
      * 태그 그룹 클래스 계산

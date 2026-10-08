@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -26,6 +27,10 @@ export type KrdsButtonGroupProps = BaseComponentProps
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsButtonGroup',
   props: {},
+  slots: Object as SlotsType<{
+    /** 입력 필드 안에 넣을 버튼들 */
+    default?(): VNode[]
+  }>,
   setup(_, { slots }) {
     return () =>
       h(

@@ -1,4 +1,5 @@
 import { defineComponent, computed, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
 
 /**
@@ -118,6 +119,10 @@ export default /* @__PURE__ */ defineComponent({
     blur: (event: FocusEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 직접 넣는 option 요소 (options 속성과 함께 쓸 수 있음) */
+    default?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     /**
      * Select 클래스 계산

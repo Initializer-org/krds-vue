@@ -128,6 +128,10 @@ Nuxt는 tsconfig를 자동 생성하므로, 전역 타입은 프로젝트의 `.d
 /// <reference types="@krds.ui/vue/global" />
 ```
 
+### 5. 예제 프로젝트
+
+위 설정을 담은 Vite + Vue 3 + TypeScript 예제가 [`examples/vite`](./examples/vite)에 있습니다. [StackBlitz에서 바로 열어](https://stackblitz.com/github/Initializer-org/krds-vue/tree/main/examples/vite) 볼 수도 있습니다.
+
 ## TypeScript
 
 컴포넌트 props와 공통 타입을 패키지 루트에서 가져올 수 있습니다.

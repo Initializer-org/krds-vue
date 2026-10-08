@@ -1,4 +1,5 @@
 import { computed, defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 
 /**
  * KRDS AccordionItem 컴포넌트 속성
@@ -51,6 +52,12 @@ export default /* @__PURE__ */ defineComponent({
     toggle: (id: string) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
+  slots: Object as SlotsType<{
+    /** 제목 (title 속성 대신) */
+    title?(): VNode[]
+    /** 펼쳤을 때 보이는 내용 (content 속성 대신) */
+    content?(): VNode[]
+  }>,
   setup(props, { emit, slots }) {
     const isOpen = computed(() => props.openItem === props.id)
 

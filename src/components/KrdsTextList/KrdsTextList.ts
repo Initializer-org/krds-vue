@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'vue'
+import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -25,6 +26,10 @@ export default /* @__PURE__ */ defineComponent({
       default: 'dash'
     }
   },
+  slots: Object as SlotsType<{
+    /** 목록 항목 */
+    default?(): VNode[]
+  }>,
   setup(props, { slots }) {
     return () =>
       h(

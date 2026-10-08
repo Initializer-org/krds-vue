@@ -1,4 +1,5 @@
 import { computed, defineComponent, h, type VNode } from 'vue'
+import type { SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -23,6 +24,16 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     }
   },
+  slots: Object as SlotsType<{
+    /** 푸터 위 빠른 링크 영역 */
+    top?(): VNode[]
+    /** 로고 */
+    logo?(): VNode[]
+    /** 기관 정보와 링크 */
+    content?(): VNode[]
+    /** 하단 메뉴·저작권·운영기관 식별자 */
+    bottom?(): VNode[]
+  }>,
   setup(props, { slots }) {
     /**
      * Footer 클래스 계산

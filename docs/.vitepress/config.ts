@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
 import type { MarkdownRenderer } from 'vitepress'
 import { componentGroups } from './component-groups.ts'
+import { cursorRule, writeAiFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
@@ -111,6 +112,10 @@ export default defineConfig({
     const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
     if (description) pageData.description = description
   },
+  // AI 도구용 파일 (llms.txt, llms-full.txt, Cursor 규칙 파일)
+  async buildEnd(siteConfig) {
+    await writeAiFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
+  },
   transformHead({ pageData, title, description }) {
     if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
     const url = pageUrl(pageData.relativePath)
@@ -136,6 +141,7 @@ export default defineConfig({
         text: '가이드',
         items: [
           { text: '시작하기', link: '/guide/getting-started' },
+          { text: 'AI로 개발하기', link: '/guide/ai' },
           { text: '컴포넌트 목록', link: '/components/' }
         ]
       },
@@ -191,6 +197,26 @@ export default defineConfig({
     }
   },
   vite: {
+    plugins: [
+      {
+        // 개발 서버용 AI 지침 파일: Cursor 규칙 파일은 빌드 때만 만들어지므로 여기서 만들어 보내고,
+        // public의 .md는 charset 없이 나가 브라우저에서 한글이 깨지므로 UTF-8을 명시한다 (GitHub Pages는 charset을 붙여 줌)
+        name: 'krds-ai-files',
+        configureServer(server) {
+          const docsDir = resolve(import.meta.dirname, '..')
+          const files: Record<string, () => string> = {
+            '/ai/guidelines.md': () => readFileSync(resolve(docsDir, 'public/ai/guidelines.md'), 'utf-8'),
+            '/ai/krds-vue.mdc': () => cursorRule(docsDir)
+          }
+          server.middlewares.use((request, response, next) => {
+            const file = files[request.url?.split('?')[0] ?? '']
+            if (!file) return next()
+            response.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+            response.end(file())
+          })
+        }
+      }
+    ],
     resolve: {
       alias: [
         // 예제 코드를 그대로 복사해 쓸 수 있도록 패키지 이름으로 import하고, 빌드는 소스를 사용
