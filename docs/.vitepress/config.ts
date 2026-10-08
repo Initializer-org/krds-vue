@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
 import type { MarkdownRenderer } from 'vitepress'
 import { componentGroups } from './component-groups.ts'
+import { writeLlmsFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
 
 const root = resolve(import.meta.dirname, '../..')
@@ -111,6 +112,10 @@ export default defineConfig({
     const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
     if (description) pageData.description = description
   },
+  // AI 도구용 문서(llms.txt, llms-full.txt)
+  async buildEnd(siteConfig) {
+    await writeLlmsFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
+  },
   transformHead({ pageData, title, description }) {
     if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
     const url = pageUrl(pageData.relativePath)
@@ -136,6 +141,7 @@ export default defineConfig({
         text: '가이드',
         items: [
           { text: '시작하기', link: '/guide/getting-started' },
+          { text: 'AI로 개발하기', link: '/guide/ai' },
           { text: '컴포넌트 목록', link: '/components/' }
         ]
       },
