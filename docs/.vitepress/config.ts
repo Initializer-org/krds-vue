@@ -199,12 +199,20 @@ export default defineConfig({
   vite: {
     plugins: [
       {
-        // 개발 서버에서도 Cursor 규칙 파일을 내려받을 수 있게 한다 (빌드는 buildEnd에서 파일로 만든다)
-        name: 'krds-cursor-rule',
+        // 개발 서버용 AI 지침 파일: Cursor 규칙 파일은 빌드 때만 만들어지므로 여기서 만들어 보내고,
+        // public의 .md는 charset 없이 나가 브라우저에서 한글이 깨지므로 UTF-8을 명시한다 (GitHub Pages는 charset을 붙여 줌)
+        name: 'krds-ai-files',
         configureServer(server) {
-          server.middlewares.use('/ai/krds-vue.mdc', (_request, response) => {
+          const docsDir = resolve(import.meta.dirname, '..')
+          const files: Record<string, () => string> = {
+            '/ai/guidelines.md': () => readFileSync(resolve(docsDir, 'public/ai/guidelines.md'), 'utf-8'),
+            '/ai/krds-vue.mdc': () => cursorRule(docsDir)
+          }
+          server.middlewares.use((request, response, next) => {
+            const file = files[request.url?.split('?')[0] ?? '']
+            if (!file) return next()
             response.setHeader('Content-Type', 'text/markdown; charset=utf-8')
-            response.end(cursorRule(resolve(import.meta.dirname, '..')))
+            response.end(file())
           })
         }
       }
