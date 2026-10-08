@@ -31,11 +31,11 @@ import Line from './demos/accordion/Line.vue'
 </template>
 <template #api>
 
-### KrdsAccordionGroup
+## KrdsAccordionGroup
 
 <ComponentApi name="KrdsAccordionGroup" />
 
-### KrdsAccordionItem
+## KrdsAccordionItem
 
 <ComponentApi name="KrdsAccordionItem" />
 

@@ -29,7 +29,7 @@ import Types from './demos/critical-alerts/Types.vue'
 </template>
 <template #api>
 
-### KrdsCriticalAlerts
+## KrdsCriticalAlerts
 
 <ComponentApi name="KrdsCriticalAlerts" />
 

@@ -27,7 +27,7 @@ import Variations from './demos/link/Variations.vue'
 </template>
 <template #api>
 
-### KrdsLink
+## KrdsLink
 
 <ComponentApi name="KrdsLink" />
 

@@ -29,15 +29,15 @@ import HintTypes from './demos/form-group/HintTypes.vue'
 </template>
 <template #api>
 
-### KrdsFormGroup
+## KrdsFormGroup
 
 <ComponentApi name="KrdsFormGroup" />
 
-### KrdsFormLabel
+## KrdsFormLabel
 
 <ComponentApi name="KrdsFormLabel" />
 
-### KrdsFormHint
+## KrdsFormHint
 
 <ComponentApi name="KrdsFormHint" />
 

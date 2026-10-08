@@ -38,7 +38,7 @@ import Box from './demos/tooltip/Box.vue'
 </template>
 <template #api>
 
-### KrdsTooltip
+## KrdsTooltip
 
 <ComponentApi name="KrdsTooltip" />
 

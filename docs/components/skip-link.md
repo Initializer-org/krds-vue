@@ -24,7 +24,7 @@
 </template>
 <template #api>
 
-### KrdsSkipLink
+## KrdsSkipLink
 
 <ComponentApi name="KrdsSkipLink" />
 

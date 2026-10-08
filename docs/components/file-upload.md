@@ -72,7 +72,7 @@ import ReadOnly from './demos/file-upload/ReadOnly.vue'
 </template>
 <template #api>
 
-### KrdsFileUpload
+## KrdsFileUpload
 
 <ComponentApi name="KrdsFileUpload" />
 

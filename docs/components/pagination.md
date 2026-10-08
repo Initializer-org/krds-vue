@@ -20,7 +20,7 @@ import Basic from './demos/pagination/Basic.vue'
 </template>
 <template #api>
 
-### KrdsPagination
+## KrdsPagination
 
 <ComponentApi name="KrdsPagination" />
 

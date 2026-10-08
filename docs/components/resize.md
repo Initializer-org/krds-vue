@@ -16,7 +16,7 @@
 </template>
 <template #api>
 
-### KrdsResize
+## KrdsResize
 
 <ComponentApi name="KrdsResize" />
 

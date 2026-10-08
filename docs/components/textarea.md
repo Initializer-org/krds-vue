@@ -20,7 +20,7 @@ import Basic from './demos/textarea/Basic.vue'
 </template>
 <template #api>
 
-### KrdsTextarea
+## KrdsTextarea
 
 <ComponentApi name="KrdsTextarea" />
 

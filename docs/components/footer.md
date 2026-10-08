@@ -18,11 +18,11 @@
 </template>
 <template #api>
 
-### KrdsFooter
+## KrdsFooter
 
 <ComponentApi name="KrdsFooter" />
 
-### KrdsIdentifier
+## KrdsIdentifier
 
 <ComponentApi name="KrdsIdentifier" />
 

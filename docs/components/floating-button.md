@@ -31,7 +31,7 @@
 </template>
 <template #api>
 
-### KrdsFloatingButton
+## KrdsFloatingButton
 
 <ComponentApi name="KrdsFloatingButton" />
 

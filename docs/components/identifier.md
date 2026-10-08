@@ -18,7 +18,7 @@ import Basic from './demos/identifier/Basic.vue'
 </template>
 <template #api>
 
-### KrdsIdentifier
+## KrdsIdentifier
 
 <ComponentApi name="KrdsIdentifier" />
 

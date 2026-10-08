@@ -20,7 +20,7 @@ import Basic from './demos/breadcrumb/Basic.vue'
 </template>
 <template #api>
 
-### KrdsBreadcrumb
+## KrdsBreadcrumb
 
 <ComponentApi name="KrdsBreadcrumb" />
 

@@ -29,7 +29,7 @@ import External from './demos/language-switcher/External.vue'
 </template>
 <template #api>
 
-### KrdsLanguageSwitcher
+## KrdsLanguageSwitcher
 
 <ComponentApi name="KrdsLanguageSwitcher" />
 

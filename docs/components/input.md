@@ -54,11 +54,11 @@ import IconButtons from './demos/input/IconButtons.vue'
 </template>
 <template #api>
 
-### KrdsInput
+## KrdsInput
 
 <ComponentApi name="KrdsInput" />
 
-### KrdsButtonGroup
+## KrdsButtonGroup
 
 <ComponentApi name="KrdsButtonGroup" />
 

@@ -38,7 +38,7 @@ import Multiple from './demos/side-navigation/Multiple.vue'
 </template>
 <template #api>
 
-### KrdsSideNavigation
+## KrdsSideNavigation
 
 <ComponentApi name="KrdsSideNavigation" />
 

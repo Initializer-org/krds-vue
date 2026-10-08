@@ -52,7 +52,7 @@ import Controlled from './demos/tabs/Controlled.vue'
 </template>
 <template #api>
 
-### KrdsTabs
+## KrdsTabs
 
 <ComponentApi name="KrdsTabs" />
 

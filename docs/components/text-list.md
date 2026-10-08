@@ -29,7 +29,7 @@ import Ordered from './demos/text-list/Ordered.vue'
 </template>
 <template #api>
 
-### KrdsTextList
+## KrdsTextList
 
 <ComponentApi name="KrdsTextList" />
 

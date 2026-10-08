@@ -24,7 +24,7 @@
 </template>
 <template #api>
 
-### KrdsLayout
+## KrdsLayout
 
 <ComponentApi name="KrdsLayout" />
 

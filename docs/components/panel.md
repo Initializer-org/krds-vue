@@ -32,11 +32,11 @@
 </template>
 <template #api>
 
-### KrdsPanel
+## KrdsPanel
 
 <ComponentApi name="KrdsPanel" />
 
-### KrdsTabs
+## KrdsTabs
 
 <ComponentApi name="KrdsTabs" />
 

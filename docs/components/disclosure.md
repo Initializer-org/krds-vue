@@ -20,7 +20,7 @@ import Basic from './demos/disclosure/Basic.vue'
 </template>
 <template #api>
 
-### KrdsDisclosure
+## KrdsDisclosure
 
 <ComponentApi name="KrdsDisclosure" />
 

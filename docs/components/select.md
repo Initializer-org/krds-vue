@@ -43,7 +43,7 @@ import Error from './demos/select/Error.vue'
 </template>
 <template #api>
 
-### KrdsSelect
+## KrdsSelect
 
 <ComponentApi name="KrdsSelect" />
 

@@ -36,11 +36,11 @@ import WithPageTitle from './demos/step-indicator/WithPageTitle.vue'
 </template>
 <template #api>
 
-### KrdsStepIndicator
+## KrdsStepIndicator
 
 <ComponentApi name="KrdsStepIndicator" />
 
-### KrdsStep
+## KrdsStep
 
 <ComponentApi name="KrdsStep" />
 

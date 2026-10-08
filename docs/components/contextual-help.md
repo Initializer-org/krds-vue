@@ -38,7 +38,7 @@ import HelpIcon from './demos/contextual-help/HelpIcon.vue'
 </template>
 <template #api>
 
-### KrdsContextualHelp
+## KrdsContextualHelp
 
 <ComponentApi name="KrdsContextualHelp" />
 

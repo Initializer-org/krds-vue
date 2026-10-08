@@ -38,7 +38,7 @@ import InputLoading from './demos/spinner/InputLoading.vue'
 </template>
 <template #api>
 
-### KrdsSpinner
+## KrdsSpinner
 
 <ComponentApi name="KrdsSpinner" />
 

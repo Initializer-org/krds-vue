@@ -68,7 +68,7 @@ import TeleportDemo from './demos/date-input/Teleport.vue'
 </template>
 <template #api>
 
-### KrdsDateInput
+## KrdsDateInput
 
 <ComponentApi name="KrdsDateInput" />
 

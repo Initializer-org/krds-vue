@@ -52,7 +52,7 @@ import IconOnly from './demos/button/IconOnly.vue'
 </template>
 <template #api>
 
-### KrdsButton
+## KrdsButton
 
 <ComponentApi name="KrdsButton" />
 

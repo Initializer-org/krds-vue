@@ -16,7 +16,7 @@
 </template>
 <template #api>
 
-### KrdsInPageNavigation
+## KrdsInPageNavigation
 
 <ComponentApi name="KrdsInPageNavigation" />
 

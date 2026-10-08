@@ -20,7 +20,7 @@ import Basic from './demos/coach-mark/Basic.vue'
 </template>
 <template #api>
 
-### KrdsCoachMark
+## KrdsCoachMark
 
 <ComponentApi name="KrdsCoachMark" />
 

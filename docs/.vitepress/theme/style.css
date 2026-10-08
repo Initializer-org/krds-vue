@@ -109,8 +109,8 @@ body:has(.Layout) {
   color: var(--vp-c-brand-1);
 }
 
-/* 목차는 개요 패널의 제목만 가리키므로 API 탭에서는 숨긴다 */
-html[data-doc-tab-api] .VPDocAsideOutline {
+/* 목차는 개요 패널의 제목만 가리키므로 API 탭에서는 숨긴다 (오른쪽 목차와 1280px 미만의 '이 페이지에서' 메뉴) */
+:root:has(.doc-tabs[data-active='api']) :is(.VPDocAsideOutline, .VPLocalNavOutlineDropdown) {
   /* VitePress 스코프 스타일(.has-outline)보다 우선 */
   display: none !important;
 }
