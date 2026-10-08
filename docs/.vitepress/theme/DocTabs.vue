@@ -60,7 +60,7 @@
 </script>
 
 <template>
-  <div class="doc-tabs" :data-active="active">
+  <div class="doc-tabs">
     <div class="doc-tabs-list" role="tablist" aria-label="문서 구분">
       <button
         v-for="(tab, index) in tabs"
