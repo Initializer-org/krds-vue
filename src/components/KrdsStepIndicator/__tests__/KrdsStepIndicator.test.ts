@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, ref } from 'vue'
+import { describe, expect, it } from 'vitest'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { KrdsStep } from '@/components'
 import { expectNoA11yViolations, render } from '@/test/utils'
 
@@ -74,23 +74,22 @@ describe('KrdsStepIndicator', () => {
     })
 
     current.value = 1
-    await vi.waitFor(() => expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력']))
+    await nextTick()
+    expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력'])
 
     steps.value = [...steps.value, '서류 첨부', '신청 완료']
-    await vi.waitFor(() =>
-      expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력', 'pending:서류 첨부', 'pending:신청 완료'])
-    )
+    await nextTick()
+    expect(statuses(container)).toEqual(['done:약관 동의', 'active:정보 입력', 'pending:서류 첨부', 'pending:신청 완료'])
 
     steps.value = ['본인 확인', ...steps.value]
-    await vi.waitFor(() =>
-      expect(statuses(container)).toEqual([
-        'done:본인 확인',
-        'active:약관 동의',
-        'pending:정보 입력',
-        'pending:서류 첨부',
-        'pending:신청 완료'
-      ])
-    )
+    await nextTick()
+    expect(statuses(container)).toEqual([
+      'done:본인 확인',
+      'active:약관 동의',
+      'pending:정보 입력',
+      'pending:서류 첨부',
+      'pending:신청 완료'
+    ])
   })
 
   it('v-if 단계와 index key v-for 단계를 섞어도 단계가 중복되지 않음', async () => {
@@ -106,11 +105,11 @@ describe('KrdsStepIndicator', () => {
     })
 
     loggedIn.value = true
-    await vi.waitFor(() => expect(statuses(container)).toEqual(['active:신청서 작성', 'pending:제출']))
+    await nextTick()
+    expect(statuses(container)).toEqual(['active:신청서 작성', 'pending:제출'])
     loggedIn.value = false
-    await vi.waitFor(() =>
-      expect(statuses(container)).toEqual(['active:로그인', 'pending:약관 동의', 'pending:신청서 작성', 'pending:제출'])
-    )
+    await nextTick()
+    expect(statuses(container)).toEqual(['active:로그인', 'pending:약관 동의', 'pending:신청서 작성', 'pending:제출'])
   })
 
   it('KrdsStep을 감싼 컴포넌트도 순서대로 상태를 받음', () => {
@@ -143,6 +142,41 @@ describe('KrdsStepIndicator', () => {
       `
     })
     const steps = () => Array.from(container.querySelectorAll('.krds-step-wrap > li:not(.sr-only)'), li => li.className)
-    await vi.waitFor(() => expect(steps()).toEqual(['done', 'active', 'pending']))
+    // 마운트 직후 DOM 순서로 다시 맞춘 뒤에도 그대로여야 한다
+    await nextTick()
+    expect(steps()).toEqual(['done', 'active', 'pending'])
+  })
+
+  it('빈 문자열 status는 지정하지 않은 것으로 보고 순서대로 상태를 정함', () => {
+    const { container } = render({
+      template: `<KrdsStepIndicator :model-value="1"><KrdsStep step="1" title="a" status="" /><KrdsStep step="2" title="b" /></KrdsStepIndicator>`
+    })
+    expect(statuses(container)).toEqual(['done:a', 'active:b'])
+  })
+
+  it('TransitionGroup으로 사라지는 중인 단계는 순서에서 뺌', async () => {
+    const current = ref(1)
+    const steps = ref(['a', 'b', 'c'])
+    const { container } = render(
+      {
+        template: `
+        <KrdsStepIndicator :model-value="current">
+          <TransitionGroup :duration="1000"><KrdsStep v-for="s in steps" :key="s" :step="s" :title="s" /></TransitionGroup>
+        </KrdsStepIndicator>
+      `,
+        setup: () => ({ current, steps })
+      },
+      // 실제 leave 애니메이션이 일어나도록 testing-library의 기본 transition stub을 끈다
+      { global: { stubs: { TransitionGroup: false } } }
+    )
+    steps.value = ['b', 'c']
+    current.value = 0
+    await nextTick()
+    const remaining = Array.from(
+      container.querySelectorAll('.krds-step-wrap > li'),
+      li => li.className.split(' ')[0] + ':' + li.querySelector('.step-tit')?.textContent
+    )
+    // a는 사라지는 애니메이션 중이라 아직 DOM에 있지만 b가 현재 단계
+    expect(remaining.slice(-2)).toEqual(['active:b', 'pending:c'])
   })
 })

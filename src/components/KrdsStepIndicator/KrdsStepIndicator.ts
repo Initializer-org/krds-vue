@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, onBeforeUnmount, onMounted, provide, ref, shallowRef } from 'vue'
+import { computed, defineComponent, h, onBeforeUnmount, onMounted, onUpdated, provide, ref, shallowRef } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
 /**
@@ -23,6 +23,8 @@ export interface StepIndicatorContext {
   register: () => number
   /** 마운트된 단계의 <li> 등록 (단계가 아닌 <li>는 순서에서 뺀다) */
   track: (el: Element) => void
+  /** 사라지는 단계 등록 해제 (TransitionGroup의 leave 동안 남아 있는 <li>도 순서에서 뺀다) */
+  untrack: (el: Element) => void
   /** 화면에 그려진 순서로 본 단계 위치 (아직 반영 전이면 fallback) */
   indexOf: (el: Element | null, fallback: number) => number
   /** 위치에 따른 상태 */
@@ -72,14 +74,21 @@ export default /* @__PURE__ */ defineComponent({
 
     onMounted(() => {
       syncOrder()
+      // 다른 컴포넌트로 감싼 단계가 따로 다시 그려질 때도 순서를 맞춘다
       observer = new MutationObserver(syncOrder)
       observer.observe(listRef.value!, { childList: true })
     })
+    // 슬롯이 바뀐 같은 갱신 안에서 바로 맞춰 nextTick 뒤 DOM이 맞게 한다
+    onUpdated(syncOrder)
     onBeforeUnmount(() => observer?.disconnect())
 
     provide<StepIndicatorContext>('stepIndicator', {
       register: () => nextIndex++,
       track: el => steps.add(el),
+      untrack: el => {
+        steps.delete(el)
+        syncOrder()
+      },
       indexOf: (el, fallback) => {
         const index = el && order.value ? order.value.indexOf(el) : -1
         return index >= 0 ? index : fallback

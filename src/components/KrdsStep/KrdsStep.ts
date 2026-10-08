@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, inject, onMounted, ref } from 'vue'
+import { defineComponent, computed, h, inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { BaseComponentProps } from '@/types'
 import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
 
@@ -56,8 +56,10 @@ export default /* @__PURE__ */ defineComponent({
     const createdIndex = stepIndicator ? stepIndicator.register() : -1
     const elRef = ref<HTMLElement | null>(null)
     onMounted(() => elRef.value && stepIndicator?.track(elRef.value))
+    onBeforeUnmount(() => elRef.value && stepIndicator?.untrack(elRef.value))
     const stepStatus = computed(
-      () => props.status ?? (stepIndicator ? stepIndicator.statusAt(stepIndicator.indexOf(elRef.value, createdIndex)) : 'pending')
+      // 빈 문자열도 지정하지 않은 것으로 본다 (:status="cond ? 'done' : ''")
+      () => props.status || (stepIndicator ? stepIndicator.statusAt(stepIndicator.indexOf(elRef.value, createdIndex)) : 'pending')
     )
 
     /**
