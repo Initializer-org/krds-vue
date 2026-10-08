@@ -206,10 +206,15 @@ export default /* @__PURE__ */ defineComponent({
               items.map((item, index) =>
                 h('li', { key: index }, [
                   renderAction(item, event => {
-                    // tel:·mailto:처럼 페이지에 남는 링크도 초점을 확장 버튼으로 돌려준 뒤 알린다.
-                    // 같은 페이지 안 링크(#...)는 브라우저가 이동한 위치에서 탐색을 이어 가도록 초점을 옮기지 않는다
-                    close(!item.href?.startsWith('#'))
+                    // 먼저 초점을 확장 버튼으로 돌려준 뒤 알린다 (tel:·mailto:처럼 페이지에 남는 링크 포함)
+                    close(true)
                     emit('select', item, index, event)
+                    // 같은 페이지의 실제 대상(#id)으로 이동하는 링크면 초점을 놓아, 브라우저가 대상 위치에서 탐색을 잇게 한다.
+                    // 핸들러가 이동을 취소했거나(preventDefault) 대상이 없거나(#/route 등) 초점을 다른 곳으로 옮겼으면 그대로 둔다
+                    const hash = item.href?.startsWith('#') ? decodeURIComponent(item.href.slice(1)) : ''
+                    if (hash && !event.defaultPrevented && document.getElementById(hash) && document.activeElement === toggleRef.value) {
+                      toggleRef.value?.blur()
+                    }
                   })
                 ])
               )
