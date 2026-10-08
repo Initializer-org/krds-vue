@@ -240,25 +240,6 @@
 </template>
 
 <style>
-  /* KRDS 레이아웃(.in-between)은 flex라 탭 목록처럼 줄바꿈되지 않는 내용이 본문 폭을 화면 밖으로 밀어내지 않게 한다 */
-  .playground #container .contents {
-    min-width: 0;
-  }
-
-  /* 도움말 버튼은 헤더 아래로 내려오므로(KrdsPanel), 같은 오른쪽에 있는 콘텐츠 내 탐색을 버튼 아래에 둔다 */
-  .playground:not(.scroll-down) #container .krds-in-page-navigation-area {
-    top: 32rem;
-  }
-  .playground.scroll-down #container .krds-in-page-navigation-area {
-    top: 10rem;
-  }
-
-  /* 배너 캐러셀은 높이를 부모의 100%로 잡는데, 본문(flex 항목)은 사이드 메뉴 높이에 맞춰 늘어나므로 내용 높이를 따르게 한다 */
-  .playground #container .pg-banner,
-  .playground #container .pg-banner .swiper {
-    height: auto;
-  }
-
   .pg-banner {
     margin-bottom: 4rem;
   }
@@ -304,11 +285,6 @@
 
   [data-krds-mode='high-contrast'] .pg-part-title {
     border-bottom-color: var(--krds-high-contrast-color-border-gray-dark);
-  }
-
-  /* 탭 목록이 본문 폭을 넘지 않고 KRDS 원래 동작대로 가로 스크롤되게 */
-  .playground #container .krds-tab-area > .tab {
-    max-width: 100%;
   }
 
   .pg-section {
