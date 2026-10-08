@@ -1001,7 +1001,14 @@ export default /* @__PURE__ */ defineComponent({
      * 모바일 1depth 패널(`.gnb-sub-list`) 렌더링
      */
     const renderMobilePanel = (item: MainMenuItem, index: number): VNode => {
-      const subItems = item.subItems ?? []
+      // PC와 같은 메뉴 데이터를 쓰도록 single-list(items)와 하위 메뉴 없는 링크도 패널에 링크로 보여 준다
+      const toLink = (link: { text: string; href?: string; external?: boolean; selected?: boolean }): MainMenuSubItem => ({
+        text: link.text,
+        href: link.href,
+        external: link.external,
+        selected: link.selected
+      })
+      const subItems = item.subItems ?? (item.items ?? (item.href ? [item] : [])).map(toLink)
 
       const children = subItems.map((subItem, subIndex) => {
         const key = `${index}-${subIndex}`

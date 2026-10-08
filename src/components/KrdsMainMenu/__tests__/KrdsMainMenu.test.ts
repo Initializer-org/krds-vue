@@ -209,6 +209,22 @@ describe('KrdsMainMenu', () => {
     await expectNoA11yViolations()
   })
 
+  it('모바일: single-list(items)와 바로가기 링크 메뉴도 패널에 링크로 보여 줌', async () => {
+    await page.viewport(414, 896)
+    const items: MainMenuItem[] = [
+      { text: '민원 안내', items: [{ text: '민원 신청 방법', href: '/guide' }] },
+      { text: '알림', href: '/notice' }
+    ]
+    const { container } = render({
+      setup: () => ({ items }),
+      template: `<KrdsMainMenu :items="items" variant="mobile" :open="true" />`
+    })
+    const panels = container.querySelectorAll('.gnb-sub-list')
+    expect(panels[0].querySelector('.gnb-sub-trigger')).toHaveAttribute('href', '/guide')
+    expect(panels[0]).toHaveTextContent('민원 신청 방법')
+    expect(panels[1].querySelector('.gnb-sub-trigger')).toHaveAttribute('href', '/notice')
+  })
+
   it('PC 메가 메뉴 동작: 패널 토글, 방향키 이동, ESC·배경 클릭으로 닫힘', async () => {
     render({
       setup() {
