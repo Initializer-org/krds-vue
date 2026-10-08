@@ -116,6 +116,11 @@ $mode-setting: light;
   }
 }
 
+// 도움 패널 펼치기 버튼(KrdsPanel)과 같은 오른쪽에 고정되므로, 버튼이 있으면 그 아래에 둔다 (위치는 KrdsPanel이 헤더 상태에 따라 갱신)
+:root:has(.btn-help-panel.expand) .krds-in-page-navigation-type .krds-in-page-navigation-area {
+  top: calc(var(--krds-help-panel--button-bottom, 23.6rem) + var(--krds-gap-6));
+}
+
 // 고대비모드
 @include color-mode($mode: high-contrast) {
   //모드 설정

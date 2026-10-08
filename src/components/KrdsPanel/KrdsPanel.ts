@@ -59,6 +59,7 @@ export default /* @__PURE__ */ defineComponent({
     // 원본 ui-script(krds_helpPanel.setupPadding)처럼 보이는 공식 배너·헤더 높이만큼 버튼과 패널 내용을 내려 헤더에 가려지지 않게 한다
     const headerOffset = ref(0)
     const isPc = ref(false)
+    const expandRef = ref<HTMLButtonElement | null>(null)
     let frame = 0
     const updateOffset = () => {
       cancelAnimationFrame(frame)
@@ -76,6 +77,12 @@ export default /* @__PURE__ */ defineComponent({
               ? 0
               : header.offsetHeight
         isPc.value = window.innerWidth >= 1024
+        // 같은 오른쪽에 고정되는 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝 위치를 알린다 (_in_page_navigation.scss)
+        const button = expandRef.value
+        if (button) {
+          const bottom = parseFloat(getComputedStyle(button).top) + headerOffset.value + button.offsetHeight
+          document.documentElement.style.setProperty('--krds-help-panel--button-bottom', `${bottom}px`)
+        }
       })
     }
 
@@ -87,6 +94,7 @@ export default /* @__PURE__ */ defineComponent({
 
     onUnmounted(() => {
       cancelAnimationFrame(frame)
+      document.documentElement.style.removeProperty('--krds-help-panel--button-bottom')
       window.removeEventListener('scroll', updateOffset)
       window.removeEventListener('resize', updateOffset)
     })
@@ -96,6 +104,7 @@ export default /* @__PURE__ */ defineComponent({
         h(
           'button',
           {
+            ref: expandRef,
             type: 'button',
             class: 'krds-btn small tertiary btn-help-panel expand btn-help-exec',
             style: { marginTop: `${headerOffset.value}px` },

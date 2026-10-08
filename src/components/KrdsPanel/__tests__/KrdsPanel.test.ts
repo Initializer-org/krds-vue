@@ -222,6 +222,9 @@ describe('KrdsPanel', () => {
     const wrap = container.querySelector('.help-panel-wrap') as HTMLElement
     await waitFor(() => expect(expand.style.marginTop).toBe('140px'))
     expect(wrap.style.paddingTop).toBe('140px')
+    // 콘텐츠 내 탐색이 버튼 아래에 서도록 버튼 아래쪽 끝(top 4rem + 140px + 버튼 높이)을 알린다
+    const bottom = () => parseFloat(document.documentElement.style.getPropertyValue('--krds-help-panel--button-bottom'))
+    expect(bottom()).toBe(40 + 140 + expand.offsetHeight)
 
     // 공식 배너가 지나가고 헤더가 숨은 상태(scroll-down)
     container.querySelector('#wrap')!.classList.add('scroll-down')
