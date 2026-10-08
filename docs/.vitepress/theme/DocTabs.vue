@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { useRoute } from 'vitepress'
-  import { nextTick, onMounted, ref, useId, watch } from 'vue'
+  import { nextTick, onMounted, ref, watch } from 'vue'
 
   /**
-   * 컴포넌트 문서의 "개요 / API 레퍼런스" 탭.
-   * 두 패널을 모두 렌더해(검색엔진이 API 표까지 수집) 비활성 패널만 숨기고, 선택한 탭은 ?tab=api로 주소에 남긴다
+   * 컴포넌트 문서의 "개요 / API 레퍼런스" 탭 목록.
+   * 탭 패널은 마크다운 규칙(config.ts docTabs)이 '## API' 경계로 만든 일반 HTML(.doc-tab-panel)이고, 여기서는 탭 목록과 선택만 다룬다.
+   * 두 패널을 모두 렌더해(검색엔진이 API 표까지 수집) 비활성 패널은 바깥 틀의 data-active로 숨기고(style.css), 선택한 탭은 ?tab=api로 주소에 남긴다
    */
   const tabs = [
     { key: 'overview', label: '개요' },
@@ -12,12 +13,10 @@
   ] as const
   type TabKey = (typeof tabs)[number]['key']
 
-  const id = useId()
   const route = useRoute()
   const active = ref<TabKey>('overview')
+  const listRef = ref<HTMLElement>()
   const tabRefs = ref<HTMLButtonElement[]>([])
-  const overviewPanel = ref<HTMLElement>()
-  const apiPanel = ref<HTMLElement>()
 
   const select = (key: TabKey, focus = false) => {
     active.value = key
@@ -37,10 +36,10 @@
     const hash = decodeURIComponent(location.hash.slice(1))
     return hash ? (document.getElementById(hash) ?? document.getElementById(hash.normalize('NFKD'))) : null
   }
-  const panelOf = (el: HTMLElement | null): TabKey | null =>
-    el && apiPanel.value?.contains(el) ? 'api' : el && overviewPanel.value?.contains(el) ? 'overview' : null
+  const panelOf = (el: HTMLElement | null) => (el?.closest<HTMLElement>('.doc-tab-panel')?.dataset.tab as TabKey | undefined) ?? null
 
   watch(active, key => {
+    listRef.value?.closest('.doc-tabs')?.setAttribute('data-active', key)
     const url = new URL(location.href)
     if (key === 'api') url.searchParams.set('tab', 'api')
     else url.searchParams.delete('tab')
@@ -72,36 +71,22 @@
 </script>
 
 <template>
-  <div class="doc-tabs">
-    <div class="doc-tabs-list" role="tablist" aria-label="문서 구분">
-      <button
-        v-for="(tab, index) in tabs"
-        :id="`${id}-tab-${tab.key}`"
-        :key="tab.key"
-        ref="tabRefs"
-        type="button"
-        role="tab"
-        class="doc-tabs-tab"
-        :aria-selected="active === tab.key"
-        :aria-controls="`${id}-panel-${tab.key}`"
-        :tabindex="active === tab.key ? 0 : -1"
-        @click="select(tab.key)"
-        @keydown="onKeydown($event, index)"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
-    <div
-      :id="`${id}-panel-overview`"
-      ref="overviewPanel"
-      v-show="active === 'overview'"
-      role="tabpanel"
-      :aria-labelledby="`${id}-tab-overview`"
+  <div ref="listRef" class="doc-tabs-list" role="tablist" aria-label="문서 구분">
+    <button
+      v-for="(tab, index) in tabs"
+      :id="`doc-tab-${tab.key}`"
+      :key="tab.key"
+      ref="tabRefs"
+      type="button"
+      role="tab"
+      class="doc-tabs-tab"
+      :aria-selected="active === tab.key"
+      :aria-controls="`doc-panel-${tab.key}`"
+      :tabindex="active === tab.key ? 0 : -1"
+      @click="select(tab.key)"
+      @keydown="onKeydown($event, index)"
     >
-      <slot name="overview" />
-    </div>
-    <div :id="`${id}-panel-api`" ref="apiPanel" v-show="active === 'api'" role="tabpanel" :aria-labelledby="`${id}-tab-api`">
-      <slot name="api" />
-    </div>
+      {{ tab.label }}
+    </button>
   </div>
 </template>

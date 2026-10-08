@@ -10,9 +10,6 @@ import IconButtons from './demos/input/IconButtons.vue'
 
 텍스트 입력 필드는 사용자가 키보드로 글자, 숫자, 기호 등이 조합된 한 줄의 짧은 텍스트를 입력하는 경우에 사용하는 요소이다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `KrdsFormGroup`·`KrdsFormLabel`·`KrdsFormHint`와 함께 써서 레이블과 도움말을 붙입니다. `readonly`·`disabled`로 읽기 전용과 비활성화 상태를 만듭니다.
@@ -51,8 +48,7 @@ import IconButtons from './demos/input/IconButtons.vue'
 
 <<< ./demos/input/IconButtons.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsInput
 
@@ -61,6 +57,3 @@ import IconButtons from './demos/input/IconButtons.vue'
 ## KrdsButtonGroup
 
 <ComponentApi name="KrdsButtonGroup" />
-
-</template>
-</DocTabs>

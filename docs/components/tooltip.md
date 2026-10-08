@@ -8,9 +8,6 @@ import Box from './demos/tooltip/Box.vue'
 
 툴팁은 요소나 본문 텍스트에 제공되는 짧은 부가 설명이다. 설명이 필요한 대상 또는 별도의 활성화 버튼에 마우스를 올리거나 초점을 이동했을 때 설명 텍스트가 표시된다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `type`으로 트리거 버튼 모양(`default`, `icon`, `button`)을 정합니다. 툴팁은 버튼 옆에 표시되고 Esc 키나 창 스크롤로 닫힙니다.
@@ -35,12 +32,8 @@ import Box from './demos/tooltip/Box.vue'
 
 <<< ./demos/tooltip/Box.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsTooltip
 
 <ComponentApi name="KrdsTooltip" />
-
-</template>
-</DocTabs>

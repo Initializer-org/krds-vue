@@ -10,9 +10,6 @@ import Controlled from './demos/tabs/Controlled.vue'
 
 탭은 버튼을 눌러 상호배타적인 여러 개의 콘텐츠 섹션을 전환할 수 있는 컴포넌트이다. 탭 버튼 목록과 콘텐츠 패널이 수직으로 쌓여 있는 형태로 표현되며, 사용자는 탭을 선택하여 해당 콘텐츠 섹션을 표시할 수 있다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `tabs`의 각 항목 `id`와 같은 이름의 슬롯에 패널 내용을 넣습니다. 처음에는 비활성화되지 않은 첫 번째 탭이 선택되고, 선택된 탭에는 스크린 리더용 "선택됨" 텍스트(`selectedText`)가 붙습니다. 좌우 방향키로 탭 버튼 사이에서 포커스를 옮길 수 있습니다.
@@ -49,12 +46,8 @@ import Controlled from './demos/tabs/Controlled.vue'
 
 <<< ./demos/tabs/Controlled.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsTabs
 
 <ComponentApi name="KrdsTabs" />
-
-</template>
-</DocTabs>

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
+import type { MarkdownRenderer } from 'vitepress'
 import { componentGroups } from './component-groups.ts'
 import { pageDescription } from './pages.ts'
 
@@ -25,11 +26,33 @@ const storybookRedirect = `(() => {
   location.replace(slug ? '/components/' + slug : id.startsWith('krds-vue-') ? '/guide/getting-started' : '/')
 })()`
 
+/**
+ * 컴포넌트 문서의 '## API' 제목을 경계로 개요 / API 레퍼런스 탭 패널을 일반 HTML로 감싼다 (DocTabs는 탭 목록만 그림).
+ * 본문을 컴포넌트 슬롯에 넣지 않아야 Vue가 정적 내용을 문자열로 묶어 페이지 JS가 커지지 않는다
+ */
+const docTabs = (md: MarkdownRenderer) => {
+  md.core.ruler.push('doc-tabs', state => {
+    if (!state.env.relativePath?.startsWith('components/')) return
+    const { tokens } = state
+    const isH2 = (index: number) => tokens[index].type === 'heading_open' && tokens[index].tag === 'h2'
+    const api = tokens.findIndex((_, index) => isH2(index) && tokens[index + 1].content === 'API')
+    if (api < 0) return
+    const first = tokens.findIndex((_, index) => isH2(index))
+    const html = (content: string) => Object.assign(new state.Token('html_block', '', 0), { content })
+    const panel = (tab: string) =>
+      `<div id="doc-panel-${tab}" class="doc-tab-panel" data-tab="${tab}" role="tabpanel" aria-labelledby="doc-tab-${tab}">\n`
+    tokens.splice(api, 3, html(`</div>\n${panel('api')}`))
+    tokens.splice(first, 0, html(`<div class="doc-tabs" data-active="overview">\n<DocTabs />\n${panel('overview')}`))
+    tokens.push(html('</div>\n</div>\n'))
+  })
+}
+
 export default defineConfig({
   lang: 'ko-KR',
   title: 'KRDS Vue',
   description: siteDescription,
   cleanUrls: true,
+  markdown: { config: docTabs },
   // 페이지 수정일 표시와 사이트맵 lastmod (배포 워크플로는 전체 히스토리로 체크아웃)
   lastUpdated: true,
   sitemap: {

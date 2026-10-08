@@ -8,9 +8,6 @@ import WithPageTitle from './demos/step-indicator/WithPageTitle.vue'
 
 단계 표시기는 서비스 이용을 위해 사용자가 거쳐야 하는 일련의 단계를 시각화하여 표현한 것으로 진행 상태에 대한 피드백을 사용자에게 전달한다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `modelValue`에 현재 단계의 인덱스(0부터 시작)를 지정합니다. 그보다 앞의 단계는 완료(`done`), 뒤의 단계는 대기(`pending`) 상태로 표시됩니다. 단계 표시기는 진행 상태만 보여 주므로(단계를 눌러 이동하지 않음), 이전/다음 버튼 등에서 `modelValue`를 바꿔 단계를 옮깁니다. API 표의 `update:modelValue` 이벤트는 기존 코드 호환용으로 남아 있으며 보내지 않습니다.
@@ -33,8 +30,7 @@ import WithPageTitle from './demos/step-indicator/WithPageTitle.vue'
 
 <<< ./demos/step-indicator/WithPageTitle.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsStepIndicator
 
@@ -43,6 +39,3 @@ import WithPageTitle from './demos/step-indicator/WithPageTitle.vue'
 ## KrdsStep
 
 <ComponentApi name="KrdsStep" />
-
-</template>
-</DocTabs>

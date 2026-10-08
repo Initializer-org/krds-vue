@@ -11,9 +11,6 @@ import Persistent from './demos/modal/Persistent.vue'
 
 모달은 대화창의 한 종류로 기본 창에 종속된 요소이다. 기본 창과 겹쳐져 가장 상단에 표시되며, 이때 기본 창은 비활성 상태로 전환되어 상호작용이 불가능하므로 사용자는 모달에서의 단일한 과업 또는 메시지에 집중할 수 있다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `v-model`로 열림 상태를 제어합니다. 열리면 모달 안으로 포커스가 이동하고 Tab 키 포커스가 모달 안에서 순환하며, Esc 키나 배경 클릭으로 닫으면 연 버튼으로 포커스가 돌아갑니다.
@@ -54,12 +51,8 @@ import Persistent from './demos/modal/Persistent.vue'
 
 <<< ./demos/modal/Persistent.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsModal
 
 <ComponentApi name="KrdsModal" />
-
-</template>
-</DocTabs>

@@ -110,6 +110,12 @@ body:has(.Layout) {
 }
 
 /* 탭 아래 첫 제목은 탭 밑줄과 겹치지 않게 구분선 없이 */
+/* 비활성 탭 패널 숨김 (DocTabs가 바깥 틀의 data-active를 바꿈) */
+.doc-tabs:not([data-active='api']) > .doc-tab-panel[data-tab='api'],
+.doc-tabs[data-active='api'] > .doc-tab-panel[data-tab='overview'] {
+  display: none;
+}
+
 .vp-doc .doc-tabs [role='tabpanel'] > h2:first-child {
   margin-top: 32px;
   padding-top: 0;

@@ -9,9 +9,6 @@ import WithSlot from './demos/tag/WithSlot.vue'
 
 태그는 키워드 또는 레이블을 사용하여 콘텐츠를 분류하는 수단이다. 콘텐츠 항목에 직접 관련 분류 체계, 데이터 속성을 표시하거나, 목록에서 특정 분류 체계, 데이터 속성을 가진 항목이 선택되었음을 보여주기 위한 태그 그룹으로 사용된다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 링크가 아닌 태그에는 삭제 버튼이 함께 표시되며, 누르면 `remove` 이벤트가 발생합니다.
@@ -44,8 +41,7 @@ import WithSlot from './demos/tag/WithSlot.vue'
 
 <<< ./demos/tag/WithSlot.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsTag
 
@@ -54,6 +50,3 @@ import WithSlot from './demos/tag/WithSlot.vue'
 ## KrdsTagGroup
 
 <ComponentApi name="KrdsTagGroup" />
-
-</template>
-</DocTabs>

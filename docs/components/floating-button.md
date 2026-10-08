@@ -2,9 +2,6 @@
 
 플로팅 버튼은 사용자가 화면에서 가장 자주 사용하고 중요한 작업에 단일 또는 다중으로 사용한다. 페이지가 스크롤될 때에도 화면 우측 하단에 계속 표현한다.
 
-<DocTabs>
-<template #overview>
-
 ## 단일형
 
 아이콘과 레이블로 하나의 주요 작업을 보여 줍니다. `href`를 주면 링크, 없으면 버튼으로 렌더링하고 `click` 이벤트를 보냅니다. `hide-label`을 주면 아이콘만 보이고 레이블은 화면낭독기용으로 남습니다. 화면 오른쪽 아래에 고정되므로 예제를 별도 화면(iframe)에 띄웁니다.
@@ -28,12 +25,8 @@
 - 확장형의 깊이는 2수준 이하로만 사용합니다.
 - 자주 쓰는 행동이 여러 개이거나 지도·캘린더처럼 제스처 조작이 많은 화면에는 쓰지 않습니다.
 
-</template>
-<template #api>
+## API
 
 ## KrdsFloatingButton
 
 <ComponentApi name="KrdsFloatingButton" />
-
-</template>
-</DocTabs>

@@ -7,9 +7,6 @@ import Line from './demos/accordion/Line.vue'
 
 아코디언은 한 페이지에서 관련 있는 여러 콘텐츠 섹션을 확인할 수 있도록 하는 컴포넌트로 콘텐츠 섹션의 헤더 목록이 수직으로 쌓여 있는 형태로 표현된다. 일반적으로 헤더 목록은 컨트롤 요소로 활용되며 사용자는 필요에 따라 헤더를 선택하여 하위 콘텐츠 섹션을 표시하거나 숨길 수 있다.
 
-<DocTabs>
-<template #overview>
-
 ## 기본
 
 `KrdsAccordionGroup` 안에 `KrdsAccordionItem`을 둡니다. 열린 항목의 `id`를 `open-item`으로 내려 주고 `toggle` 이벤트로 받은 `id`로 갱신합니다. 예제처럼 같은 `id`를 다시 받으면 닫도록 하면 한 번에 한 항목만 열립니다.
@@ -28,8 +25,7 @@ import Line from './demos/accordion/Line.vue'
 
 <<< ./demos/accordion/Line.vue
 
-</template>
-<template #api>
+## API
 
 ## KrdsAccordionGroup
 
@@ -38,6 +34,3 @@ import Line from './demos/accordion/Line.vue'
 ## KrdsAccordionItem
 
 <ComponentApi name="KrdsAccordionItem" />
-
-</template>
-</DocTabs>
