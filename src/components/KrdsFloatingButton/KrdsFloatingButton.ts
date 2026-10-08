@@ -1,4 +1,4 @@
-import { defineComponent, h, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
+import { defineComponent, h, mergeProps, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
 import type { PropType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -70,6 +70,8 @@ export interface KrdsFloatingButtonEmits {
  */
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFloatingButton',
+  // 단일형은 class·style만 바깥 틀에, 나머지 속성(aria-*, rel, download 등)은 실제 버튼·링크에 붙인다
+  inheritAttrs: false,
   props: {
     /** 단일형 버튼의 레이블, 확장형은 확장 버튼의 이름 (화면에는 숨김) */
     label: {
@@ -110,7 +112,7 @@ export default /* @__PURE__ */ defineComponent({
     select: (item: KrdsFloatingButtonItem, index: number, event: MouseEvent) => true
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const rootRef = ref<HTMLElement | null>(null)
     const toggleRef = ref<HTMLButtonElement | null>(null)
     const listId = `floating-list-${useId()}`
@@ -135,16 +137,24 @@ export default /* @__PURE__ */ defineComponent({
       if (next && !rootRef.value?.contains(next)) close()
     }
 
-    const renderAction = (item: KrdsFloatingButtonItem, onClick: (event: MouseEvent) => void, hideLabel = false): VNode =>
+    const renderAction = (
+      item: KrdsFloatingButtonItem,
+      onClick: (event: MouseEvent) => void,
+      hideLabel = false,
+      extraAttrs: Record<string, unknown> = {}
+    ): VNode =>
       h(
         item.href ? 'a' : 'button',
-        {
-          class: 'floating-action',
-          ...(item.href
-            ? { href: item.href, ...(item.external && { target: '_blank', rel: 'noopener noreferrer', title: '새 창 열림' }) }
-            : { type: 'button' }),
-          onClick
-        },
+        mergeProps(
+          {
+            class: 'floating-action',
+            ...(item.href
+              ? { href: item.href, ...(item.external && { target: '_blank', rel: 'noopener noreferrer', title: '새 창 열림' }) }
+              : { type: 'button' }),
+            onClick
+          },
+          extraAttrs
+        ),
         [
           h('span', { class: 'floating-icon' }, [h('i', { class: ['svg-icon', item.icon], 'aria-hidden': 'true' })]),
           h('span', { class: hideLabel ? 'sr-only' : 'floating-label' }, item.label)
@@ -154,22 +164,24 @@ export default /* @__PURE__ */ defineComponent({
     return () => {
       const { items } = props
       if (!items) {
-        return h('div', { class: 'krds-floating-button' }, [
+        const { class: className, style, ...actionAttrs } = attrs
+        return h('div', { class: ['krds-floating-button', className], style }, [
           renderAction(
             { label: props.label, icon: props.icon, href: props.href, external: props.external },
             event => emit('click', event),
-            props.hideLabel
+            props.hideLabel,
+            actionAttrs
           )
         ])
       }
 
       return h(
         'div',
-        {
+        mergeProps(attrs, {
           ref: rootRef,
           class: ['krds-floating-button', 'expand', { active: isOpen.value }],
           onFocusout: handleFocusout
-        },
+        }),
         [
           isOpen.value ? h('div', { class: 'floating-dim', 'aria-hidden': 'true', onClick: () => close() }) : null,
           h(

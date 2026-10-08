@@ -125,4 +125,17 @@ describe('KrdsFloatingButton', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
     expect(toggle).not.toHaveFocus()
   })
+
+  it('단일형: class·style은 바깥 틀, 나머지 속성은 버튼에', () => {
+    const { container } = render({
+      template: `<KrdsFloatingButton label="채팅 상담" class="my-fab" style="bottom: 10rem" aria-describedby="fab-desc" data-testid="fab" />`
+    })
+    const root = container.querySelector('.krds-floating-button') as HTMLElement
+    const button = screen.getByRole('button', { name: '채팅 상담' })
+    expect(root).toHaveClass('my-fab')
+    expect(root.style.bottom).toBe('10rem')
+    expect(root).not.toHaveAttribute('data-testid')
+    expect(button).toHaveAttribute('aria-describedby', 'fab-desc')
+    expect(button).toHaveAttribute('data-testid', 'fab')
+  })
 })
