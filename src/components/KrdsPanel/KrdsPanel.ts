@@ -6,6 +6,10 @@ import { computed, defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
 export interface KrdsPanelProps {
   /** 도움말 패널 펼침 상태 (v-model) */
   modelValue?: boolean
+  /** 헤더 상단 영역 선택자 (기본값: '#krds-masthead') */
+  headerTopSelector?: string
+  /** 헤더 내부 영역 선택자 (기본값: '#krds-header .header-in') */
+  headerInnerSelector?: string
 }
 
 /**
@@ -22,6 +26,16 @@ export default /* @__PURE__ */ defineComponent({
     modelValue: {
       type: Boolean,
       default: false
+    },
+    /** 헤더 상단 영역 선택자 (기본값: '#krds-masthead', KrdsInPageNavigation과 같음) */
+    headerTopSelector: {
+      type: String,
+      default: '#krds-masthead'
+    },
+    /** 헤더 내부 영역 선택자 (기본값: '#krds-header .header-in', KrdsInPageNavigation과 같음) */
+    headerInnerSelector: {
+      type: String,
+      default: '#krds-header .header-in'
     }
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
@@ -50,8 +64,8 @@ export default /* @__PURE__ */ defineComponent({
       cancelAnimationFrame(frame)
       // KrdsLayout이 같은 스크롤 이벤트에서 붙이는 scroll-down 클래스를 반영한 뒤 계산
       frame = requestAnimationFrame(() => {
-        const masthead = document.getElementById('krds-masthead')
-        const header = document.querySelector<HTMLElement>('#krds-header .header-in')
+        const masthead = document.querySelector<HTMLElement>(props.headerTopSelector)
+        const header = document.querySelector<HTMLElement>(props.headerInnerSelector)
         const mastheadShown = !!masthead && masthead.getBoundingClientRect().bottom > 0
         const headerHidden = !!document.querySelector('#wrap.scroll-down')
         headerOffset.value = !header
