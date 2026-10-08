@@ -33,6 +33,6 @@ import HomeShowcase from './.vitepress/theme/HomeShowcase.vue'
 
 ## 컴포넌트 미리보기
 
-공공 서비스 화면을 KRDS Vue 컴포넌트로 조합한 예시입니다. 직접 입력하고 선택해 보세요. 상단 테마 전환 버튼으로 고대비 모드도 확인할 수 있습니다.
+공공 서비스 화면을 KRDS Vue 컴포넌트로 조합한 예시입니다. 직접 입력하고 선택해 보세요. 상단 화면 모드 버튼으로 "선명하게 (어두운 배경)" 모드도 확인할 수 있습니다.
 
 <HomeShowcase />

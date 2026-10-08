@@ -231,3 +231,46 @@ html[data-doc-tab-api] .VPDocAsideOutline {
     align-items: stretch;
   }
 }
+
+/* 푸터: 옅은 배경 위 작은 회색 글씨 한 줄. VitePress 컴포넌트 스타일(scoped)보다 선택자를 한 단계 높여 덮어쓴다 */
+.VPContent.is-home .VPHome {
+  margin-bottom: 64px;
+}
+
+.Layout footer.VPFooter {
+  padding: 20px 24px;
+  border-top-color: var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+}
+
+footer.VPFooter .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  max-width: 1152px;
+  text-align: left;
+}
+
+.VPFooter .container p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--vp-c-text-2);
+}
+
+.VPFooter .container p a {
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+}
+
+.VPFooter .container p a:hover {
+  color: var(--vp-c-text-1);
+  text-decoration: underline;
+}
+
+.VPFooter .container .copyright a:not(:last-child) {
+  margin-right: 8px;
+  padding-right: 8px;
+  border-right: 1px solid var(--vp-c-divider);
+}

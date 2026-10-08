@@ -132,15 +132,15 @@ KRDS Vue 스타일은 CSS custom properties를 기반으로 합니다. 토큰 �
 }
 ```
 
-컬러 모드는 루트 요소의 `data-krds-mode` 속성으로 전환합니다. 이 문서 사이트 상단의 테마 전환 버튼도 같은 방식으로 고대비 모드를 켭니다.
+컬러 모드는 루트 요소의 `data-krds-mode` 속성으로 전환합니다. 이 문서 사이트 상단의 화면 모드 버튼도 같은 방식으로 고대비 모드를 켭니다.
 
 ```ts
 document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 ```
 
-- `light`: 기본 라이트 모드
-- `high-contrast`: 고대비 모드
-- `theme`: 사용자 시스템 설정에 따라 라이트/고대비 스타일 적용
+- `light`: 기본 라이트 모드 (KRDS 공식 사이트의 "기본 (밝은 배경)")
+- `high-contrast`: 고대비 모드 (KRDS 공식 사이트의 "선명하게 (어두운 배경)")
+- `theme`: 사용자 시스템 설정에 따라 라이트/고대비 스타일 적용 (KRDS 공식 사이트의 "시스템 설정")
 
 ## 브라우저 지원
 

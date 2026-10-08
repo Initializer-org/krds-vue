@@ -146,12 +146,24 @@ export default defineConfig({
     outline: { label: '이 페이지에서' },
     docFooter: { prev: '이전', next: '다음' },
     lastUpdated: { text: '마지막 수정', formatOptions: { dateStyle: 'medium', forceLocale: true } },
-    darkModeSwitchLabel: '고대비 모드',
-    lightModeSwitchTitle: '기본 모드로 전환',
-    darkModeSwitchTitle: '고대비 모드로 전환',
+    darkModeSwitchLabel: '선명하게 (어두운 배경)',
+    lightModeSwitchTitle: '기본 (밝은 배경)으로 전환',
+    darkModeSwitchTitle: '선명하게 (어두운 배경)으로 전환',
     sidebarMenuLabel: '메뉴',
     returnToTopLabel: '맨 위로',
-    footer: { message: 'MIT License', copyright: 'Initializer Team' }
+    // 왼쪽 저작권, 오른쪽 링크 한 줄(style.css). 화면 순서와 DOM 순서를 맞추려고 message에 저작권, copyright에 링크를 둔다
+    footer: {
+      message:
+        'Copyright © 2025 Initializer Team. <a href="https://github.com/Initializer-org/krds-vue/blob/main/LICENSE">MIT License</a>로 배포됩니다.',
+      copyright: [
+        ['GitHub', 'https://github.com/Initializer-org/krds-vue'],
+        ['npm', 'https://www.npmjs.com/package/@krds.ui/vue'],
+        ['변경 기록', 'https://github.com/Initializer-org/krds-vue/blob/main/CHANGELOG.md'],
+        ['KRDS 공식 사이트', 'https://www.krds.go.kr']
+      ]
+        .map(([text, href]) => `<a href="${href}">${text}</a>`)
+        .join('')
+    }
   },
   vite: {
     resolve: {
