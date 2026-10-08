@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, ref, useId, vShow, withDirectives } from 'vue'
+import { defineComponent, h, nextTick, onMounted, onUnmounted, ref, useId, vShow, withDirectives } from 'vue'
 import type { PropType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
 
@@ -12,8 +12,6 @@ export interface KrdsFloatingButtonItem {
   icon: string
   /** 링크 주소 (없으면 버튼으로 렌더링) */
   href?: string
-  /** 링크 target */
-  target?: string
 }
 
 /**
@@ -26,8 +24,6 @@ export interface KrdsFloatingButtonProps extends BaseComponentProps {
   icon?: string
   /** 단일형 버튼의 링크 주소 */
   href?: string
-  /** 단일형 버튼의 링크 target */
-  target?: string
   /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
   hideLabel?: boolean
   /** 확장형 항목 (지정하면 확장형, 3개 이하 권장) */
@@ -86,11 +82,6 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       default: undefined
     },
-    /** 단일형 버튼의 링크 target */
-    target: {
-      type: String,
-      default: undefined
-    },
     /** 단일형 레이블을 화면에서 숨김 (아이콘만 표시, 화면낭독기는 읽음) */
     hideLabel: {
       type: Boolean,
@@ -117,9 +108,12 @@ export default /* @__PURE__ */ defineComponent({
       if (returnFocus) nextTick(() => toggleRef.value?.focus())
     }
 
+    // Safari 등은 버튼을 클릭해도 초점을 주지 않으므로 Esc는 문서 전체에서 받는다 (다른 펼침 컴포넌트와 같음)
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen.value) close(true)
     }
+    onMounted(() => document.addEventListener('keydown', handleKeydown))
+    onUnmounted(() => document.removeEventListener('keydown', handleKeydown))
 
     // Tab으로 초점이 바깥으로 나가면 닫는다 (relatedTarget이 없는 클릭은 가림막 클릭으로 처리)
     const handleFocusout = (event: FocusEvent) => {
@@ -132,7 +126,7 @@ export default /* @__PURE__ */ defineComponent({
         item.href ? 'a' : 'button',
         {
           class: 'floating-action',
-          ...(item.href ? { href: item.href, target: item.target } : { type: 'button' }),
+          ...(item.href ? { href: item.href } : { type: 'button' }),
           onClick
         },
         [
@@ -145,11 +139,7 @@ export default /* @__PURE__ */ defineComponent({
       const { items } = props
       if (!items) {
         return h('div', { class: 'krds-floating-button' }, [
-          renderAction(
-            { label: props.label, icon: props.icon, href: props.href, target: props.target },
-            event => emit('click', event),
-            props.hideLabel
-          )
+          renderAction({ label: props.label, icon: props.icon, href: props.href }, event => emit('click', event), props.hideLabel)
         ])
       }
 
@@ -158,7 +148,6 @@ export default /* @__PURE__ */ defineComponent({
         {
           ref: rootRef,
           class: ['krds-floating-button', 'expand', { active: isOpen.value }],
-          onKeydown: handleKeydown,
           onFocusout: handleFocusout
         },
         [
@@ -186,7 +175,8 @@ export default /* @__PURE__ */ defineComponent({
                 h('li', { key: index }, [
                   renderAction(item, () => {
                     if (!item.href) emit('select', item, index)
-                    close(!item.href)
+                    // 링크도 tel:·mailto:처럼 페이지에 남는 경우가 있어 초점을 확장 버튼으로 돌려준다
+                    close(true)
                   })
                 ])
               )

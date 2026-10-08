@@ -69,4 +69,22 @@ describe('KrdsFloatingButton', () => {
     screen.getByRole('button', { name: '바깥 버튼' }).focus()
     await vi.waitFor(() => expect(toggle).toHaveAttribute('aria-expanded', 'false'))
   })
+
+  it('확장형: 링크 항목을 눌러도 초점을 확장 버튼으로, 초점이 바깥에 있어도 Esc로 닫힘', async () => {
+    render({ template: `<KrdsFloatingButton label="상담 메뉴" :items="items" />`, setup: () => ({ items }) })
+    const toggle = screen.getByRole('button', { name: '상담 메뉴' })
+
+    await userEvent.click(toggle)
+    const link = screen.getByRole('link', { name: '전화 상담' })
+    link.addEventListener('click', event => event.preventDefault())
+    await userEvent.click(link)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await vi.waitFor(() => expect(toggle).toHaveFocus())
+
+    // Safari처럼 클릭해도 초점이 버튼에 가지 않은 상황
+    await userEvent.click(toggle)
+    toggle.blur()
+    await userEvent.keyboard('{Escape}')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
 })
