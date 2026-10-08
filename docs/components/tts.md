@@ -10,6 +10,9 @@ import Disabled from './demos/tts/Disabled.vue'
 
 TTS(Text-to-Speech)는 텍스트를 음성으로 변환하여 읽어주는 기능을 제공하는 버튼 컴포넌트이다. Web Speech API를 사용하며, 볼륨 아이콘과 재생 아이콘 두 가지 타입을 지원한다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 버튼을 누르면 `text`를 한국어(`ko-KR`)로 읽고, 읽는 동안 정지 아이콘으로 바뀌어 다시 누르면 멈춥니다.
@@ -44,8 +47,12 @@ TTS(Text-to-Speech)는 텍스트를 음성으로 변환하여 읽어주는 기�
 
 <<< ./demos/tts/Disabled.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsTts
 
 <ComponentApi name="KrdsTts" />
+
+</template>
+</DocTabs>

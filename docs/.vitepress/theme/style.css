@@ -71,3 +71,42 @@
 body:has(.Layout) {
   height: auto;
 }
+
+/* 컴포넌트 문서 "개요 / API 레퍼런스" 탭 (DocTabs) */
+.doc-tabs-list {
+  display: flex;
+  margin: 32px 0 8px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.doc-tabs-tab {
+  margin-bottom: -1px;
+  padding: 12px 24px;
+  border-bottom: 3px solid transparent;
+  color: var(--vp-c-text-2);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.doc-tabs-tab:hover {
+  color: var(--vp-c-text-1);
+}
+
+.doc-tabs-tab[aria-selected='true'] {
+  border-bottom-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+/* 목차는 개요 패널의 제목만 가리키므로 API 탭에서는 숨긴다 */
+html[data-doc-tab-api] .VPDocAsideOutline {
+  /* VitePress 스코프 스타일(.has-outline)보다 우선 */
+  display: none !important;
+}
+
+/* 탭 아래 첫 제목은 탭 밑줄과 겹치지 않게 구분선 없이 */
+.vp-doc .doc-tabs [role='tabpanel'] > h2:first-child {
+  margin-top: 32px;
+  padding-top: 0;
+  border-top: 0;
+}

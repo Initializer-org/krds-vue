@@ -9,6 +9,9 @@ import SingleList from './demos/main-menu/SingleList.vue'
 
 `variant` 속성으로 두 형태를 전환합니다. PC 메가 메뉴는 원본 KRDS처럼 패널을 열면 페이지 전체에 배경 딤(`backdrop`)을 깝니다. 메뉴가 딤 위에 보이려면 헤더(`#krds-header`, `KrdsHeader`) 안에 두어야 하며, 헤더 밖에서 쓰면 `:backdrop="false"`로 끕니다.
 
+<DocTabs>
+<template #overview>
+
 ## PC 메가 메뉴
 
 PC 메가 메뉴는 1024px 이상 화면에서만 표시됩니다. 미리보기는 헤더 밖에 두므로 `:backdrop="false"`로 배경 딤을 끄고, PC 레이아웃 그대로 보이도록 1024px 폭으로 표시합니다(가로 스크롤). 헤더 안에서 쓰는 예는 [헤더](./header)를 참고하세요.
@@ -35,8 +38,12 @@ PC 메가 메뉴는 1024px 이상 화면에서만 표시됩니다. 미리보기�
 
 <<< ./demos/main-menu/Mobile.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsMainMenu
 
 <ComponentApi name="KrdsMainMenu" />
+
+</template>
+</DocTabs>

@@ -7,6 +7,9 @@ import HintTypes from './demos/form-group/HintTypes.vue'
 
 `KrdsFormGroup`은 입력 컴포넌트 하나와 그 레이블·도움말을 묶는 `.form-group` 영역입니다. `KrdsFormLabel`은 레이블(`.form-tit` 안의 `<label>`), `KrdsFormHint`는 입력 필드 아래의 도움말(`<p>`)을 만듭니다. 텍스트 입력 필드, 텍스트 영역, 셀렉트, 날짜 입력 필드 등과 함께 씁니다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 `KrdsFormLabel`의 `for`에 입력 컴포넌트의 `id`를 지정해 레이블을 연결합니다.
@@ -23,7 +26,8 @@ import HintTypes from './demos/form-group/HintTypes.vue'
 
 <<< ./demos/form-group/HintTypes.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsFormGroup
 
@@ -36,3 +40,6 @@ import HintTypes from './demos/form-group/HintTypes.vue'
 ### KrdsFormHint
 
 <ComponentApi name="KrdsFormHint" />
+
+</template>
+</DocTabs>

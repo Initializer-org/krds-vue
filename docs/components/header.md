@@ -4,6 +4,9 @@
 유틸리티 메뉴, 브랜딩 영역, 네비게이션 메뉴를 슬롯을 통해 유연하게 구성할 수 있다.
 네비게이션 슬롯에는 KrdsMainMenu 등 완성된 메뉴 컴포넌트를 그대로 전달한다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 `utility`, `branding` 슬롯에는 KRDS 헤더 마크업을, `navigation` 슬롯에는 `KrdsMainMenu`를, `mobileNavigation` 슬롯에는 `KrdsMainMenu`(`variant="mobile"`)를 전달합니다.
@@ -20,7 +23,8 @@
 
 <DemoFrame src="/frame/header/basic" title="헤더 모바일 예제" :height="640" />
 
-## API
+</template>
+<template #api>
 
 ### KrdsHeader
 
@@ -29,3 +33,6 @@
 ### KrdsMainMenu
 
 <ComponentApi name="KrdsMainMenu" />
+
+</template>
+</DocTabs>

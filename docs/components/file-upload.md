@@ -12,6 +12,9 @@ import ReadOnly from './demos/file-upload/ReadOnly.vue'
 
 파일 업로드는 하나 이상의 디바이스의 로컬 파일을 선택하고 첨부하는 데 사용하는 입력 컴포넌트이다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 `v-model`에 파일 목록(`FileInfo[]`)을 바인딩합니다. 컴포넌트는 파일을 서버로 보내지 않습니다. 추가된 파일은 `pending` 상태로 목록에 들어가므로 실제 업로드와 상태 변경은 직접 처리합니다.
@@ -66,8 +69,12 @@ import ReadOnly from './demos/file-upload/ReadOnly.vue'
 
 <<< ./demos/file-upload/ReadOnly.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsFileUpload
 
 <ComponentApi name="KrdsFileUpload" />
+
+</template>
+</DocTabs>

@@ -10,6 +10,9 @@ import Fraction from './demos/carousel/Fraction.vue'
 
 캐러셀은 하나의 영역에서 여러 개의 콘텐츠를 순차적으로 번갈아 보여주는 컴포넌트이다. 한정된 공간에 여러 콘텐츠를 노출할 수 있으나 첫 번째 슬라이드 외에는 주목도가 크게 떨어지므로, 중요한 정보는 캐러셀에만 담지 않는 것이 좋다. 슬라이드는 기본 슬롯으로 전달하며 최상위 노드 하나가 슬라이드 한 장이 된다. 자동 재생 시에는 사용자가 즉시 정지할 수 있도록 재생/정지 버튼을 함께 노출한다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본 (비주얼 배너형)
 
 <div class="demo vp-raw"><Basic /></div>
@@ -48,8 +51,12 @@ import Fraction from './demos/carousel/Fraction.vue'
 
 <<< ./demos/carousel/Fraction.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsCarousel
 
 <ComponentApi name="KrdsCarousel" />
+
+</template>
+</DocTabs>

@@ -11,6 +11,9 @@ import TeleportDemo from './demos/date-input/Teleport.vue'
 
 날짜 입력 필드는 사용자가 특정 날짜 또는 기간을 입력하거나 선택하는 데 사용되는 요소이다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 달력 버튼을 누르면 달력이 열리고 초점이 달력으로 이동합니다. 원본 KRDS처럼 입력 필드 위쪽에 여는 것이 기본이고, 화면에서 위쪽 공간이 달력 높이보다 좁고 아래쪽이 더 넓으면 아래쪽에 엽니다. 날짜를 고른 뒤 **확인**을 누르면 `YYYY.MM.DD` 형식으로 입력되고, 두 날짜를 차례로 고르면 `YYYY.MM.DD ~ YYYY.MM.DD` 기간으로 입력됩니다. <kbd>Esc</kbd>나 **취소**, 달력 바깥 클릭으로 닫히며 닫히면 초점이 달력 버튼으로 돌아옵니다.
@@ -62,8 +65,12 @@ import TeleportDemo from './demos/date-input/Teleport.vue'
 
 <<< ./demos/date-input/Teleport.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsDateInput
 
 <ComponentApi name="KrdsDateInput" />
+
+</template>
+</DocTabs>

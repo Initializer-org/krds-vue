@@ -8,6 +8,9 @@ import InputLoading from './demos/spinner/InputLoading.vue'
 
 스피너는 화면이나 요소의 다양한 처리 상태를 시각적으로 표시한 것으로 화면 전체나 일부 요소에 접근하기 위해 일정 시간 동안 대기해야 함을 사용자에게 안내한다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 스피너는 부모 요소의 너비와 높이를 채우고 가운데에 표시됩니다. `role="status"`와 화면 낭독기용 "로딩 중" 텍스트가 함께 렌더링됩니다.
@@ -32,8 +35,12 @@ import InputLoading from './demos/spinner/InputLoading.vue'
 
 <<< ./demos/spinner/InputLoading.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsSpinner
 
 <ComponentApi name="KrdsSpinner" />
+
+</template>
+</DocTabs>

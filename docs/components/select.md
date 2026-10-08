@@ -9,6 +9,9 @@ import Error from './demos/select/Error.vue'
 
 셀렉트는 사용자에게 여러 개의 옵션 목록을 팝업으로 제공하여 그 중 한 개의 값을 선택할 수 있도록 하는 경우에 사용한다.
 
+<DocTabs>
+<template #overview>
+
 ## 기본
 
 `KrdsFormGroup`·`KrdsFormLabel`·`KrdsFormHint`와 함께 써서 레이블과 도움말을 연결합니다.
@@ -37,8 +40,12 @@ import Error from './demos/select/Error.vue'
 
 <<< ./demos/select/Error.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsSelect
 
 <ComponentApi name="KrdsSelect" />
+
+</template>
+</DocTabs>

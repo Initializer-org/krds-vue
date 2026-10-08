@@ -11,6 +11,9 @@ import Group from './demos/button/Group.vue'
 
 버튼은 어떤 기능이나 동작을 실행하거나 기능을 사용하기 위한 상태로 변경하는 요소이다. 사용자가 서비스를 이용하는 과정에서 어떤 행동이 중요한지에 따라 관련된 버튼이 다양한 스타일로 표현된다.
 
+<DocTabs>
+<template #overview>
+
 ## 계층
 
 `variant`로 버튼의 중요도를 표현합니다. 화면의 주요 행동에는 `primary`를 한 번만 사용합니다.
@@ -53,7 +56,8 @@ import Group from './demos/button/Group.vue'
 
 <<< ./demos/button/Group.vue
 
-## API
+</template>
+<template #api>
 
 ### KrdsButton
 
@@ -62,3 +66,6 @@ import Group from './demos/button/Group.vue'
 ### KrdsButtonGroup
 
 <ComponentApi name="KrdsButtonGroup" />
+
+</template>
+</DocTabs>
