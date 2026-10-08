@@ -142,6 +142,7 @@ export default defineConfig({
         items: [
           { text: '시작하기', link: '/guide/getting-started' },
           { text: 'AI로 개발하기', link: '/guide/ai' },
+          { text: 'KRDS Vue 개발 지침', link: '/guide/ai-guidelines' },
           { text: '컴포넌트 목록', link: '/components/' }
         ]
       },

@@ -29,7 +29,8 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, siteUrl: st
   const link = (file: string) => `${siteUrl}/${file.replace(/\.md$/, '')}`
   const guides = [
     ['시작하기', 'guide/getting-started.md'],
-    ['AI로 개발하기', 'guide/ai.md']
+    ['AI로 개발하기', 'guide/ai.md'],
+    ['KRDS Vue 개발 지침', 'guide/ai-guidelines.md']
   ]
 
   const index = [

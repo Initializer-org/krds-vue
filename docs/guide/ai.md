@@ -4,7 +4,7 @@ Claude Code, Cursor, GitHub Copilot 같은 AI 코딩 도구가 KRDS Vue를 올�
 
 ## 지침 파일
 
-<a href="/ai/guidelines.md" target="_blank" rel="noopener">guidelines.md</a>에 KRDS Vue로 화면을 만들 때 AI가 따라야 할 규칙을 정리했습니다.
+[KRDS Vue 개발 지침](./ai-guidelines)에 KRDS Vue로 화면을 만들 때 AI가 따라야 할 규칙을 정리했습니다. 원본 파일은 <a href="/ai/guidelines.md" download="krds-vue-guidelines.md">guidelines.md</a>로 내려받을 수 있습니다.
 
 - 설치와 설정 (스타일, 전역 등록, 전역 타입, Nuxt)
 - 공공 누리집 페이지 레이아웃 (공식 배너, 헤더, 메인 메뉴, 사이드 메뉴, 푸터, 운영기관 식별자)
