@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.22](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.21...@krds.ui/vue-v0.0.22) (2026-10-08)
+
+
+### Bug Fixes
+
+* style 타입·모바일 메뉴 링크·전역 컴포넌트와 슬롯 타입 수정, Vite 예제·패키지 검증 CI·AI로 개발하기 문서 추가 ([#277](https://github.com/Initializer-org/krds-vue/issues/277)) ([17f5867](https://github.com/Initializer-org/krds-vue/commit/17f5867003de2e5ccc9410ac8a54b35f6c1f06cb))
+
 ## [0.0.21](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.20...@krds.ui/vue-v0.0.21) (2026-10-08)
 
 
