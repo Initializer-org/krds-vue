@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Masthead 컴포넌트 속성
@@ -19,10 +20,7 @@ export default /* @__PURE__ */ defineComponent({
   name: 'KrdsMasthead',
   props: {
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -39,7 +37,7 @@ export default /* @__PURE__ */ defineComponent({
      * 배지 클래스 계산
      */
     const mastheadClasses = computed(() => {
-      const classes = ['']
+      const classes: KrdsClassValue[] = ['']
 
       // 사용자 정의 클래스
       if (props.class) {

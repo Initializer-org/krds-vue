@@ -65,7 +65,7 @@
       @close="currentStep = null"
     >
       <template #coach-mark-content>
-        <KrdsButton :class="currentStep === 3 ? 'coach-btn' : undefined">주소 이전 신청 완료</KrdsButton>
+        <KrdsButton :class="[currentStep === 3 ? 'coach-btn' : '']">주소 이전 신청 완료</KrdsButton>
       </template>
     </KrdsCoachMark>
   </div>

@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Identifier 컴포넌트 속성
@@ -21,10 +22,7 @@ export default /* @__PURE__ */ defineComponent({
   name: 'KrdsIdentifier',
   props: {
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 로고 스크린리더 텍스트 */
     logoLabel: {
       type: String,
@@ -46,7 +44,7 @@ export default /* @__PURE__ */ defineComponent({
      * 배지 클래스 계산
      */
     const identifierClasses = computed(() => {
-      const classes = ['krds-identifier']
+      const classes: KrdsClassValue[] = ['krds-identifier']
 
       // 사용자 정의 클래스
       if (props.class) {

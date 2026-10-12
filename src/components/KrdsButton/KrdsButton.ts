@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps, Size, Variant } from '@/types'
+import type { BaseComponentProps, KrdsClassValue, Size, Variant } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Button 컴포넌트 속성
@@ -75,10 +76,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -95,7 +93,7 @@ export default /* @__PURE__ */ defineComponent({
      * 버튼 클래스 계산
      */
     const buttonClasses = computed(() => {
-      const classes = ['krds-btn']
+      const classes: KrdsClassValue[] = ['krds-btn']
 
       // 아이콘 전용 클래스
       if (props.icon) {

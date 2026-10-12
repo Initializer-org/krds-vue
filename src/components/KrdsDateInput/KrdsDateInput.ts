@@ -1,9 +1,10 @@
 import { Teleport, computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, vShow, watch, withDirectives } from 'vue'
 import type { PropType } from 'vue'
-import type { BaseFormProps, Size } from '@/types'
+import type { BaseFormProps, KrdsClassValue, Size } from '@/types'
 import KrdsButton from '@/components/KrdsButton/KrdsButton'
 import { useDatePicker } from '@/composables/useDatePicker'
 import { useClickOutside } from '@/composables/useClickOutside'
+import { classProp } from '@/utils/classProp'
 
 // ========================
 // 타입 정의
@@ -149,10 +150,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -266,7 +264,7 @@ export default /* @__PURE__ */ defineComponent({
      * 날짜 입력 클래스
      */
     const inputClasses = computed(() => {
-      const classes = ['krds-input', 'datepicker', 'cal']
+      const classes: KrdsClassValue[] = ['krds-input', 'datepicker', 'cal']
 
       if (props.size) {
         classes.push(props.size)

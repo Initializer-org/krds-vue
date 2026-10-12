@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS FormGroup 컴포넌트 속성
@@ -11,10 +12,7 @@ export default /* @__PURE__ */ defineComponent({
   name: 'KrdsFormGroup',
   props: {
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 인라인 스타일 */
     style: {
       type: [String, Object],
@@ -35,7 +33,7 @@ export default /* @__PURE__ */ defineComponent({
      * 클래스 계산
      */
     const classes = computed(() => {
-      const classList = ['form-group']
+      const classList: KrdsClassValue[] = ['form-group']
 
       if (props.class) {
         classList.push(props.class)

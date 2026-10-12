@@ -1,5 +1,6 @@
 import { defineComponent, computed, ref, watch, h } from 'vue'
-import type { Size, BaseFormProps } from '@/types'
+import type { BaseFormProps, KrdsClassValue, Size } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Textarea 컴포넌트 속성
@@ -117,10 +118,7 @@ export default /* @__PURE__ */ defineComponent({
     },
     // BaseFormProps에서 상속
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -163,7 +161,7 @@ export default /* @__PURE__ */ defineComponent({
      * textarea 클래스 계산
      */
     const textareaClasses = computed(() => {
-      const classes = ['krds-input']
+      const classes: KrdsClassValue[] = ['krds-input']
 
       // 크기 클래스
       if (props.size) {

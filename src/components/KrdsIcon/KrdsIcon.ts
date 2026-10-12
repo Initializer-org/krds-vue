@@ -1,5 +1,6 @@
 import { defineComponent, h } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Icon 컴포넌트 속성
@@ -18,15 +19,12 @@ export default /* @__PURE__ */ defineComponent({
       required: true
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   setup(props) {
     return () =>
       h('i', {
-        class: ['svg-icon', props.name, props.class].filter(Boolean).join(' ')
+        class: ['svg-icon', props.name, props.class]
       })
   }
 })

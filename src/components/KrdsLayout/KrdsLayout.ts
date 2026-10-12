@@ -1,6 +1,7 @@
 import { computed, defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Layout 컴포넌트 속성
@@ -52,10 +53,7 @@ export default /* @__PURE__ */ defineComponent({
       default: 'wrap'
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 스크롤 감지 활성화 여부 */
     enableScrollDetection: {
       type: Boolean,
@@ -162,7 +160,7 @@ export default /* @__PURE__ */ defineComponent({
      * 컨테이너 클래스 계산
      */
     const containerClasses = computed(() => {
-      const classes = ['g-wrap']
+      const classes: KrdsClassValue[] = ['g-wrap']
 
       // 사용자 정의 클래스
       if (props.class) {

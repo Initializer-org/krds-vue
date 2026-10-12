@@ -1,6 +1,7 @@
 import { defineComponent, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS CheckArea 컴포넌트 속성
@@ -15,10 +16,7 @@ export default /* @__PURE__ */ defineComponent({
   name: 'KrdsCheckArea',
   props: {
     /** 추가 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 세로(컬럼) 배치 여부 */
     column: {
       type: Boolean,
@@ -31,7 +29,7 @@ export default /* @__PURE__ */ defineComponent({
   }>,
   setup(props, { slots }) {
     return () => {
-      const classes = ['krds-check-area']
+      const classes: KrdsClassValue[] = ['krds-check-area']
 
       if (props.column) {
         classes.push('chk-column')

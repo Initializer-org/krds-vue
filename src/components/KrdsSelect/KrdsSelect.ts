@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Select 옵션 타입
@@ -99,10 +100,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,

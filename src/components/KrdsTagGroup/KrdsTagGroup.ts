@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS TagGroup 크기 타입
@@ -24,10 +25,7 @@ export default /* @__PURE__ */ defineComponent({
       default: 'medium'
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   slots: Object as SlotsType<{
     /** 태그 (KrdsTag) */
@@ -38,7 +36,7 @@ export default /* @__PURE__ */ defineComponent({
      * 태그 그룹 클래스 계산
      */
     const tagGroupClasses = computed(() => {
-      const classes = ['krds-tag-wrap']
+      const classes: KrdsClassValue[] = ['krds-tag-wrap']
 
       // 크기 클래스
       if (props.size) {

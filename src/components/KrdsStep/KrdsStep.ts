@@ -1,7 +1,8 @@
 import { defineComponent, computed, h, inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
 import type { StepIndicatorContext } from '../KrdsStepIndicator/KrdsStepIndicator'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Step 컴포넌트 속성
@@ -41,10 +42,7 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -72,7 +70,7 @@ export default /* @__PURE__ */ defineComponent({
      * 단계 클래스 계산
      */
     const stepClasses = computed(() => {
-      const classes: string[] = [stepStatus.value]
+      const classes: KrdsClassValue[] = [stepStatus.value]
 
       // 사용자 정의 클래스
       if (props.class) {

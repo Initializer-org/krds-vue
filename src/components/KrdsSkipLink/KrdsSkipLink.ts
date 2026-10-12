@@ -1,6 +1,7 @@
 import { defineComponent, h, type PropType, type VNode } from 'vue'
 import type { SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS SkipLink 컴포넌트 속성
@@ -56,10 +57,7 @@ export default /* @__PURE__ */ defineComponent({
     /**
      * 추가 CSS 클래스
      */
-    class: {
-      type: [String, Array, Object],
-      default: undefined
-    },
+    class: classProp,
     /**
      * 요소 ID
      */

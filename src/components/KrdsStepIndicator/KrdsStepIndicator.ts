@@ -1,6 +1,7 @@
 import { computed, defineComponent, h, onBeforeUnmount, onMounted, onUpdated, provide, ref, shallowRef } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS StepIndicator 컴포넌트 속성
@@ -47,10 +48,7 @@ export default /* @__PURE__ */ defineComponent({
       default: 0
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {

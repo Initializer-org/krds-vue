@@ -1,6 +1,6 @@
 import { defineComponent, computed, h, SlotsType, useId, type VNode } from 'vue'
 import type { BaseFormProps } from '@/types'
-import { classNames } from '@/utils'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Checkbox 컴포넌트 속성
@@ -48,10 +48,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -83,7 +80,7 @@ export default /* @__PURE__ */ defineComponent({
      */
     const containerClasses = computed(() => {
       const baseClass = props.chip ? 'krds-form-chip' : 'krds-form-check'
-      return classNames(baseClass, props.size, props.class)
+      return [baseClass, props.size, props.class]
     })
 
     /**

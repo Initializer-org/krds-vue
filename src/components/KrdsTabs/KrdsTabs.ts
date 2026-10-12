@@ -2,6 +2,7 @@ import { computed, defineComponent, h, ref, useId } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Tabs 탭 아이템
@@ -73,10 +74,7 @@ export default /* @__PURE__ */ defineComponent({
       default: '선택됨'
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {

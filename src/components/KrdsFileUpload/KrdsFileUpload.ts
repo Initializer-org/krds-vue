@@ -1,5 +1,6 @@
 import { defineComponent, computed, ref, h, type VNode } from 'vue'
-import type { Size, BaseFormProps } from '@/types'
+import type { BaseFormProps, KrdsClassValue, Size } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * 파일 정보 인터페이스
@@ -175,10 +176,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 인라인 스타일 */
     style: {
       type: [String, Object],
@@ -360,7 +358,7 @@ export default /* @__PURE__ */ defineComponent({
     // --- computed ---
 
     const rootClasses = computed(() => {
-      const classes = ['krds-file-upload', 'line']
+      const classes: KrdsClassValue[] = ['krds-file-upload', 'line']
       if (props.class) classes.push(props.class)
       return classes
     })

@@ -1,6 +1,6 @@
 import { defineComponent, computed, h, useId } from 'vue'
 import type { BaseFormProps } from '@/types'
-import { classNames } from '@/utils'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS ToggleSwitch 컴포넌트 속성
@@ -64,10 +64,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -94,7 +91,7 @@ export default /* @__PURE__ */ defineComponent({
      * 스위치 컨테이너 클래스 계산
      */
     const containerClasses = computed(() => {
-      return classNames('krds-form-toggle-switch', props.size, props.class)
+      return ['krds-form-toggle-switch', props.size, props.class]
     })
 
     /**

@@ -1,5 +1,6 @@
 import { defineComponent, h, computed, getCurrentInstance, SlotsType, type VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * 테이블 행 데이터
@@ -82,10 +83,7 @@ export default /* @__PURE__ */ defineComponent({
       required: true
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -108,7 +106,7 @@ export default /* @__PURE__ */ defineComponent({
      * 테이블 클래스 계산
      */
     const tableClasses = computed(() => {
-      const classes = ['tbl']
+      const classes: KrdsClassValue[] = ['tbl']
 
       // 사용자 정의 클래스 (원본 HTML: "tbl col data")
       if (props.class) {
