@@ -1027,7 +1027,8 @@
   --sample-background-color: var(--krds-high-contrast-color-surface-secondary-subtler);
   --sample-info-box-li-background-color: var(--krds-high-contrast-color-surface-white-subtle);
   --banner-background-color: var(--krds-high-contrast-color-text-inverse-static);
-  --banner-btn-color: var(--krds-high-contrast-color-text-bolder-inverse-static);
+  /* 원본은 정의되지 않은 토큰(text-bolder-inverse-static)을 써서, 라이트 모드처럼 배너 글자와 같은 text-inverse-static으로 바꿨다 */
+  --banner-btn-color: var(--krds-high-contrast-color-text-inverse-static);
   --banner-btn-border-color: var(--krds-high-contrast-color-button-tertiary-border);
   --banner-btn-background-color: var(--krds-high-contrast-color-button-tertiary-fill);
 }
@@ -1047,7 +1048,7 @@
     --sample-background-color: var(--krds-high-contrast-color-surface-secondary-subtler);
     --sample-info-box-li-background-color: var(--krds-high-contrast-color-surface-white-subtle);
     --banner-background-color: var(--krds-high-contrast-color-text-inverse-static);
-    --banner-btn-color: var(--krds-high-contrast-color-text-bolder-inverse-static);
+  --banner-btn-color: var(--krds-high-contrast-color-text-inverse-static);
     --banner-btn-border-color: var(--krds-high-contrast-color-button-tertiary-border);
     --banner-btn-background-color: var(--krds-high-contrast-color-button-tertiary-fill);
   }

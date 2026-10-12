@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
+  import { useToast } from '@krds.ui/vue'
   import type { SideNavItem } from '@krds.ui/vue'
 
   defineProps<{ size: string }>()
@@ -29,7 +30,15 @@
 
   // 신청서: 신청하면 필수 항목을 검사하고, 통과하면 완료 모달을 띄운다 (예시라 실제로 전송하지 않음)
   const emptyForm = () => ({ name: '', phone: '', type: '', content: '', receive: 'online', agree: false })
-  const form = ref(emptyForm())
+
+  // 임시 저장: 작성 중인 내용을 브라우저에 저장해 두고 다시 열면 이어서 쓴다. 결과는 토스트로 알린다 (App.vue의 <KrdsToast />)
+  const DRAFT_KEY = 'krds-vue-example-draft'
+  const toast = useToast()
+  const form = ref({ ...emptyForm(), ...JSON.parse(localStorage.getItem(DRAFT_KEY) ?? '{}') })
+  const saveDraft = () => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(form.value))
+    toast.show('작성 중인 신청서를 임시 저장했습니다.')
+  }
   const types = [
     { value: 'certificate', label: '증명서 발급' },
     { value: 'report', label: '신고' },
@@ -44,11 +53,14 @@
   const submitted = ref(false)
   const submit = () => {
     checked.value = true
-    if (!Object.values(errors.value).some(Boolean)) submitted.value = true
+    if (Object.values(errors.value).some(Boolean)) return
+    submitted.value = true
+    localStorage.removeItem(DRAFT_KEY)
   }
   const reset = () => {
     form.value = emptyForm()
     checked.value = false
+    localStorage.removeItem(DRAFT_KEY)
   }
 
   const faqs = [
@@ -128,6 +140,7 @@
 
         <div class="example-actions">
           <KrdsButton type="button" variant="secondary" size="large" @click="reset">다시 작성</KrdsButton>
+          <KrdsButton type="button" variant="tertiary" size="large" @click="saveDraft">임시 저장</KrdsButton>
           <KrdsButton type="submit" variant="primary" size="large">신청하기</KrdsButton>
         </div>
       </form>

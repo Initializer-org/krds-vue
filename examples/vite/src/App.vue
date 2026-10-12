@@ -35,5 +35,7 @@
     <SiteFooter />
 
     <KrdsFloatingButton label="페이지 상단으로 이동" icon="ico-go-top" hide-label @click="scrollToTop" />
+    <!-- 전역 토스트 자리: 각 화면에서 useToast()로 띄운다 -->
+    <KrdsToast />
   </KrdsLayout>
 </template>

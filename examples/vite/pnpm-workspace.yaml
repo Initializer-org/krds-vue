@@ -1,0 +1,4 @@
+# pnpm 설정 (이 예제를 독립 프로젝트로 설치할 때 적용, npm은 이 파일을 읽지 않음)
+# 예제는 우리 패키지의 최신 버전을 바로 확인하는 용도라, pnpm의 '나온 지 하루 안 된 버전 거부' 정책에서 @krds.ui/vue만 뺀다
+minimumReleaseAgeExclude:
+  - '@krds.ui/vue'
