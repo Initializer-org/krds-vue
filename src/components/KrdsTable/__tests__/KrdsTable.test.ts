@@ -212,4 +212,48 @@ describe('KrdsTable', () => {
 
     await expectNoA11yViolations()
   })
+
+  it('셀 슬롯: cell-<name>이 본문 셀 내용을, header-<name>이 헤더 내용을 바꾸고 셀 태그·클래스는 유지', async () => {
+    const selected = ref<unknown[]>([])
+    render({
+      template: `
+        <KrdsTable caption="게시물 목록" class="col data" :columns="columns" :rows="rows">
+          <template #header-select><span class="sr-only">선택</span></template>
+          <template #cell-select="{ row }">
+            <KrdsCheckbox :id="'chk-' + row.id" :model-value="selected.includes(row.id)" @update:model-value="checked => (selected = checked ? [...selected, row.id] : [])">
+              <span class="sr-only">{{ row.title }} 선택</span>
+            </KrdsCheckbox>
+          </template>
+          <template #cell-title="{ value, index }">{{ index + 1 }}. {{ value }}</template>
+        </KrdsTable>
+      `,
+      setup: () => ({
+        selected,
+        columns: [
+          { name: 'select', label: '선택' },
+          { name: 'title', label: '제목', field: 'title', classes: 'title-cell' },
+          { name: 'date', label: '게시일', field: 'date' }
+        ],
+        rows: [
+          { id: 1, title: '첫 글', date: '2026.10.01' },
+          { id: 2, title: '둘째 글', date: '2026.10.02' }
+        ]
+      })
+    })
+
+    // 헤더 슬롯: 숨긴 열 제목
+    expect(screen.getByRole('columnheader', { name: '선택' }).querySelector('.sr-only')).toBeTruthy()
+    // 셀 슬롯: 첫 열은 행 제목(th) 그대로, 안에 체크박스
+    const checkbox = screen.getByRole('checkbox', { name: '둘째 글 선택' })
+    expect(checkbox.closest('th')).toHaveAttribute('scope', 'row')
+    // 셀 슬롯 인자: value·index, 열 classes 유지
+    const titleCell = screen.getByRole('cell', { name: '1. 첫 글' })
+    expect(titleCell).toHaveClass('title-cell')
+    // 슬롯이 없는 열은 field 값 그대로
+    expect(screen.getByRole('cell', { name: '2026.10.02' })).toBeTruthy()
+
+    await userEvent.click(checkbox)
+    expect(selected.value).toEqual([2])
+    await expectNoA11yViolations()
+  })
 })

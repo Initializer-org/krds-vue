@@ -21,6 +21,16 @@ import SimpleBadge from './demos/structured-list/SimpleBadge.vue'
 
 <<< ./demos/structured-list/SimpleBadge.vue
 
+## 표형
+
+같은 목록을 표로 보여 주는 형태입니다(원본 KRDS v1.1.0). 목록 위 도구 막대(`.search-list-top`)에 전체선택·일괄 작업 버튼과 목록 표시 개수·정렬 기준을 두고, 아래에 표와 페이지네이션을 둡니다. 정렬 기준은 PC에서 버튼, 모바일에서 셀렉트로 바뀝니다. 표는 `KrdsTable`의 [셀 슬롯](/components/table#셀-슬롯)으로 행마다 체크박스와 다운로드 버튼을 넣고, 도구 막대의 체크박스·버튼·셀렉트와 페이지네이션도 컴포넌트로 조합합니다. 전체선택은 지금 페이지의 행 기준입니다.
+
+넓은 화면을 전제로 한 형태라 예제를 1200px 폭의 별도 화면(iframe)에 띄웁니다.
+
+<DemoFrame src="/frame/structured-list/table" title="구조화 목록 표형 예제" :height="360" :width="1200" />
+
+<<< ./demos/structured-list/TableType.vue
+
 ## API
 
 ## KrdsStructuredList

@@ -4,6 +4,7 @@ import RowClick from './demos/table/RowClick.vue'
 import StyleAndClass from './demos/table/StyleAndClass.vue'
 import NoData from './demos/table/NoData.vue'
 import NoDataSlot from './demos/table/NoDataSlot.vue'
+import CellSlot from './demos/table/CellSlot.vue'
 </script>
 
 # 표 Table
@@ -34,6 +35,14 @@ import NoDataSlot from './demos/table/NoDataSlot.vue'
 
 <<< ./demos/table/StyleAndClass.vue
 
+## 셀 슬롯
+
+배지·버튼·체크박스처럼 글자가 아닌 내용은 열 이름(`name`)으로 슬롯을 받아 그립니다. `#cell-<name>`은 본문 셀 내용을 바꾸고 `{ row, column, value, index }`를 받습니다(`value`는 `field`로 꺼낸 값). `#header-<name>`은 헤더 셀 내용을 바꿔 화면에 숨긴 열 제목 등에 씁니다. 셀 태그(첫 열은 `th scope="row"`)와 `style`·`classes`는 그대로 유지되고, 슬롯으로만 그리는 열은 `field`를 생략합니다. 버튼처럼 같은 이름이 행마다 반복되면 숨김 텍스트로 어느 행의 버튼인지 알려 줍니다.
+
+<div class="demo vp-raw"><CellSlot /></div>
+
+<<< ./demos/table/CellSlot.vue
+
 ## 빈 데이터 (기본)
 
 `rows`가 비어 있으면 모든 열을 합친 셀에 "데이터가 없습니다."를 표시합니다.
@@ -55,3 +64,12 @@ import NoDataSlot from './demos/table/NoDataSlot.vue'
 ## KrdsTable
 
 <ComponentApi name="KrdsTable" />
+
+### 열 이름 슬롯
+
+열 이름(`name`)마다 받는 슬롯입니다. 이름이 열 정의에 따라 정해져 위 Slots 표에는 나오지 않습니다.
+
+| 이름            | 인자                                                                    | 설명                                             |
+| --------------- | ----------------------------------------------------------------------- | ------------------------------------------------ |
+| `cell-<name>`   | `{ row: TableRow, column: TableColumn, value: unknown, index: number }` | 본문 셀 내용. 셀 태그와 `style`·`classes`는 유지 |
+| `header-<name>` | `{ column: TableColumn }`                                               | 헤더 셀 내용 (예: 화면에 숨긴 열 제목)           |

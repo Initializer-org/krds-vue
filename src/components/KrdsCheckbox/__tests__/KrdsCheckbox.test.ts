@@ -100,4 +100,27 @@ describe('KrdsCheckbox', () => {
     })
     await expectNoA11yViolations()
   })
+
+  it('글자를 숨긴 레이블은 포커스 링을 상자 둘레에 그린다 (레이블 안쪽 링이 상자에 가려지지 않게)', async () => {
+    render({
+      template: `
+        <div>
+          <KrdsCheckbox id="chk-hidden"><span class="sr-only">첫 글 선택</span></KrdsCheckbox>
+          <KrdsCheckbox id="chk-visible">전체선택</KrdsCheckbox>
+        </div>
+      `
+    })
+    const hidden = screen.getByRole('checkbox', { name: '첫 글 선택' })
+    hidden.focus()
+    const hiddenLabel = hidden.nextElementSibling as HTMLElement
+    expect(getComputedStyle(hiddenLabel).boxShadow).toBe('none')
+    expect(getComputedStyle(hiddenLabel, '::before').outlineStyle).toBe('solid')
+
+    // 글자가 보이는 레이블은 KRDS 원본대로 레이블 안쪽 링
+    const visible = screen.getByRole('checkbox', { name: '전체선택' })
+    visible.focus()
+    const visibleLabel = visible.nextElementSibling as HTMLElement
+    expect(getComputedStyle(visibleLabel).boxShadow).not.toBe('none')
+    expect(getComputedStyle(visibleLabel, '::before').outlineStyle).toBe('none')
+  })
 })

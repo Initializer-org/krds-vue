@@ -14,8 +14,8 @@ export interface TableColumn {
   name: string
   /** 헤더 라벨 */
   label: string
-  /** 행 객체 속성명 또는 함수 */
-  field: string | ((row: TableRow) => unknown)
+  /** 행 객체 속성명 또는 함수 (`cell-<name>` 슬롯으로만 그리는 열은 생략 가능) */
+  field?: string | ((row: TableRow) => unknown)
   /** 필수 컬럼 여부 (visible-columns 사용시 항상 표시) */
   required?: boolean
   /** 정렬 */
@@ -28,6 +28,20 @@ export interface TableColumn {
   headerStyle?: string
   /** header th 클래스 */
   headerClasses?: string
+}
+
+/**
+ * `cell-<name>` 슬롯 인자
+ */
+export interface KrdsTableCellSlotProps {
+  /** 행 데이터 */
+  row: TableRow
+  /** 열 정의 */
+  column: TableColumn
+  /** `field`로 꺼낸 셀 값 */
+  value: unknown
+  /** 행 순서 (0부터) */
+  index: number
 }
 
 /**
@@ -80,7 +94,12 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
+    /** 행이 없을 때 표시할 내용 */
     'no-data'?: () => VNode[]
+    /** 열(`name`)의 본문 셀 내용. 체크박스·버튼·배지 등을 넣을 때 쓴다 (셀 태그·style·classes는 유지) */
+    [cell: `cell-${string}`]: ((props: KrdsTableCellSlotProps) => VNode[]) | undefined
+    /** 열(`name`)의 헤더 셀 내용 (예: 화면에 숨긴 열 제목) */
+    [header: `header-${string}`]: ((props: { column: TableColumn }) => VNode[]) | undefined
   }>,
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()
@@ -203,7 +222,7 @@ export default /* @__PURE__ */ defineComponent({
             class: headerClasses,
             style: headerStyle
           },
-          column.label
+          slots[`header-${column.name}`]?.({ column }) ?? column.label
         )
       })
 
@@ -217,7 +236,7 @@ export default /* @__PURE__ */ defineComponent({
       if (typeof column.field === 'function') {
         return column.field(row)
       }
-      return row[column.field]
+      return column.field === undefined ? undefined : row[column.field]
     }
 
     /**
@@ -247,7 +266,12 @@ export default /* @__PURE__ */ defineComponent({
       const bodyRows = props.rows.map((row, index) => {
         const cells = props.columns.map((column, colIndex) => {
           const cellValue = getCellValue(row, column)
-          const cellContent = typeof cellValue === 'function' ? cellValue() : cellValue
+          const cellSlot = slots[`cell-${column.name}`]
+          const cellContent = cellSlot
+            ? cellSlot({ row, column, value: cellValue, index })
+            : typeof cellValue === 'function'
+              ? cellValue()
+              : cellValue
           const cellStyle = getCellStyle(row, column)
           const cellClasses = getCellClasses(row, column)
 

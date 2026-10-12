@@ -200,6 +200,7 @@ label {
   --krds-form-check--checkbox-check-color-element-checked: var(--krds-#{$mode}-color-element-inverse-static);
   --krds-form-check--checkbox-check-color-element-disabled: var(--krds-#{$mode}-color-element-disabled-dark);
   --krds-form-check--additional-text-color-text: var(--krds-#{$mode}-color-text-subtle);
+  --krds-form-check--focus-color: var(--krds-#{$mode}-color-border-primary);
 }
 
 //모드 설정
@@ -248,6 +249,15 @@ $mode-setting: light;
     &:focus {
       ~ label {
         @include focus($offset: 0.4rem);
+        //글자 없이 상자만 있는 레이블(표·카드의 선택 체크박스 등): 레이블 안쪽 링이 상자에 가려지므로 상자 둘레에 그린다
+        &:is(:empty, :has(> .sr-only:only-child)) {
+          box-shadow: none;
+          //체크된 상자도 파란색이라 틈을 두고 그린다
+          &:before {
+            outline: 0.2rem solid var(--krds-form-check--focus-color);
+            outline-offset: 0.2rem;
+          }
+        }
       }
     }
   }
