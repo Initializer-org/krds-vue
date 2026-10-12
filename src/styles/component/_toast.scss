@@ -1,0 +1,87 @@
+@use '../common/include' as *;
+
+/* 토스트 (KRDS 가이드: 컨테이너 + 한 줄 본문, 화면 중앙 하단) */
+//사이즈 정의
+@mixin toast-size-variable() {
+  --krds-toast--max-width: 64rem;
+  --krds-toast--bottom: 4rem;
+  --krds-toast--padding: var(--krds-padding-5) var(--krds-padding-7);
+  --krds-toast--radius: var(--krds-radius-medium4);
+  --krds-toast--pc-font-size: var(--krds-pc-font-size-body-medium);
+  --krds-toast--mobile-font-size: var(--krds-mobile-font-size-body-medium);
+}
+
+//컬러 정의
+@mixin toast-color-variable($mode: light) {
+  --krds-toast--color-fill: var(--krds-#{$mode}-color-surface-inverse);
+  --krds-toast--color-text: var(--krds-#{$mode}-color-text-basic-inverse);
+  --krds-toast--color-shadow1: var(--krds-#{$mode}-color-alpha-shadow1);
+  --krds-toast--color-shadow2: var(--krds-#{$mode}-color-alpha-shadow2);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-toast {
+  @include toast-size-variable();
+  @include toast-color-variable(#{$mode-setting});
+
+  //화면 중앙 하단. 플로팅 버튼(55)·모달(1010) 위에 보이도록 둔다 (모달 안에서 저장해도 보임)
+  position: fixed;
+  left: 50%;
+  bottom: var(--krds-toast--bottom);
+  z-index: 1020;
+  width: calc(100% - var(--krds-contents-padding-x) * 2);
+  max-width: var(--krds-toast--max-width);
+  transform: translateX(-50%);
+  pointer-events: none;
+
+  .toast-text {
+    padding: var(--krds-toast--padding);
+    border-radius: var(--krds-toast--radius);
+    background-color: var(--krds-toast--color-fill);
+    box-shadow:
+      0 0 2px 0 var(--krds-toast--color-shadow1),
+      0 4px 8px 0 var(--krds-toast--color-shadow2);
+    color: var(--krds-toast--color-text);
+    font-size: var(--krds-toast--pc-font-size);
+    animation: krds-slide-up var(--krds-transition-base);
+  }
+}
+
+//아래에서 떠오르는 등장 (토스트·스낵바 공용)
+@keyframes krds-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.6rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .krds-toast .toast-text {
+    animation: none;
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-toast {
+    @include toast-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive tablet
+@include size-large-less {
+  //bottom 대신 변수를 바꿔, 사용자가 --krds-toast--bottom으로 정한 위치가 모든 화면 폭에서 먹게 한다
+  .krds-toast {
+    --krds-toast--bottom: var(--krds-contents-padding-x);
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-toast .toast-text {
+    font-size: var(--krds-toast--mobile-font-size);
+  }
+}

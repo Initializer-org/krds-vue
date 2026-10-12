@@ -53,6 +53,8 @@ export default defineConfig({
   title: 'KRDS Vue',
   description: siteDescription,
   cleanUrls: true,
+  // public/ai/guidelines.md는 AI 지침 원본 파일이지 문서 페이지가 아니다 (중복 페이지·사이트맵 노출 방지)
+  srcExclude: ['public/**'],
   markdown: { config: docTabs },
   // 페이지 수정일 표시와 사이트맵 lastmod (배포 워크플로는 전체 히스토리로 체크아웃)
   lastUpdated: true,

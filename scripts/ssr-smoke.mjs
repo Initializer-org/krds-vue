@@ -27,6 +27,12 @@ for (const [name, component] of Object.entries(lib)) {
   app.config.errorHandler = fail
   await renderToString(app).catch(fail)
 }
+
+// 서버에서 띄운 토스트·스낵바가 모듈 전역 상태에 남아 다른 요청에 렌더되지 않는지
+lib.useToast().show('ssr-leak')
+lib.useSnackbar().show({ title: 'ssr-leak' })
+const html = await renderToString(createSSRApp({ render: () => [h(lib.KrdsToast), h(lib.KrdsSnackbar)] }))
+if (html.includes('ssr-leak')) failed.add('KrdsToast/KrdsSnackbar: 서버에서 띄운 알림이 다른 요청에 렌더됨')
 await new Promise(resolve => setTimeout(resolve))
 
 if (failed.size) {

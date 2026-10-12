@@ -60,7 +60,9 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
     text: '피드백',
     pages: [
       ['단계 표시기 Step indicator', 'step-indicator'],
-      ['스피너 Spinner', 'spinner']
+      ['스피너 Spinner', 'spinner'],
+      ['토스트 Toast', 'toast'],
+      ['스낵바 Snackbar', 'snackbar']
     ]
   },
   {

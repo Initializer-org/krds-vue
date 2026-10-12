@@ -1,0 +1,116 @@
+@use '../common/include' as *;
+
+/* 스낵바 (KRDS 가이드: 컨테이너 + 아이콘(선택) + 제목 + 본문 + 작업 버튼(선택) + 닫기, 화면 중앙 하단) */
+//사이즈 정의
+@mixin snackbar-size-variable() {
+  --krds-snackbar--max-width: 64rem;
+  --krds-snackbar--bottom: 4rem;
+  --krds-snackbar--padding: var(--krds-padding-6) var(--krds-padding-7);
+  --krds-snackbar--radius: var(--krds-radius-medium4);
+  --krds-snackbar--icon-size: var(--krds-icon--size-xlarge);
+  --krds-snackbar--pc-title-size: var(--krds-pc-font-size-body-large);
+  --krds-snackbar--pc-font-size: var(--krds-pc-font-size-body-medium);
+  --krds-snackbar--mobile-title-size: var(--krds-mobile-font-size-body-large);
+  --krds-snackbar--mobile-font-size: var(--krds-mobile-font-size-body-medium);
+}
+
+//컬러 정의
+@mixin snackbar-color-variable($mode: light) {
+  --krds-snackbar--color-fill: var(--krds-#{$mode}-color-surface-white);
+  --krds-snackbar--color-border: var(--krds-#{$mode}-color-border-gray-light);
+  --krds-snackbar--color-title: var(--krds-#{$mode}-color-text-bolder);
+  --krds-snackbar--color-text: var(--krds-#{$mode}-color-text-basic);
+  --krds-snackbar--color-shadow1: var(--krds-#{$mode}-color-alpha-shadow2);
+  --krds-snackbar--color-shadow2: var(--krds-#{$mode}-color-alpha-shadow3);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-snackbar {
+  @include snackbar-size-variable();
+  @include snackbar-color-variable(#{$mode-setting});
+
+  //화면 중앙 하단. 플로팅 버튼(55)·모달(1010) 위
+  position: fixed;
+  left: 50%;
+  bottom: var(--krds-snackbar--bottom);
+  z-index: 1020;
+  width: calc(100% - var(--krds-contents-padding-x) * 2);
+  max-width: var(--krds-snackbar--max-width);
+  transform: translateX(-50%);
+
+  .snackbar-in {
+    @include flex-layout($ai: flex-start);
+    gap: var(--krds-gap-4);
+    padding: var(--krds-snackbar--padding);
+    border: 0.1rem solid var(--krds-snackbar--color-border);
+    border-radius: var(--krds-snackbar--radius);
+    background-color: var(--krds-snackbar--color-fill);
+    box-shadow:
+      0 0 0.2rem 0 var(--krds-snackbar--color-shadow1),
+      0 1.6rem 2.4rem 0 var(--krds-snackbar--color-shadow2);
+    color: var(--krds-snackbar--color-text);
+    font-size: var(--krds-snackbar--pc-font-size);
+    animation: krds-slide-up var(--krds-transition-base);
+  }
+  .snackbar-icon {
+    flex-shrink: 0;
+    width: var(--krds-snackbar--icon-size);
+    height: var(--krds-snackbar--icon-size);
+  }
+  .snackbar-body {
+    @include flex-layout($fd: column);
+    flex: 1;
+    gap: var(--krds-gap-2);
+    min-width: 0;
+  }
+  .snackbar-title {
+    color: var(--krds-snackbar--color-title);
+    font-size: var(--krds-snackbar--pc-title-size);
+    font-weight: var(--krds-typo-font-weight-bold);
+  }
+  //가이드 그림: 닫기 버튼은 오른쪽 위, 작업 버튼은 메시지 세로 가운데
+  .snackbar-action {
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .snackbar-close {
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .krds-snackbar .snackbar-in {
+    animation: none;
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-snackbar {
+    @include snackbar-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive tablet
+@include size-large-less {
+  //bottom 대신 변수를 바꿔, 사용자가 --krds-snackbar--bottom으로 정한 위치가 모든 화면 폭에서 먹게 한다
+  .krds-snackbar {
+    --krds-snackbar--bottom: var(--krds-contents-padding-x);
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-snackbar {
+    .snackbar-in {
+      font-size: var(--krds-snackbar--mobile-font-size);
+    }
+    .snackbar-title {
+      font-size: var(--krds-snackbar--mobile-title-size);
+    }
+  }
+}
