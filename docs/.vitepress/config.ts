@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
-import type { MarkdownRenderer } from 'vitepress'
+import type { HeadConfig, MarkdownRenderer } from 'vitepress'
 import { componentGroups } from './component-groups.ts'
 import { cursorRule, writeAiFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
@@ -116,10 +116,15 @@ export default defineConfig({
   async buildEnd(siteConfig) {
     await writeAiFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
   },
-  transformHead({ pageData, title, description }) {
-    if (pageData.relativePath.startsWith('frame/')) return [['meta', { name: 'robots', content: 'noindex' }]]
+  transformHead({ pageData, title, description, assets }) {
+    // KRDS 글꼴은 CSS를 읽은 뒤에야 받기 시작해 첫 화면이 시스템 글꼴로 그려졌다가 바뀌므로 미리 받는다
+    const fonts = assets
+      .filter(file => /\/PretendardGOV-[\w.-]+\.woff2$/.test(file))
+      .map((href): HeadConfig => ['link', { rel: 'preload', href, as: 'font', type: 'font/woff2', crossorigin: '' }])
+    if (pageData.relativePath.startsWith('frame/')) return [...fonts, ['meta', { name: 'robots', content: 'noindex' }]]
     const url = pageUrl(pageData.relativePath)
     return [
+      ...fonts,
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
       ['meta', { property: 'og:title', content: title }],
