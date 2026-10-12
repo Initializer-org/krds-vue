@@ -354,6 +354,24 @@ describe('KrdsMainMenu', () => {
     await expectNoA11yViolations()
   })
 
+  it('PC 메가 메뉴: 패널 안 링크를 누르면 패널을 닫고 초점을 1depth 버튼으로 (페이지를 새로 읽지 않는 이동)', async () => {
+    const clicked = ref<string[]>([])
+    render({
+      setup: () => ({ items: pcItems, clicked }),
+      template: inHeader(
+        `<KrdsMainMenu :items="items" @item-click="(item, event) => { event.preventDefault(); clicked.push(item.text) }" />`
+      )
+    })
+    const trigger = screen.getByRole('button', { name: '정보서비스' })
+    await userEvent.click(trigger)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    await userEvent.click(screen.getByRole('link', { name: '전입신고' }))
+    expect(clicked.value.at(-1)).toBe('전입신고')
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await waitFor(() => expect(trigger).toHaveFocus())
+  })
+
   it('PC 2depth 없는 메뉴 동작: Tab으로 메뉴를 벗어나면 닫힘', async () => {
     render({
       setup: () => ({

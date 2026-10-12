@@ -281,6 +281,9 @@ export default /* @__PURE__ */ defineComponent({
     const handleItemClick = (item: MainMenuAnyItem, event: MouseEvent) => {
       item.onClick?.(event)
       emit('item-click', item, event)
+      // 링크로 이동할 때는 페이지를 새로 읽지 않는 경우(라우터, #/ 주소)에도 메가 패널이 남지 않게 닫고 초점을 1depth 버튼으로 돌려준다.
+      // 같은 처리를 쓰는 메뉴 전환 버튼(button)은 제외
+      if ((event.currentTarget as Element | null)?.tagName === 'A') closeMainMenu(true)
     }
 
     // ========================
