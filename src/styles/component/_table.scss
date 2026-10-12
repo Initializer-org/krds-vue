@@ -33,6 +33,12 @@ $mode-setting: light;
   width: 100%;
 
   .tbl {
+    //행 클릭(row-click)으로 포커스를 받는 행: 전역 포커스 링(바깥 그림자)은 표 양옆으로 나가고 아래가 다음 행 셀에 가리므로 행 안쪽 테두리로 그린다
+    tbody tr[tabindex]:focus {
+      outline: 0.4rem solid var(--krds-table--focus-color);
+      outline-offset: -0.4rem;
+      box-shadow: none;
+    }
     &.data {
       th,
       td {
@@ -53,12 +59,6 @@ $mode-setting: light;
         }
       }
       tbody {
-        //행 클릭(row-click)으로 포커스를 받는 행: 전역 포커스 링(바깥 그림자)은 표 양옆으로 나가고 아래가 다음 행 셀에 가리므로 행 안쪽 테두리로 그린다
-        tr[tabindex]:focus {
-          outline: 0.4rem solid var(--krds-table--focus-color);
-          outline-offset: -0.4rem;
-          box-shadow: none;
-        }
         th,
         td {
           padding: var(--krds-table--data-tbody-padding) var(--krds-table--data-tbody-padding-sides);

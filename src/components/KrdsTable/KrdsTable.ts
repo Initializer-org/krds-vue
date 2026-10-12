@@ -291,7 +291,12 @@ export default /* @__PURE__ */ defineComponent({
           clickable
             ? {
                 tabindex: 0,
-                onClick: () => handleRowClick(row, index),
+                onClick: (event: MouseEvent) => {
+                  // 셀 슬롯 안 컨트롤(체크박스·버튼 등) 클릭은 행 선택으로 보지 않음 (표를 감싼 바깥 요소는 제외하고 행 안에서만 찾는다)
+                  const control = (event.target as Element).closest('a, button, input, select, textarea, label')
+                  if (control && (event.currentTarget as Element).contains(control)) return
+                  handleRowClick(row, index)
+                },
                 onKeydown: (event: KeyboardEvent) => handleRowKeydown(event, row, index)
               }
             : null,

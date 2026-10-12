@@ -110,9 +110,7 @@
     <div class="search-list-top">
       <div class="sch-left">
         <KrdsCheckArea>
-          <KrdsCheckbox id="list-chk-all" :model-value="allChecked" @update:model-value="toggleAll"
-            >전체선택</KrdsCheckbox
-          >
+          <KrdsCheckbox id="list-chk-all" :model-value="allChecked" @update:model-value="toggleAll">전체선택</KrdsCheckbox>
         </KrdsCheckArea>
         <ul class="side-line-ul">
           <li>
@@ -126,12 +124,19 @@
       <ul class="sch-sort">
         <li>
           <strong class="sort-label"><label for="list-size">목록 표시 개수</label></strong>
-          <KrdsSelect id="list-size" v-model="size" sort :options="sizeOptions" />
+          <!-- 셀렉트는 문자열을 내보내므로 숫자로 바꿔 둔다 -->
+          <KrdsSelect
+            id="list-size"
+            :model-value="size"
+            sort
+            :options="sizeOptions"
+            @update:model-value="value => (size = Number(value))"
+          />
         </li>
         <li>
           <strong class="sort-label"><label for="list-sort">정렬기준</label></strong>
           <!-- PC는 버튼, 모바일은 셀렉트로 정렬 기준을 고른다 -->
-          <div class="w-sort-btn">
+          <div class="w-sort-btn" role="group" aria-label="정렬기준">
             <button
               v-for="option in sortOptions"
               :key="option.value"

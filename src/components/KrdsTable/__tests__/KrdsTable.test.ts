@@ -256,4 +256,27 @@ describe('KrdsTable', () => {
     expect(selected.value).toEqual([2])
     await expectNoA11yViolations()
   })
+
+  it('행 클릭: 셀 슬롯 안 버튼 클릭은 row-click으로 보지 않음', async () => {
+    const clicked = ref<unknown[]>([])
+    render({
+      template: `
+        <KrdsTable caption="버튼이 있는 행 클릭 표" :columns="columns" :rows="rows" @row-click="row => clicked.push(row.name)">
+          <template #cell-action="{ row }"><button type="button">{{ row.name }} 보기</button></template>
+        </KrdsTable>
+      `,
+      setup: () => ({
+        clicked,
+        columns: [
+          { name: 'name', label: '이름', field: 'name' },
+          { name: 'action', label: '관리' }
+        ],
+        rows: [{ name: '김철수' }]
+      })
+    })
+    await userEvent.click(screen.getByRole('button', { name: '김철수 보기' }))
+    expect(clicked.value).toEqual([])
+    await userEvent.click(screen.getByRole('rowheader', { name: '김철수' }))
+    expect(clicked.value).toEqual(['김철수'])
+  })
 })
