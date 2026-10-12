@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.23](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.22...@krds.ui/vue-v0.0.23) (2026-10-12)
+
+
+### Features
+
+* 토스트·스낵바 추가 (useToast·useSnackbar 전역 호출), 문서 사이트맵 중복 페이지 제거 ([#280](https://github.com/Initializer-org/krds-vue/issues/280)) ([91532f4](https://github.com/Initializer-org/krds-vue/commit/91532f42632023ed99d8e5666baebfd5a3ee4351))
+* 표 셀·헤더 슬롯과 구조화 목록 표형 예제, 포커스 링·class 타입·셀렉트 값 수정, 문서 vue-tsc 검사 ([#282](https://github.com/Initializer-org/krds-vue/issues/282)) ([c1e8002](https://github.com/Initializer-org/krds-vue/commit/c1e8002731eea97d56c369007af3044c4707ad67))
+
+
+### Chores
+
+* **deps-dev:** bump axe-core from 4.13.0 to 4.14.0 ([#286](https://github.com/Initializer-org/krds-vue/issues/286)) ([dd0d9d5](https://github.com/Initializer-org/krds-vue/commit/dd0d9d51cf10dfd6252019eb1cc5ed704747e989))
+* **deps-dev:** bump playwright from 1.63.0 to 1.64.0 ([#285](https://github.com/Initializer-org/krds-vue/issues/285)) ([d621601](https://github.com/Initializer-org/krds-vue/commit/d6216016434b867bda3eb8f5878b94f75d055ad5))
+* **deps-dev:** bump size-limit, @size-limit/file and @size-limit/rolldown ([#284](https://github.com/Initializer-org/krds-vue/issues/284)) ([22151ac](https://github.com/Initializer-org/krds-vue/commit/22151ac584b4912c79bead0968c3f524a138034b))
+* **deps-dev:** bump the development group with 2 updates ([#283](https://github.com/Initializer-org/krds-vue/issues/283)) ([c393844](https://github.com/Initializer-org/krds-vue/commit/c39384406915aba6e6dc83afa32ba50e8dd96cdf))
+
+
+### Documentation
+
+* AI 지침에 디자인 토큰 추가, 문서 사이트 글꼴 미리 불러오기 ([#279](https://github.com/Initializer-org/krds-vue/issues/279)) ([5f1fd6f](https://github.com/Initializer-org/krds-vue/commit/5f1fd6fb83d5122a0eb420c279217c5d7ba13155))
+* 예제를 KRDS 공식 누리집 홈을 옮긴 화면으로, PC 메인 메뉴 링크 클릭 시 패널 닫힘 수정 ([#287](https://github.com/Initializer-org/krds-vue/issues/287)) ([7b7b3fd](https://github.com/Initializer-org/krds-vue/commit/7b7b3fdab9fad46f930191218e2a97e392d2e83e))
+
 ## [0.0.22](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.21...@krds.ui/vue-v0.0.22) (2026-10-08)
 
 
