@@ -34,6 +34,7 @@
   "main": "./dist/krds-vue.es.js",
   "module": "./dist/krds-vue.es.js",
   "types": "./dist/types/index.d.ts",
+  "web-types": "./dist/web-types.json",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -62,7 +63,7 @@
   ],
   "scripts": {
     "build": "pnpm run type-check && pnpm run build:lib",
-    "build:lib": "vite build",
+    "build:lib": "vite build && node scripts/web-types.mjs",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "type-check": "node node_modules/typescript7/bin/tsc --noEmit && vue-tsc --noEmit -p docs",
@@ -115,7 +116,7 @@
     "node": ">=20.0.0",
     "pnpm": ">=11.0.0"
   },
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@12.11.2",
   "size-limit": [
     {
       "path": "dist/krds-vue.es.js",
