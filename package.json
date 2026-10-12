@@ -65,7 +65,7 @@
     "build:lib": "vite build",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "type-check": "node node_modules/typescript7/bin/tsc --noEmit && node node_modules/typescript7/bin/tsc --noEmit -p docs",
+    "type-check": "node node_modules/typescript7/bin/tsc --noEmit && vue-tsc --noEmit -p docs",
     "lint": "oxlint",
     "format": "oxfmt",
     "bundle-size": "size-limit",
@@ -104,7 +104,8 @@
     "vitepress": "2.0.0-alpha.20",
     "vitest": "^4.1.11",
     "vue": "^3.5.43",
-    "vue-component-meta": "^3.3.12"
+    "vue-component-meta": "^3.3.12",
+    "vue-tsc": "^3.3.13"
   },
   "publishConfig": {
     "access": "public",

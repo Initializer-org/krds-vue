@@ -47,7 +47,7 @@ export default /* @__PURE__ */ defineComponent({
     },
     /** 현재 노출 중인 단계 (v-model) */
     modelValue: {
-      type: Number,
+      type: [Number, null] as PropType<number | null>,
       default: null
     },
     /** 인라인 스타일 */

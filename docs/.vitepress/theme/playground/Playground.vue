@@ -98,7 +98,7 @@
             type="button"
             class="btn-navi all"
             aria-controls="mobile-nav"
-            :aria-expanded="String(mobileMenuOpen)"
+            :aria-expanded="mobileMenuOpen"
             @click="mobileMenuOpen = true"
           >
             전체메뉴

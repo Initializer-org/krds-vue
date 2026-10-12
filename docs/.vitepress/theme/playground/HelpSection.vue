@@ -70,7 +70,7 @@
       </KrdsCoachMark>
       <KrdsCoachMark v-model="coachStep" :active-step="2" :steps-data="coachSteps" class="pg-coach-end" @close="coachStep = null">
         <template #coach-mark-content>
-          <KrdsButton :class="[coachStep === 2 ? 'coach-btn' : '']">전입신고 완료</KrdsButton>
+          <KrdsButton :class="coachStep === 2 ? 'coach-btn' : undefined">전입신고 완료</KrdsButton>
         </template>
       </KrdsCoachMark>
     </div>

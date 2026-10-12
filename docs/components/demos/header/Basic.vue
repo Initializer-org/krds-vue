@@ -77,7 +77,7 @@
           type="button"
           class="btn-navi all"
           aria-controls="mobile-nav"
-          :aria-expanded="String(mobileOpen)"
+          :aria-expanded="mobileOpen"
           @click="mobileOpen = true"
         >
           전체메뉴
