@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.24](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.23...@krds.ui/vue-v0.0.24) (2026-10-12)
+
+
+### Features
+
+* WebStorm용 web-types로 전역 컴포넌트 인식, pnpm 12 업그레이드, 예제 임시 저장 토스트 ([#288](https://github.com/Initializer-org/krds-vue/issues/288)) ([ca3825d](https://github.com/Initializer-org/krds-vue/commit/ca3825d9e206b83722dbe44851c9a9eff9eafff5))
+
+
+### Bug Fixes
+
+* pnpm 9 이하(StackBlitz 등)에서 예제 설치가 'packages field missing or empty'로 실패하던 문제 ([#289](https://github.com/Initializer-org/krds-vue/issues/289)) ([926bcc2](https://github.com/Initializer-org/krds-vue/commit/926bcc22ca051f277717c4d8accfe54a039bfe7e))
+
 ## [0.0.23](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.22...@krds.ui/vue-v0.0.23) (2026-10-12)
 
 
