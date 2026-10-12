@@ -38,6 +38,7 @@
     { title: '전입신고', date: '2026.10.05', status: '처리 중' },
     { title: '여권 재발급', date: '2026.10.07', status: '접수' }
   ]
+  const statusColor: Record<string, 'success' | 'information' | 'gray'> = { 완료: 'success', '처리 중': 'information', 접수: 'gray' }
 
   const openFaq = ref<string>()
   const toggleFaq = (id: string) => (openFaq.value = openFaq.value === id ? undefined : id)
@@ -75,8 +76,12 @@
 
   <section class="pg-section" aria-labelledby="pg-table-title">
     <h3 id="pg-table-title">민원 처리 현황</h3>
-    <p>표로 여러 건의 정보를 비교해 보여 줍니다.</p>
-    <KrdsTable caption="민원 처리 현황: 민원명, 신청일, 처리 상태" class="col data" :columns="columns" :rows="rows" />
+    <p>표로 여러 건의 정보를 비교해 보여 줍니다. 처리 상태 열은 셀 슬롯(<code>#cell-status</code>)으로 배지를 넣었습니다.</p>
+    <KrdsTable caption="민원 처리 현황: 민원명, 신청일, 처리 상태" class="col data" :columns="columns" :rows="rows">
+      <template #cell-status="{ value }">
+        <KrdsBadge type="bg-light" :color="statusColor[value as string]" size="medium">{{ value }}</KrdsBadge>
+      </template>
+    </KrdsTable>
   </section>
 
   <section class="pg-section" aria-labelledby="pg-faq-title">
