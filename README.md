@@ -79,6 +79,8 @@ app.use(KrdsVue, {
 }
 ```
 
+WebStorm 등 JetBrains IDE는 이 설정 대신 패키지에 든 `web-types.json`으로 전역 컴포넌트를 인식하므로 따로 설정할 것이 없습니다.
+
 ### 3. 개별 컴포넌트 import
 
 전역 등록이 필요 없다면 필요한 컴포넌트만 가져옵니다.
@@ -275,6 +277,7 @@ pnpm docs:build     # 문서 사이트 빌드
 - `dist/krds-vue.es.js` (+ 소스맵 `dist/krds-vue.es.js.map`)
 - `dist/style.css`
 - `dist/types/index.d.ts`, `global.d.ts` (전역 컴포넌트 타입)
+- `dist/web-types.json` (WebStorm 등 JetBrains IDE용 전역 컴포넌트 목록)
 - `dist/img/component/icon/*.svg`
 - `dist/fonts/*.woff2` (Pretendard GOV)
 
