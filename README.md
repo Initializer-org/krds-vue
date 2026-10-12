@@ -1,6 +1,6 @@
 # KRDS Vue
 
-> KRDS(Korea Digital Service Design System) 가이드를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리
+> 대한민국 정부 디자인 시스템(KRDS)을 Vue 3 + TypeScript로 구현한 컴포넌트 라이브러리
 
 [![npm version](https://img.shields.io/npm/v/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
 [![CI](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml/badge.svg)](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml)
