@@ -138,4 +138,22 @@ describe('KrdsSelect', () => {
     })
     await expectNoA11yViolations()
   })
+
+  it('숫자 옵션: 선택한 옵션의 원래 값(숫자)을 v-model에 넣고 다시 그려도 선택 유지', async () => {
+    const size = ref(5)
+    render({
+      setup: () => ({
+        size,
+        options: [
+          { value: 5, label: '5개' },
+          { value: 10, label: '10개' }
+        ]
+      }),
+      template: `<KrdsSelect id="size" v-model="size" title="목록 표시 개수" :options="options" />`
+    })
+    const select = screen.getByRole('combobox', { name: '목록 표시 개수' }) as HTMLSelectElement
+    await userEvent.selectOptions(select, '10')
+    expect(size.value).toBe(10)
+    expect(select.selectedOptions[0]).toHaveTextContent('10개')
+  })
 })

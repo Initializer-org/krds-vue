@@ -1,5 +1,6 @@
 import { defineComponent, computed, h, ref, onMounted, onUnmounted, SlotsType, type VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * 네비게이션 아이템 인터페이스
@@ -72,10 +73,7 @@ export default /* @__PURE__ */ defineComponent({
       default: '#krds-header .header-in'
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -94,7 +92,7 @@ export default /* @__PURE__ */ defineComponent({
      * 컨테이너 클래스 계산
      */
     const containerClasses = computed(() => {
-      const classes = ['krds-in-page-navigation-type']
+      const classes: KrdsClassValue[] = ['krds-in-page-navigation-type']
 
       if (props.class) {
         classes.push(props.class)

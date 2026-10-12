@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps, Size } from '@/types'
+import type { BaseComponentProps, KrdsClassValue, Size } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Badge 컴포넌트 속성
@@ -49,10 +50,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -69,7 +67,7 @@ export default /* @__PURE__ */ defineComponent({
      * 배지 클래스 계산
      */
     const buttonClasses = computed(() => {
-      const classes = ['krds-badge']
+      const classes: KrdsClassValue[] = ['krds-badge']
 
       // 타입과 컬러 조합 클래스
       classes.push(`${props.type}-${props.color}`)

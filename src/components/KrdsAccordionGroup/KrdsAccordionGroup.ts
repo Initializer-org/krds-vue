@@ -1,6 +1,7 @@
 import { computed, defineComponent, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 export interface KrdsAccordionGroupProps extends BaseComponentProps {
   typeLine?: boolean
@@ -15,10 +16,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   slots: Object as SlotsType<{
     /** 아코디언 항목 (KrdsAccordionItem) */
@@ -26,7 +24,7 @@ export default /* @__PURE__ */ defineComponent({
   }>,
   setup(props, { slots }) {
     const accordionGroupClasses = computed(() => {
-      const classes = ['krds-accordion']
+      const classes: KrdsClassValue[] = ['krds-accordion']
 
       if (props.typeLine) {
         classes.push(`type-line`)

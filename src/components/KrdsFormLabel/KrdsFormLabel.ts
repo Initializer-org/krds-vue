@@ -1,6 +1,7 @@
 import { defineComponent, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS FormLabel 컴포넌트 속성
@@ -26,10 +27,7 @@ export default /* @__PURE__ */ defineComponent({
       default: undefined
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** 인라인 스타일 */
     style: {
       type: [String, Object],

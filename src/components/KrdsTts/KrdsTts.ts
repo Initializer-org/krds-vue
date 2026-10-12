@@ -1,5 +1,6 @@
 import { defineComponent, ref, computed, h, onBeforeUnmount } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * TTS 사이즈 타입
@@ -66,10 +67,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -138,7 +136,7 @@ export default /* @__PURE__ */ defineComponent({
     }
 
     const buttonClasses = computed(() => {
-      const classes = ['krds-tts']
+      const classes: KrdsClassValue[] = ['krds-tts']
 
       if (props.size) {
         classes.push(props.size)

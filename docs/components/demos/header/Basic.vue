@@ -73,13 +73,7 @@
         <button type="button" class="btn-navi sch" title="통합검색 레이어">통합검색</button>
         <a href="#" class="btn-navi login">로그인</a>
         <button type="button" class="btn-navi join">회원가입</button>
-        <button
-          type="button"
-          class="btn-navi all"
-          aria-controls="mobile-nav"
-          :aria-expanded="String(mobileOpen)"
-          @click="mobileOpen = true"
-        >
+        <button type="button" class="btn-navi all" aria-controls="mobile-nav" :aria-expanded="mobileOpen" @click="mobileOpen = true">
           전체메뉴
         </button>
       </div>

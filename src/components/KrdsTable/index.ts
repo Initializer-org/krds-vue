@@ -3,8 +3,8 @@
  */
 
 import KrdsTable from './KrdsTable'
-import type { KrdsTableProps, KrdsTableEmits, TableColumn, TableRow } from './KrdsTable'
+import type { KrdsTableCellSlotProps, KrdsTableProps, KrdsTableEmits, TableColumn, TableRow } from './KrdsTable'
 
 export { KrdsTable }
-export type { KrdsTableProps, KrdsTableEmits, TableColumn, TableRow }
+export type { KrdsTableCellSlotProps, KrdsTableProps, KrdsTableEmits, TableColumn, TableRow }
 export default KrdsTable

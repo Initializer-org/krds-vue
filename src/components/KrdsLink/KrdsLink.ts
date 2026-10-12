@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Link 크기 타입 (링크는 small, medium, large만 지원)
@@ -73,10 +74,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -93,7 +91,7 @@ export default /* @__PURE__ */ defineComponent({
      * 링크 클래스 계산
      */
     const linkClasses = computed(() => {
-      const classes = ['krds-btn']
+      const classes: KrdsClassValue[] = ['krds-btn']
 
       // 크기 클래스
       if (props.size) {

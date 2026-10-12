@@ -22,6 +22,7 @@
   --krds-table--data-tbody-color-surface: var(--krds-#{$mode}-color-surface-white-subtle);
   --krds-table--data-tbody-color-divider: var(--krds-#{$mode}-color-divider-gray-light);
   --krds-table--data-tbody-color-text: var(--krds-#{$mode}-color-text-subtle);
+  --krds-table--focus-color: var(--krds-#{$mode}-color-border-primary);
 }
 
 //모드 설정
@@ -32,6 +33,12 @@ $mode-setting: light;
   width: 100%;
 
   .tbl {
+    //행 클릭(row-click)으로 포커스를 받는 행: 전역 포커스 링(바깥 그림자)은 표 양옆으로 나가고 아래가 다음 행 셀에 가리므로 행 안쪽 테두리로 그린다
+    tbody tr[tabindex]:focus {
+      outline: 0.4rem solid var(--krds-table--focus-color);
+      outline-offset: -0.4rem;
+      box-shadow: none;
+    }
     &.data {
       th,
       td {

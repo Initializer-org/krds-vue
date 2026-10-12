@@ -15,7 +15,9 @@
     KrdsResize,
     KrdsSideNavigation,
     KrdsSkipLink,
+    KrdsSnackbar,
     KrdsInPageNavigation,
+    KrdsToast,
     KrdsTts
   } from '@krds.ui/vue'
   import type { KrdsFloatingButtonItem } from '@krds.ui/vue'
@@ -98,7 +100,7 @@
             type="button"
             class="btn-navi all"
             aria-controls="mobile-nav"
-            :aria-expanded="String(mobileMenuOpen)"
+            :aria-expanded="mobileMenuOpen"
             @click="mobileMenuOpen = true"
           >
             전체메뉴
@@ -236,10 +238,22 @@
     </KrdsFooter>
 
     <KrdsFloatingButton label="빠른 메뉴" :items="floatingItems" @select="item => !item.href && scrollToTop()" />
+    <!-- 전역 알림 자리: 각 묶음에서 useToast()·useSnackbar()로 띄운다 -->
+    <KrdsToast />
+    <KrdsSnackbar />
   </KrdsLayout>
 </template>
 
 <style>
+  /* 태블릿·모바일에서는 토스트·스낵바가 화면 폭을 채워 오른쪽 아래 플로팅 버튼과 겹치므로 그 위로 올린다 (KRDS 가이드: 주요 탐색 요소와 겹치지 않게) */
+  @media (max-width: 1023px) {
+    .playground .krds-toast {
+      --krds-toast--bottom: calc(var(--krds-contents-padding-x) + var(--krds-size-height-9) + 0.8rem);
+    }
+    .playground .krds-snackbar {
+      --krds-snackbar--bottom: calc(var(--krds-contents-padding-x) + var(--krds-size-height-9) + 0.8rem);
+    }
+  }
   .pg-banner {
     margin-bottom: 4rem;
   }

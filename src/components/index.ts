@@ -162,7 +162,7 @@ export type { KrdsTtsProps, KrdsTtsEmits, TtsSize, TtsIcon } from './KrdsTts'
 
 // Table 컴포넌트
 export { default as KrdsTable } from './KrdsTable'
-export type { KrdsTableProps, KrdsTableEmits, TableColumn, TableRow } from './KrdsTable'
+export type { KrdsTableProps, KrdsTableEmits, KrdsTableCellSlotProps, TableColumn, TableRow } from './KrdsTable'
 
 // Header 컴포넌트
 export { default as KrdsHeader } from './KrdsHeader'

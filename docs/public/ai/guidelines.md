@@ -83,6 +83,7 @@
 - 링크 `KrdsLink`: 새 창으로 여는 링크는 `target="_blank"`와 `title="새 창 열림"`을 단다.
 - 모달 `KrdsModal`: `v-model`(불리언), `modal-id`, 슬롯 `#title`·기본·`#footer`.
 - 탭 `KrdsTabs`: `:tabs="[{ id, label }]"`, `v-model`(탭 id), 탭 id와 같은 이름의 슬롯에 내용을 넣는다.
+- 표 `KrdsTable`: `:columns="[{ name, label, field }]"`, `:rows`, `class="col data"`, 표 구성을 설명하는 `caption`. 체크박스·버튼·배지는 `#cell-<name>="{ row, value }"` 슬롯으로, 숨긴 열 제목은 `#header-<name>`으로 넣는다.
 - 페이지네이션 `KrdsPagination`: `v-model`(페이지 번호), `:max`(마지막 페이지).
 - 단계 표시기 `KrdsStepIndicator`: `:model-value`(0부터 시작하는 현재 단계) 안에 `KrdsStep`(`step`, `title`)을 둔다. 표시 전용이며 단계 이동은 이전·다음 버튼에서 값을 바꾼다.
 - 아코디언 `KrdsAccordionGroup` + `KrdsAccordionItem`: 항목마다 `id`·`title`·`content`, 열린 항목은 `:open-item`과 `@toggle`로 관리한다.

@@ -1,6 +1,7 @@
 import { computed, defineComponent, h, type VNode } from 'vue'
 import type { SlotsType } from 'vue'
 import type { BaseComponentProps } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Footer 컴포넌트 속성
@@ -19,10 +20,7 @@ export default /* @__PURE__ */ defineComponent({
       default: 'krds-footer'
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   slots: Object as SlotsType<{
     /** 푸터 위 빠른 링크 영역 */

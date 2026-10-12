@@ -1,5 +1,6 @@
 import { computed, defineComponent, h, VNode } from 'vue'
 import type { SlotsType } from 'vue'
+import { classProp } from '@/utils/classProp'
 
 // ========================
 // 타입 정의
@@ -24,10 +25,7 @@ export default /* @__PURE__ */ defineComponent({
       default: 'krds-header'
     },
     /** 추가 CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   slots: Object as SlotsType<{
     /** 유틸리티 메뉴 슬롯 */

@@ -1,6 +1,7 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { BaseFormProps, Size } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Select 옵션 타입
@@ -99,10 +100,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -155,8 +153,10 @@ export default /* @__PURE__ */ defineComponent({
      */
     const handleChange = (event: Event) => {
       const target = event.target as HTMLSelectElement
-      const value = target.value === '' ? null : target.value
-      emit('update:modelValue', value)
+      if (target.value === '') return emit('update:modelValue', null)
+      // DOM 값은 항상 문자열이므로 options의 원래 값(숫자 포함)을 찾아 내보낸다. 슬롯 옵션은 문자열 그대로
+      const option = props.options?.find(item => String(item.value) === target.value)
+      emit('update:modelValue', option ? option.value : target.value)
     }
 
     /**

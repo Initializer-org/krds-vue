@@ -1,5 +1,6 @@
 import { defineComponent, h, computed, getCurrentInstance, SlotsType, type VNode } from 'vue'
-import type { BaseComponentProps } from '@/types'
+import type { BaseComponentProps, KrdsClassValue } from '@/types'
+import { classProp } from '@/utils/classProp'
 
 /**
  * 테이블 행 데이터
@@ -14,8 +15,8 @@ export interface TableColumn {
   name: string
   /** 헤더 라벨 */
   label: string
-  /** 행 객체 속성명 또는 함수 */
-  field: string | ((row: TableRow) => unknown)
+  /** 행 객체 속성명 또는 함수 (`cell-<name>` 슬롯으로만 그리는 열은 생략 가능) */
+  field?: string | ((row: TableRow) => unknown)
   /** 필수 컬럼 여부 (visible-columns 사용시 항상 표시) */
   required?: boolean
   /** 정렬 */
@@ -28,6 +29,20 @@ export interface TableColumn {
   headerStyle?: string
   /** header th 클래스 */
   headerClasses?: string
+}
+
+/**
+ * `cell-<name>` 슬롯 인자
+ */
+export interface KrdsTableCellSlotProps {
+  /** 행 데이터 */
+  row: TableRow
+  /** 열 정의 */
+  column: TableColumn
+  /** `field`로 꺼낸 셀 값 */
+  value: unknown
+  /** 행 순서 (0부터) */
+  index: number
 }
 
 /**
@@ -68,10 +83,7 @@ export default /* @__PURE__ */ defineComponent({
       required: true
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    }
+    class: classProp
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
   emits: {
@@ -80,7 +92,12 @@ export default /* @__PURE__ */ defineComponent({
   },
   /* eslint-enable @typescript-eslint/no-unused-vars */
   slots: Object as SlotsType<{
+    /** 행이 없을 때 표시할 내용 */
     'no-data'?: () => VNode[]
+    /** 열(`name`)의 본문 셀 내용. 체크박스·버튼·배지 등을 넣을 때 쓴다 (셀 태그·style·classes는 유지) */
+    [cell: `cell-${string}`]: ((props: KrdsTableCellSlotProps) => VNode[]) | undefined
+    /** 열(`name`)의 헤더 셀 내용 (예: 화면에 숨긴 열 제목) */
+    [header: `header-${string}`]: ((props: { column: TableColumn }) => VNode[]) | undefined
   }>,
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()
@@ -89,7 +106,7 @@ export default /* @__PURE__ */ defineComponent({
      * 테이블 클래스 계산
      */
     const tableClasses = computed(() => {
-      const classes = ['tbl']
+      const classes: KrdsClassValue[] = ['tbl']
 
       // 사용자 정의 클래스 (원본 HTML: "tbl col data")
       if (props.class) {
@@ -203,7 +220,7 @@ export default /* @__PURE__ */ defineComponent({
             class: headerClasses,
             style: headerStyle
           },
-          column.label
+          slots[`header-${column.name}`]?.({ column }) ?? column.label
         )
       })
 
@@ -217,7 +234,7 @@ export default /* @__PURE__ */ defineComponent({
       if (typeof column.field === 'function') {
         return column.field(row)
       }
-      return row[column.field]
+      return column.field === undefined ? undefined : row[column.field]
     }
 
     /**
@@ -247,7 +264,12 @@ export default /* @__PURE__ */ defineComponent({
       const bodyRows = props.rows.map((row, index) => {
         const cells = props.columns.map((column, colIndex) => {
           const cellValue = getCellValue(row, column)
-          const cellContent = typeof cellValue === 'function' ? cellValue() : cellValue
+          const cellSlot = slots[`cell-${column.name}`]
+          const cellContent = cellSlot
+            ? cellSlot({ row, column, value: cellValue, index })
+            : typeof cellValue === 'function'
+              ? cellValue()
+              : cellValue
           const cellStyle = getCellStyle(row, column)
           const cellClasses = getCellClasses(row, column)
 
@@ -267,7 +289,12 @@ export default /* @__PURE__ */ defineComponent({
           clickable
             ? {
                 tabindex: 0,
-                onClick: () => handleRowClick(row, index),
+                onClick: (event: MouseEvent) => {
+                  // 셀 슬롯 안 컨트롤(체크박스·버튼 등) 클릭은 행 선택으로 보지 않음 (표를 감싼 바깥 요소는 제외하고 행 안에서만 찾는다)
+                  const control = (event.target as Element).closest('a, button, input, select, textarea, label')
+                  if (control && (event.currentTarget as Element).contains(control)) return
+                  handleRowClick(row, index)
+                },
                 onKeydown: (event: KeyboardEvent) => handleRowKeydown(event, row, index)
               }
             : null,

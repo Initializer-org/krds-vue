@@ -1,7 +1,8 @@
 import { defineComponent, computed, h } from 'vue'
 import type { SlotsType, VNode } from 'vue'
-import type { BaseFormProps, Size, InputType } from '@/types'
+import type { BaseFormProps, InputType, KrdsClassValue, Size } from '@/types'
 import KrdsSpinner from '@/components/KrdsSpinner/KrdsSpinner'
+import { classProp } from '@/utils/classProp'
 
 /**
  * KRDS Input 컴포넌트 속성
@@ -146,10 +147,7 @@ export default /* @__PURE__ */ defineComponent({
       default: false
     },
     /** CSS 클래스 */
-    class: {
-      type: String,
-      default: undefined
-    },
+    class: classProp,
     /** HTML ID */
     id: {
       type: String,
@@ -183,7 +181,7 @@ export default /* @__PURE__ */ defineComponent({
      * 입력 필드 클래스 계산
      */
     const inputClasses = computed(() => {
-      const classes = ['krds-input']
+      const classes: KrdsClassValue[] = ['krds-input']
 
       // 크기 클래스
       if (props.size) {

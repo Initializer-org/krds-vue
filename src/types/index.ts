@@ -45,9 +45,14 @@ export type Position = 'top' | 'bottom' | 'left' | 'right'
 /**
  * 컴포넌트 기본 속성
  */
+/**
+ * class 값: 문자열, 배열, 객체(`{ active: isActive }`)를 섞어 쓸 수 있다 (Vue의 :class와 같음)
+ */
+export type KrdsClassValue = string | Record<string, unknown> | KrdsClassValue[] | false | null | undefined
+
 export interface BaseComponentProps {
-  /** CSS 클래스 */
-  class?: string
+  /** CSS 클래스 (문자열·배열·객체) */
+  class?: KrdsClassValue
   /** 인라인 스타일 */
   style?: string | Record<string, string | number>
   /** HTML ID */

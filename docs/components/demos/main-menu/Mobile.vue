@@ -55,7 +55,7 @@
 
 <template>
   <div>
-    <button type="button" class="krds-btn medium primary" aria-controls="mobile-nav" :aria-expanded="String(isOpen)" @click="isOpen = true">
+    <button type="button" class="krds-btn medium primary" aria-controls="mobile-nav" :aria-expanded="isOpen" @click="isOpen = true">
       전체메뉴 열기
     </button>
     <KrdsMainMenu v-model:open="isOpen" variant="mobile" :items="items">
