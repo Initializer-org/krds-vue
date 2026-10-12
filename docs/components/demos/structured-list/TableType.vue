@@ -124,14 +124,7 @@
       <ul class="sch-sort">
         <li>
           <strong class="sort-label"><label for="list-size">목록 표시 개수</label></strong>
-          <!-- 셀렉트는 문자열을 내보내므로 숫자로 바꿔 둔다 -->
-          <KrdsSelect
-            id="list-size"
-            :model-value="size"
-            sort
-            :options="sizeOptions"
-            @update:model-value="value => (size = Number(value))"
-          />
+          <KrdsSelect id="list-size" v-model="size" sort :options="sizeOptions" />
         </li>
         <li>
           <strong class="sort-label"><label for="list-sort">정렬기준</label></strong>
