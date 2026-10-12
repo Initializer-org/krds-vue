@@ -1,5 +1,5 @@
-import { defineComponent, h, onUnmounted, watch } from 'vue'
-import { snackbarState } from '@/composables/useSnackbar'
+import { defineComponent, h, onMounted, ref, watch } from 'vue'
+import { snackbarState, useSnackbar } from '@/composables/useSnackbar'
 
 /**
  * KRDS Snackbar 컴포넌트
@@ -22,35 +22,45 @@ import { snackbarState } from '@/composables/useSnackbar'
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsSnackbar',
   setup() {
-    const hide = () => (snackbarState.visible = false)
+    const { hide } = useSnackbar()
+    const root = ref<HTMLElement>()
 
-    // duration을 주면 토스트처럼 자동으로 닫는다 (기본은 닫기 버튼까지 유지)
-    let timer: ReturnType<typeof setTimeout> | undefined
+    // 빈 영역을 먼저 문서에 넣고 다음 task부터 내용을 넣는다 (마운트 전에 띄운 스낵바도 화면낭독기가 읽게)
+    const ready = ref(false)
+    onMounted(() => setTimeout(() => (ready.value = true)))
+
+    // 닫히면서 초점이 있던 버튼이 사라지면 body로 빠지므로, 스낵바로 들어오기 전 요소로 초점을 돌려준다
+    let returnFocus: HTMLElement | null = null
+    const onFocusin = (event: FocusEvent) => {
+      const from = event.relatedTarget as HTMLElement | null
+      if (!root.value?.contains(from)) returnFocus = from
+    }
     watch(
-      () => [snackbarState.visible, snackbarState.id],
-      () => {
-        clearTimeout(timer)
-        const duration = snackbarState.options.duration ?? 0
-        if (snackbarState.visible && duration > 0) timer = setTimeout(hide, duration)
-      },
-      { immediate: true }
+      () => snackbarState.visible,
+      visible => {
+        if (!visible && root.value?.contains(document.activeElement)) returnFocus?.focus()
+      }
     )
-    onUnmounted(() => clearTimeout(timer))
+
+    // 먼저 닫고 부른다: onAction 안에서 다시 show()한 스낵바(다시 시도 → 결과)가 남고, 비동기 오류는 앱 errorHandler로 간다
     const handleAction = () => {
-      snackbarState.options.onAction?.()
+      const { options } = snackbarState
       hide()
+      return options.onAction?.()
     }
 
     return () => {
+      const shown = ready.value && snackbarState.visible
       const { title, message, icon, action } = snackbarState.options
       return h(
         'div',
-        { class: ['krds-snackbar', { active: snackbarState.visible }], role: 'status' },
-        snackbarState.visible
+        { ref: root, class: ['krds-snackbar', { active: shown }], role: 'status', onFocusin },
+        shown
           ? [
               h('div', { class: 'snackbar-in' }, [
                 icon && h('i', { class: ['svg-icon', 'snackbar-icon', icon], 'aria-hidden': 'true' }),
-                h('div', { class: 'snackbar-body' }, [
+                // show()마다 바뀌는 id를 key로 써서, 같은 내용을 다시 띄워도 새로 그린다 (화면낭독기가 다시 읽음)
+                h('div', { key: snackbarState.id, class: 'snackbar-body' }, [
                   h('strong', { class: 'snackbar-title' }, title),
                   message && h('p', { class: 'snackbar-text' }, message)
                 ]),

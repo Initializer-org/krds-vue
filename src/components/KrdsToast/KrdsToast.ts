@@ -1,11 +1,8 @@
-import { defineComponent, h, onUnmounted, watch } from 'vue'
+import { defineComponent, h, onMounted, ref } from 'vue'
 import { toastState } from '@/composables/useToast'
 
 /** 토스트 메시지 유형. KRDS 가이드의 노출 시간: 정보형 2~3초, 주의·경고형 3~4초 */
 export type KrdsToastType = 'info' | 'warning'
-
-/** 유형별 기본 노출 시간(ms) */
-const DEFAULT_DURATION: Record<KrdsToastType, number> = { info: 3000, warning: 4000 }
 
 /**
  * KRDS Toast 컴포넌트
@@ -29,24 +26,18 @@ const DEFAULT_DURATION: Record<KrdsToastType, number> = { info: 3000, warning: 4
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsToast',
   setup() {
-    let timer: ReturnType<typeof setTimeout> | undefined
-    // show()마다 바뀌는 id도 감시해, 떠 있는 동안 다시 띄우면 노출 시간을 다시 센다
-    watch(
-      () => [toastState.visible, toastState.id],
-      () => {
-        clearTimeout(timer)
-        const duration = toastState.duration ?? DEFAULT_DURATION[toastState.type]
-        if (toastState.visible && duration > 0) timer = setTimeout(() => (toastState.visible = false), duration)
-      },
-      { immediate: true }
-    )
-    onUnmounted(() => clearTimeout(timer))
+    // 빈 영역을 먼저 문서에 넣고 다음 task부터 내용을 넣는다 (마운트 전에 띄운 메시지도 화면낭독기가 읽게)
+    const ready = ref(false)
+    onMounted(() => setTimeout(() => (ready.value = true)))
 
-    return () =>
-      h(
+    return () => {
+      const shown = ready.value && toastState.visible
+      // show()마다 바뀌는 id를 key로 써서, 같은 메시지를 다시 띄워도 새로 그린다 (다시 읽고 등장 효과도 다시 나옴)
+      return h(
         'div',
-        { class: ['krds-toast', { active: toastState.visible }], role: 'status' },
-        toastState.visible ? [h('p', { class: 'toast-text' }, toastState.message)] : []
+        { class: ['krds-toast', { active: shown }], role: 'status' },
+        shown ? [h('p', { key: toastState.id, class: 'toast-text' }, toastState.message)] : []
       )
+    }
   }
 })

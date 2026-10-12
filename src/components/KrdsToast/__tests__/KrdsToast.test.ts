@@ -8,11 +8,13 @@ describe('KrdsToast', () => {
     const status = screen.getByRole('status')
     expect(status).toBeEmptyDOMElement()
 
-    useToast().show('저장되었습니다.', { duration: 50 })
+    // 등장 애니메이션(0.4초)이 끝난 뒤에도 떠 있어야 접근성 검사가 토스트 내용을 본다
+    useToast().show('저장되었습니다.', { duration: 1000 })
     await vi.waitFor(() => expect(status).toHaveTextContent('저장되었습니다.'))
     expect(status).toHaveClass('active')
     await expectNoA11yViolations()
-    await vi.waitFor(() => expect(status).toBeEmptyDOMElement())
+    expect(status).toHaveTextContent('저장되었습니다.')
+    await vi.waitFor(() => expect(status).toBeEmptyDOMElement(), { timeout: 2000 })
   })
 
   it('기본 노출 시간은 info 3초, warning 4초, 0이면 닫지 않고, 다시 show()하면 시간을 다시 세고, hide()로 바로 닫는다', async () => {

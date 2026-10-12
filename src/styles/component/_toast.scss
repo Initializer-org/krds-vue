@@ -26,7 +26,7 @@ $mode-setting: light;
   @include toast-size-variable();
   @include toast-color-variable(#{$mode-setting});
 
-  //화면 중앙 하단. 플로팅 버튼(55)·모달(1000) 위에 보이도록 둔다 (모달 안에서 저장해도 보임)
+  //화면 중앙 하단. 플로팅 버튼(55)·모달(1010) 위에 보이도록 둔다 (모달 안에서 저장해도 보임)
   position: fixed;
   left: 50%;
   bottom: var(--krds-toast--bottom);
@@ -73,8 +73,9 @@ $mode-setting: light;
 
 //responsive tablet
 @include size-large-less {
+  //bottom 대신 변수를 바꿔, 사용자가 --krds-toast--bottom으로 정한 위치가 모든 화면 폭에서 먹게 한다
   .krds-toast {
-    bottom: var(--krds-contents-padding-x);
+    --krds-toast--bottom: var(--krds-contents-padding-x);
   }
 }
 

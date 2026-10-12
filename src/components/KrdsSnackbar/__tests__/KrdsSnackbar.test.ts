@@ -42,8 +42,31 @@ describe('KrdsSnackbar', () => {
   it('duration을 주면 노출 시간 뒤 자동으로 닫힌다', async () => {
     render({ template: `<KrdsSnackbar />` })
     const status = screen.getByRole('status')
-    useSnackbar().show({ title: '자동 닫힘', duration: 50 })
+    useSnackbar().show({ title: '자동 닫힘', duration: 300 })
     await vi.waitFor(() => expect(status).toHaveTextContent('자동 닫힘'))
     await vi.waitFor(() => expect(status).toBeEmptyDOMElement())
+  })
+
+  it('onAction 안에서 다시 show()한 스낵바는 남는다 (다시 시도 → 결과 알림)', async () => {
+    render({ template: `<KrdsSnackbar />` })
+    const status = screen.getByRole('status')
+    const snackbar = useSnackbar()
+    snackbar.show({ title: '전송 실패', action: '다시 시도', onAction: () => snackbar.show({ title: '전송 완료' }) })
+    await userEvent.click(await screen.findByRole('button', { name: '다시 시도' }))
+    await vi.waitFor(() => expect(status).toHaveTextContent('전송 완료'))
+    snackbar.hide()
+  })
+
+  it('버튼으로 닫으면 초점을 스낵바로 들어오기 전 요소로 돌려준다', async () => {
+    render({ template: `<button type="button">앞</button><KrdsSnackbar />` })
+    useSnackbar().show({ title: '알림' })
+    const before = screen.getByRole('button', { name: '앞' })
+    const close = await screen.findByRole('button', { name: '닫기' })
+    before.focus()
+    await userEvent.tab()
+    expect(close).toHaveFocus()
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(screen.getByRole('status')).toBeEmptyDOMElement())
+    expect(before).toHaveFocus()
   })
 })

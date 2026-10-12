@@ -31,7 +31,7 @@ $mode-setting: light;
   @include snackbar-size-variable();
   @include snackbar-color-variable(#{$mode-setting});
 
-  //화면 중앙 하단. 플로팅 버튼(55)·모달(1000) 위
+  //화면 중앙 하단. 플로팅 버튼(55)·모달(1010) 위
   position: fixed;
   left: 50%;
   bottom: var(--krds-snackbar--bottom);
@@ -97,8 +97,9 @@ $mode-setting: light;
 
 //responsive tablet
 @include size-large-less {
+  //bottom 대신 변수를 바꿔, 사용자가 --krds-snackbar--bottom으로 정한 위치가 모든 화면 폭에서 먹게 한다
   .krds-snackbar {
-    bottom: var(--krds-contents-padding-x);
+    --krds-snackbar--bottom: var(--krds-contents-padding-x);
   }
 }
 

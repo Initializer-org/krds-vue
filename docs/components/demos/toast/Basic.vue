@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <div>
+  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap">
     <KrdsButton variant="primary" @click="toast.show('저장되었습니다.')">저장</KrdsButton>
     <KrdsButton variant="secondary" @click="toast.warning('파일 업로드에 실패했습니다.')">업로드 실패</KrdsButton>
     <KrdsToast />

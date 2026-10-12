@@ -26,7 +26,7 @@
 </script>
 
 <template>
-  <div>
+  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap">
     <KrdsButton variant="primary" @click="send">신청서 보내기</KrdsButton>
     <KrdsButton variant="secondary" @click="fail">실패 상황</KrdsButton>
     <KrdsSnackbar />
