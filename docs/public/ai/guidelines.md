@@ -98,10 +98,44 @@
 - 초점 표시(outline)를 지우지 않는다. 직접 만든 요소도 키보드로 조작할 수 있게 한다.
 - 색만으로 상태를 알리지 않는다. 오류는 글자(`KrdsFormHint`)로도 알린다.
 
+## 디자인 토큰
+
+컴포넌트로 만들 수 없는 부분에만 CSS를 직접 쓰고, 값은 아래 토큰으로 적는다. 여기 없는 토큰 이름을 지어내지 않는다(전체 목록: https://github.com/Initializer-org/krds-vue/blob/main/src/tokens/krds_tokens.css).
+
+- 색은 역할 토큰 `--krds-light-color-{역할}-{변형}`을 쓴다. 단계 색(`--krds-color-light-primary-50` 등)은 직접 쓰지 않는다.
+  - 글자 `text`: `basic`(본문), `bolder`(제목), `subtle`(보조), `disabled`, `primary`, `point`, 상태(`danger`·`warning`·`success`·`information`), 어두운 면 위의 `basic-inverse`
+  - 페이지 배경 `background`: `white`, `gray-subtler`, `gray-subtle`, `inverse`, `dim`(모달 뒤 가림막)
+  - 상자·카드 면 `surface`: `white`, `gray-subtler`, `gray-subtle`, `disabled`, `{primary|secondary|point|danger|warning|success|information}-subtler`
+  - 테두리 `border`: `gray-light`, `gray`, `gray-dark`, `gray-darker`, `disabled`, `primary`·`secondary`·`point`·상태(각각 `-light` 변형 있음)
+  - 구분선 `divider`: `gray-light`, `gray`, `gray-dark`, `gray-darker`, `primary`, `primary-light`
+  - 아이콘 `icon`: `gray`, `gray-light`, `disabled`, `inverse`, `primary`, `secondary`, `point`, 상태
+  - 링크 `link`: `default`, `hover`, `pressed`, `visited`
+- 간격: 요소 사이 `--krds-gap-1`~`12`(0.2rem~8rem), 안쪽 여백 `--krds-padding-1`~`10`(0.2rem~4rem). 페이지 단락 사이는 `--krds-pc-gap-layout-*`·`--krds-mobile-gap-layout-*`(예: `h2-h3`, `title-body-medium`, `contents-footer`).
+- 모서리: `--krds-radius-xsmall1`·`small1`·`medium1`·`large1`·`xlarge1`(0.2rem~1.2rem), 알약 모양은 `--krds-radius-max`.
+- 글자 크기: `--krds-pc-font-size-{종류}-{크기}`, 화면 너비 768px 미만에서는 같은 이름의 `--krds-mobile-font-size-*`. 종류는 `display`(`large`·`medium`·`small`), `heading`(`xlarge`~`xxsmall`), `body`·`label`(`large`~`xsmall`).
+- 글자 굵기 `--krds-font-weight-regular`·`bold`, 줄 간격 `--krds-line-height-base`. `--krds-typo-font-weight-*`는 CSS 값이 아니므로 쓰지 않는다.
+
 ## 화면 모드
 
 - `<html data-krds-mode="light">`(기본), `"high-contrast"`(선명하게, 어두운 배경), `"theme"`(시스템 설정을 따름)을 지원한다.
-- 직접 쓰는 색은 모드별 토큰(`--krds-light-color-*`, `--krds-high-contrast-color-*`)을 쓰고, 고대비 모드에서도 확인한다.
+- 색 토큰은 모드에 따라 저절로 바뀌지 않는다. 직접 쓰는 색은 같은 역할의 `--krds-high-contrast-color-*`로 다시 지정하고, 고대비 모드에서도 확인한다.
+
+```css
+.notice-box {
+  color: var(--krds-light-color-text-basic);
+  background-color: var(--krds-light-color-surface-gray-subtler);
+}
+[data-krds-mode='high-contrast'] .notice-box {
+  color: var(--krds-high-contrast-color-text-basic);
+  background-color: var(--krds-high-contrast-color-surface-gray-subtler);
+}
+@media (prefers-color-scheme: dark) {
+  [data-krds-mode='theme'] .notice-box {
+    color: var(--krds-high-contrast-color-text-basic);
+    background-color: var(--krds-high-contrast-color-surface-gray-subtler);
+  }
+}
+```
 
 ## 하지 말 것
 

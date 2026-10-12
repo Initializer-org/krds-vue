@@ -1,5 +1,6 @@
 import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+// 문서 글꼴은 KRDS(Pretendard GOV)라 VitePress 기본 글꼴(Inter)은 받지 않는다
+import DefaultTheme from 'vitepress/theme-without-fonts'
 import '@/styles/main.scss'
 import { vSrOnly } from '@/directives'
 import ComponentApi from './ComponentApi.vue'
