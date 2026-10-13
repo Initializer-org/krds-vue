@@ -44,6 +44,7 @@ declare module 'vue' {
     KrdsPanel: (typeof import('@krds.ui/vue'))['KrdsPanel']
     KrdsQuantityToggle: (typeof import('@krds.ui/vue'))['KrdsQuantityToggle']
     KrdsRadio: (typeof import('@krds.ui/vue'))['KrdsRadio']
+    KrdsRangeSlider: (typeof import('@krds.ui/vue'))['KrdsRangeSlider']
     KrdsResize: (typeof import('@krds.ui/vue'))['KrdsResize']
     KrdsSelect: (typeof import('@krds.ui/vue'))['KrdsSelect']
     KrdsSideNavigation: (typeof import('@krds.ui/vue'))['KrdsSideNavigation']

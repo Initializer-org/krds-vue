@@ -94,6 +94,7 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
   {
     text: '모바일',
     pages: [
+      ['범위슬라이드 Range slider', 'range-slider'],
       ['수량 토글 Quantity toggle', 'quantity-toggle'],
       ['토스트 Toast', 'toast'],
       ['스낵바 Snackbar', 'snackbar'],
@@ -147,6 +148,7 @@ export const krdsGuides: Record<string, Record<string, string>> = {
   select: { 셀렉트: '06_03' },
   tag: { 태그: '06_04' },
   'toggle-switch': { '토글 스위치': '06_07' },
+  'range-slider': { 범위슬라이드: '12_01' },
   'quantity-toggle': { '수량 토글': '12_04' },
   'step-indicator': { '단계 표시기': '07_01' },
   spinner: { 스피너: '07_02' },

@@ -21,7 +21,7 @@ KRDS Vue는 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이�
 
 - **Vue 3 + TypeScript**: Vue 3.5 이상과 타입 정의를 지원합니다.
 - **ESM-only 배포**: modern bundler 환경에 맞춘 ESM 산출물만 제공합니다.
-- **KRDS 공식 컴포넌트 대응**: [공식 컴포넌트 55종](https://www.krds.go.kr/html/site/component/component_summary.html) 중 50종을 제공하며, 폼 레이아웃·아이콘 등 부가 컴포넌트를 포함해 총 56개 컴포넌트를 제공합니다.
+- **KRDS 공식 컴포넌트 대응**: [공식 컴포넌트 55종](https://www.krds.go.kr/html/site/component/component_summary.html) 중 51종을 제공하며, 폼 레이아웃·아이콘 등 부가 컴포넌트를 포함해 총 57개 컴포넌트를 제공합니다.
 - **플러그인/개별 import 지원**: 전체 전역 등록 또는 필요한 컴포넌트만 import할 수 있습니다.
 - **KRDS 스타일/토큰 포함**: 패키지 스타일 엔트리에서 토큰, 폰트, 컴포넌트 CSS를 함께 제공합니다.
 - **접근성 고려**: 키보드 조작, ARIA 속성, 포커스 스타일, 고대비 모드를 고려해 구현합니다.
@@ -194,15 +194,15 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 | 입력             | 날짜 입력 필드 `KrdsDateInput` · 텍스트 영역 `KrdsTextarea` · 텍스트 입력 필드 `KrdsInput` · 파일 업로드 `KrdsFileUpload`                                                                                                                                                                                                           |
 | 설정             | 언어 변경 `KrdsLanguageSwitcher` · 화면 크기 조정 `KrdsResize`                                                                                                                                                                                                                                                                      |
 | 콘텐츠           | 숨긴 콘텐츠 `v-sr-only` 디렉티브                                                                                                                                                                                                                                                                                                    |
-| 모바일           | 바텀시트(`KrdsModal`의 `bottom-sheet`) · 수량 토글 `KrdsQuantityToggle` · 토스트 `KrdsToast` · 스낵바 `KrdsSnackbar` · 탭바 `KrdsTabBar`                                                                                                                                                                                            |
+| 모바일           | 범위슬라이드 `KrdsRangeSlider` · 바텀시트(`KrdsModal`의 `bottom-sheet`) · 수량 토글 `KrdsQuantityToggle` · 토스트 `KrdsToast` · 스낵바 `KrdsSnackbar` · 탭바 `KrdsTabBar`                                                                                                                                                           |
 
 공식 목록 외 부가 컴포넌트: `KrdsLayout`, `KrdsIcon`, `KrdsButtonGroup`, `KrdsTagGroup`, `KrdsCheckArea`, `KrdsStep`, `KrdsFormGroup`, `KrdsFormLabel`, `KrdsFormHint`
 
 ### 미제공 항목
 
-플로팅 버튼(FAB), 토스트, 스낵바, 수량 토글, 탭바, 이미지는 KRDS 원본 저장소에 구현(HTML/SCSS)이 없지만, KRDS 가이드의 구조·위치·노출 시간·접근성 기준과 토큰으로 직접 만들어 제공합니다. 아래 항목은 제공하지 않습니다.
+플로팅 버튼(FAB), 토스트, 스낵바, 범위슬라이드, 수량 토글, 탭바, 이미지는 KRDS 원본 저장소에 구현(HTML/SCSS)이 없지만, KRDS 가이드의 구조·위치·노출 시간·접근성 기준과 토큰으로 직접 만들어 제공합니다. 아래 항목은 제공하지 않습니다.
 
-- **모바일 계열**(범위슬라이드, 뒤로가기 버튼, 스플래시 스크린): 모바일 앱 전용 항목입니다. 스플래시 스크린은 문서 사이트에 안내 문서만 제공합니다.
+- **모바일 계열**(뒤로가기 버튼, 스플래시 스크린): 모바일 앱 전용 항목입니다. 스플래시 스크린은 문서 사이트에 안내 문서만 제공합니다.
 - **파비콘, 접근 가능한 미디어**: 컴포넌트가 아닌 가이드 항목입니다.
 
 ### 원본 동기화 기준
