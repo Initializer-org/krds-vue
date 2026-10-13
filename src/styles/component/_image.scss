@@ -1,0 +1,52 @@
+@use '../common/include' as *;
+
+/* 이미지 (KRDS 가이드에 도안이 없어 반응형 크기와 설명 글자만 정한다) */
+//사이즈 정의
+@mixin figure-size-variable() {
+  --krds-figure--gap: var(--krds-gap-3);
+  --krds-figure--caption-pc-font-size: var(--krds-pc-font-size-body-small);
+  --krds-figure--caption-mobile-font-size: var(--krds-mobile-font-size-body-small);
+}
+
+//컬러 정의
+@mixin figure-color-variable($mode: light) {
+  --krds-figure--color-caption: var(--krds-#{$mode}-color-text-subtle);
+}
+
+//모드 설정
+$mode-setting: light;
+
+//width·height 속성을 줘도 화면 폭을 넘지 않고 비율을 유지한다
+.krds-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.krds-figure {
+  @include figure-size-variable();
+  @include figure-color-variable(#{$mode-setting});
+
+  @include flex-layout($fd: column);
+  gap: var(--krds-figure--gap);
+
+  figcaption {
+    font-size: var(--krds-figure--caption-pc-font-size);
+    color: var(--krds-figure--color-caption);
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-figure {
+    @include figure-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-figure figcaption {
+    font-size: var(--krds-figure--caption-mobile-font-size);
+  }
+}

@@ -184,6 +184,10 @@ export type { KrdsDisclosureProps, KrdsDisclosureEmits } from './KrdsDisclosure'
 export { default as KrdsIdentifier } from './KrdsIdentifier'
 export type { KrdsIdentifierProps, KrdsIdentifierEmits } from './KrdsIdentifier'
 
+// Image 컴포넌트
+export { default as KrdsImage } from './KrdsImage'
+export type { KrdsImageProps } from './KrdsImage'
+
 // Layout 컴포넌트
 export { default as KrdsLayout } from './KrdsLayout'
 export type { KrdsLayoutProps, KrdsLayoutEmits, ScrollDetails, LayoutSize } from './KrdsLayout'

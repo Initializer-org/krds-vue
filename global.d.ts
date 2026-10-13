@@ -31,6 +31,7 @@ declare module 'vue' {
     KrdsHeader: (typeof import('@krds.ui/vue'))['KrdsHeader']
     KrdsIcon: (typeof import('@krds.ui/vue'))['KrdsIcon']
     KrdsIdentifier: (typeof import('@krds.ui/vue'))['KrdsIdentifier']
+    KrdsImage: (typeof import('@krds.ui/vue'))['KrdsImage']
     KrdsInPageNavigation: (typeof import('@krds.ui/vue'))['KrdsInPageNavigation']
     KrdsInput: (typeof import('@krds.ui/vue'))['KrdsInput']
     KrdsLanguageSwitcher: (typeof import('@krds.ui/vue'))['KrdsLanguageSwitcher']

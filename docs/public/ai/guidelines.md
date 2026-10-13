@@ -93,6 +93,7 @@
 - 스낵바 `KrdsSnackbar`: App.vue에 `<KrdsSnackbar />`를 한 번 두고 `useSnackbar().show({ title, message, action, onAction })`로 띄운다. 되돌리기·다시 시도 같은 추가 행동 1개가 필요한 알림에 쓰고 한 페이지에 하나만 둔다. 입력 항목 오류는 토스트·스낵바 대신 `KrdsFormHint`로 알린다.
 - 탭바 `KrdsTabBar`: 모바일 화면의 하단 고정 내비게이션. `:items="[{ text, icon, href, selected }]"`(5개 이하, 홈은 맨 왼쪽·전체 메뉴는 맨 오른쪽), 현재 화면에 `selected`. 1024px 이상에서는 숨겨지므로 넓은 화면은 `KrdsMainMenu`로 탐색한다.
 - 수량 토글 `KrdsQuantityToggle`: `v-model`(숫자), `label`(필수, `KrdsFormLabel` 없이 자체 레이블), `:min`·`:max`. 범위는 기준값 포함 11단계 이내로 두고, 그보다 넓으면 `KrdsInput`을 쓴다. 세로형은 `vertical`.
+- 이미지 `KrdsImage`: `src`, `alt`(필수). 정보 이미지는 전하는 내용을 구체적으로 쓰고 '이미지'·'사진' 같은 말은 붙이지 않는다. 장식 이미지는 `alt=""`. 설명·출처는 `caption`(또는 `#caption` 슬롯)에 넣는다. 글자는 이미지로 만들지 않는다.
 - 아이콘: `<KrdsIcon name="ico-..." />` 또는 `<i class="svg-icon ico-..."></i>`. 꾸밈용 아이콘은 화면낭독기가 읽지 않게 하고, 뜻이 있으면 옆에 글자나 숨김 텍스트를 둔다.
 
 ## 접근성
