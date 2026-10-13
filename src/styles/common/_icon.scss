@@ -115,6 +115,9 @@
       gap: var(--krds-gap-3);
     }
   }
+  &.ico-minus {
+    @include icon-set(ico_minus);
+  }
   &.ico-setting {
     @include icon-set(ico_setting);
     & {

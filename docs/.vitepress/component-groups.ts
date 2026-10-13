@@ -53,7 +53,8 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
       ['체크박스 Checkbox', 'checkbox'],
       ['셀렉트 Select', 'select'],
       ['태그 Tag', 'tag'],
-      ['토글 스위치 Toggle switch', 'toggle-switch']
+      ['토글 스위치 Toggle switch', 'toggle-switch'],
+      ['수량 토글 Quantity toggle', 'quantity-toggle']
     ]
   },
   {

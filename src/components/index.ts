@@ -81,6 +81,10 @@ export type { KrdsMastheadProps, KrdsMastheadEmits } from './KrdsMasthead'
 export { default as KrdsToggleSwitch } from './KrdsToggleSwitch'
 export type { KrdsToggleSwitchProps, KrdsToggleSwitchEmits } from './KrdsToggleSwitch'
 
+// QuantityToggle 컴포넌트
+export { default as KrdsQuantityToggle } from './KrdsQuantityToggle'
+export type { KrdsQuantityToggleProps, KrdsQuantityToggleEmits } from './KrdsQuantityToggle'
+
 // CheckArea 컴포넌트
 export { default as KrdsCheckArea } from './KrdsCheckArea'
 export type { KrdsCheckAreaProps } from './KrdsCheckArea'

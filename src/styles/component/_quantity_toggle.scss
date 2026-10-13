@@ -1,0 +1,120 @@
+@use '../common/include' as *;
+
+/* 수량 토글 (KRDS 가이드: 가로형·세로형). −/+ 버튼은 .krds-btn.tertiary 스타일을 쓴다 */
+//사이즈 정의
+@mixin quantity-toggle-size-variable() {
+  --krds-quantity-toggle--gap: var(--krds-gap-3);
+  //테두리 포함 높이 4.8rem = 버튼 4rem + 여백 (KRDS 가이드 도안)
+  --krds-quantity-toggle--padding: 0.3rem;
+  --krds-quantity-toggle--radius: var(--krds-radius-medium3);
+  --krds-quantity-toggle--button-size: var(--krds-size-height-6);
+  --krds-quantity-toggle--value-width: var(--krds-size-height-7);
+  --krds-quantity-toggle--icon-size: var(--krds-icon--size-large);
+  --krds-quantity-toggle--label-pc-font-size: var(--krds-pc-font-size-label-medium);
+  --krds-quantity-toggle--label-mobile-font-size: var(--krds-mobile-font-size-label-medium);
+  --krds-quantity-toggle--value-pc-font-size: var(--krds-pc-font-size-body-large);
+  --krds-quantity-toggle--value-mobile-font-size: var(--krds-mobile-font-size-body-large);
+}
+
+//컬러 정의
+@mixin quantity-toggle-color-variable($mode: light) {
+  --krds-quantity-toggle--color-fill: var(--krds-#{$mode}-color-background-white);
+  --krds-quantity-toggle--color-border: var(--krds-#{$mode}-color-border-gray-light);
+  --krds-quantity-toggle--color-label: var(--krds-#{$mode}-color-text-basic);
+  --krds-quantity-toggle--color-button-border: var(--krds-#{$mode}-color-border-gray);
+  --krds-quantity-toggle--color-icon: var(--krds-#{$mode}-color-icon-gray);
+  --krds-quantity-toggle--color-icon-disabled: var(--krds-#{$mode}-color-text-disabled);
+  --krds-quantity-toggle--color-value: var(--krds-#{$mode}-color-text-basic);
+  --krds-quantity-toggle--color-value-disabled: var(--krds-#{$mode}-color-text-disabled);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-quantity-toggle {
+  @include quantity-toggle-size-variable();
+  @include quantity-toggle-color-variable(#{$mode-setting});
+
+  @include flex-layout($d: inline-flex, $ai: flex-start, $fd: column);
+  gap: var(--krds-quantity-toggle--gap);
+
+  .quantity-label {
+    font-size: var(--krds-quantity-toggle--label-pc-font-size);
+    color: var(--krds-quantity-toggle--color-label);
+  }
+  .quantity-control {
+    @include flex-layout($d: inline-flex, $ai: center);
+    padding: var(--krds-quantity-toggle--padding);
+    border: 0.1rem solid var(--krds-quantity-toggle--color-border);
+    border-radius: var(--krds-quantity-toggle--radius);
+    background-color: var(--krds-quantity-toggle--color-fill);
+  }
+  .btn-quantity {
+    //tertiary 버튼 색을 가이드 도안(연한 테두리, 회색 아이콘)에 맞춘다
+    --krds-button--color-tertiary-border: var(--krds-quantity-toggle--color-button-border);
+    --krds-button--color-tertiary-text: var(--krds-quantity-toggle--color-icon);
+    --krds-button--color-tertiary-text-disabled: var(--krds-quantity-toggle--color-icon-disabled);
+    @include square(var(--krds-quantity-toggle--button-size));
+    padding: 0;
+    .svg-icon {
+      @include square(var(--krds-quantity-toggle--icon-size));
+    }
+  }
+  .quantity-value {
+    min-width: var(--krds-quantity-toggle--value-width);
+    line-height: var(--krds-quantity-toggle--button-size);
+    border-radius: var(--krds-radius-small3);
+    text-align: center;
+    font-size: var(--krds-quantity-toggle--value-pc-font-size);
+    font-weight: var(--krds-font-weight-bold);
+    color: var(--krds-quantity-toggle--color-value);
+    //양옆 버튼에 붙어 있어 포커스 링을 안쪽에 그린다
+    &:focus {
+      @include focus();
+    }
+    //±버튼을 눌러 옮겨 온 초점(포인터)에는 링을 그리지 않는다. 키보드 초점에만 표시
+    &:focus:not(:focus-visible) {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+
+  //세로형: 레이블을 가운데, + 버튼을 위에 둔다 (DOM 순서도 + 먼저)
+  &.vertical {
+    align-items: center;
+    .quantity-control {
+      flex-direction: column;
+    }
+    //값 영역을 버튼 폭에 맞춘다 (가로형 최소 폭이 남으면 버튼 양옆 여백만 넓어짐)
+    .quantity-value {
+      align-self: stretch;
+      min-width: 0;
+    }
+  }
+  &.disabled {
+    .quantity-value {
+      color: var(--krds-quantity-toggle--color-value-disabled);
+    }
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-quantity-toggle {
+    @include quantity-toggle-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-quantity-toggle {
+    .quantity-label {
+      font-size: var(--krds-quantity-toggle--label-mobile-font-size);
+    }
+    .quantity-value {
+      font-size: var(--krds-quantity-toggle--value-mobile-font-size);
+    }
+  }
+}

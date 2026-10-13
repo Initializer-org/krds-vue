@@ -91,6 +91,7 @@
 - 플로팅 버튼 `KrdsFloatingButton`: 단일형(`label`·`icon`·`@click`) 또는 확장형(`:items`, 3개 이하). 화면 오른쪽 아래에 하나만 둔다.
 - 토스트 `KrdsToast`: App.vue에 `<KrdsToast />`를 한 번 두고 `useToast().show('저장되었습니다.')` 또는 `useToast().warning('실패했습니다.')`로 띄운다(정보형 3초, 경고형 4초). 저장 완료 같은 한 줄 결과 알림에 쓰고 자동으로 사라진다.
 - 스낵바 `KrdsSnackbar`: App.vue에 `<KrdsSnackbar />`를 한 번 두고 `useSnackbar().show({ title, message, action, onAction })`로 띄운다. 되돌리기·다시 시도 같은 추가 행동 1개가 필요한 알림에 쓰고 한 페이지에 하나만 둔다. 입력 항목 오류는 토스트·스낵바 대신 `KrdsFormHint`로 알린다.
+- 수량 토글 `KrdsQuantityToggle`: `v-model`(숫자), `label`(필수, `KrdsFormLabel` 없이 자체 레이블), `:min`·`:max`. 범위는 기준값 포함 11단계 이내로 두고, 그보다 넓으면 `KrdsInput`을 쓴다. 세로형은 `vertical`.
 - 아이콘: `<KrdsIcon name="ico-..." />` 또는 `<i class="svg-icon ico-..."></i>`. 꾸밈용 아이콘은 화면낭독기가 읽지 않게 하고, 뜻이 있으면 옆에 글자나 숨김 텍스트를 둔다.
 
 ## 접근성
