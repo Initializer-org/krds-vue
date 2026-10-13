@@ -1,0 +1,77 @@
+@use '../common/include' as *;
+
+/* 접근 가능한 미디어 (KRDS 가이드에 도안이 없어 제목·재생기 폭·자막 모양만 정한다) */
+//사이즈 정의
+@mixin media-size-variable() {
+  --krds-media--gap: var(--krds-gap-3);
+  --krds-media--title-pc-font-size: var(--krds-pc-font-size-label-medium);
+  --krds-media--title-mobile-font-size: var(--krds-mobile-font-size-label-medium);
+}
+
+//컬러 정의
+@mixin media-color-variable($mode: light) {
+  --krds-media--color-title: var(--krds-#{$mode}-color-text-basic);
+  //자막: 반투명 검은 배경에 흰 글자 (KRDS 가이드)
+  --krds-media--color-cue: var(--krds-#{$mode}-color-text-inverse-static);
+  --krds-media--color-cue-background: var(--krds-#{$mode}-color-background-dim);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-media {
+  @include media-size-variable();
+  @include media-color-variable(#{$mode-setting});
+
+  @include flex-layout($ai: stretch, $fd: column);
+  gap: var(--krds-media--gap);
+
+  .media-title {
+    font-size: var(--krds-media--title-pc-font-size);
+    font-weight: var(--krds-font-weight-bold);
+    color: var(--krds-media--color-title);
+  }
+  .media-player {
+    video,
+    audio,
+    iframe {
+      display: block;
+    }
+    //width 속성을 준 video는 그 폭을 지키되 화면 폭을 넘지 않고 비율을 유지한다
+    video:not([width]),
+    audio,
+    iframe {
+      width: 100%;
+    }
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+    //유튜브 등 외부 재생기는 16:9 비율로 폭에 맞춘다
+    iframe {
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+    video::cue {
+      color: var(--krds-media--color-cue);
+      background-color: var(--krds-media--color-cue-background);
+    }
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-media {
+    @include media-color-variable(#{$mode-setting});
+  }
+}
+
+//responsive mobile
+@include size-medium {
+  .krds-media .media-title {
+    font-size: var(--krds-media--title-mobile-font-size);
+  }
+}

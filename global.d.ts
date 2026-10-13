@@ -39,6 +39,7 @@ declare module 'vue' {
     KrdsLink: (typeof import('@krds.ui/vue'))['KrdsLink']
     KrdsMainMenu: (typeof import('@krds.ui/vue'))['KrdsMainMenu']
     KrdsMasthead: (typeof import('@krds.ui/vue'))['KrdsMasthead']
+    KrdsMedia: (typeof import('@krds.ui/vue'))['KrdsMedia']
     KrdsModal: (typeof import('@krds.ui/vue'))['KrdsModal']
     KrdsPagination: (typeof import('@krds.ui/vue'))['KrdsPagination']
     KrdsPanel: (typeof import('@krds.ui/vue'))['KrdsPanel']
