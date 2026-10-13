@@ -1,0 +1,116 @@
+@use '../common/include' as *;
+
+/* 탭바 (KRDS 가이드: 좁은 화면의 하단 고정 탐색) */
+//사이즈 정의
+@mixin tab-bar-size-variable() {
+  --krds-tab-bar--height: var(--krds-size-height-10);
+  --krds-tab-bar--gap: var(--krds-gap-2);
+  --krds-tab-bar--indicator-size: 0.3rem;
+  --krds-tab-bar--icon-size: var(--krds-icon--size-large);
+  --krds-tab-bar--font-size: var(--krds-mobile-font-size-label-small);
+}
+
+//컬러 정의
+@mixin tab-bar-color-variable($mode: light) {
+  --krds-tab-bar--color-fill: var(--krds-#{$mode}-color-surface-white);
+  --krds-tab-bar--color-fill-hover: var(--krds-#{$mode}-color-action-secondary-hover);
+  --krds-tab-bar--color-fill-selected: var(--krds-#{$mode}-color-action-secondary-selected);
+  --krds-tab-bar--color-divider: var(--krds-#{$mode}-color-divider-secondary-light);
+  --krds-tab-bar--color-indicator: var(--krds-#{$mode}-color-border-secondary);
+  --krds-tab-bar--color-text: var(--krds-#{$mode}-color-text-subtle);
+  --krds-tab-bar--color-text-selected: var(--krds-#{$mode}-color-text-secondary);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-tab-bar {
+  @include tab-bar-size-variable();
+  @include tab-bar-color-variable(#{$mode-setting});
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  //본문·푸터(50)·플로팅 버튼(55) 위, 메뉴 가림막(60)·헤더(70)·모달(1000) 아래
+  z-index: 56;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 0.1rem solid var(--krds-tab-bar--color-divider);
+  background-color: var(--krds-tab-bar--color-fill);
+
+  ul {
+    display: flex;
+  }
+  //모든 메뉴를 같은 너비로 (KRDS 가이드)
+  li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .tab-bar-item {
+    position: relative;
+    @include flex-layout($ai: center, $jc: center, $fd: column);
+    gap: var(--krds-tab-bar--gap);
+    width: 100%;
+    height: var(--krds-tab-bar--height);
+    font-size: var(--krds-tab-bar--font-size);
+    color: var(--krds-tab-bar--color-text);
+    transition: var(--krds-transition-base);
+    .svg-icon {
+      @include square(var(--krds-tab-bar--icon-size));
+      background-color: currentColor;
+    }
+    &:hover {
+      background-color: var(--krds-tab-bar--color-fill-hover);
+    }
+    //이웃 메뉴·화면 끝에 붙어 있어 포커스 링을 안쪽에 그린다
+    &:focus {
+      @include focus();
+    }
+    //마우스·터치로 누른 메뉴에는 링을 그리지 않는다. 키보드 초점에만 표시
+    &:focus:not(:focus-visible) {
+      outline: 0;
+      box-shadow: none;
+    }
+    //선택된 메뉴: 배경·글자색·위쪽 인디케이터
+    &.active {
+      background-color: var(--krds-tab-bar--color-fill-selected);
+      color: var(--krds-tab-bar--color-text-selected);
+      font-weight: var(--krds-font-weight-bold);
+      &::before {
+        content: '';
+        position: absolute;
+        top: -0.1rem;
+        right: 0;
+        left: 0;
+        height: var(--krds-tab-bar--indicator-size);
+        background-color: var(--krds-tab-bar--color-indicator);
+      }
+    }
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-tab-bar {
+    @include tab-bar-color-variable(#{$mode-setting});
+  }
+}
+
+//넓은 화면은 메인 메뉴를 쓴다 (KRDS 가이드: 화면 너비가 충분하면 탭바를 쓰지 않음)
+@include size-large-more {
+  .krds-tab-bar {
+    display: none;
+  }
+}
+
+//고정된 탭바가 페이지 끝을 가리지 않게 아래 여백을 두고, 플로팅 버튼은 탭바 위로 올린다
+@include size-large-less {
+  body:has(.krds-tab-bar) {
+    padding-bottom: calc(var(--krds-size-height-10) + 0.1rem + env(safe-area-inset-bottom));
+    .krds-floating-button {
+      bottom: calc(var(--krds-size-height-10) + 0.1rem + env(safe-area-inset-bottom) + var(--krds-contents-padding-x));
+    }
+  }
+}

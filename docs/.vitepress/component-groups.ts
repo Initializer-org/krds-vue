@@ -1,4 +1,4 @@
-/** 컴포넌트 문서 분류: KRDS 공식 컴포넌트 분류 순서 (README 컴포넌트 범위 표와 같음), 마지막은 공식 목록 외 부가 컴포넌트 */
+/** 컴포넌트 문서 분류: KRDS 공식 컴포넌트 목록의 분류와 순서 (README 컴포넌트 범위 표와 같음), 마지막은 공식 목록 외 부가 컴포넌트 */
 export const componentGroups: { text: string; pages: [name: string, slug: string][] }[] = [
   {
     text: '아이덴티티',
@@ -17,8 +17,7 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
       ['브레드크럼 Breadcrumb', 'breadcrumb'],
       ['사이드 메뉴 Side navigation', 'side-navigation'],
       ['콘텐츠 내 탐색 In-page navigation', 'in-page-navigation'],
-      ['페이지네이션 Pagination', 'pagination'],
-      ['탭바 Tab bar', 'tab-bar']
+      ['페이지네이션 Pagination', 'pagination']
     ]
   },
   {
@@ -30,12 +29,11 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
       ['모달 Modal', 'modal'],
       ['배지 Badge', 'badge'],
       ['아코디언 Accordion', 'accordion'],
+      ['이미지 Image', 'image'],
       ['캐러셀 Carousel', 'carousel'],
       ['탭 Tab', 'tabs'],
       ['표 Table', 'table'],
-      ['텍스트 목록 Text list', 'text-list'],
-      ['이미지 Image', 'image'],
-      ['스플래시 스크린 Splash screen', 'splash-screen']
+      ['텍스트 목록 Text list', 'text-list']
     ]
   },
   {
@@ -53,17 +51,14 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
       ['체크박스 Checkbox', 'checkbox'],
       ['셀렉트 Select', 'select'],
       ['태그 Tag', 'tag'],
-      ['토글 스위치 Toggle switch', 'toggle-switch'],
-      ['수량 토글 Quantity toggle', 'quantity-toggle']
+      ['토글 스위치 Toggle switch', 'toggle-switch']
     ]
   },
   {
     text: '피드백',
     pages: [
       ['단계 표시기 Step indicator', 'step-indicator'],
-      ['스피너 Spinner', 'spinner'],
-      ['토스트 Toast', 'toast'],
-      ['스낵바 Snackbar', 'snackbar']
+      ['스피너 Spinner', 'spinner']
     ]
   },
   {
@@ -79,9 +74,9 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
   {
     text: '입력',
     pages: [
-      ['텍스트 입력 필드 Text input', 'input'],
-      ['텍스트 영역 Textarea', 'textarea'],
       ['날짜 입력 필드 Date input', 'date-input'],
+      ['텍스트 영역 Textarea', 'textarea'],
+      ['텍스트 입력 필드 Text input', 'input'],
       ['파일 업로드 File upload', 'file-upload']
     ]
   },
@@ -92,7 +87,20 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
       ['화면 크기 조정 Resize', 'resize']
     ]
   },
-  { text: '콘텐츠', pages: [['숨긴 콘텐츠 v-sr-only', 'sr-only']] },
+  {
+    text: '콘텐츠',
+    pages: [['숨긴 콘텐츠 v-sr-only', 'sr-only']]
+  },
+  {
+    text: '모바일',
+    pages: [
+      ['수량 토글 Quantity toggle', 'quantity-toggle'],
+      ['토스트 Toast', 'toast'],
+      ['스낵바 Snackbar', 'snackbar'],
+      ['탭바 Tab bar', 'tab-bar'],
+      ['스플래시 스크린 Splash screen', 'splash-screen']
+    ]
+  },
   {
     text: '부가 컴포넌트',
     pages: [

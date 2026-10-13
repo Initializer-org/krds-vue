@@ -52,6 +52,7 @@ declare module 'vue' {
     KrdsStep: (typeof import('@krds.ui/vue'))['KrdsStep']
     KrdsStepIndicator: (typeof import('@krds.ui/vue'))['KrdsStepIndicator']
     KrdsStructuredList: (typeof import('@krds.ui/vue'))['KrdsStructuredList']
+    KrdsTabBar: (typeof import('@krds.ui/vue'))['KrdsTabBar']
     KrdsTable: (typeof import('@krds.ui/vue'))['KrdsTable']
     KrdsTabs: (typeof import('@krds.ui/vue'))['KrdsTabs']
     KrdsTag: (typeof import('@krds.ui/vue'))['KrdsTag']

@@ -192,6 +192,10 @@ export type { KrdsLayoutProps, KrdsLayoutEmits, ScrollDetails, LayoutSize } from
 export { default as KrdsSideNavigation } from './KrdsSideNavigation'
 export type { KrdsSideNavigationProps, KrdsSideNavigationEmits, SideNavItem, SideNavSubItem, SideNavPopupItem } from './KrdsSideNavigation'
 
+// TabBar 컴포넌트
+export { default as KrdsTabBar } from './KrdsTabBar'
+export type { KrdsTabBarProps, KrdsTabBarItem } from './KrdsTabBar'
+
 // StructuredList 컴포넌트
 export { default as KrdsStructuredList } from './KrdsStructuredList'
 export type { KrdsStructuredListProps } from './KrdsStructuredList'

@@ -120,7 +120,7 @@
   "size-limit": [
     {
       "path": "dist/krds-vue.es.js",
-      "limit": "26 kB",
+      "limit": "27 kB",
       "rolldown": false
     },
     {
