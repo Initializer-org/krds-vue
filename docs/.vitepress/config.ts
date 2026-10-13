@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, postcssIsolateStyles } from 'vitepress'
 import type { HeadConfig, MarkdownRenderer } from 'vitepress'
-import { componentGroups } from './component-groups.ts'
+import { componentGroups, krdsGuides } from './component-groups.ts'
 import { cursorRule, writeAiFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
 
@@ -48,6 +48,29 @@ const docTabs = (md: MarkdownRenderer) => {
   })
 }
 
+/** 컴포넌트 문서의 설명 문단(KRDS 가이드 문장) 아래에 KRDS 공식 가이드 링크 칩을 넣는다 (component-groups.ts의 krdsGuides) */
+const krdsGuideLink = (md: MarkdownRenderer) => {
+  md.core.ruler.push('krds-guide-link', state => {
+    const guide = krdsGuides[/^components\/(.+)\.md$/.exec(state.env.relativePath ?? '')?.[1] ?? '']
+    if (!guide) return
+    const { tokens } = state
+    const h1 = tokens.findIndex(token => token.type === 'heading_close' && token.tag === 'h1')
+    const description = tokens.findIndex((token, index) => index > h1 && token.type === 'paragraph_close')
+    if (h1 < 0 || description < 0) return
+    const entries = Object.entries(guide)
+    // 가이드가 하나면 'KRDS 가이드', 여럿이면 가이드 이름 (화면낭독기에는 'KRDS'를 붙여 읽힌다)
+    const links = entries.map(
+      ([name, code]) =>
+        `<a class="vp-external-link-icon" href="https://www.krds.go.kr/html/site/component/component_${code}.html" target="_blank" rel="noreferrer" title="새 창 열림">${entries.length > 1 ? `<span class="sr-only">KRDS </span>${name}` : 'KRDS 가이드'}</a>`
+    )
+    tokens.splice(
+      description + 1,
+      0,
+      Object.assign(new state.Token('html_block', '', 0), { content: `<p class="krds-guides">${links.join('')}</p>\n` })
+    )
+  })
+}
+
 export default defineConfig({
   lang: 'ko-KR',
   title: 'KRDS Vue',
@@ -55,7 +78,12 @@ export default defineConfig({
   cleanUrls: true,
   // public/ai/guidelines.md는 AI 지침 원본 파일이지 문서 페이지가 아니다 (중복 페이지·사이트맵 노출 방지)
   srcExclude: ['public/**'],
-  markdown: { config: docTabs },
+  markdown: {
+    config: md => {
+      krdsGuideLink(md)
+      docTabs(md)
+    }
+  },
   // 페이지 수정일 표시와 사이트맵 lastmod (배포 워크플로는 전체 히스토리로 체크아웃)
   lastUpdated: true,
   sitemap: {

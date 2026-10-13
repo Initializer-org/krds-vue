@@ -102,3 +102,58 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
     ]
   }
 ]
+
+/**
+ * 문서 페이지별 KRDS 공식 가이드 번호 (https://www.krds.go.kr/html/site/component/component_<번호>.html).
+ * { KRDS 공식 이름: 번호 }, 한 페이지가 공식 가이드 여럿을 다루면 여러 개
+ */
+export const krdsGuides: Record<string, Record<string, string>> = {
+  masthead: { '공식 배너': '02_01' },
+  identifier: { '운영기관 식별자': '02_02' },
+  header: { 헤더: '02_03' },
+  footer: { 푸터: '02_04' },
+  'skip-link': { '건너뛰기 링크': '03_01' },
+  'main-menu': { '메인 메뉴': '03_02' },
+  breadcrumb: { 브레드크럼: '03_03' },
+  'side-navigation': { '사이드 메뉴': '03_04' },
+  'in-page-navigation': { '콘텐츠 내 탐색': '03_05' },
+  pagination: { 페이지네이션: '03_06' },
+  'tab-bar': { 탭바: '12_07' },
+  'structured-list': { '구조화 목록': '04_01' },
+  'critical-alerts': { '긴급 공지': '04_02' },
+  disclosure: { 디스클로저: '04_04' },
+  modal: { 모달: '04_05', 바텀시트: '12_03' },
+  badge: { 배지: '04_06' },
+  accordion: { 아코디언: '04_07' },
+  carousel: { 캐러셀: '04_09' },
+  tabs: { 탭: '04_10' },
+  table: { 표: '04_11' },
+  'text-list': { '텍스트 목록': '04_13' },
+  image: { 이미지: '04_08' },
+  'splash-screen': { '스플래시 스크린': '12_08' },
+  link: { 링크: '05_01' },
+  button: { 버튼: '05_02' },
+  'floating-button': { '플로팅 버튼': '05_03' },
+  radio: { '라디오 버튼': '06_01' },
+  checkbox: { 체크박스: '06_02' },
+  select: { 셀렉트: '06_03' },
+  tag: { 태그: '06_04' },
+  'toggle-switch': { '토글 스위치': '06_07' },
+  'quantity-toggle': { '수량 토글': '12_04' },
+  'step-indicator': { '단계 표시기': '07_01' },
+  spinner: { 스피너: '07_02' },
+  toast: { 토스트: '12_05' },
+  snackbar: { 스낵바: '12_06' },
+  panel: { '도움 패널': '08_01', '따라하기 패널': '08_02' },
+  'contextual-help': { '맥락적 도움말': '08_03' },
+  'coach-mark': { 코치마크: '08_04' },
+  tooltip: { 툴팁: '08_05' },
+  tts: { 음성지원: '08_06' },
+  input: { '텍스트 입력 필드': '09_03' },
+  textarea: { '텍스트 영역': '09_02' },
+  'date-input': { '날짜 입력 필드': '09_01', 달력: '04_03' },
+  'file-upload': { '파일 업로드': '09_04' },
+  'language-switcher': { '언어 변경': '10_01' },
+  resize: { '화면 크기 조정': '10_02' },
+  'sr-only': { '숨긴 콘텐츠': '11_02' }
+}
