@@ -95,6 +95,7 @@
 - 범위슬라이드 `KrdsRangeSlider`: `v-model`(숫자), `label`(필수), `:min`·`:max`·`:step`(단계는 범위의 10~20%), `:value-text="v => ..."`로 값을 글자로 표시(화면낭독기도 읽음). 볼륨·글자 크기처럼 상대적인 값에 쓰고, 정확한 수치는 `KrdsInput`으로 받는다.
 - 수량 토글 `KrdsQuantityToggle`: `v-model`(숫자), `label`(필수, `KrdsFormLabel` 없이 자체 레이블), `:min`·`:max`. 범위는 기준값 포함 11단계 이내로 두고, 그보다 넓으면 `KrdsInput`을 쓴다. 세로형은 `vertical`.
 - 이미지 `KrdsImage`: `src`, `alt`(필수). 정보 이미지는 전하는 내용을 구체적으로 쓰고 '이미지'·'사진' 같은 말은 붙이지 않는다. 장식 이미지는 `alt=""`. 설명·출처는 `caption`(또는 `#caption` 슬롯)에 넣는다. 글자는 이미지로 만들지 않는다.
+- 접근 가능한 미디어 `KrdsMedia`: 동영상·음성은 `<video>` 대신 `<KrdsMedia src title captions>`로 넣고, 원고를 `#transcript` 슬롯에 넣는다(최소한 원고는 제공). 음성은 `audio`, 유튜브는 `src` 없이 슬롯에 `title` 단 `<iframe>`. 자동 재생하지 않는다.
 - 아이콘: `<KrdsIcon name="ico-..." />` 또는 `<i class="svg-icon ico-..."></i>`. 꾸밈용 아이콘은 화면낭독기가 읽지 않게 하고, 뜻이 있으면 옆에 글자나 숨김 텍스트를 둔다.
 
 ## 접근성

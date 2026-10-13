@@ -188,6 +188,10 @@ export type { KrdsDisclosureProps, KrdsDisclosureEmits } from './KrdsDisclosure'
 export { default as KrdsIdentifier } from './KrdsIdentifier'
 export type { KrdsIdentifierProps, KrdsIdentifierEmits } from './KrdsIdentifier'
 
+// Media 컴포넌트
+export { default as KrdsMedia } from './KrdsMedia'
+export type { KrdsMediaProps } from './KrdsMedia'
+
 // Image 컴포넌트
 export { default as KrdsImage } from './KrdsImage'
 export type { KrdsImageProps } from './KrdsImage'

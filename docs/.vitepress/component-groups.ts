@@ -89,7 +89,10 @@ export const componentGroups: { text: string; pages: [name: string, slug: string
   },
   {
     text: '콘텐츠',
-    pages: [['숨긴 콘텐츠 v-sr-only', 'sr-only']]
+    pages: [
+      ['접근 가능한 미디어 Accessible multimedia', 'media'],
+      ['숨긴 콘텐츠 v-sr-only', 'sr-only']
+    ]
   },
   {
     text: '모바일',
@@ -165,5 +168,6 @@ export const krdsGuides: Record<string, Record<string, string>> = {
   'file-upload': { '파일 업로드': '09_04' },
   'language-switcher': { '언어 변경': '10_01' },
   resize: { '화면 크기 조정': '10_02' },
+  media: { '접근 가능한 미디어': '11_01' },
   'sr-only': { '숨긴 콘텐츠': '11_02' }
 }
