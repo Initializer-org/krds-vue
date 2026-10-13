@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.0.24](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.23...@krds.ui/vue-v0.0.24) (2026-10-13)
+
+
+### Features
+
+* WebStorm용 web-types로 전역 컴포넌트 인식, pnpm 12 업그레이드, 예제 임시 저장 토스트 ([#288](https://github.com/Initializer-org/krds-vue/issues/288)) ([ca3825d](https://github.com/Initializer-org/krds-vue/commit/ca3825d9e206b83722dbe44851c9a9eff9eafff5))
+* 수량 토글·탭바·범위슬라이드·이미지 추가, 컴포넌트 분류를 KRDS 공식 목록과 같게, 문서에 KRDS 가이드 링크 ([#291](https://github.com/Initializer-org/krds-vue/issues/291)) ([bebcfb3](https://github.com/Initializer-org/krds-vue/commit/bebcfb37e873d7074ec6ce24b4d8c68d16acef18))
+* 접근 가능한 미디어 추가, 문서 사이트 새 창 링크 ↗ 표시, 쓰이지 않던 설치 로그 삭제 ([#293](https://github.com/Initializer-org/krds-vue/issues/293)) ([4aee58a](https://github.com/Initializer-org/krds-vue/commit/4aee58a5b3ec56875a76970bf9fdd98704e09f8f))
+
+
+### Bug Fixes
+
+* pnpm 9 이하(StackBlitz 등)에서 예제 설치가 'packages field missing or empty'로 실패하던 문제 ([#289](https://github.com/Initializer-org/krds-vue/issues/289)) ([926bcc2](https://github.com/Initializer-org/krds-vue/commit/926bcc22ca051f277717c4d8accfe54a039bfe7e))
+
 ## [0.0.23](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.22...@krds.ui/vue-v0.0.23) (2026-10-12)
 
 
