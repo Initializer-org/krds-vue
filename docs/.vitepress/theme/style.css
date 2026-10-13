@@ -122,6 +122,47 @@ body:has(.Layout) {
   border-top: 0;
 }
 
+/* VitePress가 h2 위 여백(24px)만큼 내린 앵커(#)를 제목 줄로 되돌린다 */
+.vp-doc .doc-tabs [role='tabpanel'] > h2:first-child .header-anchor {
+  top: 0;
+}
+
+/* KRDS 공식 가이드 링크 칩 (설명 문단 아래, config.ts krdsGuideLink) */
+.vp-doc .krds-guides {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vp-doc .krds-guides a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 6px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.vp-doc .krds-guides a:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+/* KRDS 로고(엠블럼 + 글자)에서 왼쪽 엠블럼만 보인다 */
+.vp-doc .krds-guides a::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('@krds-assets/img/component/icon/ico_logo_krds.svg') left center / auto 100% no-repeat;
+}
+
 /* 홈 컴포넌트 미리보기 (HomeShowcase): 3열, 1024px 미만은 1열 */
 .showcase {
   display: flex;

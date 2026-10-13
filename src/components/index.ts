@@ -81,6 +81,14 @@ export type { KrdsMastheadProps, KrdsMastheadEmits } from './KrdsMasthead'
 export { default as KrdsToggleSwitch } from './KrdsToggleSwitch'
 export type { KrdsToggleSwitchProps, KrdsToggleSwitchEmits } from './KrdsToggleSwitch'
 
+// RangeSlider 컴포넌트
+export { default as KrdsRangeSlider } from './KrdsRangeSlider'
+export type { KrdsRangeSliderProps, KrdsRangeSliderEmits, KrdsRangeSliderValuePosition } from './KrdsRangeSlider'
+
+// QuantityToggle 컴포넌트
+export { default as KrdsQuantityToggle } from './KrdsQuantityToggle'
+export type { KrdsQuantityToggleProps, KrdsQuantityToggleEmits } from './KrdsQuantityToggle'
+
 // CheckArea 컴포넌트
 export { default as KrdsCheckArea } from './KrdsCheckArea'
 export type { KrdsCheckAreaProps } from './KrdsCheckArea'
@@ -180,6 +188,10 @@ export type { KrdsDisclosureProps, KrdsDisclosureEmits } from './KrdsDisclosure'
 export { default as KrdsIdentifier } from './KrdsIdentifier'
 export type { KrdsIdentifierProps, KrdsIdentifierEmits } from './KrdsIdentifier'
 
+// Image 컴포넌트
+export { default as KrdsImage } from './KrdsImage'
+export type { KrdsImageProps } from './KrdsImage'
+
 // Layout 컴포넌트
 export { default as KrdsLayout } from './KrdsLayout'
 export type { KrdsLayoutProps, KrdsLayoutEmits, ScrollDetails, LayoutSize } from './KrdsLayout'
@@ -187,6 +199,10 @@ export type { KrdsLayoutProps, KrdsLayoutEmits, ScrollDetails, LayoutSize } from
 // SideNavigation 컴포넌트
 export { default as KrdsSideNavigation } from './KrdsSideNavigation'
 export type { KrdsSideNavigationProps, KrdsSideNavigationEmits, SideNavItem, SideNavSubItem, SideNavPopupItem } from './KrdsSideNavigation'
+
+// TabBar 컴포넌트
+export { default as KrdsTabBar } from './KrdsTabBar'
+export type { KrdsTabBarProps, KrdsTabBarItem } from './KrdsTabBar'
 
 // StructuredList 컴포넌트
 export { default as KrdsStructuredList } from './KrdsStructuredList'

@@ -1,0 +1,201 @@
+@use '../common/include' as *;
+
+/* 범위 슬라이더 (KRDS 가이드 도안: 레이블·트랙·핸들·선택 값·범위 값) */
+//사이즈 정의
+@mixin range-slider-size-variable() {
+  //레이블과 슬라이더 사이 (말풍선 자리가 따로 있어 좁게, 끝 표시형은 넓게)
+  --krds-range-slider--gap: var(--krds-gap-2);
+  //핸들 지름 (KRDS 가이드 도안 실측)
+  --krds-range-slider--thumb-size: 2.6rem;
+  --krds-range-slider--thumb-border: 0.2rem;
+  --krds-range-slider--track-size: var(--krds-size-height-1);
+  --krds-range-slider--tick-size: 0.1rem;
+  //핸들 위 말풍선 자리 (말풍선 + 화살표 + 핸들과의 간격)
+  --krds-range-slider--bubble-space: 3rem;
+  //핸들 줄 위 여백 (말풍선형만 말풍선 자리)
+  --krds-range-slider--field-offset: 0rem;
+  --krds-range-slider--bubble-padding-x: var(--krds-padding-2);
+  --krds-range-slider--bubble-radius: var(--krds-radius-small3);
+  --krds-range-slider--bubble-arrow: 0.5rem;
+  --krds-range-slider--font-size: var(--krds-pc-font-size-label-small);
+  --krds-range-slider--value-end-font-size: var(--krds-pc-font-size-label-large);
+}
+
+//컬러 정의
+@mixin range-slider-color-variable($mode: light) {
+  --krds-range-slider--color-label: var(--krds-#{$mode}-color-text-bolder);
+  --krds-range-slider--color-limit: var(--krds-#{$mode}-color-text-subtle);
+  --krds-range-slider--color-track: var(--krds-#{$mode}-color-element-gray-light);
+  --krds-range-slider--color-fill: var(--krds-#{$mode}-color-element-primary);
+  --krds-range-slider--color-tick: var(--krds-#{$mode}-color-border-gray-light);
+  --krds-range-slider--color-thumb: var(--krds-#{$mode}-color-surface-white);
+  --krds-range-slider--color-thumb-border: var(--krds-#{$mode}-color-border-gray-light);
+  --krds-range-slider--color-bubble: var(--krds-#{$mode}-color-surface-inverse);
+  --krds-range-slider--color-bubble-text: var(--krds-#{$mode}-color-text-basic-inverse);
+  --krds-range-slider--color-value: var(--krds-#{$mode}-color-text-basic);
+}
+
+@mixin range-slider-thumb() {
+  box-sizing: border-box;
+  width: var(--krds-range-slider--thumb-size);
+  height: var(--krds-range-slider--thumb-size);
+  border: var(--krds-range-slider--thumb-border) solid var(--krds-range-slider--color-thumb-border);
+  border-radius: 50%;
+  background-color: var(--krds-range-slider--color-thumb);
+}
+
+//키보드 초점: KRDS 포커스(흰 테두리 + 파란 링)를 핸들 둘레에
+@mixin range-slider-thumb-focus() {
+  box-shadow:
+    0 0 0 0.2rem var(--krds-light-color-border-inverse),
+    var(--krds-box-shadow-outline);
+}
+
+//모드 설정
+$mode-setting: light;
+
+.krds-range-slider {
+  @include range-slider-size-variable();
+  @include range-slider-color-variable(#{$mode-setting});
+  //핸들 중심이 움직이는 구간: 양 끝에서 핸들 반지름만큼 안쪽
+  --krds-range-slider--position: calc(
+    var(--krds-range-slider--thumb-size) / 2 + var(--krds-range-slider--percent) * (100% - var(--krds-range-slider--thumb-size))
+  );
+
+  @include flex-layout($ai: stretch, $fd: column);
+  gap: var(--krds-range-slider--gap);
+  font-size: var(--krds-range-slider--font-size);
+
+  .range-label {
+    color: var(--krds-range-slider--color-label);
+  }
+  .range-field {
+    position: relative;
+    padding-top: var(--krds-range-slider--field-offset);
+  }
+  .range-track {
+    position: absolute;
+    top: calc(var(--krds-range-slider--field-offset) + (var(--krds-range-slider--thumb-size) - var(--krds-range-slider--track-size)) / 2);
+    right: 0;
+    left: 0;
+    height: var(--krds-range-slider--track-size);
+    border-radius: var(--krds-radius-max);
+    background-color: var(--krds-range-slider--color-track);
+    overflow: hidden;
+  }
+  //핸들 중심까지 채운다
+  .range-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--krds-range-slider--position);
+    background-color: var(--krds-range-slider--color-fill);
+  }
+  .range-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--krds-range-slider--thumb-size) / 2 + var(--krds-range-slider--tick) * (100% - var(--krds-range-slider--thumb-size)));
+    width: var(--krds-range-slider--tick-size);
+    background-color: var(--krds-range-slider--color-tick);
+  }
+  //조작은 기본 range 입력이 맡고, 트랙은 투명하게 두어 위의 트랙·채움·눈금을 보인다
+  .range-input {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: var(--krds-range-slider--thumb-size);
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    &::-webkit-slider-runnable-track {
+      height: 100%;
+      background: transparent;
+    }
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      @include range-slider-thumb();
+    }
+    &::-moz-range-track {
+      background: transparent;
+    }
+    &::-moz-range-thumb {
+      @include range-slider-thumb();
+    }
+    &:focus {
+      outline: 0;
+      box-shadow: none;
+    }
+    &:focus-visible::-webkit-slider-thumb {
+      @include range-slider-thumb-focus();
+    }
+    &:focus-visible::-moz-range-thumb {
+      @include range-slider-thumb-focus();
+    }
+  }
+  //범위 값은 핸들 아래 여백에 살짝 걸치게 올린다 (KRDS 가이드 도안)
+  .range-limits {
+    @include flex-layout($jc: space-between);
+    margin-top: -0.3rem;
+    color: var(--krds-range-slider--color-limit);
+  }
+
+  //선택 값: 핸들 위 가운데 말풍선 (양 끝에서 글자가 길면 슬라이더 밖으로 나갈 수 있음)
+  &.value-handle {
+    --krds-range-slider--field-offset: var(--krds-range-slider--bubble-space);
+    .range-value {
+      position: absolute;
+      top: 0;
+      left: var(--krds-range-slider--position);
+      transform: translateX(-50%);
+      padding: 0 var(--krds-range-slider--bubble-padding-x);
+      border-radius: var(--krds-range-slider--bubble-radius);
+      background-color: var(--krds-range-slider--color-bubble);
+      color: var(--krds-range-slider--color-bubble-text);
+      font-weight: var(--krds-font-weight-bold);
+      white-space: nowrap;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: var(--krds-range-slider--bubble-arrow) solid transparent;
+        border-top-color: var(--krds-range-slider--color-bubble);
+        border-bottom: 0;
+      }
+    }
+  }
+
+  //선택 값: 슬라이더 끝 (트랙과 같은 높이)
+  &.value-end {
+    --krds-range-slider--gap: var(--krds-gap-4);
+    .range-body {
+      @include flex-layout($ai: flex-start);
+      gap: var(--krds-gap-5);
+    }
+    .range-field {
+      flex: 1;
+      min-width: 0;
+    }
+    .range-value {
+      line-height: var(--krds-range-slider--thumb-size);
+      font-size: var(--krds-range-slider--value-end-font-size);
+      font-weight: var(--krds-font-weight-bold);
+      color: var(--krds-range-slider--color-value);
+      white-space: nowrap;
+    }
+  }
+}
+
+//고대비모드
+@include color-mode($mode: high-contrast) {
+  //모드 설정
+  $mode-setting: high-contrast;
+  .krds-range-slider {
+    @include range-slider-color-variable(#{$mode-setting});
+  }
+}

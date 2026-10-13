@@ -9,8 +9,10 @@
 @use 'toast';
 @use 'snackbar';
 @use 'tab';
+@use 'tab_bar';
 @use 'table';
 @use 'text_list';
+@use 'image';
 @use 'modal';
 @use 'help_panel';
 @use 'accordion';
@@ -42,6 +44,8 @@
 @use 'form_check';
 @use 'form_chip';
 @use 'switch';
+@use 'quantity_toggle';
+@use 'range_slider';
 @use 'calendar';
 @use 'resize';
 @use 'language_switcher';
