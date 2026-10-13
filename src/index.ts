@@ -68,12 +68,6 @@ const KrdsVue: Plugin<[KrdsVueOptions?]> = {
     app.config.globalProperties.$krds = {
       version: krdsVersion
     }
-
-    // 개발 모드에서 설치 로그
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.log(`[KRDS Vue] v${krdsVersion} 설치 완료 - 컴포넌트: ${componentsToInstall.length}개`)
-    }
   }
 }
 

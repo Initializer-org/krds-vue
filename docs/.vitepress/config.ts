@@ -61,7 +61,7 @@ const krdsGuideLink = (md: MarkdownRenderer) => {
     // 가이드가 하나면 'KRDS 가이드', 여럿이면 가이드 이름 (화면낭독기에는 'KRDS'를 붙여 읽힌다)
     const links = entries.map(
       ([name, code]) =>
-        `<a class="vp-external-link-icon" href="https://www.krds.go.kr/html/site/component/component_${code}.html" target="_blank" rel="noreferrer" title="새 창 열림">${entries.length > 1 ? `<span class="sr-only">KRDS </span>${name}` : 'KRDS 가이드'}</a>`
+        `<a href="https://www.krds.go.kr/html/site/component/component_${code}.html" target="_blank" rel="noreferrer" title="새 창 열림">${entries.length > 1 ? `<span class="sr-only">KRDS </span>${name}` : 'KRDS 가이드'}</a>`
     )
     tokens.splice(
       description + 1,
@@ -165,6 +165,8 @@ export default defineConfig({
   },
   themeConfig: {
     logo: { src: '/favicon.svg', alt: '' },
+    // 새 창으로 여는 본문 링크에 ↗ 표시 (예제 영역 .vp-raw는 격리돼 붙지 않음)
+    externalLinkIcon: true,
     nav: [
       { text: '시작하기', link: '/guide/getting-started' },
       { text: '컴포넌트', link: '/components/' },
