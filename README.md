@@ -70,7 +70,7 @@ Vue `^3.5.0`과 ESM을 지원하는 번들러가 필요합니다(CommonJS `requi
 ## 버전 정책
 
 - 시맨틱 버저닝을 따르며, [release-please](https://github.com/googleapis/release-please)가 Conventional Commits로 릴리스 PR을 만들고 머지되면 npm에 배포합니다. 변경 이력은 [CHANGELOG](./CHANGELOG.md)에 있습니다.
-- [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0(2025-06-03 커밋 `d6bb184`)을 기준으로 합니다. 원본을 반영하면서 마크업·클래스 구조가 바뀌어 호환성이 깨지면 메이저 버전으로만 배포하고 CHANGELOG에 마이그레이션 노트를 남깁니다.
+- [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0(2026-01-12 커밋 `d6bb184`)을 기준으로 합니다. 원본을 반영하면서 마크업·클래스 구조가 바뀌어 호환성이 깨지면 메이저 버전으로만 배포하고 CHANGELOG에 마이그레이션 노트를 남깁니다.
 
 ## 기여하기
 
