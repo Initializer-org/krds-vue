@@ -462,7 +462,8 @@ describe('KrdsMainMenu', () => {
     await waitFor(() => expect(depth3Wrap).toBeVisible())
 
     // 4depth: 열면 이전화면 버튼으로 포커스 이동
-    const depth4Trigger = screen.getByRole('link', { name: '직업 훈련' })
+    // 링크도 transition이 걸려 있어 래퍼가 보인 직후 잠깐 상속받은 visibility가 hidden이므로 기다린다
+    const depth4Trigger = await screen.findByRole('link', { name: '직업 훈련' })
     const depth4Wrap = depth4Trigger.nextElementSibling as HTMLElement
     const prevButton = depth4Wrap.querySelector('.trigger-prev') as HTMLElement
     expect(depth4Trigger).toHaveAttribute('aria-expanded', 'false')
