@@ -164,7 +164,7 @@ export default defineConfig({
     ]
   },
   themeConfig: {
-    logo: { src: '/favicon.svg', alt: '' },
+    logo: { light: '/logo.svg', dark: '/logo-dark.svg', alt: '' },
     // 새 창으로 여는 본문 링크에 ↗ 표시 (예제 영역 .vp-raw는 격리돼 붙지 않음)
     externalLinkIcon: true,
     nav: [
