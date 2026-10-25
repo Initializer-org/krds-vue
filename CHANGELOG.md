@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.0.0](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.24...@krds.ui/vue-v1.0.0) (2026-10-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* 쓰이지 않던 deprecated 타입 13개(Alignment, Direction, Position, IconProps, LoadingProps, ComponentSlots, KrdsComponent, Optional, RequiredKeys, CSSCustomProperties, ResponsiveValue, ComponentState, InputState)를 삭제했습니다. 가져다 쓰고 있었다면 프로젝트에 같은 정의를 직접 두세요. 또한 engines.node가 >=22.0.0으로 바뀌었습니다.
+
+### Features
+
+* 1.0.0 릴리스, 쓰이지 않던 deprecated 타입 13개 삭제와 Node.js 22 이상 요구 ([#304](https://github.com/Initializer-org/krds-vue/issues/304)) ([a7ae078](https://github.com/Initializer-org/krds-vue/commit/a7ae078313ade680729976b9cd15b8bcdf9c8820))
+
+
+### Chores
+
+* **deps:** 개발 의존성 업데이트와 보안 권고 해결, 메인 메뉴 드로어 테스트가 CI에서 가끔 실패하던 문제 ([#300](https://github.com/Initializer-org/krds-vue/issues/300)) ([c9f93db](https://github.com/Initializer-org/krds-vue/commit/c9f93db61f586170696d795e8b991d0bf558b632))
+
+
+### Documentation
+
+* README를 문서 사이트 안내 중심으로 줄이고 새 로고·배너·미리보기 이미지 추가, 쓰이지 않던 설정 정리 ([#303](https://github.com/Initializer-org/krds-vue/issues/303)) ([39203bf](https://github.com/Initializer-org/krds-vue/commit/39203bfa4604be16af361c09616bee746b2b103a))
+
 ## [0.0.24](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.23...@krds.ui/vue-v0.0.24) (2026-10-13)
 
 
