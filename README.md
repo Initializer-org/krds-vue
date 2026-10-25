@@ -1,56 +1,52 @@
-# KRDS Vue
+<p align="center">
+  <a href="https://krds.initializer.org/">
+    <img src="./.github/assets/banner.jpg" alt="KRDS Vue" />
+  </a>
+</p>
 
-> 대한민국 정부 디자인 시스템(KRDS)을 Vue 3 + TypeScript로 구현한 컴포넌트 라이브러리
+<div align="center">
 
 [![npm version](https://img.shields.io/npm/v/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
+[![npm downloads](https://img.shields.io/npm/dm/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
 [![CI](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml/badge.svg)](https://github.com/Initializer-org/krds-vue/actions/workflows/ci.yml)
+[![types](https://img.shields.io/npm/types/@krds.ui/vue.svg)](https://www.npmjs.com/package/@krds.ui/vue)
+[![vue](https://img.shields.io/npm/dependency-version/@krds.ui/vue/peer/vue.svg)](https://vuejs.org/)
+[![KRDS](https://img.shields.io/badge/KRDS-v1.1.0-256ef4.svg)](https://github.com/KRDS-uiux/krds-uiux)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-KRDS Vue는 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이아웃, 피드백 UI를 일관된 Vue 컴포넌트로 제공하는 라이브러리입니다. KRDS 디자인 토큰과 컴포넌트 스타일을 기반으로 하며, Vue 3 애플리케이션에서 전역 플러그인 또는 개별 컴포넌트 import 방식으로 사용할 수 있습니다.
+</div>
 
-이 패키지는 **ESM 전용**입니다. CommonJS `require()`는 지원하지 않습니다.
+<hr />
+<div align="center">
 
-## 링크
+<a href="https://krds.initializer.org/">문서</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://krds.initializer.org/guide/getting-started">시작하기</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://krds.initializer.org/components/">컴포넌트</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://krds.initializer.org/playground">플레이그라운드</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://krds.initializer.org/guide/ai">AI로 개발하기</a>
 
-- [문서 사이트](https://krds.initializer.org/) - 컴포넌트 예제, 코드, API(props·events·slots) 문서
-- [npm 패키지](https://www.npmjs.com/package/@krds.ui/vue)
-- [GitHub 저장소](https://github.com/Initializer-org/krds-vue)
-- [KRDS 공식 홈페이지](https://www.krds.go.kr/html/site/index.html)
+</div>
+<hr />
 
-## 특징
+## KRDS Vue: 대한민국 정부 디자인 시스템을 Vue 3로
 
-- **Vue 3 + TypeScript**: Vue 3.5 이상과 타입 정의를 지원합니다.
-- **ESM-only 배포**: modern bundler 환경에 맞춘 ESM 산출물만 제공합니다.
-- **KRDS 공식 컴포넌트 대응**: [공식 컴포넌트 55종](https://www.krds.go.kr/html/site/component/component_summary.html) 중 52종을 제공하며, 폼 레이아웃·아이콘 등 부가 컴포넌트를 포함해 총 58개 컴포넌트를 제공합니다.
-- **플러그인/개별 import 지원**: 전체 전역 등록 또는 필요한 컴포넌트만 import할 수 있습니다.
-- **KRDS 스타일/토큰 포함**: 패키지 스타일 엔트리에서 토큰, 폰트, 컴포넌트 CSS를 함께 제공합니다.
-- **접근성 고려**: 키보드 조작, ARIA 속성, 포커스 스타일, 고대비 모드를 고려해 구현합니다.
-- **SSR 친화적 ID 생성**: 내부 ID가 필요한 컴포넌트는 Vue의 ID 생성 흐름을 따릅니다.
+[KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html)를 Vue 3 + TypeScript로 구현한 컴포넌트 라이브러리입니다. 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이아웃, 피드백 UI를 KRDS 원본과 같은 모습과 동작으로 제공합니다.
 
-## 설치
+- **KRDS 원본 그대로.** KRDS 원본 저장소 v1.1.0의 마크업·클래스·키보드 동작을 기준으로 포팅했습니다. [공식 컴포넌트 55종](https://www.krds.go.kr/html/site/component/component_summary.html) 중 52종을 포함해 58개 컴포넌트를 제공합니다.
+- **접근성 자동 검사.** 모든 컴포넌트 테스트가 실제 브라우저에서 axe-core 접근성 검사를 실행하고, 위반이 있으면 CI가 실패합니다. 고대비 모드를 지원합니다.
+- **필요한 만큼만.** ESM·Tree-shaking으로 쓰는 컴포넌트만 번들에 포함됩니다. TypeScript 타입 정의와 Nuxt 서버 렌더링을 지원합니다.
 
-```bash
-# pnpm
-pnpm add @krds.ui/vue
-
-# npm
-npm install @krds.ui/vue
-
-# yarn
-yarn add @krds.ui/vue
-```
+[![KRDS Vue 컴포넌트로 만든 민원 신청 화면 예시: 텍스트 입력 필드, 셀렉트, 날짜 입력 필드, 버튼, 단계 표시기, 배지, 라디오 버튼, 파일 업로드](./.github/assets/showcase.png)](https://krds.initializer.org/)
 
 ## 빠른 시작
 
-### 1. 스타일 import
-
-애플리케이션 엔트리에서 스타일을 한 번 import합니다. CSS 안의 아이콘 URL은 패키지의 `dist/img` 자산을 기준으로 상대 경로를 사용합니다.
-
-```ts
-import '@krds.ui/vue/style'
+```bash
+pnpm add @krds.ui/vue
 ```
-
-### 2. 전역 플러그인 등록
 
 ```ts
 import { createApp } from 'vue'
@@ -61,222 +57,28 @@ import App from './App.vue'
 createApp(App).use(KrdsVue).mount('#app')
 ```
 
-특정 컴포넌트만 전역 등록할 수도 있습니다.
+Vue `^3.5.0`과 ESM을 지원하는 번들러가 필요합니다(CommonJS `require()`는 지원하지 않음). 개별 import, Nuxt, 전역 타입, 테마, 브라우저 지원은 [시작하기](https://krds.initializer.org/guide/getting-started)를 참고하세요.
 
-```ts
-app.use(KrdsVue, {
-  components: ['KrdsButton', 'KrdsInput', 'KrdsModal']
-})
-```
+위 설정을 담은 Vite 예제가 [`examples/vite`](./examples/vite)에 있습니다.
 
-전역 등록한 컴포넌트의 템플릿 타입 검사·자동완성(Volar/vue-tsc)을 쓰려면 `tsconfig.json`에 전역 타입을 추가합니다. 전체 컴포넌트와 `v-sr-only`, `$krds`가 전역으로 선언되므로 일부만 등록했다면 등록하지 않은 컴포넌트 사용에 주의하세요.
-
-```json
-{
-  "compilerOptions": {
-    "types": ["@krds.ui/vue/global"]
-  }
-}
-```
-
-WebStorm 등 JetBrains IDE는 이 설정 대신 패키지에 든 `web-types.json`으로 전역 컴포넌트를 인식하므로 따로 설정할 것이 없습니다.
-
-### 3. 개별 컴포넌트 import
-
-전역 등록이 필요 없다면 필요한 컴포넌트만 가져옵니다.
-
-```vue
-<script setup lang="ts">
-  import { ref } from 'vue'
-  import { KrdsButton, KrdsFormGroup, KrdsFormLabel, KrdsInput } from '@krds.ui/vue'
-
-  const name = ref('')
-</script>
-
-<template>
-  <KrdsFormGroup>
-    <KrdsFormLabel for="name">이름</KrdsFormLabel>
-    <KrdsInput id="name" v-model="name" placeholder="이름을 입력하세요" required />
-  </KrdsFormGroup>
-
-  <KrdsButton variant="primary" size="medium">확인</KrdsButton>
-</template>
-```
-
-### 4. Nuxt
-
-서버 렌더링을 지원합니다. 스타일은 `nuxt.config.ts`에 추가하고, 플러그인에서 등록합니다.
-
-```ts
-// nuxt.config.ts
-export default defineNuxtConfig({
-  css: ['@krds.ui/vue/style']
-})
-```
-
-```ts
-// plugins/krds.ts (Nuxt 4 기본 구조에서는 app/plugins/krds.ts)
-import KrdsVue from '@krds.ui/vue'
-
-export default defineNuxtPlugin(nuxtApp => {
-  nuxtApp.vueApp.use(KrdsVue)
-})
-```
-
-Nuxt는 tsconfig를 자동 생성하므로, 전역 타입은 프로젝트의 `.d.ts` 파일에 참조를 추가합니다.
-
-```ts
-// types/krds.d.ts
-/// <reference types="@krds.ui/vue/global" />
-```
-
-### 5. 예제 프로젝트
-
-위 설정을 담은 Vite + Vue 3 + TypeScript 예제가 [`examples/vite`](./examples/vite)에 있습니다. [StackBlitz에서 바로 열어](https://stackblitz.com/github/Initializer-org/krds-vue/tree/main/examples/vite) 볼 수도 있습니다.
-
-## TypeScript
-
-컴포넌트 props와 공통 타입을 패키지 루트에서 가져올 수 있습니다.
-
-```ts
-import type { KrdsButtonProps, KrdsInputProps, Size } from '@krds.ui/vue'
-
-const size: Size = 'medium'
-
-const buttonProps: KrdsButtonProps = {
-  variant: 'primary',
-  size,
-  disabled: false
-}
-
-const inputProps: KrdsInputProps = {
-  placeholder: '이름을 입력하세요',
-  modelValue: '',
-  size
-}
-```
-
-## 스타일과 테마
-
-KRDS Vue 스타일은 CSS custom properties를 기반으로 합니다. 프로젝트에서 토큰 값을 조정해야 한다면 원본 CSS를 수정하지 말고 애플리케이션 CSS에서 필요한 변수만 재선언합니다.
-
-```css
-:root {
-  --krds-color-light-primary-50: #256ef4;
-}
-```
-
-컬러 모드는 루트 요소의 `data-krds-mode` 속성으로 전환합니다.
-
-```ts
-document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
-```
-
-지원 모드:
-
-- `light`: 기본 라이트 모드
-- `high-contrast`: 고대비 모드
-- `theme`: 사용자 시스템 설정에 따라 라이트/고대비 스타일 적용
-
-## 컴포넌트 범위
-
-[KRDS 공식 컴포넌트 목록](https://www.krds.go.kr/html/site/component/component_summary.html) 55종 기준 대응 현황입니다. 각 컴포넌트의 예제와 props/events는 [문서 사이트](https://krds.initializer.org/)에서 확인하세요.
-
-| 분류             | 공식 컴포넌트 → 제공 컴포넌트                                                                                                                                                                                                                                                                                                       |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 아이덴티티       | 공식 배너 `KrdsMasthead` · 운영기관 식별자 `KrdsIdentifier` · 헤더 `KrdsHeader` · 푸터 `KrdsFooter`                                                                                                                                                                                                                                 |
-| 탐색             | 건너뛰기 링크 `KrdsSkipLink` · 메인 메뉴 `KrdsMainMenu` · 브레드크럼 `KrdsBreadcrumb` · 사이드 메뉴 `KrdsSideNavigation` · 콘텐츠 내 탐색 `KrdsInPageNavigation` · 페이지네이션 `KrdsPagination`                                                                                                                                    |
-| 레이아웃 및 표현 | 구조화 목록 `KrdsStructuredList` · 긴급 공지 `KrdsCriticalAlerts` · 달력(`KrdsDateInput`에 내장) · 디스클로저 `KrdsDisclosure` · 모달 `KrdsModal` · 배지 `KrdsBadge` · 아코디언 `KrdsAccordionGroup`/`KrdsAccordionItem` · 이미지 `KrdsImage` · 캐러셀 `KrdsCarousel` · 탭 `KrdsTabs` · 표 `KrdsTable` · 텍스트 목록 `KrdsTextList` |
-| 액션             | 링크 `KrdsLink` · 버튼 `KrdsButton` · 플로팅 버튼 `KrdsFloatingButton`                                                                                                                                                                                                                                                              |
-| 선택             | 라디오 버튼 `KrdsRadio` · 체크박스 `KrdsCheckbox` · 셀렉트 `KrdsSelect` · 태그 `KrdsTag` · 토글 스위치 `KrdsToggleSwitch`                                                                                                                                                                                                           |
-| 피드백           | 단계 표시기 `KrdsStepIndicator` · 스피너 `KrdsSpinner`                                                                                                                                                                                                                                                                              |
-| 도움             | 도움 패널·따라하기 패널 `KrdsPanel` · 맥락적 도움말 `KrdsContextualHelp` · 코치마크 `KrdsCoachMark` · 툴팁 `KrdsTooltip` · 음성지원 `KrdsTts`                                                                                                                                                                                       |
-| 입력             | 날짜 입력 필드 `KrdsDateInput` · 텍스트 영역 `KrdsTextarea` · 텍스트 입력 필드 `KrdsInput` · 파일 업로드 `KrdsFileUpload`                                                                                                                                                                                                           |
-| 설정             | 언어 변경 `KrdsLanguageSwitcher` · 화면 크기 조정 `KrdsResize`                                                                                                                                                                                                                                                                      |
-| 콘텐츠           | 접근 가능한 미디어 `KrdsMedia` · 숨긴 콘텐츠 `v-sr-only` 디렉티브                                                                                                                                                                                                                                                                   |
-| 모바일           | 범위슬라이드 `KrdsRangeSlider` · 바텀시트(`KrdsModal`의 `bottom-sheet`) · 수량 토글 `KrdsQuantityToggle` · 토스트 `KrdsToast` · 스낵바 `KrdsSnackbar` · 탭바 `KrdsTabBar`                                                                                                                                                           |
-
-공식 목록 외 부가 컴포넌트: `KrdsLayout`, `KrdsIcon`, `KrdsButtonGroup`, `KrdsTagGroup`, `KrdsCheckArea`, `KrdsStep`, `KrdsFormGroup`, `KrdsFormLabel`, `KrdsFormHint`
-
-### 미제공 항목
-
-플로팅 버튼(FAB), 토스트, 스낵바, 범위슬라이드, 수량 토글, 탭바, 이미지, 접근 가능한 미디어는 KRDS 원본 저장소에 구현(HTML/SCSS)이 없지만, KRDS 가이드의 구조·위치·노출 시간·접근성 기준과 토큰으로 직접 만들어 제공합니다. 아래 항목은 제공하지 않습니다.
-
-- **모바일 계열**(뒤로가기 버튼, 스플래시 스크린): 모바일 앱 전용 항목입니다. 스플래시 스크린은 문서 사이트에 안내 문서만 제공합니다.
-- **파비콘**: 컴포넌트가 아닌 가이드 항목입니다.
-
-### 원본 동기화 기준
-
-- [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0 (2025-06-03 커밋 `d6bb184`) 기준으로 포팅되었습니다.
-- 원본 저장소의 릴리스를 추적해 동기화하며, 대응 버전은 이 섹션에 기록합니다.
-- 원본 반영으로 마크업·클래스 구조가 바뀌어 호환성이 깨지는 경우 메이저 버전으로만 배포하고, CHANGELOG에 마이그레이션 노트를 제공합니다.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Initializer-org/krds-vue/tree/main/examples/vite)
 
 ## 접근성
 
-- 컴포넌트는 원본 KRDS 마크업 구조와 ARIA 속성, 키보드 인터랙션을 따라 구현합니다.
-- 모든 컴포넌트 테스트(`src/components/*/__tests__`)는 렌더한 화면에 axe-core 접근성 검사를 실행하며, 위반이 있으면 CI가 실패합니다.
-- 원본 KRDS 마크업에서 비롯된 위반(탭의 `li[role=tab] > button` 중첩, 정렬 셀렉트의 `title` 전용 레이블, 페이지네이션 비활성 버튼 대비, 사이드 메뉴 팝업의 `role=menu` 하위 구조)은 원본을 따르기 위해 해당 테스트에서 요소 단위로만 검사를 제외합니다.
-- 고대비 모드(`data-krds-mode="high-contrast"`)를 지원합니다.
+라이브러리 차원의 자동 검사는 KWCAG/WCAG 적합성 평가를 대체하지 않습니다. 서비스 전체의 접근성 준수는 사용처에서 별도로 검증해야 합니다.
 
-라이브러리 차원의 자동 검사는 KWCAG/WCAG 적합성 평가를 대체하지 않습니다. 서비스 전체의 접근성 준수는 사용처에서 별도 검증이 필요합니다.
+## 버전 정책
 
-## 브라우저 지원
-
-Vite 라이브러리 모드 기본 타겟(Baseline Widely Available)으로 빌드합니다.
-
-| 브라우저          | 지원 버전 |
-| ----------------- | --------- |
-| Chrome, Edge      | 111 이상  |
-| Firefox           | 114 이상  |
-| Safari (iOS 포함) | 16.4 이상 |
-
-- 산출물에 폴리필은 포함하지 않습니다. 더 낮은 버전을 지원해야 한다면 애플리케이션 빌드에서 트랜스파일과 폴리필을 구성해야 합니다.
-- Internet Explorer는 지원하지 않습니다 (ESM·CSS custom properties 기반).
-
-## 요구사항
-
-사용 환경:
-
-- Vue `^3.5.0`
-- ESM을 지원하는 번들러 또는 런타임 (Node.js `>=20`)
-
-개발 환경(저장소 기여):
-
-- Node.js `>=24.0.0`, pnpm `>=11.0.0`
-
-## 버전 정책과 릴리스
-
-시맨틱 버저닝을 따릅니다. [Conventional Commits](https://www.conventionalcommits.org/ko/)를 기반으로 [release-please](https://github.com/googleapis/release-please)가 릴리스 PR을 자동 생성하며, 릴리스 PR이 머지되면 GitHub Release 생성과 npm 배포가 자동으로 진행됩니다. 변경 이력은 [CHANGELOG](./CHANGELOG.md)에서 확인하세요.
+- 시맨틱 버저닝을 따르며, [release-please](https://github.com/googleapis/release-please)가 Conventional Commits로 릴리스 PR을 만들고 머지되면 npm에 배포합니다. 변경 이력은 [CHANGELOG](./CHANGELOG.md)에 있습니다.
+- [KRDS 원본 저장소](https://github.com/KRDS-uiux/krds-uiux) v1.1.0(2025-06-03 커밋 `d6bb184`)을 기준으로 합니다. 원본을 반영하면서 마크업·클래스 구조가 바뀌어 호환성이 깨지면 메이저 버전으로만 배포하고 CHANGELOG에 마이그레이션 노트를 남깁니다.
 
 ## 기여하기
 
-버그 리포트와 PR을 환영합니다. 큰 변경은 [이슈](https://github.com/Initializer-org/krds-vue/issues)로 먼저 논의해 주세요.
+**버그와 기능 요청**은 [이슈](https://github.com/Initializer-org/krds-vue/issues)로 남겨 주세요. 큰 변경은 이슈에서 먼저 논의해 주세요.
 
-```bash
-git clone https://github.com/Initializer-org/krds-vue.git
-cd krds-vue
+**보안 취약점**은 공개 이슈 대신 [SECURITY](./SECURITY.md)의 방법으로 알려 주세요.
 
-pnpm install
-pnpm docs:dev       # 문서 사이트 개발 서버 실행
-pnpm test            # Vitest 실행 (Playwright 브라우저 모드)
-pnpm lint            # oxlint 검사 (--fix로 자동 수정)
-pnpm format          # oxfmt 포매팅
-pnpm build           # 타입 검사와 라이브러리 빌드
-pnpm docs:build     # 문서 사이트 빌드
-```
-
-커밋 메시지는 Conventional Commits(`feat:`, `fix:`, `docs:` 등)를 따릅니다. 커밋 타입과 내용이 체인지로그와 버전 산정에 그대로 반영됩니다.
-
-## 배포 산출물
-
-`npm pack --dry-run` 기준으로 패키지에는 다음 산출물이 포함됩니다.
-
-- `dist/krds-vue.es.js` (+ 소스맵 `dist/krds-vue.es.js.map`)
-- `dist/style.css`
-- `dist/types/index.d.ts`, `global.d.ts` (전역 컴포넌트 타입)
-- `dist/web-types.json` (WebStorm 등 JetBrains IDE용 전역 컴포넌트 목록)
-- `dist/img/component/icon/*.svg`
-- `dist/fonts/*.woff2` (Pretendard GOV)
+개발 환경과 규칙은 [CONTRIBUTING](./.github/CONTRIBUTING.md)에 있습니다.
 
 ## 라이선스
 
