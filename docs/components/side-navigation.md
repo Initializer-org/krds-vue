@@ -12,6 +12,8 @@ import Multiple from './demos/side-navigation/Multiple.vue'
 
 `v-model`로 메뉴 아이템 배열을 전달합니다. 2Depth의 `subItems`는 펼침 목록으로, 3Depth의 `subItems`는 4Depth 팝업으로 렌더링되며 `expanded`로 초기 펼침 상태를 지정합니다.
 
+4Depth 팝업을 열면 팝업 제목으로 초점이 옮겨 가고, 제목을 눌러 닫으면 팝업을 연 버튼으로 초점이 돌아옵니다. Tab으로 팝업을 벗어나거나 팝업 밖을 누르면 팝업이 닫히고, 초점은 옮겨 간 곳에 그대로 둡니다.
+
 <div class="demo vp-raw"><Basic /></div>
 
 <<< ./demos/side-navigation/Basic.vue

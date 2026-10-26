@@ -1,4 +1,4 @@
-import { defineComponent, ref, computed, h, useId, type VNode, type ComponentPublicInstance } from 'vue'
+import { defineComponent, ref, computed, h, onBeforeUnmount, onMounted, useId, type VNode, type ComponentPublicInstance } from 'vue'
 
 /**
  * 사이드 네비게이션 아이템 인터페이스
@@ -92,7 +92,6 @@ export default /* @__PURE__ */ defineComponent({
     const popupTriggerRefs = ref(new Map<string, HTMLButtonElement>())
     const popupRefs = ref(new Map<string, HTMLDivElement>())
     const popupTitleRefs = ref(new Map<string, HTMLButtonElement>())
-    const lastClickedPopupButton = ref<HTMLButtonElement | null>(null)
 
     // Template ref 설정 함수들
     const setPopupTriggerRef = (el: HTMLButtonElement | null, parentIndex: number, subIndex: number) => {
@@ -140,8 +139,6 @@ export default /* @__PURE__ */ defineComponent({
               ...subItem,
               expanded: false
             }))
-            // 마지막 클릭된 팝업 버튼 참조 초기화
-            lastClickedPopupButton.value = null
           }
 
           return updatedItem
@@ -168,25 +165,18 @@ export default /* @__PURE__ */ defineComponent({
                 }
 
                 if (updatedSubItem.expanded) {
-                  // 현재 클릭된 버튼 저장 - template ref 사용
-                  const key = `${parentIndex}-${subIndex}`
-                  lastClickedPopupButton.value = popupTriggerRefs.value.get(key) || null
-
                   // 팝업이 열릴 때 포커스 관리 - template ref 사용
+                  const key = `${parentIndex}-${subIndex}`
                   const popupElement = popupRefs.value.get(key)
                   const titleButton = popupTitleRefs.value.get(key)
 
                   if (popupElement && titleButton) {
-                    popupElement.addEventListener(
-                      'transitionend',
-                      () => {
-                        titleButton.focus()
-                      },
-                      { once: true }
-                    )
+                    // visibility 전환이 끝나야 초점을 받을 수 있다. 그 사이 닫혔으면 옮기지 않는다
+                    const focusTitle = () => isPopupOpen(parentIndex, subIndex) && titleButton.focus()
+                    popupElement.addEventListener('transitionend', focusTitle, { once: true })
                     // 전환이 없으면(transition: none 등) transitionend가 오지 않으므로 렌더 후 바로 포커스
                     requestAnimationFrame(() => {
-                      if (!popupElement.getAnimations({ subtree: true }).length) titleButton.focus()
+                      if (!popupElement.getAnimations({ subtree: true }).length) focusTitle()
                     })
                   }
                 }
@@ -203,57 +193,59 @@ export default /* @__PURE__ */ defineComponent({
       emit('update:modelValue', newMenuItems)
     }
 
-    /**
-     * 팝업 닫기
-     */
-    const closePopup = (parentIndex: number, subIndex: number) => {
-      const newMenuItems = modelValue.value.map((item, idx) => {
-        if (idx === parentIndex && item.subItems) {
-          return {
-            ...item,
-            subItems: item.subItems.map((subItem, subIdx) => {
-              if (subIdx === subIndex && subItem.subItems && subItem.expanded) {
-                // 포커스를 원래 버튼으로 돌리기 (원본 KRDS와 동일하게 focusout으로 닫힐 때도 복귀)
-                if (lastClickedPopupButton.value) {
-                  const buttonToFocus = lastClickedPopupButton.value
-                  requestAnimationFrame(() => {
-                    buttonToFocus.focus()
-                  })
-                  lastClickedPopupButton.value = null
-                }
+    const isPopupOpen = (parentIndex: number, subIndex: number) => !!modelValue.value[parentIndex]?.subItems?.[subIndex]?.expanded
 
-                return {
-                  ...subItem,
-                  expanded: false
-                }
-              }
-              return subItem
-            })
-          }
-        }
-        return item
-      })
+    /**
+     * 조건에 맞는 열린 팝업을 한 번에 닫는다
+     */
+    const closePopups = (shouldClose: (parentIndex: number, subIndex: number) => boolean) => {
+      if (!modelValue.value.some((item, idx) => item.subItems?.some((subItem, subIdx) => subItem.expanded && shouldClose(idx, subIdx))))
+        return
+      const newMenuItems = modelValue.value.map((item, idx) =>
+        item.subItems
+          ? {
+              ...item,
+              subItems: item.subItems.map((subItem, subIdx) =>
+                subItem.subItems && subItem.expanded && shouldClose(idx, subIdx) ? { ...subItem, expanded: false } : subItem
+              )
+            }
+          : item
+      )
 
       emit('update:modelValue', newMenuItems)
     }
 
+    const closePopup = (parentIndex: number, subIndex: number) => closePopups((idx, subIdx) => idx === parentIndex && subIdx === subIndex)
+
     /**
-     * 팝업 외부 클릭 시 닫기
+     * 초점이 팝업 밖의 다른 요소로 옮겨 가면 닫고, 옮겨 간 초점은 그대로 둔다 (WAI-ARIA 메뉴 패턴).
+     * 갈 곳 없이 빠진 초점(다른 창으로 전환 등)은 무시하고, 빈 곳 클릭은 문서 클릭으로 닫는다
      */
     const handlePopupFocusOut = (event: FocusEvent, parentIndex: number, subIndex: number) => {
-      const key = `${parentIndex}-${subIndex}`
-      const popupElement = popupRefs.value.get(key)
-      if (popupElement && !popupElement.contains(event.relatedTarget as Node)) {
+      const next = event.relatedTarget as Node | null
+      const popupElement = popupRefs.value.get(`${parentIndex}-${subIndex}`)
+      if (next && popupElement && !popupElement.contains(next)) {
         closePopup(parentIndex, subIndex)
       }
     }
 
     /**
-     * 팝업 제목 클릭 시 닫기
+     * 팝업 제목으로 닫으면 연 버튼으로 초점을 돌려준다
      */
     const handlePopupTitleClick = (parentIndex: number, subIndex: number) => {
       closePopup(parentIndex, subIndex)
+      popupTriggerRefs.value.get(`${parentIndex}-${subIndex}`)?.focus()
     }
+
+    /**
+     * 팝업 밖을 누르면 누른 항목의 팝업만 남기고 닫는다
+     */
+    const handleDocumentClick = (event: MouseEvent) => {
+      const target = event.target as Node
+      closePopups((idx, subIdx) => !popupRefs.value.get(`${idx}-${subIdx}`)?.parentElement?.contains(target))
+    }
+    onMounted(() => document.addEventListener('click', handleDocumentClick))
+    onBeforeUnmount(() => document.removeEventListener('click', handleDocumentClick))
 
     /**
      * 아이템 클릭 핸들러
@@ -334,15 +326,16 @@ export default /* @__PURE__ */ defineComponent({
                     subItem.text
                   ),
 
-                  // 3depth 팝업 서브메뉴
+                  // 3depth 팝업 서브메뉴. 원본은 이 div가 role="menu"라 제목 버튼·역할 없는 ul이 메뉴 안에 섞인다.
+                  // div는 바깥 메뉴 안에 둘 수 있는 group으로, 메뉴는 ul로 옮겨 항목이 메뉴에 바로 속하게 한다
                   h(
                     'div',
                     {
                       ref: (el: Element | ComponentPublicInstance | null) =>
                         setPopupRef(el as HTMLDivElement | null, parentIndex, subIndex),
-                      id: `${uid}-lnbmenu-${parentIndex}-${subIndex}`,
                       class: ['lnb-submenu-lv2', { active: subItem.expanded }],
-                      role: 'menu',
+                      role: 'group',
+                      'aria-label': subItem.popupTitle || subItem.text,
                       onFocusout: (event: FocusEvent) => handlePopupFocusOut(event, parentIndex, subIndex)
                     },
                     [
@@ -354,13 +347,18 @@ export default /* @__PURE__ */ defineComponent({
                             setPopupTitleRef(el as HTMLButtonElement | null, parentIndex, subIndex),
                           type: 'button',
                           class: 'lnb-btn-tit',
+                          role: 'menuitem',
                           onClick: () => handlePopupTitleClick(parentIndex, subIndex)
                         },
                         subItem.popupTitle || subItem.text
                       ),
 
                       // 4depth 아이템 목록
-                      h('ul', {}, renderPopupItems(subItem.subItems || [], parentIndex, subIndex))
+                      h(
+                        'ul',
+                        { id: `${uid}-lnbmenu-${parentIndex}-${subIndex}`, role: 'menu', 'aria-label': subItem.popupTitle || subItem.text },
+                        renderPopupItems(subItem.subItems || [], parentIndex, subIndex)
+                      )
                     ]
                   )
                 ]
