@@ -123,11 +123,14 @@ export default /* @__PURE__ */ defineComponent({
 
       const firstElement = focusableElements[0]
       const lastElement = focusableElements[focusableElements.length - 1]
+      const active = document.activeElement as HTMLElement | null
+      const index = active ? focusableElements.indexOf(active) : -1
 
-      if (event.shiftKey && document.activeElement === firstElement) {
+      // 열 때 초점을 받는 .modal-conts(tabindex="-1", 목록에 없음)에서 Shift+Tab, 모달 밖으로 나간 초점도 모달 안으로 돌린다
+      if (event.shiftKey && index <= 0) {
         event.preventDefault()
         lastElement.focus()
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
+      } else if (!event.shiftKey && (index === focusableElements.length - 1 || !modalRef.value.contains(active))) {
         event.preventDefault()
         firstElement.focus()
       }
