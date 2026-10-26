@@ -95,6 +95,8 @@ export default /* @__PURE__ */ defineComponent({
                 {
                   href: props.linkHref,
                   class: 'krds-btn medium link basic',
+                  // 링크 텍스트는 모바일에서 숨겨지므로(m-hide) 화면 폭과 관계없이 링크 이름이 남게 한다
+                  'aria-label': props.linkText,
                   onClick: handleLinkClick
                 },
                 [h('span', { class: 'm-hide' }, props.linkText), h('i', { class: 'svg-icon ico-angle right' })]

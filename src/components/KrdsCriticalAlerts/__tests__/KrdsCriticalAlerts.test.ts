@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { page } from 'vitest/browser'
 import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent } from '@/test/utils'
 
@@ -64,5 +65,17 @@ describe('KrdsCriticalAlerts', () => {
     const infoBanner = badges[2].closest('.critical-ban')!
     expect(infoBanner.querySelector('a')).toBeNull()
     await expectNoA11yViolations()
+  })
+
+  it('모바일: 링크 텍스트가 숨겨져도 링크 이름이 남는다', async () => {
+    await page.viewport(414, 896)
+    try {
+      const { container } = render({ template: `<KrdsCriticalAlerts type="danger" message="긴급 공지 내용 표시" link-href="#" />` })
+      expect(getComputedStyle(container.querySelector('.m-hide')!).display).toBe('none')
+      expect(screen.getByRole('link', { name: '자세히 보기' })).toBeInTheDocument()
+      await expectNoA11yViolations()
+    } finally {
+      await page.viewport(1200, 900)
+    }
   })
 })

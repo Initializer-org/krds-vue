@@ -9,7 +9,7 @@ import Types from './demos/critical-alerts/Types.vue'
 
 ## 기본
 
-`link-href`를 지정하면 링크가 표시됩니다. 링크 텍스트(`link-text`)는 768px 미만 화면에서 숨겨지고 화살표 아이콘만 남습니다.
+`link-href`를 지정하면 링크가 표시됩니다. 링크 텍스트(`link-text`)는 768px 미만 화면에서 숨겨지고 화살표 아이콘만 남습니다. 화면낭독기는 화면 폭과 관계없이 링크 텍스트를 링크 이름으로 읽습니다.
 
 <div class="demo vp-raw"><Basic /></div>
 
