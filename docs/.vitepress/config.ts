@@ -168,7 +168,7 @@ export default defineConfig({
     // 새 창으로 여는 본문 링크에 ↗ 표시 (예제 영역 .vp-raw는 격리돼 붙지 않음)
     externalLinkIcon: true,
     nav: [
-      // KRDS Vue ↔ React 전환 (theme/FrameworkSwitch.vue)
+      // KRDS Vue · React · Angular 전환 (theme/FrameworkSwitch.vue)
       { component: 'FrameworkSwitch', props: { current: 'vue' } },
       { text: '시작하기', link: '/guide/getting-started' },
       { text: '컴포넌트', link: '/components/' },
