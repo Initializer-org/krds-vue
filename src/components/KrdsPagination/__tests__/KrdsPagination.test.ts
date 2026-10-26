@@ -2,9 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent, waitFor } from '@/test/utils'
 
-// 비활성 이전/다음은 원본 KRDS 마크업(span.disabled)으로, 비활성 컴포넌트는 WCAG 1.4.3 대비 요건 예외다
-const a11yRules = [{ id: 'color-contrast', selector: '*:not(.page-navi.disabled)' }]
-
 describe('KrdsPagination', () => {
   it('기본: 이전/다음·페이지 번호로 이동', async () => {
     const { container } = render({
@@ -47,7 +44,27 @@ describe('KrdsPagination', () => {
     // 특정 페이지 링크 클릭
     const pageLink = container.querySelector('.page-link:not(.active):not(.link-dot)') as HTMLElement
     if (pageLink) await userEvent.click(pageLink)
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
+  })
+
+  it('첫·끝 페이지의 이전·다음은 초점을 받지 않는 비활성 링크', async () => {
+    render({
+      setup: () => ({ first: ref(1), last: ref(5) }),
+      template: `
+        <KrdsPagination v-model="first" :max="5" aria-label="첫 페이지" />
+        <KrdsPagination v-model="last" :max="5" aria-label="끝 페이지" />
+      `
+    })
+    const prev = screen.getByRole('navigation', { name: '첫 페이지' }).querySelector('.page-navi.prev')!
+    const next = screen.getByRole('navigation', { name: '끝 페이지' }).querySelector('.page-navi.next')!
+    for (const link of [prev, next]) {
+      expect(link).toHaveClass('disabled')
+      expect(link).toHaveAttribute('role', 'link')
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      expect(link).not.toHaveAttribute('href')
+    }
+    // 비활성 링크는 대비 검사에서 빠진다 (규칙을 빼지 않고 검사)
+    await expectNoA11yViolations()
   })
 
   it('이름 붙은 내비게이션 영역이고, 링크를 눌러도 주소(#)가 바뀌지 않는다', async () => {
