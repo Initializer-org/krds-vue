@@ -1,12 +1,17 @@
 <script setup lang="ts">
   import { useRoute } from 'vitepress'
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+  import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 
   /**
-   * 로고 옆 프레임워크 전환 (KRDS Vue ↔ KRDS React 문서). 보던 경로를 그대로 들고 상대 사이트로 간다.
-   * 고르는 순간 이동하는 <select>는 키보드로 항목을 훑기만 해도 페이지가 바뀌므로(WCAG 3.2.2) 버튼 + 링크 목록으로 만든다
+   * KRDS Vue ↔ KRDS React 문서 전환. 보던 경로를 그대로 들고 상대 사이트로 간다.
+   * 고르는 순간 이동하는 <select>는 키보드로 항목을 훑기만 해도 페이지가 바뀌므로(WCAG 3.2.2) 버튼 + 링크 목록으로 만든다.
+   *
+   * 상단 메뉴 첫 항목(config.ts nav)으로 넣어 화면 순서와 Tab 순서가 같고, 모든 페이지에서 같은 자리에 있다. VitePress가 넘기는 props에 따라
+   * - 기본: 상단 메뉴의 드롭다운
+   * - menu(메뉴가 넘쳐 ⋯ 패널로 접힘)·screenMenu(모바일 햄버거 화면): 링크 목록
+   * - mobile(theme/index.ts의 nav-bar-content-before): 메뉴가 햄버거로 접히는 768px 미만에서만 상단에 보이는 드롭다운
    */
-  const props = defineProps<{ current: 'vue' | 'react' }>()
+  const props = defineProps<{ current: 'vue' | 'react'; menu?: boolean; screenMenu?: boolean; mobile?: boolean }>()
 
   const frameworks = [
     { key: 'vue', text: 'Vue', url: 'https://krds.initializer.org' },
@@ -14,6 +19,7 @@
   ] as const
 
   const route = useRoute()
+  const menuId = useId()
   const open = ref(false)
   const root = ref<HTMLElement>()
   const button = ref<HTMLButtonElement>()
@@ -47,32 +53,48 @@
 </script>
 
 <template>
-  <div ref="root" class="framework-switch" @keydown="onKeydown" @focusout="onFocusout">
-    <button
-      ref="button"
-      type="button"
-      class="framework-switch-button"
-      :aria-expanded="open"
-      aria-controls="framework-switch-menu"
-      @click="open = !open"
+  <div v-if="menu || screenMenu" class="framework-switch-group" :class="{ screen: screenMenu }">
+    <p class="framework-switch-title">프레임워크</p>
+    <a
+      v-for="framework in frameworks"
+      :key="framework.key"
+      class="framework-switch-link"
+      :href="hrefOf(framework)"
+      :aria-current="framework.key === current ? 'page' : undefined"
     >
+      KRDS {{ framework.text }}
+    </a>
+  </div>
+  <div v-else ref="root" class="framework-switch" :class="{ mobile }" @keydown="onKeydown" @focusout="onFocusout">
+    <button ref="button" type="button" class="framework-switch-button" :aria-expanded="open" :aria-controls="menuId" @click="open = !open">
       <span class="sr-only">프레임워크 선택: </span>{{ currentText }}
       <span class="vpi-chevron-down framework-switch-icon" aria-hidden="true"></span>
     </button>
-    <ul v-show="open" id="framework-switch-menu" class="framework-switch-menu">
+    <ul v-show="open" :id="menuId" class="framework-switch-menu">
       <li v-for="framework in frameworks" :key="framework.key">
-        <a :href="hrefOf(framework)" :aria-current="framework.key === current ? 'page' : undefined"> KRDS {{ framework.text }} </a>
+        <a :href="hrefOf(framework)" :aria-current="framework.key === current ? 'page' : undefined">KRDS {{ framework.text }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
+  /* 상단 메뉴 줄 높이에 맞춰 세로 가운데 */
   .framework-switch {
     position: relative;
     display: flex;
     align-items: center;
-    margin: 0 12px;
+    height: var(--vp-nav-height);
+    margin-right: 12px;
+  }
+  /* 상단 메뉴는 768px(48rem)부터 보이므로, 상단 고정 버튼은 그보다 좁을 때만 */
+  .framework-switch.mobile {
+    margin: 0 4px 0 0;
+  }
+  @media (min-width: 48rem) {
+    .framework-switch.mobile {
+      display: none;
+    }
   }
   .framework-switch-button {
     display: flex;
@@ -101,8 +123,8 @@
   }
   .framework-switch-menu {
     position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
+    top: calc(50% + 22px);
+    right: 0;
     z-index: 100;
     min-width: 160px;
     margin: 0;
@@ -113,7 +135,8 @@
     background: var(--vp-c-bg-elv);
     box-shadow: var(--vp-shadow-3);
   }
-  .framework-switch-menu a {
+  .framework-switch-menu a,
+  .framework-switch-link {
     display: block;
     padding: 0 12px;
     border-radius: 6px;
@@ -124,10 +147,29 @@
     white-space: nowrap;
     transition: background-color 0.25s;
   }
-  .framework-switch-menu a:hover {
+  .framework-switch-menu a:hover,
+  .framework-switch-link:hover {
     background: var(--vp-c-default-soft);
   }
-  .framework-switch-menu a[aria-current='page'] {
+  .framework-switch-menu a[aria-current='page'],
+  .framework-switch-link[aria-current='page'] {
     color: var(--vp-c-brand-1);
+  }
+  .framework-switch-group {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+  .framework-switch-title {
+    padding: 0 12px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--vp-c-text-2);
+  }
+  /* 햄버거 화면은 VitePress 화면 메뉴처럼 넓은 줄 */
+  .framework-switch-group.screen .framework-switch-title,
+  .framework-switch-group.screen .framework-switch-link {
+    padding: 0;
+    line-height: 48px;
   }
 </style>

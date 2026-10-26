@@ -13,13 +13,14 @@ import './style.css'
 
 export default {
   extends: DefaultTheme,
-  // 로고 옆 KRDS Vue ↔ React 전환
-  Layout: () => h(DefaultTheme.Layout, null, { 'nav-bar-content-before': () => h(FrameworkSwitch, { current: 'vue' }) }),
+  // KRDS Vue ↔ React 전환: 상단 메뉴 첫 항목(config.ts nav)이고, 메뉴가 햄버거로 접히는 모바일에서도 보이게 상단에 하나 더
+  Layout: () => h(DefaultTheme.Layout, null, { 'nav-bar-content-before': () => h(FrameworkSwitch, { current: 'vue', mobile: true }) }),
   enhanceApp({ app }) {
     app.component('ComponentApi', ComponentApi)
     app.component('ComponentList', ComponentList)
     app.component('DemoFrame', DemoFrame)
     app.component('DocTabs', DocTabs)
+    app.component('FrameworkSwitch', FrameworkSwitch)
     // 플러그인(app.use(KrdsVue))을 등록한 앱과 같도록 v-sr-only를 전역 등록 (패키지 엔트리에서는 export되지 않음)
     app.directive('sr-only', vSrOnly)
   }
