@@ -2,9 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent, waitFor } from '@/test/utils'
 
-// 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
-const a11yRules = [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }]
-
 // 도움/따라하기 탭 공통 콘텐츠 (KrdsTabs 패널 슬롯에 주입)
 const helpContent = `
   <h3 class="sr-only">도움</h3>
@@ -158,7 +155,7 @@ describe('KrdsPanel', () => {
     await waitFor(() => {
       expect(container.querySelector('.krds-help-panel.expand')).toBeFalsy()
     })
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('도움 패널: 패널 내부 탭 전환', async () => {
@@ -181,10 +178,10 @@ describe('KrdsPanel', () => {
     const [helpTab, tutorialTab] = Array.from(container.querySelectorAll('[role="tab"]'))
     expect(helpTab).toHaveAttribute('aria-selected', 'true')
 
-    await userEvent.click(tutorialTab.querySelector('button')!)
+    await userEvent.click(tutorialTab)
     expect(tutorialTab).toHaveAttribute('aria-selected', 'true')
     expect(container.querySelector('.coach-help-process')?.closest('.tab-conts')).toHaveClass('active')
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('따라하기 패널', async () => {
@@ -204,7 +201,7 @@ describe('KrdsPanel', () => {
         </div>
       `
     })
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('공식 배너·헤더가 보이면 그 높이만큼 버튼과 패널 내용을 내리고, 헤더가 숨으면 원위치', async () => {
