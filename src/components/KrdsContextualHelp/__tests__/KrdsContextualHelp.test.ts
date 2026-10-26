@@ -32,12 +32,26 @@ describe('KrdsContextualHelp', () => {
       expect(tooltipBtn).toHaveAttribute('aria-expanded', 'true')
     })
 
+    // 안에 링크·버튼이 있으므로 제목으로 이름 붙인 대화 상자이고, 버튼이 aria-controls로 가리킨다
+    const dialog = screen.getByRole('dialog', { name: '도움말 제목' })
+    expect(tooltipBtn).toHaveAttribute('aria-controls', dialog.id)
+    await expectNoA11yViolations()
+
+    // 닫기 버튼으로 닫으면 도움말 버튼으로 초점
     const closeBtn = screen.getByRole('button', { name: '닫기' })
     await userEvent.click(closeBtn)
 
     await waitFor(() => {
       expect(tooltipBtn).toHaveAttribute('aria-expanded', 'false')
     })
+    expect(tooltipBtn).toHaveFocus()
+
+    // Esc로 닫아도 도움말 버튼으로 초점 (열면 첫 링크로 초점이 가 있음)
+    await userEvent.click(tooltipBtn)
+    await waitFor(() => expect(screen.getByRole('link', { name: '바로가기' })).toHaveFocus())
+    await userEvent.keyboard('{Escape}')
+    expect(tooltipBtn).toHaveAttribute('aria-expanded', 'false')
+    expect(tooltipBtn).toHaveFocus()
     await expectNoA11yViolations()
   })
 
