@@ -71,8 +71,11 @@ describe('KrdsDateInput', () => {
     await userEvent.click(monthBtn)
     expect(yearBtn).toHaveAttribute('aria-expanded', 'false')
     expect(monthBtn).toHaveAttribute('aria-expanded', 'true')
+    // 목록 안에 초점이 있을 때 Esc로 닫으면 목록이 숨으며 초점을 잃지 않게 월 버튼으로
+    container.querySelector<HTMLElement>('.calendar-mon-wrap button')!.focus()
     await userEvent.keyboard('{Escape}')
     expect(monthBtn).toHaveAttribute('aria-expanded', 'false')
+    expect(monthBtn).toHaveFocus()
     expect(calendar).toBeVisible()
 
     // 처음엔 이번 달 표시 → 이전 달로 1월까지 이동
@@ -170,6 +173,8 @@ describe('KrdsDateInput', () => {
     await userEvent.click(screen.getByText('도움말'))
     expect(calendar).not.toBeVisible()
     expect(calBtn).toHaveAttribute('aria-expanded', 'false')
+    // 바깥 클릭으로 닫으면 사용자가 누른 곳으로 간 초점을 빼앗지 않는다
+    expect(calBtn).not.toHaveFocus()
     await expectNoA11yViolations()
   })
 
