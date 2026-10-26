@@ -1,4 +1,5 @@
 import type { Theme } from 'vitepress'
+import { h } from 'vue'
 // 문서 글꼴은 KRDS(Pretendard GOV)라 VitePress 기본 글꼴(Inter)은 받지 않는다
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import '@/styles/main.scss'
@@ -7,10 +8,13 @@ import ComponentApi from './ComponentApi.vue'
 import ComponentList from './ComponentList.vue'
 import DemoFrame from './DemoFrame.vue'
 import DocTabs from './DocTabs.vue'
+import FrameworkSwitch from './FrameworkSwitch.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
+  // 로고 옆 KRDS Vue ↔ React 전환
+  Layout: () => h(DefaultTheme.Layout, null, { 'nav-bar-content-before': () => h(FrameworkSwitch, { current: 'vue' }) }),
   enhanceApp({ app }) {
     app.component('ComponentApi', ComponentApi)
     app.component('ComponentList', ComponentList)
