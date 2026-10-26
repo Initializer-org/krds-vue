@@ -79,7 +79,7 @@ export interface KrdsDateInputEmits {
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
 
 /** 열린 달력의 닫기 함수 (원본처럼 달력을 열면 다른 달력은 모두 닫는다) */
-const openCalendars = /* @__PURE__ */ new Set<() => void>()
+const openCalendars = /* @__PURE__ */ new Set<(returnFocus?: boolean) => void>()
 
 export default /* @__PURE__ */ defineComponent({
   name: 'KrdsDateInput',
@@ -245,9 +245,10 @@ export default /* @__PURE__ */ defineComponent({
       isDateInSelectedRange
     } = useDatePicker(props.initialYear, props.initialMonth)
 
-    // 외부 클릭 감지
-    const closeAllDatePickers = () => {
-      if (isCalendarOpen.value) {
+    // 달력 닫기. 취소·확인·Esc·달력 버튼으로 닫으면 초점을 달력 버튼으로 돌려주고,
+    // 바깥 클릭과 다른 달력 열기로 닫히면 사용자가 옮긴 초점을 그대로 둔다
+    const closeAllDatePickers = (returnFocus = true) => {
+      if (returnFocus && isCalendarOpen.value) {
         datePickerButtonRef.value?.focus()
       }
 
@@ -258,7 +259,7 @@ export default /* @__PURE__ */ defineComponent({
     onBeforeUnmount(() => openCalendars.delete(closeAllDatePickers))
 
     // 외부 클릭 감지 활성화
-    useClickOutside(datePickerAreaRef, closeAllDatePickers, '.calendar-conts')
+    useClickOutside(datePickerAreaRef, () => closeAllDatePickers(false), '.calendar-conts')
 
     /**
      * 날짜 입력 클래스
@@ -394,7 +395,7 @@ export default /* @__PURE__ */ defineComponent({
         class: undefined,
         variant: 'tertiary' as const,
         size: 'small' as const,
-        handler: closeAllDatePickers
+        handler: () => closeAllDatePickers()
       },
       {
         id: 'confirm-btn',
@@ -463,7 +464,7 @@ export default /* @__PURE__ */ defineComponent({
      * 캘린더 열기
      */
     const openDatePicker = () => {
-      openCalendars.forEach(close => close())
+      openCalendars.forEach(close => close(false))
       openCalendars.add(closeAllDatePickers)
       isCalendarOpen.value = true
       activeDropdown.value = null
@@ -492,6 +493,8 @@ export default /* @__PURE__ */ defineComponent({
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.code === 'Escape') {
         if (activeDropdown.value) {
+          // 목록이 숨으며 초점을 잃지 않게 연/월 버튼으로 옮긴다
+          focusSwitchButton(activeDropdown.value)
           activeDropdown.value = null
         } else if (isCalendarOpen.value) {
           closeAllDatePickers()
