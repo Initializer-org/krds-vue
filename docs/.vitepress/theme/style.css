@@ -4,6 +4,8 @@
   --vp-c-brand-2: var(--krds-light-color-element-primary);
   --vp-c-brand-3: var(--krds-light-color-element-primary);
   --vp-c-brand-soft: var(--krds-color-light-primary-5);
+  /* 로고를 제목 글자(16px)와 무게가 맞게 기본 24px에서 줄임 */
+  --vp-nav-logo-height: 20px;
 }
 
 /* 다크 토글은 KRDS 고대비 모드에 연결되므로(KRDS에는 일반 다크 모드가 없음) 사이트 색도 KRDS 고대비 회색 단계로 맞춘다 */
