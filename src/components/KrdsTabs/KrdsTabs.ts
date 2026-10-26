@@ -130,14 +130,13 @@ export default /* @__PURE__ */ defineComponent({
             'ul',
             { role: 'tablist' },
             props.tabs.map(tab =>
+              // 원본은 li에 role="tab"을 두고 안에 button을 넣어 탭 안에 조작 요소가 겹친다(nested-interactive).
+              // 탭 역할·상태는 초점을 받는 button에 두고 li는 presentation으로 둔다 (WAI-ARIA 탭 패턴, KRDS CSS는 li.active·.btn-tab 기준이라 모양은 같음)
               h(
                 'li',
                 {
                   key: tab.id,
-                  id: tabId(tab.id),
-                  role: 'tab',
-                  'aria-selected': tab.id === activeId.value,
-                  'aria-controls': panelId(tab.id),
+                  role: 'presentation',
                   class: { active: tab.id === activeId.value },
                   onKeydown: handleKeydown
                 },
@@ -146,6 +145,10 @@ export default /* @__PURE__ */ defineComponent({
                     'button',
                     {
                       type: 'button',
+                      id: tabId(tab.id),
+                      role: 'tab',
+                      'aria-selected': tab.id === activeId.value,
+                      'aria-controls': panelId(tab.id),
                       class: 'btn-tab',
                       disabled: tab.disabled || undefined,
                       onClick: () => selectTab(tab)

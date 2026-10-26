@@ -2,9 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
 import { expectNoA11yViolations, render, screen, userEvent } from '@/test/utils'
 
-// 원본 KRDS 마크업(li[role=tab] > button)을 따르므로 탭 요소만 제외한다
-const a11yRules = [{ id: 'nested-interactive', selector: '*:not([role="tab"])' }]
-
 const defaultTabs = [
   { id: 'tab1', label: '타이틀 1' },
   { id: 'tab2', label: '타이틀 2' },
@@ -22,13 +19,16 @@ describe('KrdsTabs', () => {
           <template #tab3>탭 3 영역</template>
         </KrdsTabs>`
     })
+    // 탭 역할은 초점을 받는 버튼에 있고, 목록 항목(li)은 presentation (탭 안에 조작 요소가 겹치지 않음)
     const [firstTab, secondTab] = screen.getAllByRole('tab')
-    const firstButton = firstTab.querySelector('button')!
-    const secondButton = secondTab.querySelector('button')!
+    const firstButton = firstTab
+    const secondButton = secondTab
+    expect(firstTab.tagName).toBe('BUTTON')
+    expect(firstTab.closest('li')).toHaveAttribute('role', 'presentation')
 
     // 초기 상태: 첫 번째 탭 활성 + ARIA 연결
     expect(firstTab).toHaveAttribute('aria-selected', 'true')
-    expect(firstTab).toHaveClass('active')
+    expect(firstTab.closest('li')).toHaveClass('active')
     const firstPanel = container.querySelector(`#${CSS.escape(firstTab.getAttribute('aria-controls')!)}`)
     expect(firstPanel).toHaveAttribute('role', 'tabpanel')
     expect(firstPanel).toHaveAttribute('aria-labelledby', firstTab.id)
@@ -51,7 +51,7 @@ describe('KrdsTabs', () => {
     expect(firstButton).toHaveFocus()
     await userEvent.keyboard('{ArrowRight}')
     expect(secondButton).toHaveFocus()
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('버튼형', async () => {
@@ -64,7 +64,7 @@ describe('KrdsTabs', () => {
           <template #tab3>탭 3 영역</template>
         </KrdsTabs>`
     })
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('풀사이즈', async () => {
@@ -87,7 +87,7 @@ describe('KrdsTabs', () => {
           </KrdsTabs>
         </div>`
     })
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('비활성화: 비활성 탭은 클릭해도 전환되지 않음', async () => {
@@ -107,14 +107,14 @@ describe('KrdsTabs', () => {
         </KrdsTabs>`
     })
     const [firstTab, secondTab] = screen.getAllByRole('tab')
-    const secondButton = secondTab.querySelector('button')!
+    const secondButton = secondTab
 
     expect(secondButton).toBeDisabled()
 
     await userEvent.click(secondButton)
     expect(secondTab).toHaveAttribute('aria-selected', 'false')
     expect(firstTab).toHaveAttribute('aria-selected', 'true')
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 
   it('외부 제어: v-model 초기값 반영과 갱신', async () => {
@@ -136,9 +136,9 @@ describe('KrdsTabs', () => {
     expect(secondTab).toHaveAttribute('aria-selected', 'true')
 
     // 탭 전환 시 modelValue가 갱신된다
-    await userEvent.click(firstTab.querySelector('button')!)
+    await userEvent.click(firstTab)
     expect(firstTab).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByTestId('active-tab')).toHaveTextContent('현재 탭: tab1')
-    await expectNoA11yViolations(a11yRules)
+    await expectNoA11yViolations()
   })
 })
