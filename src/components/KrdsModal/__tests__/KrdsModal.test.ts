@@ -52,8 +52,16 @@ describe('KrdsModal', () => {
       })
     )
     await openModal('모달 열기')
-    await userEvent.keyboard('{Tab}')
+    const dialog = screen.getByRole('dialog')
+    const close = screen.getByRole('button', { name: '닫기' })
+    await waitFor(() => expect(dialog.querySelector('.modal-conts')).toHaveFocus())
+    // 처음 초점(.modal-conts)에서 Shift+Tab이면 마지막(닫기)으로, 마지막에서 Tab이면 처음(아니요)으로
     await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(close).toHaveFocus()
+    await userEvent.keyboard('{Tab}')
+    expect(screen.getByRole('button', { name: '아니요' })).toHaveFocus()
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(close).toHaveFocus()
     await userEvent.keyboard('{Escape}')
     await expectClosed()
 
