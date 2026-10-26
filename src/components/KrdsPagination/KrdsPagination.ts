@@ -31,7 +31,7 @@ export interface KrdsPaginationProps {
   max: number
   /** 엘리먼트 ID */
   id?: string
-  /** 접근성 라벨 */
+  /** 내비게이션 영역 이름 (nav의 aria-label) */
   ariaLabel?: string
   /** 표시할 페이지 범위 */
   pageRange?: number
@@ -68,7 +68,7 @@ export default /* @__PURE__ */ defineComponent({
       type: String,
       default: undefined
     },
-    /** 접근성 라벨 */
+    /** 내비게이션 영역 이름 (nav의 aria-label) */
     ariaLabel: {
       type: String,
       default: '페이지 내비게이션'
@@ -214,11 +214,10 @@ export default /* @__PURE__ */ defineComponent({
     /**
      * 페이지 클릭 핸들러
      */
+    // 링크는 모두 href="#"이라 기본 동작을 막는다 (주소가 #으로 바뀌어 해시 라우터 화면이 바뀌지 않게)
     const handlePageClick = (page: number, event: MouseEvent) => {
-      if (page === currentPage.value) {
-        event.preventDefault()
-        return
-      }
+      event.preventDefault()
+      if (page === currentPage.value) return
 
       emit('update:modelValue', page)
     }
@@ -227,10 +226,8 @@ export default /* @__PURE__ */ defineComponent({
      * 이전 페이지 클릭 핸들러
      */
     const handlePrevClick = (event: MouseEvent) => {
-      if (prevDisabled.value) {
-        event.preventDefault()
-        return
-      }
+      event.preventDefault()
+      if (prevDisabled.value) return
 
       const prevPage = currentPage.value - 1
       emit('update:modelValue', prevPage)
@@ -240,10 +237,8 @@ export default /* @__PURE__ */ defineComponent({
      * 다음 페이지 클릭 핸들러
      */
     const handleNextClick = (event: MouseEvent) => {
-      if (nextDisabled.value) {
-        event.preventDefault()
-        return
-      }
+      event.preventDefault()
+      if (nextDisabled.value) return
 
       const nextPage = currentPage.value + 1
       emit('update:modelValue', nextPage)
@@ -276,7 +271,8 @@ export default /* @__PURE__ */ defineComponent({
     }
 
     return () =>
-      h('div', { id: props.id, class: 'krds-pagination' }, [
+      // ariaLabel로 이름 붙인 내비게이션 영역 (다른 nav와 구분)
+      h('nav', { id: props.id, class: 'krds-pagination', 'aria-label': props.ariaLabel }, [
         // 이전 버튼
         h(
           prevDisabled.value ? 'span' : 'a',
