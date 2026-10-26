@@ -1,5 +1,5 @@
 import { computed, defineComponent, h } from 'vue'
-import type { SlotsType, VNode } from 'vue'
+import type { PropType, SlotsType, VNode } from 'vue'
 
 /**
  * KRDS AccordionItem 컴포넌트 속성
@@ -13,6 +13,8 @@ export interface KrdsAccordionItemProps {
   title?: string
   /** 본문 텍스트 (content 슬롯으로 대체 가능) */
   content?: string
+  /** 제목 수준 (2~6). 페이지의 제목 구조에 맞춰 바로 위 제목보다 한 단계 아래로 둔다 */
+  headingLevel?: 2 | 3 | 4 | 5 | 6
 }
 
 /**
@@ -44,6 +46,12 @@ export default /* @__PURE__ */ defineComponent({
     content: {
       type: String,
       default: undefined
+    },
+    /** 제목 수준 (2~6). 페이지의 제목 구조에 맞춰 바로 위 제목보다 한 단계 아래로 둔다 */
+    headingLevel: {
+      type: Number as PropType<2 | 3 | 4 | 5 | 6>,
+      default: 5,
+      validator: (value: number) => [2, 3, 4, 5, 6].includes(value)
     }
   },
   /* eslint-disable @typescript-eslint/no-unused-vars -- 검증 함수 시그니처는 이벤트 타입 문서화용 */
@@ -67,7 +75,8 @@ export default /* @__PURE__ */ defineComponent({
 
     return () =>
       h('div', { id: props.id, class: ['accordion-item', { active: isOpen.value }] }, [
-        h('h5', { class: 'accordion-header' }, [
+        // KRDS reset이 제목 수준과 관계없이 같은 모양으로 맞춘다
+        h(`h${props.headingLevel}`, { class: 'accordion-header' }, [
           h(
             'button',
             {

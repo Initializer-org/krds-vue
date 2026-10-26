@@ -13,6 +13,8 @@ import Line from './demos/accordion/Line.vue'
 
 `id`는 항목 요소의 id와 `accordion-header-{id}`, `accordion-collapse-{id}`에 그대로 쓰이므로 페이지 안에서 고유해야 합니다.
 
+항목 제목은 기본 `h5`입니다. 페이지의 제목 구조에 맞춰 `heading-level`(2~6)로 바로 위 제목보다 한 단계 아래 수준을 지정합니다. 이 문서의 예제는 `h2` 아래에 있어 `3`을 씁니다.
+
 <div class="demo vp-raw"><Basic /></div>
 
 <<< ./demos/accordion/Basic.vue

@@ -41,6 +41,40 @@ describe('KrdsAccordion', () => {
     await expectNoA11yViolations()
   })
 
+  it('제목 수준: 기본 h5, heading-level로 페이지 제목 구조에 맞춤', async () => {
+    const { container } = render({
+      setup: accordionSetup,
+      template: `
+        <h2>자주 묻는 질문</h2>
+        <KrdsAccordionGroup>
+          <KrdsAccordionItem id="1" :open-item="openItem" title="title1" content="content1" :heading-level="3" @toggle="handleToggle" />
+        </KrdsAccordionGroup>
+        <KrdsAccordionGroup>
+          <KrdsAccordionItem id="2" :open-item="openItem" title="title2" content="content2" @toggle="handleToggle" />
+        </KrdsAccordionGroup>`
+    })
+    const [first, second] = container.querySelectorAll('.accordion-header')
+    expect(first.tagName).toBe('H3')
+    expect(second.tagName).toBe('H5')
+    // 제목 수준이 바뀌어도 버튼과 펼침 연결은 그대로
+    const button = screen.getByRole('button', { name: 'title1' })
+    await userEvent.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(container.querySelector(`#${button.getAttribute('aria-controls')}`)).toHaveAttribute('aria-labelledby', button.id)
+  })
+
+  it('h2 아래 heading-level 3이면 제목 수준을 건너뛰지 않음 (axe heading-order)', async () => {
+    render({
+      setup: accordionSetup,
+      template: `
+        <h2>자주 묻는 질문</h2>
+        <KrdsAccordionGroup>
+          <KrdsAccordionItem id="1" :open-item="openItem" title="title1" content="content1" :heading-level="3" @toggle="handleToggle" />
+        </KrdsAccordionGroup>`
+    })
+    await expectNoA11yViolations()
+  })
+
   it('라인', async () => {
     render({
       setup: accordionSetup,

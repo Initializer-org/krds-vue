@@ -10,11 +10,11 @@
 
 <template>
   <KrdsAccordionGroup type-line>
-    <KrdsAccordionItem id="line-1" :open-item="openItem" @toggle="handleToggle">
+    <KrdsAccordionItem id="line-1" :open-item="openItem" :heading-level="3" @toggle="handleToggle">
       <template #title>title1</template>
       <template #content>content1</template>
     </KrdsAccordionItem>
-    <KrdsAccordionItem id="line-2" :open-item="openItem" @toggle="handleToggle">
+    <KrdsAccordionItem id="line-2" :open-item="openItem" :heading-level="3" @toggle="handleToggle">
       <template #title>title2</template>
       <template #content>content2</template>
     </KrdsAccordionItem>

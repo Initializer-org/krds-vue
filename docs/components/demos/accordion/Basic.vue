@@ -10,7 +10,7 @@
 
 <template>
   <KrdsAccordionGroup>
-    <KrdsAccordionItem id="basic-1" :open-item="openItem" title="title1" content="content1" @toggle="handleToggle" />
-    <KrdsAccordionItem id="basic-2" :open-item="openItem" title="title2" content="content2" @toggle="handleToggle" />
+    <KrdsAccordionItem id="basic-1" :open-item="openItem" :heading-level="3" title="title1" content="content1" @toggle="handleToggle" />
+    <KrdsAccordionItem id="basic-2" :open-item="openItem" :heading-level="3" title="title2" content="content2" @toggle="handleToggle" />
   </KrdsAccordionGroup>
 </template>
