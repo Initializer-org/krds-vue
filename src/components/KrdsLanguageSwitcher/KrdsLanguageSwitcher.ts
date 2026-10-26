@@ -172,7 +172,8 @@ export default /* @__PURE__ */ defineComponent({
                 href: '#',
                 class: ['item-link', { active: props.modelValue === language.code }],
                 lang: language.code,
-                'aria-selected': props.modelValue === language.code,
+                // 원본의 aria-selected는 링크에 쓸 수 없는 속성이라 현재 언어는 aria-current로 알린다
+                'aria-current': props.modelValue === language.code ? 'true' : undefined,
                 onClick: withModifiers(() => selectLanguage(language.code), ['prevent']),
                 onFocus: handleItemFocus
               },

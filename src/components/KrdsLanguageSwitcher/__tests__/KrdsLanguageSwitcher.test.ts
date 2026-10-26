@@ -83,4 +83,17 @@ describe('KrdsLanguageSwitcher', () => {
     })
     await expectNoA11yViolations()
   })
+
+  it('열린 목록: 현재 언어는 aria-current로 알리고 접근성 위반이 없다', async () => {
+    render({
+      setup: () => ({ languages, selected: ref('en') }),
+      template: `<div style="height: 400px; padding: 50px"><KrdsLanguageSwitcher v-model="selected" :language-list="languages">언어변경</KrdsLanguageSwitcher></div>`
+    })
+    await userEvent.click(screen.getByRole('button'))
+    const current = screen.getByRole('link', { name: /English/ })
+    expect(current).toHaveAttribute('aria-current', 'true')
+    expect(current).not.toHaveAttribute('aria-selected')
+    expect(screen.getByRole('link', { name: /한국어/ })).not.toHaveAttribute('aria-current')
+    await expectNoA11yViolations()
+  })
 })
