@@ -77,18 +77,22 @@ describe('KrdsSideNavigation', () => {
     expect(controlled(toggles[0])).toHaveAttribute('role', 'menu')
 
     // 3Depth 팝업 버튼: aria-haspopup, 닫힌 상태로 시작
+    // 팝업 버튼이 가리키는 4Depth 메뉴(ul[role=menu])는 제목과 같은 이름의 group 팝업 안에 있다
     const popupBtn = screen.getByRole('menuitem', { name: '3Depth-menu' })
-    const popup = controlled(popupBtn)
+    const popupMenu = controlled(popupBtn)
+    const popup = popupMenu.closest<HTMLElement>('.lnb-submenu-lv2')!
     expect(popupBtn).toHaveAttribute('aria-haspopup', 'true')
     expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
-    expect(popup).toHaveAttribute('role', 'menu')
+    expect(popupMenu).toHaveAttribute('role', 'menu')
+    expect(popupMenu).toHaveAttribute('aria-label', '3Depth-title')
+    expect(popup).toHaveAttribute('role', 'group')
     expect(popup).not.toHaveClass('active')
 
     // 클릭으로 열면 전환이 끝난 뒤 팝업 제목으로 초점 이동
     await userEvent.click(popupBtn)
     expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
     expect(popup).toHaveClass('active')
-    const popupTitle = await within(popup).findByRole('button', { name: '3Depth-title' })
+    const popupTitle = await within(popup).findByRole('menuitem', { name: '3Depth-title' })
     await waitFor(() => expect(popupTitle).toHaveFocus())
     expect(within(popup).getAllByRole('menuitem', { name: '4Depth' })).toHaveLength(3)
 
@@ -97,12 +101,23 @@ describe('KrdsSideNavigation', () => {
     expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
     await waitFor(() => expect(popupBtn).toHaveFocus())
 
-    // Enter로 다시 열고, Tab으로 팝업을 벗어나면 닫히고 팝업 버튼으로 초점 복귀 (원본 KRDS 동작)
+    // Enter로 다시 열고, Tab으로 팝업을 벗어나면 닫히고 초점은 옮겨 간 다음 메뉴에 그대로 둔다 (WAI-ARIA 메뉴 패턴)
     await userEvent.keyboard('{Enter}')
     await waitFor(() => expect(popupTitle).toHaveFocus())
     await userEvent.keyboard('{Tab}{Tab}{Tab}{Tab}')
     expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
-    await waitFor(() => expect(popupBtn).toHaveFocus())
+    const nextLink = screen.getAllByRole('menuitem', { name: '3Depth-link' })[0]
+    expect(nextLink).toHaveFocus()
+    await new Promise(requestAnimationFrame)
+    expect(nextLink).toHaveFocus()
+
+    // 갈 곳 없이 빠진 초점(다른 창으로 전환 등)으로는 닫지 않고, 팝업 밖 빈 곳을 누르면 닫는다
+    await userEvent.click(popupBtn)
+    await waitFor(() => expect(popupTitle).toHaveFocus())
+    popupTitle.blur()
+    expect(popupBtn).toHaveAttribute('aria-expanded', 'true')
+    await userEvent.click(screen.getByRole('heading', { name: '1Depth-title' }))
+    expect(popupBtn).toHaveAttribute('aria-expanded', 'false')
 
     // 팝업이 열린 채로 2Depth를 접으면 하위 팝업도 닫힘
     await userEvent.click(popupBtn)
@@ -126,12 +141,9 @@ describe('KrdsSideNavigation', () => {
     await userEvent.click(popupBtn)
     await waitFor(() => expect(popupTitle).toHaveFocus())
 
-    // 원본 KRDS 마크업(role=menu 팝업 안의 제목 버튼·역할 없는 ul)을 따르므로 열린 팝업 요소만 제외한다
-    await expectNoA11yViolations([
-      { id: 'aria-required-children', selector: '[role]:not(.lnb-submenu-lv2)' },
-      { id: 'aria-required-parent', selector: '[role]:not(.lnb-submenu-lv2 a)' },
-      { id: 'list', selector: 'ul:not(.lnb-submenu-lv2 > ul), ol' }
-    ])
+    // 열린 팝업까지 규칙을 빼지 않고 검사한다
+    expect(popup).toHaveClass('active')
+    await expectNoA11yViolations()
   })
 
   it('2Depth 링크: 하위 메뉴 없는 항목은 링크, onClick 호출', async () => {
