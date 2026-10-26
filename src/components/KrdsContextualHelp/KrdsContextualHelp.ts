@@ -1,4 +1,4 @@
-import { defineComponent, h, onMounted, onUnmounted, ref } from 'vue'
+import { defineComponent, h, onMounted, onUnmounted, ref, useId } from 'vue'
 import type { SlotsType, VNode } from 'vue'
 import type { PropType } from 'vue'
 
@@ -48,6 +48,7 @@ export default /* @__PURE__ */ defineComponent({
 
     // State
     const isVisible = ref(false)
+    const popoverId = `contextual-help-${useId()}`
 
     // Methods
     const toggleTooltip = () => {
@@ -79,6 +80,8 @@ export default /* @__PURE__ */ defineComponent({
       isVisible.value = false
       tooltipPopoverRef.value.style.display = 'none'
       tooltipBtnRef.value.setAttribute('aria-expanded', 'false')
+      // 닫기 버튼이 숨으며 초점을 잃지 않게 도움말 버튼으로 돌려준다
+      tooltipBtnRef.value.focus()
     }
 
     const closeAllTooltips = () => {
@@ -120,7 +123,10 @@ export default /* @__PURE__ */ defineComponent({
     // Event handlers
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' || event.key === 'Esc') {
+        // 이 도움말 안에 초점이 있었으면 닫은 뒤 도움말 버튼으로 돌려준다 (팝오버가 숨으며 초점을 잃지 않게)
+        const focusInside = tooltipPopoverRef.value?.contains(document.activeElement)
         closeAllTooltips()
+        if (focusInside) tooltipBtnRef.value?.focus()
       }
     }
 
@@ -146,9 +152,6 @@ export default /* @__PURE__ */ defineComponent({
       if (tooltipBtnRef.value) {
         tooltipBtnRef.value.setAttribute('aria-expanded', 'false')
       }
-      if (tooltipPopoverRef.value) {
-        tooltipPopoverRef.value.setAttribute('role', 'tooltip')
-      }
 
       // Add global event listeners
       document.addEventListener('keydown', handleKeydown)
@@ -172,6 +175,7 @@ export default /* @__PURE__ */ defineComponent({
               ref: tooltipBtnRef,
               type: 'button',
               class: 'krds-btn medium icon tooltip-btn',
+              'aria-controls': popoverId,
               onClick: toggleTooltip
             },
             [
@@ -179,20 +183,25 @@ export default /* @__PURE__ */ defineComponent({
               props.helpIcon ? h('i', { class: 'svg-icon ico-help' }) : h('i', { class: 'svg-icon ico-tooltip' })
             ]
           ),
-          h('div', { ref: tooltipPopoverRef, class: 'tooltip-popover', role: 'tooltip' }, [
-            h('h4', { class: 'tooltip-title' }, props.tooltipTitle),
-            h('div', { class: 'tooltip-contents' }, slots.default?.()),
-            h(
-              'button',
-              {
-                ref: closeBtnRef,
-                type: 'button',
-                class: 'krds-btn xsmall icon tooltip-close',
-                onClick: closeTooltip
-              },
-              [h('span', { class: 'sr-only' }, '닫기'), h('i', { class: 'svg-icon ico-modal-close' })]
-            )
-          ])
+          // 원본은 role="tooltip"이지만 안에 버튼·링크가 있으므로 제목으로 이름 붙인 비모달 대화 상자로 둔다
+          h(
+            'div',
+            { ref: tooltipPopoverRef, id: popoverId, class: 'tooltip-popover', role: 'dialog', 'aria-labelledby': `${popoverId}-title` },
+            [
+              h('h4', { id: `${popoverId}-title`, class: 'tooltip-title' }, props.tooltipTitle),
+              h('div', { class: 'tooltip-contents' }, slots.default?.()),
+              h(
+                'button',
+                {
+                  ref: closeBtnRef,
+                  type: 'button',
+                  class: 'krds-btn xsmall icon tooltip-close',
+                  onClick: closeTooltip
+                },
+                [h('span', { class: 'sr-only' }, '닫기'), h('i', { class: 'svg-icon ico-modal-close' })]
+              )
+            ]
+          )
         ])
       ])
   }
