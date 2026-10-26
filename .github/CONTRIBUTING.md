@@ -88,7 +88,7 @@ docs/components/
 
 ### 커밋 메시지 규칙
 
-[Conventional Commits](https://www.conventionalcommits.org/) 규칙을 따릅니다:
+[Conventional Commits](https://www.conventionalcommits.org/) 규칙을 따릅니다. [release-please](https://github.com/googleapis/release-please)가 커밋 메시지로 릴리스 PR과 CHANGELOG를 만들고, 릴리스 PR이 머지되면 npm에 배포합니다.
 
 ```
 <type>[optional scope]: <description>
