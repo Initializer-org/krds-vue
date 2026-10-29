@@ -3,7 +3,7 @@
   import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 
   /**
-   * KRDS Vue ↔ KRDS React 문서 전환. 보던 경로를 그대로 들고 상대 사이트로 간다.
+   * KRDS Vue · React · Angular 문서 전환. 보던 경로를 그대로 들고 상대 사이트로 간다.
    * 고르는 순간 이동하는 <select>는 키보드로 항목을 훑기만 해도 페이지가 바뀌므로(WCAG 3.2.2) 버튼 + 링크 목록으로 만든다.
    *
    * 상단 메뉴 첫 항목(config.ts nav)으로 넣어 화면 순서와 Tab 순서가 같고, 모든 페이지에서 같은 자리에 있다. VitePress가 넘기는 props에 따라
@@ -11,11 +11,12 @@
    * - menu(메뉴가 넘쳐 ⋯ 패널로 접힘)·screenMenu(모바일 햄버거 화면): 링크 목록
    * - mobile(theme/index.ts의 nav-bar-content-before): 메뉴가 햄버거로 접히는 768px 미만에서만 상단에 보이는 드롭다운
    */
-  const props = defineProps<{ current: 'vue' | 'react'; menu?: boolean; screenMenu?: boolean; mobile?: boolean }>()
+  const props = defineProps<{ current: 'vue' | 'react' | 'angular'; menu?: boolean; screenMenu?: boolean; mobile?: boolean }>()
 
   const frameworks = [
     { key: 'vue', text: 'Vue', url: 'https://krds.initializer.org' },
-    { key: 'react', text: 'React', url: 'https://react.krds.initializer.org' }
+    { key: 'react', text: 'React', url: 'https://react.krds.initializer.org' },
+    { key: 'angular', text: 'Angular', url: 'https://angular.krds.initializer.org' }
   ] as const
 
   const route = useRoute()
