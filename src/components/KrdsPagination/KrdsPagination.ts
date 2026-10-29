@@ -273,11 +273,13 @@ export default /* @__PURE__ */ defineComponent({
     return () =>
       // ariaLabel로 이름 붙인 내비게이션 영역 (다른 nav와 구분)
       h('nav', { id: props.id, class: 'krds-pagination', 'aria-label': props.ariaLabel }, [
-        // 이전 버튼
+        // 이전 버튼. 첫·끝 페이지에서는 href 없는 비활성 링크로 남겨 화면낭독기가 "이전, 링크, 사용 불가"로 읽는다
         h(
-          prevDisabled.value ? 'span' : 'a',
+          'a',
           {
             href: prevDisabled.value ? undefined : prevHref.value,
+            role: prevDisabled.value ? 'link' : undefined,
+            'aria-disabled': prevDisabled.value ? 'true' : undefined,
             class: ['page-navi', 'prev', { disabled: prevDisabled.value }],
             onClick: handlePrevClick
           },
@@ -289,9 +291,11 @@ export default /* @__PURE__ */ defineComponent({
 
         // 다음 버튼
         h(
-          nextDisabled.value ? 'span' : 'a',
+          'a',
           {
             href: nextDisabled.value ? undefined : nextHref.value,
+            role: nextDisabled.value ? 'link' : undefined,
+            'aria-disabled': nextDisabled.value ? 'true' : undefined,
             class: ['page-navi', 'next', { disabled: nextDisabled.value }],
             onClick: handleNextClick
           },
