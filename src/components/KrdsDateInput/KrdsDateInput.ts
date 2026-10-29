@@ -618,6 +618,8 @@ export default /* @__PURE__ */ defineComponent({
                     {
                       type: 'button',
                       class: 'btn-set-date',
+                      // 이전·다음 달 날짜는 고를 수 없다 (공식 krds-react와 같게)
+                      disabled: !day.isCurrentMonth,
                       'aria-pressed': isDateInSelectedRange(day.dateString).isInRange ? 'true' : 'false',
                       onClick: () => handleDateSelection(day.dateString)
                     },
