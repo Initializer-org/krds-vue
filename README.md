@@ -34,7 +34,7 @@
 
 ## KRDS Vue: 대한민국 정부 디자인 시스템을 Vue 3로
 
-[KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html)를 Vue 3 + TypeScript로 구현한 컴포넌트 라이브러리입니다. 공공 웹서비스에서 반복되는 폼, 내비게이션, 레이아웃, 피드백 UI를 KRDS 원본과 같은 모습과 동작으로 제공합니다.
+Vue 프로젝트에서 민원 신청, 본인 인증, 처리 현황 같은 공공서비스 화면을 [KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html) 기준으로 구성할 수 있습니다. 폼·내비게이션·레이아웃을 조합해 사용하고, KRDS의 마크업·스타일·키보드 동작을 함께 적용합니다.
 
 - **KRDS 원본 그대로.** KRDS 원본 저장소 v1.1.0의 마크업·클래스·키보드 동작을 기준으로 포팅했습니다. [공식 컴포넌트 55종](https://www.krds.go.kr/html/site/component/component_summary.html) 중 52종을 포함해 58개 컴포넌트를 제공합니다.
 - **접근성 자동 검사.** 모든 컴포넌트 테스트가 실제 브라우저에서 axe-core 접근성 검사를 실행하고, 위반이 있으면 CI가 실패합니다. 고대비 모드를 지원합니다.
