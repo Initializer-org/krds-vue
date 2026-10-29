@@ -1,3 +1,8 @@
+---
+title: KRDS Vue AI 도구용 문서와 개발 지침
+description: 'KRDS Vue의 AI 개발 지침, llms.txt 문서 목차, 예제와 API를 담은 llms-full.txt 및 문서별 원문 링크를 안내합니다.'
+---
+
 # AI로 개발하기
 
 Claude Code, Cursor, GitHub Copilot 같은 AI 코딩 도구가 KRDS Vue를 올바르게 쓰도록 지침 파일과 AI용 문서를 제공합니다. AI가 문서에 없는 속성을 지어내거나 KRDS 구조를 벗어난 마크업을 만드는 일을 줄일 수 있습니다.
@@ -36,6 +41,8 @@ AI가 KRDS Vue로 화면을 만들 때 따를 규칙을 지침 파일로 정리�
 
 - <a href="/llms.txt" target="_blank" rel="noopener">llms.txt</a>: 가이드와 컴포넌트 문서 목차, 문서마다 한 줄 설명
 - <a href="/llms-full.txt" target="_blank" rel="noopener">llms-full.txt</a>: 가이드와 모든 컴포넌트 문서를 한 파일로 (예제 코드와 Props·Events·Slots 표 포함)
+
+전체 문서에는 [자주 묻는 질문](/guide/faq)과 각 문서의 원문 URL도 포함됩니다. 답변의 근거를 확인하거나 공유할 때는 해당 원문 페이지를 참고하세요. 이 파일들은 AI 도구에 문맥을 전달하기 위한 보조 자료이며, 검색 노출이나 AI 답변 인용을 보장하지 않습니다.
 
 ## 프롬프트 예시
 

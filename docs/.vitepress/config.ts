@@ -5,6 +5,7 @@ import type { HeadConfig, MarkdownRenderer } from 'vitepress'
 import { componentGroups, krdsGuides } from './component-groups.ts'
 import { cursorRule, writeAiFiles } from './llms.ts'
 import { pageDescription } from './pages.ts'
+import { documentationHead, documentationTitle } from './seo.ts'
 
 const root = resolve(import.meta.dirname, '../..')
 const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }
@@ -12,9 +13,6 @@ const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-
 const siteUrl = 'https://krds.initializer.org'
 const siteDescription =
   'KRDS 디자인 시스템을 Vue 3와 TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리 문서입니다. 공공 웹서비스를 위한 폼, 내비게이션, 레이아웃, 피드백 UI 예제와 API를 제공합니다.'
-
-/** 페이지 URL (cleanUrls 기준) */
-const pageUrl = (relativePath: string) => `${siteUrl}/${relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')}`
 
 /** 옛 Storybook 주소(/?path=/docs/<id>, /iframe.html?id=<id>)를 새 문서 페이지로 옮긴다 (이미 공유된 링크 보존) */
 const storybookRedirect = `(() => {
@@ -89,7 +87,7 @@ export default defineConfig({
   sitemap: {
     hostname: siteUrl,
     // iframe 예제 페이지는 검색 대상에서 제외
-    transformItems: items => items.filter(item => !item.url.startsWith('frame/'))
+    transformItems: items => items.filter(item => !item.url.startsWith('frame/') && !/^404(?:\.html)?$/.test(item.url))
   },
   head: [
     ['script', {}, storybookRedirect],
@@ -109,21 +107,6 @@ export default defineConfig({
     ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
-    [
-      'script',
-      { type: 'application/ld+json' },
-      JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareSourceCode',
-        name: 'KRDS Vue',
-        description: siteDescription,
-        url: siteUrl,
-        codeRepository: 'https://github.com/Initializer-org/krds-vue',
-        programmingLanguage: ['TypeScript', 'Vue'],
-        runtimePlatform: 'Vue 3',
-        license: 'https://opensource.org/licenses/MIT'
-      })
-    ],
     // VitePress 다크 모드를 KRDS 고대비 모드로 연결
     [
       'script',
@@ -136,32 +119,42 @@ export default defineConfig({
       })()`
     ]
   ],
-  // 페이지별 설명: frontmatter description이 없으면 제목 다음 첫 문단(컴포넌트 설명)을 쓴다
+  // frontmatter.head에 저장해야 SPA 화면 이동에서도 canonical과 JSON-LD가 함께 갱신된다.
   transformPageData(pageData, { siteConfig }) {
-    if (pageData.frontmatter.description || pageData.relativePath.startsWith('frame/')) return
-    const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
-    if (description) pageData.description = description
+    if (!pageData.frontmatter.description && !pageData.relativePath.startsWith('frame/')) {
+      const description = pageDescription(resolve(siteConfig.srcDir, pageData.relativePath))
+      if (description)
+        pageData.description = pageData.relativePath.startsWith('components/')
+          ? `KRDS Vue의 ${pageData.title}. ${description}`
+          : description
+    }
+    pageData.frontmatter.head = [
+      ...(pageData.frontmatter.head ?? []),
+      ...documentationHead({
+        siteUrl,
+        siteName: 'KRDS Vue',
+        siteDescription,
+        framework: 'Vue 3',
+        version,
+        license: 'MIT',
+        repository: 'https://github.com/Initializer-org/krds-vue',
+        pageData,
+        title: documentationTitle(pageData, siteConfig.site.title, siteConfig.site.titleTemplate),
+        description: pageData.description || siteDescription
+      })
+    ]
   },
-  // AI 도구용 파일 (llms.txt, llms-full.txt, Cursor 규칙 파일)
-  async buildEnd(siteConfig) {
-    await writeAiFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
-  },
-  transformHead({ pageData, title, description, assets }) {
-    // KRDS 글꼴은 CSS를 읽은 뒤에야 받기 시작해 첫 화면이 시스템 글꼴로 그려졌다가 바뀌므로 미리 받는다
-    const fonts = assets
+  transformHead({ pageData, assets }) {
+    // 기본 404는 transformPageData를 거치지 않는 VitePress 가상 페이지다.
+    if (pageData.relativePath === '404.md') return [['meta', { name: 'robots', content: 'noindex, follow' }]]
+    // KRDS 글꼴은 CSS를 읽기 전에 미리 받는다.
+    return assets
       .filter(file => /\/PretendardGOV-[\w.-]+\.woff2$/.test(file))
       .map((href): HeadConfig => ['link', { rel: 'preload', href, as: 'font', type: 'font/woff2', crossorigin: '' }])
-    if (pageData.relativePath.startsWith('frame/')) return [...fonts, ['meta', { name: 'robots', content: 'noindex' }]]
-    const url = pageUrl(pageData.relativePath)
-    return [
-      ...fonts,
-      ['link', { rel: 'canonical', href: url }],
-      ['meta', { property: 'og:url', content: url }],
-      ['meta', { property: 'og:title', content: title }],
-      ['meta', { property: 'og:description', content: description }],
-      ['meta', { name: 'twitter:title', content: title }],
-      ['meta', { name: 'twitter:description', content: description }]
-    ]
+  },
+  // 기존 AI 도구용 파일도 최신 문서로 생성한다.
+  async buildEnd(siteConfig) {
+    await writeAiFiles(siteConfig.srcDir, siteConfig.outDir, siteUrl)
   },
   themeConfig: {
     logo: { light: '/logo.svg', dark: '/logo-dark.svg', alt: '' },
@@ -181,6 +174,7 @@ export default defineConfig({
         items: [
           { text: '시작하기', link: '/guide/getting-started' },
           { text: 'AI로 개발하기', link: '/guide/ai' },
+          { text: '자주 묻는 질문', link: '/guide/faq' },
           { text: '컴포넌트 목록', link: '/components/' }
         ]
       },

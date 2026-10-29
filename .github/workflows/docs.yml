@@ -7,6 +7,7 @@ on:
       - 'docs/**'
       - 'src/**'
       - 'public/**'
+      - 'scripts/check-docs-seo.mjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/docs.yml'
@@ -45,6 +46,9 @@ jobs:
 
       - name: Build docs
         run: pnpm docs:build
+
+      - name: Check docs SEO
+        run: pnpm docs:seo
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

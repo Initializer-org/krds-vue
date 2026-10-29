@@ -9,12 +9,17 @@ import ComponentList from './ComponentList.vue'
 import DemoFrame from './DemoFrame.vue'
 import DocTabs from './DocTabs.vue'
 import FrameworkSwitch from './FrameworkSwitch.vue'
+import NotFound from './NotFound.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
   // KRDS Vue · React · Angular 전환: 상단 메뉴 첫 항목(config.ts nav)이고, 메뉴가 햄버거로 접히는 모바일에서도 보이게 상단에 하나 더
-  Layout: () => h(DefaultTheme.Layout, null, { 'nav-bar-content-before': () => h(FrameworkSwitch, { current: 'vue', mobile: true }) }),
+  Layout: () =>
+    h(DefaultTheme.Layout, null, {
+      'nav-bar-content-before': () => h(FrameworkSwitch, { current: 'vue', mobile: true }),
+      'not-found': () => h(NotFound)
+    }),
   enhanceApp({ app }) {
     app.component('ComponentApi', ComponentApi)
     app.component('ComponentList', ComponentList)
