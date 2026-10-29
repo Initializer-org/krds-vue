@@ -73,7 +73,8 @@
     "prepublishOnly": "pnpm run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "docs:seo": "node scripts/check-docs-seo.mjs"
   },
   "peerDependencies": {
     "vue": "^3.5.0"

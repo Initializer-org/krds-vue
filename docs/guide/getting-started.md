@@ -1,8 +1,15 @@
-# 시작하기
+---
+title: KRDS Vue 설치와 시작하기
+description: '@krds.ui/vue 설치, Vue 3.5 이상 요구사항, 스타일과 전역 등록, 개별 컴포넌트 import, Nuxt SSR 및 TypeScript 설정을 안내합니다.'
+---
+
+# KRDS Vue 설치와 시작하기
 
 KRDS Vue는 [KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html)를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리입니다. 이 패키지는 **ESM 전용**이며 CommonJS `require()`는 지원하지 않습니다.
 
 ## 설치
+
+Vue 지원 범위는 `^3.5.0`(3.5.0 이상, 4.0.0 미만)입니다. 패키지 이름은 [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)이며, Initializer Team이 유지보수합니다.
 
 ::: code-group
 
@@ -157,3 +164,5 @@ document.documentElement.setAttribute('data-krds-mode', 'high-contrast')
 | Safari (iOS 포함) | 16.4 이상 |
 
 산출물에 폴리필은 포함하지 않습니다. Internet Explorer는 지원하지 않습니다.
+
+설치 패키지 선택, Nuxt 사용, 전역 타입과 접근성 검증 범위는 [자주 묻는 질문](/guide/faq)에서 확인할 수 있습니다.

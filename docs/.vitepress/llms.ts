@@ -34,13 +34,27 @@ export const writeAiFiles = async (srcDir: string, outDir: string, siteUrl: stri
   const link = (file: string) => `${siteUrl}/${file.replace(/\.md$/, '')}`
   const guides = [
     ['시작하기', 'guide/getting-started.md'],
-    ['AI로 개발하기', 'guide/ai.md']
+    ['AI로 개발하기', 'guide/ai.md'],
+    ['자주 묻는 질문', 'guide/faq.md']
   ]
 
-  const index = [
+  const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as {
+    name: string
+    version: string
+    peerDependencies: { vue: string }
+  }
+  const overview = [
     '# KRDS Vue',
     '',
     '> 대한민국 정부 디자인 시스템(KRDS)을 Vue 3와 TypeScript로 구현한 컴포넌트 라이브러리(@krds.ui/vue) 문서입니다.',
+    '',
+    '- 유지보수: Initializer Team. 정부가 배포하는 공식 Vue 패키지가 아닌 커뮤니티 라이브러리입니다.',
+    `- 문서 기준 패키지: ${pkg.name}@${pkg.version}; Vue 지원 범위: ${pkg.peerDependencies.vue}; ESM 전용.`,
+    '- 소스와 변경 이력: https://github.com/Initializer-org/krds-vue',
+    '- 라이선스: https://github.com/Initializer-org/krds-vue/blob/main/LICENSE'
+  ]
+  const index = [
+    ...overview,
     '',
     `- 전체 문서: ${siteUrl}/llms-full.txt`,
     `- AI 개발 지침: ${siteUrl}/ai/guidelines.md`,
@@ -62,9 +76,8 @@ export const writeAiFiles = async (srcDir: string, outDir: string, siteUrl: stri
   ]
 
   const full = [
-    index.slice(0, 3).join('\n'),
-    toPlain(resolve(srcDir, 'guide/getting-started.md'), meta, aliases),
-    ...files.map(file => toPlain(resolve(srcDir, file), meta, aliases))
+    overview.join('\n'),
+    ...[...guides.map(([, file]) => file), ...files].map(file => `원문: ${link(file)}\n\n${toPlain(resolve(srcDir, file), meta, aliases)}`)
   ]
 
   writeFileSync(resolve(outDir, 'llms.txt'), `${index.join('\n')}\n`)
@@ -124,7 +137,8 @@ const toPlain = (file: string, meta: Record<string, ComponentApi>, aliases: Reco
   let inFence = false
   const lines = readFileSync(file, 'utf-8')
     .replace(/^---\n[\s\S]*?\n---\n/, '')
-    .replace(/<script setup>[\s\S]*?<\/script>\n*/, '')
+    // 문서 맨 앞의 데모 import만 제거한다. 본문·코드 예제 속 <script setup>은 보존한다.
+    .replace(/^\s*<script setup(?:\s[^>]*)?>[\s\S]*?<\/script>\s*/, '')
     .split('\n')
     .flatMap(line => {
       if (line.startsWith('```')) inFence = !inFence

@@ -65,7 +65,10 @@
     if (switched) nextTick(() => target?.scrollIntoView())
   }
 
-  onMounted(syncFromLocation)
+  onMounted(() => {
+    syncFromLocation()
+    listRef.value?.closest('.doc-tabs')?.setAttribute('data-enhanced', '')
+  })
   // VitePress는 같은 페이지 안 이동(해시·쿼리 변경, 뒤로·앞으로)에서 페이지를 다시 만들지 않고 이 값만 바꾼다
   watch(() => [route.query, route.hash], syncFromLocation)
 </script>
