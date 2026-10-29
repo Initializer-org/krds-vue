@@ -224,6 +224,10 @@ describe('KrdsDateInput', () => {
     expect(screen.getByRole('table', { name: '2025년 05월' })).toBeInTheDocument()
     expect(cell('2025.04.27')).toHaveClass('old')
     expect(cell('2025.06.01')).toHaveClass('new')
+    // 이전·다음 달 날짜는 고를 수 없다 (공식 krds-react와 같게)
+    expect(cell('2025.04.27')?.querySelector('button')).toBeDisabled()
+    expect(cell('2025.06.01')?.querySelector('button')).toBeDisabled()
+    expect(cell('2025.05.01')?.querySelector('button')).toBeEnabled()
 
     // 휴일·일요일은 day-off, 일정은 day-event
     expect(cell('2025.05.05')).toHaveClass('day-off')
