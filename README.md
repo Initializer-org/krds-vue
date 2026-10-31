@@ -25,6 +25,8 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://krds.initializer.org/components/">컴포넌트</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://www.npmjs.com/package/@krds.ui/vue">npm: @krds.ui/vue</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://krds.initializer.org/playground">플레이그라운드</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://krds.initializer.org/guide/ai">AI로 개발하기</a>
@@ -33,6 +35,8 @@
 <hr />
 
 ## KRDS Vue: 대한민국 정부 디자인 시스템을 Vue 3로
+
+**KRDS Vue의 npm 패키지는 [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)입니다.** [Initializer Team](https://github.com/Initializer-org)이 유지보수하는 커뮤니티 라이브러리이며, 정부가 배포하는 공식 패키지와 별도로 배포됩니다.
 
 Vue 프로젝트에서 민원 신청, 본인 인증, 처리 현황 같은 공공서비스 화면을 [KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html) 기준으로 구성할 수 있습니다. 폼·내비게이션·레이아웃을 조합해 사용하고, KRDS의 마크업·스타일·키보드 동작을 함께 적용합니다.
 
@@ -45,8 +49,10 @@ Vue 프로젝트에서 민원 신청, 본인 인증, 처리 현황 같은 공공
 ## 빠른 시작
 
 ```bash
-pnpm add @krds.ui/vue
+npm install @krds.ui/vue
 ```
+
+pnpm을 쓰면 `pnpm add @krds.ui/vue`로 설치합니다. `Initializer-org/krds-vue`는 GitHub 저장소 이름이며, 설치와 import에는 `@krds.ui/vue`를 사용합니다. [패키지 이름과 원본과의 관계](https://krds.initializer.org/guide/faq#package-names)를 참고하세요.
 
 ```ts
 import { createApp } from 'vue'

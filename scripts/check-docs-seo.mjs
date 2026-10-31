@@ -5,6 +5,8 @@ import { relative, resolve } from 'node:path'
 
 const root = resolve(import.meta.dirname, '..')
 const dist = resolve(root, 'docs/.vitepress/dist')
+const packagePath = existsSync(resolve(root, 'projects/krds-angular/package.json')) ? 'projects/krds-angular/package.json' : 'package.json'
+const pkg = JSON.parse(readFileSync(resolve(root, packagePath), 'utf8'))
 const siteUrl = `https://${readFileSync(resolve(root, 'docs/public/CNAME'), 'utf8').trim()}`
 const read = path => readFileSync(resolve(dist, path), 'utf8')
 const decode = text =>
@@ -81,7 +83,12 @@ for (const file of files) {
   )
   const software = graph.find(node => node['@type'] === 'SoftwareSourceCode')
   assert(software?.version && software.codeRepository, `${file}: 패키지 식별 정보 누락`)
-  assert.equal(software.version, JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8')).version, `${file}: 패키지 버전 불일치`)
+  assert.equal(software.version, pkg.version, `${file}: 패키지 버전 불일치`)
+  assert.equal(software.name, pkg.name, `${file}: npm 패키지명 불일치`)
+  assert.equal(software.identifier, pkg.name, `${file}: npm 식별자 불일치`)
+  assert.equal(software.sameAs, `https://www.npmjs.com/package/${pkg.name}`, `${file}: npm URL 불일치`)
+  assert.equal(software.codeRepository, pkg.repository.url.replace(/^git\+/, '').replace(/\.git$/, ''), `${file}: 저장소 불일치`)
+  assert.equal(software.url, `${pkg.homepage.replace(/\/$/, '')}/`, `${file}: 패키지 문서 주소 불일치`)
   if (file !== 'index.html') {
     const breadcrumb = graph.find(node => node['@type'] === 'BreadcrumbList')
     assert.equal(breadcrumb?.itemListElement.at(-1).item, url, `${file}: breadcrumb 현재 페이지 불일치`)
@@ -133,6 +140,26 @@ const faqText = aiFull.split(`원문: ${siteUrl}/guide/faq\n`)[1]?.split('\n\n--
 assert(faqText?.includes('## 라이선스와 AI 도구용 문서는 어디에 있나요?'), 'AI 문서 FAQ 본문 누락')
 assert(faqText?.includes('<script setup lang="ts">'), 'AI 문서의 Vue 코드 예제 손상')
 assert(!aiFull.includes('<ComponentApi name='), 'AI 문서 API 표가 펼쳐지지 않음')
+for (const file of ['llms.txt', 'llms-full.txt', 'ai/guidelines.md', 'ai/krds-vue.mdc']) {
+  assert(read(file).includes(`npm install ${pkg.name}`), `${file}: AI 문서 npm 설치 명령 누락`)
+  assert(read(file).includes(`https://www.npmjs.com/package/${pkg.name}`), `${file}: AI 문서 npm 링크 누락`)
+}
+// 검색 엔진이 읽는 본문에도 실제 npm 설치 명령과 패키지 링크가 있어야 한다.
+for (const file of ['index.html', 'guide/getting-started.html', 'guide/faq.html']) {
+  const html = read(file)
+  const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/)?.[1] ?? ''
+  const text = decode(body.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '').replace(/<[^>]*>/g, ''))
+  assert(text.includes(`npm install ${pkg.name}`), `${file}: 본문에 정확한 npm 설치 명령 누락`)
+  assert(
+    elements(body, 'a').some(link => link.href === `https://www.npmjs.com/package/${pkg.name}`),
+    `${file}: npm 링크 누락`
+  )
+}
+const readme = readFileSync(resolve(root, 'README.md'), 'utf8')
+assert(readme.includes(`npm install ${pkg.name}`), 'README 설치 명령 불일치')
+for (const framework of ['vue', 'react', 'angular']) {
+  assert(faq.includes(`https://www.npmjs.com/package/@krds.ui/${framework}`), `FAQ: ${framework} 패키지 구분 누락`)
+}
 process.stdout.write(
   `SEO 검사 통과: ${relative(root, dist)}, 색인 대상 ${indexed.length}개, 검색 제외 ${files.length - indexed.length}개\n`
 )

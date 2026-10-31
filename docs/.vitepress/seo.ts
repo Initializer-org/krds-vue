@@ -16,6 +16,7 @@ type DocumentationContext = {
   siteName: string
   siteDescription: string
   framework: string
+  packageName: string
   version: string
   license: string
   repository: string
@@ -26,7 +27,7 @@ type DocumentationContext = {
 
 /** SSR HTML에 페이지별 식별 정보와 문서 관계를 함께 기록한다. */
 export function documentationHead(context: DocumentationContext): HeadConfig[] {
-  const { siteUrl, siteName, siteDescription, framework, version, license, repository, pageData, title, description } = context
+  const { siteUrl, siteName, siteDescription, framework, packageName, version, license, repository, pageData, title, description } = context
   const path = pageData.relativePath
   if (path === '404.md' || path.startsWith('frame/')) {
     return [['meta', { name: 'robots', content: 'noindex, follow' }]]
@@ -58,7 +59,10 @@ export function documentationHead(context: DocumentationContext): HeadConfig[] {
     {
       '@type': 'SoftwareSourceCode',
       '@id': softwareId,
-      name: siteName,
+      name: packageName,
+      alternateName: siteName,
+      identifier: packageName,
+      sameAs: `https://www.npmjs.com/package/${packageName}`,
       url: `${siteUrl}/`,
       description: siteDescription,
       codeRepository: repository,

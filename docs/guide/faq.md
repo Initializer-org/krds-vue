@@ -11,9 +11,25 @@ KRDS Vue는 Initializer Team이 유지보수하는 `@krds.ui/vue`입니다. 대�
 
 아닙니다. 이 프로젝트는 [KRDS 공식 가이드](https://www.krds.go.kr/html/site/index.html)를 따르지만 Initializer Team이 별도로 유지보수합니다. 구현 소스와 변경 이력은 [krds-vue 저장소](https://github.com/Initializer-org/krds-vue)에서 확인할 수 있습니다.
 
+## krds-vue·krds-uiux와 어떤 차이가 있나요? {#package-names}
+
+이 문서의 Vue 라이브러리는 [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)이며 설치 명령은 `npm install @krds.ui/vue`입니다. `Initializer-org/krds-vue`는 GitHub 저장소 이름이고 npm 설치 이름은 `@krds.ui/vue`입니다. [`krds-uiux`](https://github.com/KRDS-uiux/krds-uiux)는 KRDS 공식 HTML Component Kit으로, 이 Vue 컴포넌트 라이브러리와 별개의 패키지입니다.
+
+## Vue·React·Angular 중 어떤 패키지를 선택하나요? {#framework-packages}
+
+Initializer Team의 KRDS 라이브러리는 프레임워크별로 별도 배포됩니다. 프로젝트에 사용하는 프레임워크에 맞는 패키지를 선택하세요.
+
+| 프레임워크 | npm 패키지                                                           | 설치 명령                      | 문서                                                                       |
+| ---------- | -------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------- |
+| Vue        | [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)         | `npm install @krds.ui/vue`     | [KRDS Vue](https://krds.initializer.org/guide/getting-started)             |
+| React      | [`@krds.ui/react`](https://www.npmjs.com/package/@krds.ui/react)     | `npm install @krds.ui/react`   | [KRDS React](https://react.krds.initializer.org/guide/getting-started)     |
+| Angular    | [`@krds.ui/angular`](https://www.npmjs.com/package/@krds.ui/angular) | `npm install @krds.ui/angular` | [KRDS Angular](https://angular.krds.initializer.org/guide/getting-started) |
+
+세 패키지는 각각의 프레임워크 API를 사용합니다. 설치 이름과 import 경로도 선택한 패키지에 맞춰야 합니다.
+
 ## 어떤 패키지를 설치하고 어떤 Vue 버전을 써야 하나요? {#installation}
 
-`pnpm add @krds.ui/vue`로 설치합니다. Vue 지원 범위는 `^3.5.0`, 즉 3.5.0 이상이면서 4.0.0 미만입니다. Vue 2는 지원하지 않습니다. ESM 전용 패키지이므로 CommonJS `require()` 대신 `import`를 사용하세요. 전체 설정은 [시작하기](/guide/getting-started)에 있습니다.
+`npm install @krds.ui/vue` 또는 `pnpm add @krds.ui/vue`로 설치합니다. Vue 지원 범위는 `^3.5.0`, 즉 3.5.0 이상이면서 4.0.0 미만입니다. Vue 2는 지원하지 않습니다. ESM 전용 패키지이므로 CommonJS `require()` 대신 `import`를 사용하세요. 전체 설정은 [시작하기](/guide/getting-started)에 있습니다.
 
 ## Nuxt에서 서버 렌더링을 사용할 수 있나요? {#nuxt}
 

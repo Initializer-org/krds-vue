@@ -50,6 +50,9 @@ export const writeAiFiles = async (srcDir: string, outDir: string, siteUrl: stri
     '',
     '- 유지보수: Initializer Team. 정부가 배포하는 공식 Vue 패키지가 아닌 커뮤니티 라이브러리입니다.',
     `- 문서 기준 패키지: ${pkg.name}@${pkg.version}; Vue 지원 범위: ${pkg.peerDependencies.vue}; ESM 전용.`,
+    `- 설치: npm install ${pkg.name}`,
+    `- npm: https://www.npmjs.com/package/${pkg.name}`,
+    '- 이름 구분: Initializer-org/krds-vue는 GitHub 저장소 이름입니다. 설치와 import에는 @krds.ui/vue를 사용합니다. krds-uiux는 별도의 공식 HTML Component Kit입니다.',
     '- 소스와 변경 이력: https://github.com/Initializer-org/krds-vue',
     '- 라이선스: https://github.com/Initializer-org/krds-vue/blob/main/LICENSE'
   ]

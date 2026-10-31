@@ -2,13 +2,17 @@
 
 이 프로젝트는 대한민국 정부 디자인 시스템(KRDS)을 Vue 3로 구현한 `@krds.ui/vue`로 화면을 만든다. 코드를 작성할 때 아래 지침을 따른다.
 
+- 유지보수: Initializer Team. 정부 공식 패키지와 별도로 배포하는 커뮤니티 라이브러리다.
+- npm: https://www.npmjs.com/package/@krds.ui/vue
+- 소스: https://github.com/Initializer-org/krds-vue
 - 문서: https://krds.initializer.org/
 - 전체 문서(AI용): https://krds.initializer.org/llms-full.txt
 - KRDS 원본: https://www.krds.go.kr/
 
 ## 설치와 설정
 
-- 패키지: `@krds.ui/vue` (Vue 3.5 이상).
+- 패키지: `@krds.ui/vue` (Vue 3.5 이상). `npm install @krds.ui/vue`로 설치한다.
+- `Initializer-org/krds-vue`는 GitHub 저장소 이름이다. 설치와 import에는 `@krds.ui/vue`를 사용한다. `krds-uiux`는 별도의 공식 HTML Component Kit이다.
 - 앱 진입점에서 스타일을 한 번만 가져온다: `import '@krds.ui/vue/style'`.
 - 전역 등록: `app.use(KrdsVue)` (`import KrdsVue from '@krds.ui/vue'`). 일부만 등록하려면 `app.use(KrdsVue, { components: ['KrdsButton', 'KrdsInput'] })`.
 - 전역 등록하지 않으면 필요한 컴포넌트를 직접 가져온다: `import { KrdsButton } from '@krds.ui/vue'`.

@@ -5,20 +5,22 @@ description: '@krds.ui/vue 설치, Vue 3.5 이상 요구사항, 스타일과 전
 
 # KRDS Vue 설치와 시작하기
 
-KRDS Vue는 [KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html)를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리입니다. 이 패키지는 **ESM 전용**이며 CommonJS `require()`는 지원하지 않습니다.
+KRDS Vue(`@krds.ui/vue`)는 [KRDS(대한민국 정부 디자인 시스템)](https://www.krds.go.kr/html/site/index.html)를 Vue 3 + TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리입니다. 이 패키지는 **ESM 전용**이며 CommonJS `require()`는 지원하지 않습니다.
 
 ## 설치
 
-Vue 지원 범위는 `^3.5.0`(3.5.0 이상, 4.0.0 미만)입니다. 패키지 이름은 [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)이며, Initializer Team이 유지보수합니다.
+설치할 npm 패키지는 Initializer Team의 [`@krds.ui/vue`](https://www.npmjs.com/package/@krds.ui/vue)입니다. GitHub 저장소 이름 `Initializer-org/krds-vue`와 구분해서 사용하세요. [원본과의 관계와 패키지 이름](/guide/faq#package-names)을 확인할 수 있습니다.
+
+Vue 지원 범위는 `^3.5.0`(3.5.0 이상, 4.0.0 미만)입니다.
 
 ::: code-group
 
-```sh [pnpm]
-pnpm add @krds.ui/vue
-```
-
 ```sh [npm]
 npm install @krds.ui/vue
+```
+
+```sh [pnpm]
+pnpm add @krds.ui/vue
 ```
 
 ```sh [yarn]

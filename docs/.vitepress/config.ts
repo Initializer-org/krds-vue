@@ -8,11 +8,11 @@ import { pageDescription } from './pages.ts'
 import { documentationHead, documentationTitle } from './seo.ts'
 
 const root = resolve(import.meta.dirname, '../..')
-const { version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { version: string }
+const { name: packageName, version } = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf-8')) as { name: string; version: string }
 
 const siteUrl = 'https://krds.initializer.org'
 const siteDescription =
-  'KRDS 디자인 시스템을 Vue 3와 TypeScript 환경에서 사용할 수 있도록 구현한 컴포넌트 라이브러리 문서입니다. 공공 웹서비스를 위한 폼, 내비게이션, 레이아웃, 피드백 UI 예제와 API를 제공합니다.'
+  'Initializer Team의 @krds.ui/vue 문서입니다. KRDS 기준의 공공서비스 화면을 Vue 3로 구성하는 커뮤니티 라이브러리로, 접근성 자동 검사와 Nuxt SSR을 지원합니다.'
 
 /** 옛 Storybook 주소(/?path=/docs/<id>, /iframe.html?id=<id>)를 새 문서 페이지로 옮긴다 (이미 공유된 링크 보존) */
 const storybookRedirect = `(() => {
@@ -135,6 +135,7 @@ export default defineConfig({
         siteName: 'KRDS Vue',
         siteDescription,
         framework: 'Vue 3',
+        packageName,
         version,
         license: 'MIT',
         repository: 'https://github.com/Initializer-org/krds-vue',
