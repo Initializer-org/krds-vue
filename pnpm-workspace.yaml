@@ -6,6 +6,9 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
 overrides:
+  # GHSA-g3hv-75wg-m249, GHSA-3g3m-2fjr-6pw4: 빌드·테스트 도구의 취약 버전 교체
+  'minimatch@>=10 <11.0.1': 11.0.1
+  'glob@>=9 <=14.0.1': 14.0.2
   # jsdom(vitest optional peer) 경유 취약 버전 차단
   undici: ^8.12.2
 auditConfig:

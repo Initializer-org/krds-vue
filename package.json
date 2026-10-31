@@ -98,7 +98,6 @@
     "playwright": "^1.64.0",
     "sass": "^1.105.1",
     "size-limit": "^14.2.0",
-    "source-map-explorer": "^2.5.3",
     "typescript": "6.0.3",
     "typescript7": "npm:typescript@^7.0.2",
     "vite": "^8.3.5",
