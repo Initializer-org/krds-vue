@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.1.0](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v1.0.0...@krds.ui/vue-v1.1.0) (2026-10-31)
+
+
+### Features
+
+* 아코디언 항목 제목 수준을 heading-level로 정할 수 있게 ([#320](https://github.com/Initializer-org/krds-vue/issues/320)) ([606c116](https://github.com/Initializer-org/krds-vue/commit/606c116223cad4fe99d2221e4501cf66a87b5b10))
+
+
+### Bug Fixes
+
+* 긴급 공지 링크가 모바일 화면에서 이름을 잃던 문제 ([#309](https://github.com/Initializer-org/krds-vue/issues/309)) ([8ac9de4](https://github.com/Initializer-org/krds-vue/commit/8ac9de4d54a8a3a24cc6e964636e13848e22b72d))
+* 날짜 입력 달력을 바깥 클릭으로 닫을 때 사용자가 옮긴 초점을 빼앗던 문제 ([#315](https://github.com/Initializer-org/krds-vue/issues/315)) ([a059606](https://github.com/Initializer-org/krds-vue/commit/a059606c547b3e1dcabc290258a4ac50c2bc956d))
+* 달력의 이전·다음 달 날짜를 고를 수 없게 (공식 krds-react와 같게) ([#323](https://github.com/Initializer-org/krds-vue/issues/323)) ([615c8c6](https://github.com/Initializer-org/krds-vue/commit/615c8c63c2c6f1f46684985cf7b4c19e15bcdfb0))
+* 맥락적 도움말을 이름 붙은 대화 상자로, 닫으면 도움말 버튼으로 초점 ([#312](https://github.com/Initializer-org/krds-vue/issues/312)) ([721f3b7](https://github.com/Initializer-org/krds-vue/commit/721f3b7daebd960a1876e88a9a50ba67ac7529f6))
+* 모달에서 처음 초점 자리에서 Shift+Tab을 누르면 초점이 모달 밖으로 빠지던 문제 ([#314](https://github.com/Initializer-org/krds-vue/issues/314)) ([0ecddcd](https://github.com/Initializer-org/krds-vue/commit/0ecddcdf2d9ec3586a674a54ca4d30b30e5ca1d6))
+* 사이드 메뉴 팝업의 메뉴 구조 위반과 Tab으로 벗어날 때 초점을 되돌리던 문제 ([#316](https://github.com/Initializer-org/krds-vue/issues/316)) ([0608045](https://github.com/Initializer-org/krds-vue/commit/0608045a7de74323822b9d5e4b381632a984a083))
+* 언어 변경 목록이 링크에 쓸 수 없는 aria-selected를 쓰던 문제 ([#311](https://github.com/Initializer-org/krds-vue/issues/311)) ([7386a3a](https://github.com/Initializer-org/krds-vue/commit/7386a3a6b25319022ee54b672f19fdf9ae08c64e))
+* 탭 역할을 초점을 받는 버튼으로 옮겨 탭 안에 조작 요소가 겹치지 않게 ([#313](https://github.com/Initializer-org/krds-vue/issues/313)) ([6ca03c2](https://github.com/Initializer-org/krds-vue/commit/6ca03c20127d5915b041db1ac84ba30003c19f35))
+* 페이지네이션 첫·끝의 이전·다음을 비활성 링크로, 대비 검사 예외 없이 ([#321](https://github.com/Initializer-org/krds-vue/issues/321)) ([5961cd0](https://github.com/Initializer-org/krds-vue/commit/5961cd0913cc81d7b98d3738c6975a6bdd0434e1))
+* 페이지네이션을 이름 붙은 내비게이션 영역으로, 링크를 눌러도 주소가 #으로 바뀌지 않게 ([#310](https://github.com/Initializer-org/krds-vue/issues/310)) ([de21306](https://github.com/Initializer-org/krds-vue/commit/de2130608dc7b173889f0323af7934bf20387de3))
+
+
+### Chores
+
+* **deps-dev:** bump sass from 1.105.2 to 1.106.1 ([#306](https://github.com/Initializer-org/krds-vue/issues/306)) ([fad1590](https://github.com/Initializer-org/krds-vue/commit/fad1590fa95858d22921d60b17943c693e0b27c6))
+* **deps-dev:** bump size-limit, @size-limit/rolldown and @size-limit/file ([#307](https://github.com/Initializer-org/krds-vue/issues/307)) ([4011ed7](https://github.com/Initializer-org/krds-vue/commit/4011ed7a95dfe76980fb58ae862c88f299321036))
+* **deps-dev:** oxfmt 0.74, oxlint 1.90, vite 8.3.5로 올리고 postcss를 한 벌로 합침 ([#322](https://github.com/Initializer-org/krds-vue/issues/322)) ([d6e1207](https://github.com/Initializer-org/krds-vue/commit/d6e12074c9c519f80602949b4e0e6f823aff1558))
+* 개발 의존성 보안 취약점 수정 ([2b8c0f5](https://github.com/Initializer-org/krds-vue/commit/2b8c0f5b614817fa610dd6588a14f04a3a7bdbad))
+
+
+### Documentation
+
+* README·예제 README에서 라이브러리 사용과 관계없는 배포·CI 설명 정리 ([#318](https://github.com/Initializer-org/krds-vue/issues/318)) ([418d99c](https://github.com/Initializer-org/krds-vue/commit/418d99c3818fe159a8cd0a962c2ff13358ddfed2))
+* Vue README 배너를 최신 로고로 교체 ([397b009](https://github.com/Initializer-org/krds-vue/commit/397b0093af411a5f9705ceccfd2f611457ae9e86))
+* Vue 소개를 공공서비스 사용 목적 중심으로 개선 ([1fb8e7d](https://github.com/Initializer-org/krds-vue/commit/1fb8e7d3090575accb2c404c13662ffa205ae4b6))
+* 검색·AI 답변에서 npm 패키지 혼동을 막도록 문서 개선 ([717804b](https://github.com/Initializer-org/krds-vue/commit/717804b395a65019f4e43d8a32a332a363e906cc))
+* 검색·AI 답변을 위한 Vue 문서 개선 ([#324](https://github.com/Initializer-org/krds-vue/issues/324)) ([68c87cf](https://github.com/Initializer-org/krds-vue/commit/68c87cfe77da46abd8dfe042e0bfed209f129fac))
+* 문서 상단에 KRDS Vue ↔ React 전환 버튼, 보던 페이지를 그대로 상대 문서로 ([#308](https://github.com/Initializer-org/krds-vue/issues/308)) ([50868ff](https://github.com/Initializer-org/krds-vue/commit/50868ff70fa54db23b6d8c40ccce35a580287e1a))
+* 프레임워크 전환 버튼에 KRDS Angular 추가 ([#319](https://github.com/Initializer-org/krds-vue/issues/319)) ([ef79911](https://github.com/Initializer-org/krds-vue/commit/ef799112f23f0e93009c79adea915db75d18741a))
+
 ## [1.0.0](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v0.0.24...@krds.ui/vue-v1.0.0) (2026-10-25)
 
 
