@@ -102,7 +102,7 @@
     "typescript7": "npm:typescript@^7.0.2",
     "vite": "^8.3.5",
     "vite-plugin-dts": "^5.1.2",
-    "vitepress": "2.0.0-alpha.20",
+    "vitepress": "2.0.0-alpha.21",
     "vitest": "^4.1.12",
     "vue": "^3.5.43",
     "vue-component-meta": "^3.3.12",
