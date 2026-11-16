@@ -1,6 +1,6 @@
 {
   "name": "@krds.ui/vue",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "대한민국 정부 디자인 시스템(KRDS) Vue 3 컴포넌트 라이브러리 - KRDS 원본의 마크업·스타일·키보드 동작을 그대로 따르는 TypeScript 컴포넌트, 접근성 자동 검사, Nuxt SSR 지원",
   "keywords": [
     "krds",
