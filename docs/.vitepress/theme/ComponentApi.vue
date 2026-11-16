@@ -20,17 +20,11 @@
       </thead>
       <tbody>
         <tr v-for="prop in api.props" :key="prop.name">
-          <td>
-            <code>{{ prop.name }}</code
-            ><span v-if="prop.required"> (필수)</span>
-          </td>
+          <td><code>{{ prop.name }}</code><span v-if="prop.required"> (필수)</span></td>
           <td>
             <code>{{ prop.type }}</code>
           </td>
-          <td>
-            <code v-if="prop.default">{{ prop.default }}</code
-            ><template v-else>-</template>
-          </td>
+          <td><code v-if="prop.default">{{ prop.default }}</code><template v-else>-</template></td>
           <td>{{ prop.description }}</td>
         </tr>
       </tbody>
