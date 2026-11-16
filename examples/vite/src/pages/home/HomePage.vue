@@ -114,9 +114,7 @@
                     <a href="#">
                       <p class="tit">
                         <KrdsBadge type="outline" color="primary">{{ item.badge }}</KrdsBadge>
-                        <strong
-                          ><span>{{ item.title }}</span></strong
-                        >
+                        <strong><span>{{ item.title }}</span></strong>
                       </p>
                       <p class="desc">{{ item.desc }}</p>
                     </a>

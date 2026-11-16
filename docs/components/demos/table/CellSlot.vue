@@ -23,9 +23,7 @@
     </template>
     <template #header-action><span class="sr-only">관리</span></template>
     <template #cell-action="{ row }">
-      <KrdsButton text size="small"
-        >상세 보기<span class="sr-only">: {{ row.title }}</span></KrdsButton
-      >
+      <KrdsButton text size="small">상세 보기<span class="sr-only">: {{ row.title }}</span></KrdsButton>
     </template>
   </KrdsTable>
 </template>

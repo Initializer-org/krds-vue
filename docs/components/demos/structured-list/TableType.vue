@@ -160,9 +160,7 @@
       </template>
       <template #header-download><span class="sr-only">다운로드</span></template>
       <template #cell-download="{ row }">
-        <KrdsButton text size="medium"
-          ><i class="svg-icon ico-down"></i> 다운로드<span class="sr-only">: {{ row.title }}</span></KrdsButton
-        >
+        <KrdsButton text size="medium"><i class="svg-icon ico-down"></i> 다운로드<span class="sr-only">: {{ row.title }}</span></KrdsButton>
       </template>
     </KrdsTable>
 
