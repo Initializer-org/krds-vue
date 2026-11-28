@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.1.1](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v1.1.0...@krds.ui/vue-v1.1.1) (2026-11-28)
+
+
+### Chores
+
+* **deps-dev:** bump @types/node from 26.6.6 to 26.6.10 in the development group across 1 directory ([#346](https://github.com/Initializer-org/krds-vue/issues/346)) ([d82a579](https://github.com/Initializer-org/krds-vue/commit/d82a579aba6fd802e184caad95f3c433aa13fb90))
+* **deps-dev:** Dependabot 개발 의존성 업데이트를 하나로 묶음 ([#344](https://github.com/Initializer-org/krds-vue/issues/344)) ([5b08b1f](https://github.com/Initializer-org/krds-vue/commit/5b08b1f0d0a6168b7a685e75de09d50b316ebf88))
+
 ## [1.1.0](https://github.com/Initializer-org/krds-vue/compare/@krds.ui/vue-v1.0.0...@krds.ui/vue-v1.1.0) (2026-11-16)
 
 
